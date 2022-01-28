@@ -1,7 +1,14 @@
+/// The prefix which Facebook event URLs start with.
+const FACEBOOK_EVENT_PREFIX: &str = "https://www.facebook.com/events/";
+
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct Event {
     /// The name of the event.
     pub name: String,
+    /// More details describing the event.
+    pub details: Option<String>,
+    /// URLs with more information about the event, including the Facebook event page if any.
+    pub links: Vec<String>,
     // TODO: Should start and end require time or just date? What about timezone?
     pub country: String,
     pub city: String,
@@ -19,6 +26,8 @@ pub struct Event {
     /// The price or price range of the event, if available.
     pub price: Option<String>,
     // TODO: Should free events be distinguished from events with unknown price?
+    /// The organisation who run the event.
+    pub organisation: Option<String>,
 }
 
 impl Event {
@@ -32,6 +41,18 @@ impl Event {
         }
 
         problems
+    }
+
+    /// Get the URL of the event's Facebook event, if any.
+    pub fn facebook_event(&self) -> Option<&String> {
+        self.links
+            .iter()
+            .find(|link| link.starts_with(FACEBOOK_EVENT_PREFIX))
+    }
+
+    /// Get the event's first link.
+    pub fn main_link(&self) -> Option<&String> {
+        self.links.first()
     }
 }
 
