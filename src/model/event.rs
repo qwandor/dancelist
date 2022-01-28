@@ -4,31 +4,41 @@ use serde::{Deserialize, Serialize};
 const FACEBOOK_EVENT_PREFIX: &str = "https://www.facebook.com/events/";
 
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
+#[serde(deny_unknown_fields)]
 pub struct Event {
     /// The name of the event.
     pub name: String,
     /// More details describing the event.
+    #[serde(default)]
     pub details: Option<String>,
     /// URLs with more information about the event, including the Facebook event page if any.
+    #[serde(default)]
     pub links: Vec<String>,
     // TODO: Should start and end require time or just date? What about timezone?
     pub country: String,
     pub city: String,
     // TODO: What about full address?
     /// The dance styles included in the event.
+    #[serde(default)]
     pub styles: Vec<DanceStyle>,
     /// The event includes one or more workshops or lessons.
+    #[serde(default)]
     pub workshop: bool,
     /// The event includes one or more social dances.
+    #[serde(default)]
     pub social: bool,
     /// The names of the bands playing at the event.
+    #[serde(default)]
     pub bands: Vec<String>,
     /// The names of the callers calling at the event, if applicable.
+    #[serde(default)]
     pub callers: Vec<String>,
     /// The price or price range of the event, if available.
+    #[serde(default)]
     pub price: Option<String>,
     // TODO: Should free events be distinguished from events with unknown price?
     /// The organisation who run the event.
+    #[serde(default)]
     pub organisation: Option<String>,
 }
 
