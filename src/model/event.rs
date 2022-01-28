@@ -91,6 +91,21 @@ pub enum DanceStyle {
     Scandinavian,
 }
 
+impl DanceStyle {
+    pub fn tag(self) -> &'static str {
+        match self {
+            Self::Balfolk => "balfolk",
+            Self::Contra => "contra",
+            Self::EnglishCeilidh => "e-ceilidh",
+            Self::Playford => "playford",
+            Self::Reeling => "reeling",
+            Self::ScottishCeilidh => "s-ceilidh",
+            Self::ScottishCountryDance => "scd",
+            Self::Scandinavian => "scandi",
+        }
+    }
+}
+
 impl Display for DanceStyle {
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
         let s = match self {

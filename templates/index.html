@@ -27,7 +27,7 @@
 			</td>
 			<td>
 				{% for style in event.styles %}
-				<span class="dance_style">{{ style }}</span>
+				<span class="dance_style {{ style.tag() }}">{{ style }}</span>
 				{% endfor %}
 			</td>
 		</tr>

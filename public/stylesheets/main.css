@@ -1,4 +1,27 @@
 .dance_style {
-  background-color: aqua;
   padding: 0px 3px;
+}
+.dance_style.contra {
+  background-color: yellow;
+}
+.dance_style.balfolk {
+  background-color: violet;
+}
+.dance_style.e-ceilidh {
+  background-color: gray;
+}
+.dance_style.playford {
+  background-color: orange;
+}
+.dance_style.reeling {
+  background-color: peachpuff;
+}
+.dance_style.s-ceilidh {
+  background-color: thistle;
+}
+.dance_style.scd {
+  background-color: wheat;
+}
+.dance_style.scandi {
+  background-color: lightblue;
 }
