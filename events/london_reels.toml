@@ -1,0 +1,12 @@
+[[events]]
+name = "London Reels"
+start_date = "2022-02-08"
+end_date = "2022-02-08"
+links = ["http://www.londonreels.co.uk/dates", "https://www.facebook.com/events/1082733642291473/"]
+country = "UK"
+city = "London"
+styles = ["Reeling"]
+workshop = true
+social = true
+price = "£7-£9"
+organisation = "London Reels"

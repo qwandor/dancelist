@@ -29,3 +29,83 @@ bands = ["Portland Drive"]
 callers = ["Louise Siddons"]
 price = "£5-£14"
 organisation = "London Barndance Company"
+
+[[events]]
+name = "London Barndance with Lynne Render and Vertical Expression"
+details = "Contra dance with Lynne Render calling and Vertical Expression playing."
+start_date = "2022-04-09"
+end_date = "2022-04-09"
+links = ["https://www.barndance.org/programme.html"]
+country = "UK"
+city = "London"
+styles = ["Contra"]
+workshop = false
+social = true
+bands = ["Vertical Expression"]
+callers = ["Lynne Render"]
+price = "£5-£14"
+organisation = "London Barndance Company"
+
+[[events]]
+name = "London Barndance with Charlie Turner and The Stringrays Trio"
+details = "Contra dance with Charlie Turner calling and The Stringrays Trio playing."
+start_date = "2022-05-14"
+end_date = "2022-05-14"
+links = ["https://www.barndance.org/programme.html"]
+country = "UK"
+city = "London"
+styles = ["Contra"]
+workshop = false
+social = true
+bands = ["The Stringrays Trio"]
+callers = ["Charlie Turner"]
+price = "£5-£14"
+organisation = "London Barndance Company"
+
+[[events]]
+name = "London Barndance with Bob Morgan and Contrasaurus"
+details = "Contra dance with Bob Morgan calling and Contrasaurus playing."
+start_date = "2022-06-11"
+end_date = "2022-06-11"
+links = ["https://www.barndance.org/programme.html"]
+country = "UK"
+city = "London"
+styles = ["Contra"]
+workshop = false
+social = true
+bands = ["Contrasaurus"]
+callers = ["Bob Morgan"]
+price = "£5-£14"
+organisation = "London Barndance Company"
+
+[[events]]
+name = "London Barndance with Adam Hughes and Nozzy"
+details = "Contra dance with Adam Hughes calling and Nozzy playing."
+start_date = "2022-07-09"
+end_date = "2022-07-09"
+links = ["https://www.barndance.org/programme.html"]
+country = "UK"
+city = "London"
+styles = ["Contra"]
+workshop = false
+social = true
+bands = ["Nozzy"]
+callers = ["Adam Hughes"]
+price = "£5-£14"
+organisation = "London Barndance Company"
+
+[[events]]
+name = "London Barndance with Rhi Davies, Sioned Davies and Fiddlechicks"
+details = "Contra dance with Rhi Davies and Sioned Davies calling and Fiddlechicks (Mollie, Ali & Christina) playing."
+start_date = "2022-09-10"
+end_date = "2022-09-10"
+links = ["https://www.barndance.org/programme.html"]
+country = "UK"
+city = "London"
+styles = ["Contra"]
+workshop = false
+social = true
+bands = ["Fiddlechicks"]
+callers = ["Rhi Davies", "Sioned Davies"]
+price = "£5-£14"
+organisation = "London Barndance Company"

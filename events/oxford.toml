@@ -1,0 +1,41 @@
+[[events]]
+name = "Oxford Bal Miniscule at Wolvercote Village Hall"
+details = "Come join us for a cosy bal miniscule at Wolvercote Village Hall."
+start_date = "2022-02-12"
+end_date = "2022-02-12"
+links = ["https://www.facebook.com/events/3013954258844575/"]
+country = "UK"
+city = "Oxford"
+styles = ["Balfolk"]
+workshop = true
+social = true
+price = "£5"
+organisation = "Balfolk Oxford"
+
+[[events]]
+name = "Oxford Bal Miniscule at Isis Farmhouse"
+details = "Come join us for a bal miniscule at the Isis Farmhouse."
+start_date = "2022-04-10"
+end_date = "2022-04-10"
+links = ["https://www.facebook.com/events/1250266122126017/"]
+country = "UK"
+city = "Oxford"
+styles = ["Balfolk"]
+workshop = true
+social = true
+price = "free"
+organisation = "Balfolk Oxford"
+
+[[events]]
+name = "Oxford Bal Miniscule at Isis Farmhouse"
+details = "Come join us for a bal miniscule at the Isis Farmhouse."
+start_date = "2022-08-14"
+end_date = "2022-08-14"
+links = ["https://www.facebook.com/events/500558735027174/"]
+country = "UK"
+city = "Oxford"
+styles = ["Balfolk"]
+workshop = true
+social = true
+price = "free"
+organisation = "Balfolk Oxford"
