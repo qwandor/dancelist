@@ -12,7 +12,7 @@
 	<table>
 		{% for event in month.events %}
 		<tr>
-			<td>
+			<td class="event_dates">
 				{% if event.start_date == event.end_date %}
 				{{ event.start_date.format("%a %e") }}
 				{% elseif event.start_date.month() == event.end_date.month() %}
@@ -21,7 +21,7 @@
 				{{ event.start_date.format("%a %e") }}&ndash;{{ event.end_date.format("%a %e %B") }}
 				{% endif %}
 			</td>
-			<td>
+			<td class="event_name">
 				{% match event.main_link() %}
 				{% when Some with (link) %}
 				<a href="{{ link }}">{{ event.name }}</a>
@@ -36,10 +36,10 @@
 				{% when None %}
 				{% endmatch %}
 			</td>
-			<td>
+			<td class="event_price">
 				{{ event.price.as_deref().unwrap_or_default() }}
 			</td>
-			<td>
+			<td class="event_styles">
 				{% for style in event.styles %}
 				<span class="dance_style {{ style.tag() }}">{{ style }}</span>
 				{% endfor %}
