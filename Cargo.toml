@@ -7,4 +7,6 @@ edition = "2021"
 color-backtrace = "0.5.1"
 eyre = "0.6.6"
 pretty_env_logger = "0.4.0"
+serde = { version = "1.0.136", features = ["derive"] }
 stable-eyre = "0.2.2"
+toml = "0.5.8"

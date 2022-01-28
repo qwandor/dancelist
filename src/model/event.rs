@@ -1,7 +1,9 @@
+use serde::{Deserialize, Serialize};
+
 /// The prefix which Facebook event URLs start with.
 const FACEBOOK_EVENT_PREFIX: &str = "https://www.facebook.com/events/";
 
-#[derive(Clone, Debug, Eq, PartialEq)]
+#[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
 pub struct Event {
     /// The name of the event.
     pub name: String,
@@ -56,7 +58,7 @@ impl Event {
     }
 }
 
-#[derive(Copy, Clone, Debug, Eq, PartialEq)]
+#[derive(Copy, Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
 pub enum DanceStyle {
     Balfolk,
     Contra,
