@@ -1,6 +1,8 @@
 [[events]]
 name = "London Barndance with Mark Elvins and English Contra Dance Band"
 details = "Contra dance with Mark Elvins calling and the English Contra Dance Band playing."
+start_date = "2022-02-12"
+end_date = "2022-02-12"
 links = ["https://www.barndance.org/programme.html", "https://www.facebook.com/events/243417821143957/"]
 country = "UK"
 city = "London"
@@ -15,6 +17,8 @@ organisation = "London Barndance Company"
 [[events]]
 name = "London Barndance with Louise Siddons and Portland Drive"
 details = "Contra dance with Louise Siddons calling and Portland Drive playing."
+start_date = "2022-03-12"
+end_date = "2022-03-12"
 links = ["https://www.barndance.org/programme.html"]
 country = "UK"
 city = "London"

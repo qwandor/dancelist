@@ -1,6 +1,8 @@
 [[events]]
 name = "Bal Folk Dancing at the Jam Jar"
 details = "An informal, indoor gathering with European folk music and social dancing."
+start_date = "2022-02-05"
+end_date = "2022-02-05"
 links = ["https://www.facebook.com/events/1542560522772557"]
 country = "UK"
 city = "Bristol"

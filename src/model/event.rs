@@ -1,3 +1,4 @@
+use chrono::NaiveDate;
 use serde::{Deserialize, Serialize};
 
 /// The prefix which Facebook event URLs start with.
@@ -14,6 +15,11 @@ pub struct Event {
     /// URLs with more information about the event, including the Facebook event page if any.
     #[serde(default)]
     pub links: Vec<String>,
+    /// The first day of the event, in the local timezone.
+    pub start_date: NaiveDate,
+    /// The last day of the event, in the local timezone. Events which finish some hours after
+    /// midnight should be considered to finish the day before.
+    pub end_date: NaiveDate,
     // TODO: Should start and end require time or just date? What about timezone?
     pub country: String,
     pub city: String,
@@ -50,6 +56,10 @@ impl Event {
 
         if !self.workshop && !self.social {
             problems.push("Must have at least a workshop or a social.")
+        }
+
+        if self.start_date > self.end_date {
+            problems.push("Start date must not be before or equal to end date.");
         }
 
         problems

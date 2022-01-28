@@ -4,6 +4,7 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+chrono = { version = "0.4.19", features = ["serde"] }
 color-backtrace = "0.5.1"
 eyre = "0.6.6"
 log = "0.4.14"
