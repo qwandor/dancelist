@@ -39,6 +39,9 @@
 			<td class="event_price">
 				{{ event.price.as_deref().unwrap_or_default() }}
 			</td>
+			<td class="event_location">
+				{{ event.city }}, {{ event.country }}
+			</td>
 			<td class="event_styles">
 				{% for style in event.styles %}
 				<span class="dance_style {{ style.tag() }}">{{ style }}</span>
