@@ -1,0 +1,5 @@
+# For running directly from the source directory, set this to "public" or omit it.
+public_dir = "/usr/share/dancelist"
+
+# The address on which the server should listen.
+bind_address = "0.0.0.0:3000"
