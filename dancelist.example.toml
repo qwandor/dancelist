@@ -2,4 +2,4 @@
 public_dir = "/usr/share/dancelist"
 
 # The address on which the server should listen.
-bind_address = "0.0.0.0:3000"
+bind_address = "0.0.0.0:3002"

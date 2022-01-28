@@ -44,7 +44,7 @@ fn default_public_dir() -> PathBuf {
 }
 
 fn default_bind_address() -> SocketAddr {
-    "0.0.0.0:3000".parse().unwrap()
+    "0.0.0.0:3002".parse().unwrap()
 }
 
 #[cfg(test)]
