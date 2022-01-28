@@ -1,1 +1,3 @@
+mod model;
+
 fn main() {}
