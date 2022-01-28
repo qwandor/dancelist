@@ -87,6 +87,7 @@ version = "0.1.0"
 dependencies = [
  "color-backtrace",
  "eyre",
+ "log",
  "pretty_env_logger",
  "serde",
  "stable-eyre",
