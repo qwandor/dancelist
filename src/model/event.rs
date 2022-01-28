@@ -1,5 +1,6 @@
 use chrono::NaiveDate;
 use serde::{Deserialize, Serialize};
+use std::fmt::{self, Display, Formatter};
 
 /// The prefix which Facebook event URLs start with.
 const FACEBOOK_EVENT_PREFIX: &str = "https://www.facebook.com/events/";
@@ -88,4 +89,20 @@ pub enum DanceStyle {
     ScottishCeilidh,
     ScottishCountryDance,
     Scandinavian,
+}
+
+impl Display for DanceStyle {
+    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
+        let s = match self {
+            Self::Balfolk => "balfolk",
+            Self::Contra => "contra",
+            Self::EnglishCeilidh => "English ceilidh",
+            Self::Playford => "Playford",
+            Self::Reeling => "Scottish reeling",
+            Self::ScottishCeilidh => "Scottish ceilidh",
+            Self::ScottishCountryDance => "SCD",
+            Self::Scandinavian => "scandi",
+        };
+        f.write_str(s)
+    }
 }

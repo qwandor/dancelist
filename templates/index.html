@@ -1,0 +1,37 @@
+<html>
+
+<head>
+	<title>Folk dance events</title>
+</head>
+
+<body>
+	<h1>Folk dance events</h1>
+	<table>
+		{% for event in events %}
+		<tr>
+			<td>
+				{% match event.main_link() %}
+				{% when Some with (link) %}
+				<a href="{{ link }}">{{ event.name }}</a>
+				{% when None %}
+				{{ event.name }}
+				{% endmatch %}
+			</td>
+			<td>
+				{% match event.facebook_event() %}
+				{% when Some with (link) %}
+				<a href="{{ link }}">(Facebook)</a>
+				{% when None %}
+				{% endmatch %}
+			</td>
+			<td>
+				{% for style in event.styles %}
+				<span class="dance_style">{{ style }}</span>
+				{% endfor %}
+			</td>
+		</tr>
+		{% endfor %}
+	</table>
+</body>
+
+</html>
