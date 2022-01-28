@@ -19,7 +19,7 @@ async fn main() -> Result<(), Report> {
     color_backtrace::install();
 
     let config = Config::from_file()?;
-    let events = Events::load()?;
+    let events = Events::load(&config.events_dir)?;
 
     let app = Router::new()
         .route("/", get(index))

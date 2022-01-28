@@ -2,9 +2,10 @@ use super::event::Event;
 use eyre::{bail, Report, WrapErr};
 use log::trace;
 use serde::{Deserialize, Serialize};
-use std::fs::{read_dir, read_to_string};
-
-const EVENTS_DIRECTORY: &str = "events";
+use std::{
+    fs::{read_dir, read_to_string},
+    path::Path,
+};
 
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
 #[serde(deny_unknown_fields)]
@@ -13,9 +14,9 @@ pub struct Events {
 }
 
 impl Events {
-    pub fn load() -> Result<Self, Report> {
+    pub fn load(directory: &Path) -> Result<Self, Report> {
         let mut events = vec![];
-        for entry in read_dir(EVENTS_DIRECTORY)? {
+        for entry in read_dir(directory)? {
             let filename = entry?.path();
             trace!("Reading events from {:?}", filename);
             let contents =

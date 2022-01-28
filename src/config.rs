@@ -15,6 +15,8 @@ const CONFIG_FILENAMES: [&str; 2] = ["dancelist.toml", "/etc/dancelist.toml"];
 pub struct Config {
     #[serde(default = "default_public_dir")]
     pub public_dir: PathBuf,
+    #[serde(default = "default_events_dir")]
+    pub events_dir: PathBuf,
     #[serde(default = "default_bind_address")]
     pub bind_address: SocketAddr,
 }
@@ -41,6 +43,10 @@ impl Config {
 
 fn default_public_dir() -> PathBuf {
     Path::new("public").to_path_buf()
+}
+
+fn default_events_dir() -> PathBuf {
+    Path::new("events").to_path_buf()
 }
 
 fn default_bind_address() -> SocketAddr {
