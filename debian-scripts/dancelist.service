@@ -1,0 +1,15 @@
+[Unit]
+Description=A website for listing folk dance events.
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/usr/share/dancelist
+Environment=RUST_LOG="info"
+ExecStart=/usr/bin/dancelist
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
