@@ -11,3 +11,17 @@ bands = ["English Contra Dance Band"]
 callers = ["Mark Elvins"]
 price = "£5-£14"
 organisation = "London Barndance Company"
+
+[[events]]
+name = "London Barndance with Louise Siddons and Portland Drive"
+details = "Contra dance with Louise Siddons calling and Portland Drive playing."
+links = ["https://www.barndance.org/programme.html"]
+country = "UK"
+city = "London"
+styles = ["Contra"]
+workshop = false
+social = true
+bands = ["Portland Drive"]
+callers = ["Louise Siddons"]
+price = "£5-£14"
+organisation = "London Barndance Company"
