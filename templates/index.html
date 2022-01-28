@@ -7,8 +7,10 @@
 
 <body>
 	<h1>Folk dance events</h1>
+	{% for month in months %}
+	<h2>{{ month.name() }}</h2>
 	<table>
-		{% for event in events %}
+		{% for event in month.events %}
 		<tr>
 			<td>
 				{% match event.main_link() %}
@@ -33,6 +35,7 @@
 		</tr>
 		{% endfor %}
 	</table>
+	{% endfor %}
 </body>
 
 </html>
