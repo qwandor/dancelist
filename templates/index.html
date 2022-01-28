@@ -13,6 +13,15 @@
 		{% for event in month.events %}
 		<tr>
 			<td>
+				{% if event.start_date == event.end_date %}
+				{{ event.start_date.format("%a %e") }}
+				{% elseif event.start_date.month() == event.end_date.month() %}
+				{{ event.start_date.format("%a %e") }}&ndash;{{ event.end_date.format("%a %e") }}
+				{% else %}
+				{{ event.start_date.format("%a %e") }}&ndash;{{ event.end_date.format("%a %e %B") }}
+				{% endif %}
+			</td>
+			<td>
 				{% match event.main_link() %}
 				{% when Some with (link) %}
 				<a href="{{ link }}">{{ event.name }}</a>
