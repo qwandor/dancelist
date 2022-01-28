@@ -37,6 +37,9 @@
 				{% endmatch %}
 			</td>
 			<td>
+				{{ event.price.as_deref().unwrap_or_default() }}
+			</td>
+			<td>
 				{% for style in event.styles %}
 				<span class="dance_style {{ style.tag() }}">{{ style }}</span>
 				{% endfor %}
