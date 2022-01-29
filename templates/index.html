@@ -7,6 +7,11 @@
 
 <body>
 	<h1>Folk dance events</h1>
+
+	{% if filters.has_some() %}
+	<p><a href="/">Show all</a></p>
+	{% endif %}
+
 	{% for month in months %}
 	<h2>{{ month.name() }}</h2>
 	<table>

@@ -23,11 +23,11 @@ pub async fn index(
         .filter(|event| filters.matches(event))
         .collect();
     let months = sort_and_group_by_month(events);
-    let template = IndexTemplate { months };
+    let template = IndexTemplate { filters, months };
     Ok(Html(template.render()?))
 }
 
-#[derive(Clone, Debug, Deserialize, Eq, PartialEq)]
+#[derive(Clone, Debug, Default, Deserialize, Eq, PartialEq)]
 pub struct Filters {
     country: Option<String>,
     city: Option<String>,
@@ -35,6 +35,10 @@ pub struct Filters {
 }
 
 impl Filters {
+    fn has_some(&self) -> bool {
+        self.country.is_some() || self.city.is_some() || self.style.is_some()
+    }
+
     fn matches(&self, event: &Event) -> bool {
         if let Some(country) = &self.country {
             if &event.country != country {
@@ -59,6 +63,7 @@ impl Filters {
 #[derive(Template)]
 #[template(path = "index.html")]
 struct IndexTemplate {
+    filters: Filters,
     months: Vec<Month>,
 }
 
