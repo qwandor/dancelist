@@ -1,4 +1,5 @@
 use super::event::Event;
+use chrono::Utc;
 use eyre::{bail, Report, WrapErr};
 use log::trace;
 use serde::{Deserialize, Serialize};
@@ -36,5 +37,14 @@ impl Events {
             events.extend(file_events);
         }
         Ok(Self { events })
+    }
+
+    /// Get all events finishing on or after the present day.
+    pub fn future(&self) -> Vec<&Event> {
+        let today = Utc::now().naive_utc().date();
+        self.events
+            .iter()
+            .filter(|event| event.end_date >= today)
+            .collect()
     }
 }
