@@ -83,6 +83,11 @@ impl Event {
             .iter()
             .find(|link| !link.starts_with(FACEBOOK_EVENT_PREFIX))
     }
+
+    /// Checks whether the event lasts more than one day.
+    pub fn multiday(&self) -> bool {
+        self.start_date != self.end_date
+    }
 }
 
 #[derive(Copy, Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
