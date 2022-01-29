@@ -10,3 +10,83 @@ workshop = true
 social = true
 price = "£7-£9"
 organisation = "London Reels"
+
+[[events]]
+name = "London Reels Ball"
+details = "Chelsea Old Town Hall"
+start_date = "2022-02-26"
+end_date = "2022-02-26"
+links = ["http://www.londonreels.co.uk/dates", "https://www.facebook.com/events/1045109042746449/"]
+country = "UK"
+city = "London"
+styles = ["Reeling"]
+workshop = false
+social = true
+price = "£45-£49"
+organisation = "London Reels"
+
+[[events]]
+name = "London Reels"
+start_date = "2022-03-08"
+end_date = "2022-03-08"
+links = ["http://www.londonreels.co.uk/dates"]
+country = "UK"
+city = "London"
+styles = ["Reeling"]
+workshop = true
+social = true
+price = "£7-£9"
+organisation = "London Reels"
+
+[[events]]
+name = "London Reels"
+start_date = "2022-04-12"
+end_date = "2022-04-12"
+links = ["http://www.londonreels.co.uk/dates"]
+country = "UK"
+city = "London"
+styles = ["Reeling"]
+workshop = true
+social = true
+price = "£7-£9"
+organisation = "London Reels"
+
+[[events]]
+name = "London Reels"
+start_date = "2022-04-26"
+end_date = "2022-04-26"
+links = ["http://www.londonreels.co.uk/dates"]
+country = "UK"
+city = "London"
+styles = ["Reeling"]
+workshop = true
+social = true
+price = "£7-£9"
+organisation = "London Reels"
+
+[[events]]
+name = "London Reels"
+start_date = "2022-05-10"
+end_date = "2022-05-10"
+links = ["http://www.londonreels.co.uk/dates"]
+country = "UK"
+city = "London"
+styles = ["Reeling"]
+workshop = true
+social = true
+price = "£7-£9"
+organisation = "London Reels"
+
+[[events]]
+name = "London Reels Summer Party"
+details = "With live band."
+start_date = "2022-06-14"
+end_date = "2022-06-14"
+links = ["http://www.londonreels.co.uk/dates"]
+country = "UK"
+city = "London"
+styles = ["Reeling"]
+workshop = true
+social = true
+price = "£9-£10"
+organisation = "London Reels"

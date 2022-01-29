@@ -1,0 +1,44 @@
+[[events]]
+name = "Knees Up Cecil Sharp"
+start_date = "2022-02-18"
+end_date = "2022-02-18"
+links = ["http://www.kneesupcecilsharp.co.uk/programme.html"]
+country = "UK"
+city = "London"
+styles = ["EnglishCeilidh"]
+workshop = false
+social = true
+bands = ["Brown Boots"]
+callers = ["Erin Mansfield"]
+price = "£10-£12"
+organisation = "Knees Up Cecil Sharp"
+
+[[events]]
+name = "Knees Up Cecil Sharp"
+start_date = "2022-03-18"
+end_date = "2022-03-18"
+links = ["http://www.kneesupcecilsharp.co.uk/programme.html"]
+country = "UK"
+city = "London"
+styles = ["EnglishCeilidh"]
+workshop = false
+social = true
+bands = ["Gloworms"]
+callers = ["Mary Panton"]
+price = "£10-£12"
+organisation = "Knees Up Cecil Sharp"
+
+[[events]]
+name = "Knees Up Cecil Sharp"
+start_date = "2022-04-15"
+end_date = "2022-04-15"
+links = ["http://www.kneesupcecilsharp.co.uk/programme.html"]
+country = "UK"
+city = "London"
+styles = ["EnglishCeilidh"]
+workshop = false
+social = true
+bands = ["The Folk Camps Party Band"]
+callers = []
+price = "£10-£12"
+organisation = "Knees Up Cecil Sharp"
