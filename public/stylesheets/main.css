@@ -25,3 +25,8 @@
 .dance_style.scandi {
   background-color: lightblue;
 }
+
+.multiday .event_dates,
+.multiday .event_name {
+  font-weight: bold;
+}

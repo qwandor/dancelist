@@ -11,7 +11,7 @@
 	<h2>{{ month.name() }}</h2>
 	<table>
 		{% for event in month.events %}
-		<tr>
+		<tr class="{% if event.start_date != event.end_date %}multiday{% endif %}">
 			<td class="event_dates">
 				{% if event.start_date == event.end_date %}
 				{{ event.start_date.format("%a %e") }}
