@@ -22,7 +22,9 @@ impl Events {
             trace!("Reading events from {:?}", filename);
             let contents =
                 read_to_string(&filename).wrap_err_with(|| format!("Reading {:?}", filename))?;
-            let file_events = toml::from_str::<Events>(&contents)?.events;
+            let file_events = toml::from_str::<Events>(&contents)
+                .wrap_err_with(|| format!("Reading {:?}", filename))?
+                .events;
             for event in &file_events {
                 let problems = event.validate();
                 if !problems.is_empty() {
