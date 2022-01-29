@@ -40,11 +40,13 @@
 				{{ event.price.as_deref().unwrap_or_default() }}
 			</td>
 			<td class="event-location">
-				{{ event.city }}, {{ event.country }}
+				<a href="?country={{ event.country }}&city={{ event.city }}">{{ event.city }}</a>, <a
+					href="?country={{ event.country }}">{{
+					event.country }}</a>
 			</td>
 			<td class="event-styles">
 				{% for style in event.styles %}
-				<span class="dance_style {{ style.tag() }}">{{ style }}</span>
+				<a class="dance_style {{ style.tag() }}" href="?style={{ style.tag() }}">{{ style }}</a>
 				{% endfor %}
 			</td>
 		</tr>
