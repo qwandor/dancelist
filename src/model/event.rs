@@ -63,6 +63,10 @@ impl Event {
             problems.push("Start date must not be before or equal to end date.");
         }
 
+        if self.styles.is_empty() {
+            problems.push("Must include at least one style of dance.")
+        }
+
         problems
     }
 
