@@ -1,0 +1,190 @@
+[[events]]
+name = "The Round club night"
+start_date = "2022-02-03"
+end_date = "2022-02-03"
+links = ["https://round.soc.srcf.net/events"]
+country = "UK"
+city = "Cambridge"
+styles = ["Playford", "Contra", "EnglishCeilidh"]
+social = true
+price = "£2-2.50"
+organisation = "The Round"
+
+[[events]]
+name = "The Round club night"
+start_date = "2022-02-10"
+end_date = "2022-02-10"
+links = ["https://round.soc.srcf.net/events"]
+country = "UK"
+city = "Cambridge"
+styles = ["Playford", "Contra", "EnglishCeilidh"]
+social = true
+price = "£2-2.50"
+organisation = "The Round"
+
+[[events]]
+name = "The Round club night"
+start_date = "2022-02-17"
+end_date = "2022-02-17"
+links = ["https://round.soc.srcf.net/events"]
+country = "UK"
+city = "Cambridge"
+styles = ["Playford", "Contra", "EnglishCeilidh"]
+social = true
+price = "£2-2.50"
+organisation = "The Round"
+
+[[events]]
+name = "The Round club night"
+start_date = "2022-02-24"
+end_date = "2022-02-24"
+links = ["https://round.soc.srcf.net/events"]
+country = "UK"
+city = "Cambridge"
+styles = ["Playford", "Contra", "EnglishCeilidh"]
+social = true
+price = "£2-2.50"
+organisation = "The Round"
+
+[[events]]
+name = "The Round club night"
+start_date = "2022-03-03"
+end_date = "2022-03-03"
+links = ["https://round.soc.srcf.net/events"]
+country = "UK"
+city = "Cambridge"
+styles = ["Playford", "Contra", "EnglishCeilidh"]
+social = true
+price = "£2-2.50"
+organisation = "The Round"
+
+[[events]]
+name = "The Round club night"
+start_date = "2022-03-10"
+end_date = "2022-03-10"
+links = ["https://round.soc.srcf.net/events"]
+country = "UK"
+city = "Cambridge"
+styles = ["Playford", "Contra", "EnglishCeilidh"]
+social = true
+price = "£2-2.50"
+organisation = "The Round"
+
+[[events]]
+name = "The Round end of term party"
+start_date = "2022-03-17"
+end_date = "2022-03-17"
+links = ["https://round.soc.srcf.net/events"]
+country = "UK"
+city = "Cambridge"
+styles = ["Playford", "Contra", "EnglishCeilidh"]
+social = true
+organisation = "The Round"
+
+[[events]]
+name = "The Round club night"
+start_date = "2022-04-28"
+end_date = "2022-04-28"
+links = ["https://round.soc.srcf.net/events"]
+country = "UK"
+city = "Cambridge"
+styles = ["Playford", "Contra", "EnglishCeilidh"]
+social = true
+price = "£2-2.50"
+organisation = "The Round"
+
+[[events]]
+name = "The Round club night"
+start_date = "2022-05-05"
+end_date = "2022-05-05"
+links = ["https://round.soc.srcf.net/events"]
+country = "UK"
+city = "Cambridge"
+styles = ["Playford", "Contra", "EnglishCeilidh"]
+social = true
+price = "£2-2.50"
+organisation = "The Round"
+
+[[events]]
+name = "The Round club night"
+start_date = "2022-05-12"
+end_date = "2022-05-12"
+links = ["https://round.soc.srcf.net/events"]
+country = "UK"
+city = "Cambridge"
+styles = ["Playford", "Contra", "EnglishCeilidh"]
+social = true
+price = "£2-2.50"
+organisation = "The Round"
+
+[[events]]
+name = "The Round club night"
+start_date = "2022-05-19"
+end_date = "2022-05-19"
+links = ["https://round.soc.srcf.net/events"]
+country = "UK"
+city = "Cambridge"
+styles = ["Playford", "Contra", "EnglishCeilidh"]
+social = true
+price = "£2-2.50"
+organisation = "The Round"
+
+[[events]]
+name = "The Round club night"
+start_date = "2022-05-26"
+end_date = "2022-05-26"
+links = ["https://round.soc.srcf.net/events"]
+country = "UK"
+city = "Cambridge"
+styles = ["Playford", "Contra", "EnglishCeilidh"]
+social = true
+price = "£2-2.50"
+organisation = "The Round"
+
+[[events]]
+name = "The Round club night"
+start_date = "2022-06-02"
+end_date = "2022-06-02"
+links = ["https://round.soc.srcf.net/events"]
+country = "UK"
+city = "Cambridge"
+styles = ["Playford", "Contra", "EnglishCeilidh"]
+social = true
+price = "£2-2.50"
+organisation = "The Round"
+
+[[events]]
+name = "The Round club night"
+start_date = "2022-06-09"
+end_date = "2022-06-09"
+links = ["https://round.soc.srcf.net/events"]
+country = "UK"
+city = "Cambridge"
+styles = ["Playford", "Contra", "EnglishCeilidh"]
+social = true
+price = "£2-2.50"
+organisation = "The Round"
+
+[[events]]
+name = "The Round club night"
+start_date = "2022-06-16"
+end_date = "2022-06-16"
+links = ["https://round.soc.srcf.net/events"]
+country = "UK"
+city = "Cambridge"
+styles = ["Playford", "Contra", "EnglishCeilidh"]
+social = true
+price = "£2-2.50"
+organisation = "The Round"
+
+[[events]]
+name = "The Round Playford ball"
+start_date = "2022-06-18"
+end_date = "2022-06-18"
+links = ["https://round.soc.srcf.net/pball"]
+country = "UK"
+city = "Cambridge"
+styles = ["Playford"]
+social = true
+price = "£2-2.50"
+organisation = "The Round"

@@ -1,0 +1,59 @@
+[[events]]
+name = "Cambridge Contra Dance"
+start_date = "2022-02-04"
+end_date = "2022-02-04"
+links = ["https://www.cambridgefolk.org.uk/contra/", "https://www.cambridgefolk.org.uk/contra/programme.html"]
+country = "UK"
+city = "Cambridge"
+styles = ["Contra"]
+social = true
+price = "£2"
+organisation = "Cambridge Contra Dance"
+
+[[events]]
+name = "Cambridge Contra Dance"
+start_date = "2022-02-18"
+end_date = "2022-02-18"
+links = ["https://www.cambridgefolk.org.uk/contra/", "https://www.cambridgefolk.org.uk/contra/programme.html"]
+country = "UK"
+city = "Cambridge"
+styles = ["Contra"]
+social = true
+price = "£2"
+organisation = "Cambridge Contra Dance"
+
+[[events]]
+name = "Cambridge Contra Dance"
+start_date = "2022-03-04"
+end_date = "2022-03-04"
+links = ["https://www.cambridgefolk.org.uk/contra/", "https://www.cambridgefolk.org.uk/contra/programme.html"]
+country = "UK"
+city = "Cambridge"
+styles = ["Contra"]
+social = true
+price = "£2"
+organisation = "Cambridge Contra Dance"
+
+[[events]]
+name = "Cambridge Contra Dance"
+start_date = "2022-03-18"
+end_date = "2022-03-18"
+links = ["https://www.cambridgefolk.org.uk/contra/", "https://www.cambridgefolk.org.uk/contra/programme.html"]
+country = "UK"
+city = "Cambridge"
+styles = ["Contra"]
+social = true
+price = "£2"
+organisation = "Cambridge Contra Dance"
+
+[[events]]
+name = "Cambridge Contra Dance"
+start_date = "2022-04-01"
+end_date = "2022-04-01"
+links = ["https://www.cambridgefolk.org.uk/contra/", "https://www.cambridgefolk.org.uk/contra/programme.html"]
+country = "UK"
+city = "Cambridge"
+styles = ["Contra"]
+social = true
+price = "£2"
+organisation = "Cambridge Contra Dance"
