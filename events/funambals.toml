@@ -5,6 +5,6 @@ end_date = "2022-04-04"
 links = ["https://www.facebook.com/events/844997619469831/"]
 country = "France"
 city = "Rillieux-la-Pape"
-styles = ["Balfolk"]
+styles = ["balfolk"]
 workshop = true
 social = true

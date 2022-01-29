@@ -87,13 +87,21 @@ impl Event {
 
 #[derive(Copy, Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
 pub enum DanceStyle {
+    #[serde(rename = "balfolk")]
     Balfolk,
+    #[serde(rename = "contra")]
     Contra,
+    #[serde(rename = "e-ceilidh")]
     EnglishCeilidh,
+    #[serde(rename = "playford")]
     Playford,
+    #[serde(rename = "reeling")]
     Reeling,
+    #[serde(rename = "s-ceilidh")]
     ScottishCeilidh,
+    #[serde(rename = "scd")]
     ScottishCountryDance,
+    #[serde(rename = "scandi")]
     Scandinavian,
 }
 

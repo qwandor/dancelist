@@ -5,6 +5,6 @@ end_date = "2022-04-10"
 links = ["https://www.balfolk-ratisbonne.net/"]
 country = "Germany"
 city = "Regensburg"
-styles = ["Balfolk"]
+styles = ["balfolk"]
 workshop = true
 social = true
