@@ -26,7 +26,7 @@
   background-color: lightblue;
 }
 
-.multiday .event_dates,
-.multiday .event_name {
+.multiday .event-dates,
+.multiday .event-name {
   font-weight: bold;
 }
