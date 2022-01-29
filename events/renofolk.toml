@@ -1,0 +1,11 @@
+[[events]]
+name = "RenoFolk Festival"
+start_date = "2022-06-02"
+end_date = "2022-06-05"
+links = ["https://www.renofolkfestival.it/en/reno-folk-festival/"]
+country = "Italy"
+city = "Bologna"
+styles = ["Balfolk"]
+workshop = true
+social = true
+organisation = "RenoFolk"

@@ -1,0 +1,10 @@
+[[events]]
+name = "Gran Bal Trad (Vialfre)"
+start_date = "2022-07-04"
+end_date = "2022-07-10"
+links = ["https://www.granbaltrad.it/wp/?lang=en"]
+country = "Italy"
+city = "Vialfre"
+styles = ["Balfolk"]
+workshop = true
+social = true

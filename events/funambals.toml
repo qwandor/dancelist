@@ -1,0 +1,10 @@
+[[events]]
+name = "Funambals"
+start_date = "2022-04-01"
+end_date = "2022-04-04"
+links = ["https://www.facebook.com/events/844997619469831/"]
+country = "France"
+city = "Rillieux-la-Pape"
+styles = ["Balfolk"]
+workshop = true
+social = true

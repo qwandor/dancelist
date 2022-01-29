@@ -1,0 +1,10 @@
+[[events]]
+name = "Balfolk Ratisbonne"
+start_date = "2022-04-07"
+end_date = "2022-04-10"
+links = ["https://www.balfolk-ratisbonne.net/"]
+country = "Germany"
+city = "Regensburg"
+styles = ["Balfolk"]
+workshop = true
+social = true
