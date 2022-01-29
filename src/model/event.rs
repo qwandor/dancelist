@@ -77,9 +77,11 @@ impl Event {
             .find(|link| link.starts_with(FACEBOOK_EVENT_PREFIX))
     }
 
-    /// Get the event's first link.
+    /// Get the event's first non-Facebook link.
     pub fn main_link(&self) -> Option<&String> {
-        self.links.first()
+        self.links
+            .iter()
+            .find(|link| !link.starts_with(FACEBOOK_EVENT_PREFIX))
     }
 }
 
