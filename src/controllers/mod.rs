@@ -1,15 +1,59 @@
 use crate::{
     errors::InternalError,
-    model::{event::Event, events::Events},
+    model::{
+        event::{DanceStyle, Event},
+        events::Events,
+    },
 };
 use askama::Template;
-use axum::{extract::Extension, response::Html};
+use axum::{
+    extract::{Extension, Query},
+    response::Html,
+};
 use chrono::{naive, Datelike, NaiveDate};
+use serde::Deserialize;
 
-pub async fn index(Extension(events): Extension<Events>) -> Result<Html<String>, InternalError> {
-    let months = sort_and_group_by_month(events.future());
+pub async fn index(
+    Extension(events): Extension<Events>,
+    Query(filters): Query<Filters>,
+) -> Result<Html<String>, InternalError> {
+    let events = events
+        .future()
+        .into_iter()
+        .filter(|event| filters.matches(event))
+        .collect();
+    let months = sort_and_group_by_month(events);
     let template = IndexTemplate { months };
     Ok(Html(template.render()?))
+}
+
+#[derive(Clone, Debug, Deserialize, Eq, PartialEq)]
+pub struct Filters {
+    country: Option<String>,
+    city: Option<String>,
+    style: Option<DanceStyle>,
+}
+
+impl Filters {
+    fn matches(&self, event: &Event) -> bool {
+        if let Some(country) = &self.country {
+            if &event.country != country {
+                return false;
+            }
+        }
+        if let Some(city) = &self.city {
+            if &event.city != city {
+                return false;
+            }
+        }
+        if let Some(style) = &self.style {
+            if !event.styles.contains(style) {
+                return false;
+            }
+        }
+
+        true
+    }
 }
 
 #[derive(Template)]
