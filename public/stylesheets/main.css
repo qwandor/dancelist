@@ -26,6 +26,15 @@
   background-color: lightblue;
 }
 
+.event-type .workshop {
+  background-color: darkmagenta;
+  color: white;
+}
+.event-type .social {
+  background-color: darkolivegreen;
+  color: white;
+}
+
 .multiday .event-dates,
 .multiday .event-name {
   font-weight: bold;

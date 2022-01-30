@@ -51,6 +51,14 @@
 					href="?country={{ event.country }}">{{
 					event.country }}</a>
 			</td>
+			<td class="event-type">
+				{% if event.social %}
+				<span class="social" title="Social">S</span>
+				{% endif %}
+				{% if event.workshop %}
+				<span class="workshop" title="Workshop">W</span>
+				{% endif %}
+			</td>
 			<td class="event-styles">
 				{% for style in event.styles %}
 				<a class="dance_style {{ style.tag() }}" href="?style={{ style.tag() }}">{{ style }}</a>
