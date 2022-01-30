@@ -29,7 +29,7 @@
 				{{ event.start_date.format("%a %e") }}&ndash;{{ event.end_date.format("%a %e %B") }}
 				{% endif %}
 			</td>
-			<td class="event-name">
+			<td class="event-name" title="{{ event.details.as_deref().unwrap_or_default() }}">
 				{% match event.main_link() %}
 				{% when Some with (link) %}
 				<a href="{{ link }}">{{ event.name }}</a>
