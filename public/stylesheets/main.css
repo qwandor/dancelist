@@ -35,6 +35,27 @@
   color: white;
 }
 
+.details {
+  font-size: smaller;
+}
+.band,
+.caller {
+  padding: 0px 3px;
+}
+.band {
+  background-color: lightgreen;
+}
+.caller {
+  background-color: palegoldenrod;
+}
+
+table {
+  border-bottom: 1px solid lightgrey;
+}
+.event td {
+  border-top: 1px solid lightgrey;
+}
+
 .multiday .event-dates,
 .multiday .event-name {
   font-weight: bold;

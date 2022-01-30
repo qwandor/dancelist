@@ -19,7 +19,7 @@
 	<h2>{{ month.name() }}</h2>
 	<table>
 		{% for event in month.events %}
-		<tr class="{% if event.multiday() %}multiday{% endif %}">
+		<tr class="event {% if event.multiday() %}multiday{% endif %}">
 			<td class="event-dates">
 				{% if !event.multiday() %}
 				{{ event.start_date.format("%a %e") }}
@@ -66,6 +66,18 @@
 				{% endfor %}
 			</td>
 		</tr>
+		{% if !event.bands.is_empty() || !event.callers.is_empty() %}
+		<tr class="details">
+			<td colspan="7">
+				{% for band in event.bands %}
+				<a href="?band={{ band }}" class="band">{{ band }}</a>
+				{% endfor %}
+				{% for caller in event.callers %}
+				<a href="?caller={{ caller }}" class="caller">{{ caller }}</a>
+				{% endfor %}
+			</td>
+		</tr>
+		{% endif %}
 		{% endfor %}
 	</table>
 	{% endfor %}

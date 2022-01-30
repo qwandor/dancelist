@@ -35,6 +35,8 @@ pub struct Filters {
     multiday: Option<bool>,
     workshop: Option<bool>,
     social: Option<bool>,
+    band: Option<String>,
+    caller: Option<String>,
     organisation: Option<String>,
 }
 
@@ -46,6 +48,8 @@ impl Filters {
             || self.multiday.is_some()
             || self.workshop.is_some()
             || self.social.is_some()
+            || self.band.is_some()
+            || self.caller.is_some()
             || self.organisation.is_some()
     }
 
@@ -77,6 +81,16 @@ impl Filters {
         }
         if let Some(social) = self.social {
             if event.social != social {
+                return false;
+            }
+        }
+        if let Some(band) = &self.band {
+            if !event.bands.contains(band) {
+                return false;
+            }
+        }
+        if let Some(caller) = &self.caller {
+            if !event.callers.contains(caller) {
                 return false;
             }
         }
