@@ -1,7 +1,8 @@
 # For running directly from the source directory, set this to "public" or omit it.
 public_dir = "/usr/share/dancelist"
 
-# For running directly from the source directory, set this to "events" or omit it.
+# The directory from which to read events data. This will probably be from the dancelist-data
+# repository.
 events_dir = "/var/lib/dancelist"
 
 # The address on which the server should listen.
