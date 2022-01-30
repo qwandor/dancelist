@@ -29,7 +29,7 @@
 				{{ event.start_date.format("%a %e") }}&ndash;{{ event.end_date.format("%a %e %B") }}
 				{% endif %}
 			</td>
-			<td class="event-name" title="{{ event.details.as_deref().unwrap_or_default() }}">
+			<td class="event-name">
 				{% match event.main_link() %}
 				{% when Some with (link) %}
 				<a href="{{ link }}">{{ event.name }}</a>
@@ -66,6 +66,13 @@
 				{% endfor %}
 			</td>
 		</tr>
+		{% if event.details.is_some() %}
+		<tr class="details">
+			<td colspan="7">
+				{{ event.details.as_deref().unwrap_or_default() }}
+			</td>
+		</tr>
+		{% endif %}
 		{% if !event.bands.is_empty() || !event.callers.is_empty() %}
 		<tr class="details">
 			<td colspan="7">
