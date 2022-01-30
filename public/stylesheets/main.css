@@ -1,28 +1,28 @@
-.dance_style {
+.dance-style {
   padding: 0px 3px;
 }
-.dance_style.contra {
+.dance-style.contra {
   background-color: yellow;
 }
-.dance_style.balfolk {
+.dance-style.balfolk {
   background-color: violet;
 }
-.dance_style.e-ceilidh {
+.dance-style.e-ceilidh {
   background-color: gray;
 }
-.dance_style.playford {
+.dance-style.playford {
   background-color: orange;
 }
-.dance_style.reeling {
+.dance-style.reeling {
   background-color: peachpuff;
 }
-.dance_style.s-ceilidh {
+.dance-style.s-ceilidh {
   background-color: thistle;
 }
-.dance_style.scd {
+.dance-style.scd {
   background-color: wheat;
 }
-.dance_style.scandi {
+.dance-style.scandi {
   background-color: lightblue;
 }
 
