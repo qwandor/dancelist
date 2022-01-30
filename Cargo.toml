@@ -2,6 +2,7 @@
 name = "dancelist"
 version = "0.1.0"
 edition = "2021"
+license = "Apache-2.0"
 authors = ["Andrew Walbran <qwandor@gmail.com>"]
 description = "A website for listing folk dance events."
 repository = "https://github.com/qwandor/dancelist"
