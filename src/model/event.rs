@@ -11,7 +11,7 @@ pub struct Event {
     /// The name of the event.
     pub name: String,
     /// More details describing the event.
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub details: Option<String>,
     /// URLs with more information about the event, including the Facebook event page if any.
     #[serde(default)]
@@ -35,13 +35,13 @@ pub struct Event {
     #[serde(default)]
     pub social: bool,
     /// The names of the bands playing at the event.
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub bands: Vec<String>,
     /// The names of the callers calling at the event, if applicable.
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub callers: Vec<String>,
     /// The price or price range of the event, if available.
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub price: Option<String>,
     // TODO: Should free events be distinguished from events with unknown price?
     /// The organisation who run the event.
