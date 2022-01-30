@@ -5,7 +5,7 @@ mod model;
 
 use crate::{
     config::Config,
-    controllers::{bands, index, callers},
+    controllers::{bands, callers, index, organisations},
     errors::internal_error,
     model::events::Events,
 };
@@ -30,6 +30,7 @@ async fn main() -> Result<(), Report> {
         .route("/", get(index::index))
         .route("/bands", get(bands::bands))
         .route("/callers", get(callers::callers))
+        .route("/organisations", get(organisations::organisations))
         .nest(
             "/stylesheets",
             get_service(ServeDir::new(config.public_dir.join("stylesheets")))

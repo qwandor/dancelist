@@ -78,4 +78,16 @@ impl Events {
         callers.dedup();
         callers
     }
+
+    /// Gets all dance organisations, in alphabetical order.
+    pub fn organisations(&self) -> Vec<String> {
+        let mut organisations: Vec<String> = self
+            .events
+            .iter()
+            .filter_map(|event| event.organisation.clone())
+            .collect();
+        organisations.sort();
+        organisations.dedup();
+        organisations
+    }
 }
