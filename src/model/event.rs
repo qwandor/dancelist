@@ -13,13 +13,14 @@
 // limitations under the License.
 
 use chrono::NaiveDate;
+use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 use std::fmt::{self, Display, Formatter};
 
 /// The prefix which Facebook event URLs start with.
 const FACEBOOK_EVENT_PREFIX: &str = "https://www.facebook.com/events/";
 
-#[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
+#[derive(Clone, Debug, Deserialize, Eq, JsonSchema, PartialEq, Serialize)]
 #[serde(deny_unknown_fields)]
 pub struct Event {
     /// The name of the event.
@@ -104,7 +105,7 @@ impl Event {
     }
 }
 
-#[derive(Copy, Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
+#[derive(Copy, Clone, Debug, Deserialize, Eq, JsonSchema, PartialEq, Serialize)]
 pub enum DanceStyle {
     #[serde(rename = "balfolk")]
     Balfolk,

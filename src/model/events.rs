@@ -16,6 +16,7 @@ use super::event::Event;
 use chrono::Utc;
 use eyre::{bail, Report, WrapErr};
 use log::trace;
+use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 use std::{
     ffi::OsStr,
@@ -23,7 +24,7 @@ use std::{
     path::Path,
 };
 
-#[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
+#[derive(Clone, Debug, Deserialize, Eq, JsonSchema, PartialEq, Serialize)]
 #[serde(deny_unknown_fields)]
 pub struct Events {
     pub events: Vec<Event>,

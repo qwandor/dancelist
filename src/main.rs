@@ -29,6 +29,8 @@ use axum::{
 };
 use eyre::Report;
 use log::info;
+use schemars::schema_for;
+use std::env;
 use tower_http::services::ServeDir;
 
 #[tokio::main]
@@ -36,6 +38,14 @@ async fn main() -> Result<(), Report> {
     stable_eyre::install()?;
     pretty_env_logger::init();
     color_backtrace::install();
+
+    let args: Vec<String> = env::args().collect();
+    if args.len() == 2 && args[1] == "schema" {
+        // Output JSON schema for events.
+        let schema = schema_for!(Events);
+        println!("{}", serde_json::to_string_pretty(&schema)?);
+        return Ok(());
+    }
 
     let config = Config::from_file()?;
     let events = Events::load(&config.events_dir)?;
