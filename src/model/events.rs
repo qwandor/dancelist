@@ -4,6 +4,7 @@ use eyre::{bail, Report, WrapErr};
 use log::trace;
 use serde::{Deserialize, Serialize};
 use std::{
+    ffi::OsStr,
     fs::{read_dir, read_to_string},
     path::Path,
 };
@@ -19,6 +20,10 @@ impl Events {
         let mut events = vec![];
         for entry in read_dir(directory)? {
             let filename = entry?.path();
+            if filename.extension() != Some(OsStr::new("toml")) {
+                trace!("Not reading events from {:?}", filename);
+                continue;
+            }
             trace!("Reading events from {:?}", filename);
             let contents =
                 read_to_string(&filename).wrap_err_with(|| format!("Reading {:?}", filename))?;
