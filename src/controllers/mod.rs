@@ -32,11 +32,12 @@ pub struct Filters {
     country: Option<String>,
     city: Option<String>,
     style: Option<DanceStyle>,
+    multiday: Option<bool>,
 }
 
 impl Filters {
     fn has_some(&self) -> bool {
-        self.country.is_some() || self.city.is_some() || self.style.is_some()
+        self.country.is_some() || self.city.is_some() || self.style.is_some() || self.multiday.is_some()
     }
 
     fn matches(&self, event: &Event) -> bool {
@@ -52,6 +53,11 @@ impl Filters {
         }
         if let Some(style) = &self.style {
             if !event.styles.contains(style) {
+                return false;
+            }
+        }
+        if let Some(multiday) = self.multiday {
+            if event.multiday() != multiday {
                 return false;
             }
         }
