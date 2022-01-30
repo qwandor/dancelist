@@ -35,6 +35,7 @@ pub struct Filters {
     multiday: Option<bool>,
     workshop: Option<bool>,
     social: Option<bool>,
+    organisation: Option<String>,
 }
 
 impl Filters {
@@ -45,6 +46,7 @@ impl Filters {
             || self.multiday.is_some()
             || self.workshop.is_some()
             || self.social.is_some()
+            || self.organisation.is_some()
     }
 
     fn matches(&self, event: &Event) -> bool {
@@ -75,6 +77,11 @@ impl Filters {
         }
         if let Some(social) = self.social {
             if event.social != social {
+                return false;
+            }
+        }
+        if let Some(organisation) = &self.organisation {
+            if &event.organisation.as_deref().unwrap_or_default() != organisation {
                 return false;
             }
         }
