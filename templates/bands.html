@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Folk dance bands</title>
+	<link rel="stylesheet" type="text/css" href="/stylesheets/main.css" />
+</head>
+
+<body>
+	<h1>Folk dance bands</h1>
+
+	<ul>
+		{% for band in bands %}
+		<li><a href="/?band={{ band }}">{{ band }}</a></li>
+		{% endfor %}
+	</ul>
+</body>
+
+</html>

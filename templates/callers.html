@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Folk dance callers</title>
+	<link rel="stylesheet" type="text/css" href="/stylesheets/main.css" />
+</head>
+
+<body>
+	<h1>Folk dance callers</h1>
+
+	<ul>
+		{% for caller in callers %}
+		<li><a href="/?caller={{ caller }}">{{ caller }}</a></li>
+		{% endfor %}
+	</ul>
+</body>
+
+</html>

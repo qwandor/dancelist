@@ -49,4 +49,28 @@ impl Events {
             .filter(|event| event.end_date >= today)
             .collect()
     }
+
+    /// Gets all bands who play for at least one event, in alphabetical order.
+    pub fn bands(&self) -> Vec<String> {
+        let mut bands: Vec<String> = self
+            .events
+            .iter()
+            .flat_map(|event| event.bands.clone())
+            .collect();
+        bands.sort();
+        bands.dedup();
+        bands
+    }
+
+    /// Gets all callers who call for at least one event, in alphabetical order.
+    pub fn callers(&self) -> Vec<String> {
+        let mut callers: Vec<String> = self
+            .events
+            .iter()
+            .flat_map(|event| event.callers.clone())
+            .collect();
+        callers.sort();
+        callers.dedup();
+        callers
+    }
 }

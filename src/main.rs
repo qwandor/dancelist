@@ -3,7 +3,12 @@ mod controllers;
 mod errors;
 mod model;
 
-use crate::{config::Config, controllers::index, errors::internal_error, model::events::Events};
+use crate::{
+    config::Config,
+    controllers::{bands, index, callers},
+    errors::internal_error,
+    model::events::Events,
+};
 use axum::{
     routing::{get, get_service},
     AddExtensionLayer, Router,
@@ -22,7 +27,9 @@ async fn main() -> Result<(), Report> {
     let events = Events::load(&config.events_dir)?;
 
     let app = Router::new()
-        .route("/", get(index))
+        .route("/", get(index::index))
+        .route("/bands", get(bands::bands))
+        .route("/callers", get(callers::callers))
         .nest(
             "/stylesheets",
             get_service(ServeDir::new(config.public_dir.join("stylesheets")))
