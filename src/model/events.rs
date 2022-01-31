@@ -106,3 +106,66 @@ impl Events {
         organisations
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    use crate::model::{dancestyle::DanceStyle, event::DateFilter};
+    use chrono::NaiveDate;
+
+    #[test]
+    fn filter_past() {
+        let past_event = Event {
+            name: "Past".to_string(),
+            start_date: NaiveDate::from_ymd(1000, 1, 1),
+            end_date: NaiveDate::from_ymd(1000, 1, 1),
+            details: None,
+            links: vec![],
+            country: "Test".to_string(),
+            city: "Test".to_string(),
+            styles: vec![DanceStyle::Playford],
+            workshop: true,
+            social: false,
+            bands: vec![],
+            callers: vec![],
+            price: None,
+            organisation: None,
+        };
+        let future_event = Event {
+            name: "Future".to_string(),
+            start_date: NaiveDate::from_ymd(3000, 1, 1),
+            end_date: NaiveDate::from_ymd(3000, 1, 1),
+            details: None,
+            links: vec![],
+            country: "Test".to_string(),
+            city: "Test".to_string(),
+            styles: vec![DanceStyle::Playford],
+            workshop: true,
+            social: false,
+            bands: vec![],
+            callers: vec![],
+            price: None,
+            organisation: None,
+        };
+        let events = Events {
+            events: vec![past_event.clone(), future_event.clone()],
+        };
+
+        assert_eq!(events.matching(&Filters::default()), vec![&future_event]);
+        assert_eq!(
+            events.matching(&Filters {
+                date: DateFilter::Past,
+                ..Filters::default()
+            }),
+            vec![&past_event]
+        );
+        assert_eq!(
+            events.matching(&Filters {
+                date: DateFilter::All,
+                ..Filters::default()
+            }),
+            vec![&past_event, &future_event]
+        );
+    }
+}
