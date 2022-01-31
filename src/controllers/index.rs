@@ -15,7 +15,6 @@
 use crate::{
     errors::InternalError,
     model::{
-        dancestyle::DanceStyle,
         event::{Event, Filters},
         events::Events,
     },
@@ -31,11 +30,7 @@ pub async fn index(
     Extension(events): Extension<Events>,
     Query(filters): Query<Filters>,
 ) -> Result<Html<String>, InternalError> {
-    let events = events
-        .future()
-        .into_iter()
-        .filter(|event| filters.matches(event))
-        .collect();
+    let events = events.matching(&filters);
     let months = sort_and_group_by_month(events);
     let template = IndexTemplate { filters, months };
     Ok(Html(template.render()?))

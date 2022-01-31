@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use super::event::Event;
+use super::event::{Event, Filters};
 use chrono::Utc;
 use eyre::{bail, Report, WrapErr};
 use log::trace;
@@ -61,12 +61,12 @@ impl Events {
         Ok(Self { events })
     }
 
-    /// Get all events finishing on or after the present day.
-    pub fn future(&self) -> Vec<&Event> {
+    /// Get all events matching the given filters.
+    pub fn matching(&self, filters: &Filters) -> Vec<&Event> {
         let today = Utc::now().naive_utc().date();
         self.events
             .iter()
-            .filter(|event| event.end_date >= today)
+            .filter(|event| filters.matches(event, today))
             .collect()
     }
 

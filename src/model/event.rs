@@ -107,15 +107,34 @@ impl Event {
 
 #[derive(Clone, Debug, Default, Deserialize, Eq, PartialEq)]
 pub struct Filters {
-    country: Option<String>,
-    city: Option<String>,
-    style: Option<DanceStyle>,
-    multiday: Option<bool>,
-    workshop: Option<bool>,
-    social: Option<bool>,
-    band: Option<String>,
-    caller: Option<String>,
-    organisation: Option<String>,
+    #[serde(default)]
+    pub date: DateFilter,
+    pub country: Option<String>,
+    pub city: Option<String>,
+    pub style: Option<DanceStyle>,
+    pub multiday: Option<bool>,
+    pub workshop: Option<bool>,
+    pub social: Option<bool>,
+    pub band: Option<String>,
+    pub caller: Option<String>,
+    pub organisation: Option<String>,
+}
+
+#[derive(Copy, Clone, Debug, Deserialize, Eq, PartialEq)]
+#[serde(rename_all = "snake_case")]
+pub enum DateFilter {
+    /// Include only events which started before the current day.
+    Past,
+    /// Include only events which finish on or after the current day.
+    Future,
+    /// Include all events, past and future.
+    All,
+}
+
+impl Default for DateFilter {
+    fn default() -> Self {
+        Self::Future
+    }
 }
 
 impl Filters {
@@ -131,7 +150,13 @@ impl Filters {
             || self.organisation.is_some()
     }
 
-    pub fn matches(&self, event: &Event) -> bool {
+    pub fn matches(&self, event: &Event, today: NaiveDate) -> bool {
+        match self.date {
+            DateFilter::Future if event.end_date < today => return false,
+            DateFilter::Past if event.start_date >= today => return false,
+            _ => {}
+        }
+
         if let Some(country) = &self.country {
             if &event.country != country {
                 return false;
