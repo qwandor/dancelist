@@ -14,6 +14,13 @@
 	{% else %}
 	<p><a href="?multiday=true">Multi-day events</a></p>
 	{% endif %}
+	{% match filters.date %}
+	{% when crate::model::event::DateFilter::Future %}
+	<p><a href="?date=past">Past events</a></p>
+	{% when crate::model::event::DateFilter::Past %}
+	<p><a href="/">Future events</a></p>
+	{% when crate::model::event::DateFilter::All %}
+	{% endmatch %}
 
 	{% for month in months %}
 	<h2>{{ month.name() }}</h2>
