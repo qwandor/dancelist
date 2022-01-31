@@ -59,7 +59,7 @@ impl Display for DanceStyle {
             Self::EnglishCeilidh => "English ceilidh",
             Self::Playford => "Playford",
             Self::Reeling => "Scottish reeling",
-            Self::ScottishCeilidh => "Scottish ceilidh",
+            Self::ScottishCeilidh => "Scottish cèilidh",
             Self::ScottishCountryDance => "SCD",
             Self::Scandinavian => "scandi",
         };
