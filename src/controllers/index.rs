@@ -36,6 +36,26 @@ pub async fn index(
     Ok(Html(template.render()?))
 }
 
+pub async fn index_toml(
+    Extension(events): Extension<Events>,
+    Query(filters): Query<Filters>,
+) -> Result<String, InternalError> {
+    let mut events = events.matching(&filters);
+    events.sort_by_key(|event| event.start_date);
+    let events = Events::cloned(events);
+    Ok(toml::to_string(&events)?)
+}
+
+pub async fn index_yaml(
+    Extension(events): Extension<Events>,
+    Query(filters): Query<Filters>,
+) -> Result<String, InternalError> {
+    let mut events = events.matching(&filters);
+    events.sort_by_key(|event| event.start_date);
+    let events = Events::cloned(events);
+    Ok(serde_yaml::to_string(&events)?)
+}
+
 #[derive(Template)]
 #[template(path = "index.html")]
 struct IndexTemplate {

@@ -31,6 +31,12 @@ pub struct Events {
 }
 
 impl Events {
+    pub fn cloned(events: Vec<&Event>) -> Self {
+        Self {
+            events: events.into_iter().cloned().collect(),
+        }
+    }
+
     pub fn load(directory: &Path) -> Result<Self, Report> {
         let mut events = vec![];
         for entry in read_dir(directory)? {
