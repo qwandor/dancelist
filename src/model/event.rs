@@ -104,3 +104,80 @@ impl Event {
         self.start_date != self.end_date
     }
 }
+
+#[derive(Clone, Debug, Default, Deserialize, Eq, PartialEq)]
+pub struct Filters {
+    country: Option<String>,
+    city: Option<String>,
+    style: Option<DanceStyle>,
+    multiday: Option<bool>,
+    workshop: Option<bool>,
+    social: Option<bool>,
+    band: Option<String>,
+    caller: Option<String>,
+    organisation: Option<String>,
+}
+
+impl Filters {
+    pub fn has_some(&self) -> bool {
+        self.country.is_some()
+            || self.city.is_some()
+            || self.style.is_some()
+            || self.multiday.is_some()
+            || self.workshop.is_some()
+            || self.social.is_some()
+            || self.band.is_some()
+            || self.caller.is_some()
+            || self.organisation.is_some()
+    }
+
+    pub fn matches(&self, event: &Event) -> bool {
+        if let Some(country) = &self.country {
+            if &event.country != country {
+                return false;
+            }
+        }
+        if let Some(city) = &self.city {
+            if &event.city != city {
+                return false;
+            }
+        }
+        if let Some(style) = &self.style {
+            if !event.styles.contains(style) {
+                return false;
+            }
+        }
+        if let Some(multiday) = self.multiday {
+            if event.multiday() != multiday {
+                return false;
+            }
+        }
+        if let Some(workshop) = self.workshop {
+            if event.workshop != workshop {
+                return false;
+            }
+        }
+        if let Some(social) = self.social {
+            if event.social != social {
+                return false;
+            }
+        }
+        if let Some(band) = &self.band {
+            if !event.bands.contains(band) {
+                return false;
+            }
+        }
+        if let Some(caller) = &self.caller {
+            if !event.callers.contains(caller) {
+                return false;
+            }
+        }
+        if let Some(organisation) = &self.organisation {
+            if &event.organisation.as_deref().unwrap_or_default() != organisation {
+                return false;
+            }
+        }
+
+        true
+    }
+}
