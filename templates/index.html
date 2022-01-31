@@ -9,8 +9,8 @@
 <body>
 	<h1>Folk dance events</h1>
 
-	{% if filters.has_some() %}
-	<p><a href="/">Show all</a></p>
+	{% if has_filters %}
+	<p><a href="?">Show all</a></p>
 	{% else %}
 	<p><a href="?multiday=true">Multi-day events</a></p>
 	{% endif %}
@@ -18,7 +18,7 @@
 	{% when crate::model::event::DateFilter::Future %}
 	<p><a href="?date=past">Past events</a></p>
 	{% when crate::model::event::DateFilter::Past %}
-	<p><a href="/">Future events</a></p>
+	<p><a href="?">Future events</a></p>
 	{% when crate::model::event::DateFilter::All %}
 	{% endmatch %}
 

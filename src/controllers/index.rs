@@ -15,6 +15,7 @@
 use crate::{
     errors::InternalError,
     model::{
+        dancestyle::DanceStyle,
         event::{Event, Filters},
         events::Events,
     },
@@ -30,9 +31,33 @@ pub async fn index(
     Extension(events): Extension<Events>,
     Query(filters): Query<Filters>,
 ) -> Result<Html<String>, InternalError> {
+    let has_filters = filters.has_some();
     let events = events.matching(&filters);
     let months = sort_and_group_by_month(events);
-    let template = IndexTemplate { filters, months };
+    let template = IndexTemplate {
+        filters,
+        months,
+        has_filters,
+    };
+    Ok(Html(template.render()?))
+}
+
+/// Like index, but default to only showing Balfolk events.
+pub async fn balfolk(
+    Extension(events): Extension<Events>,
+    Query(mut filters): Query<Filters>,
+) -> Result<Html<String>, InternalError> {
+    let has_filters = filters.has_some();
+    if filters.style.is_none() {
+        filters.style = Some(DanceStyle::Balfolk);
+    }
+    let events = events.matching(&filters);
+    let months = sort_and_group_by_month(events);
+    let template = IndexTemplate {
+        filters,
+        months,
+        has_filters,
+    };
     Ok(Html(template.render()?))
 }
 
@@ -61,6 +86,7 @@ pub async fn index_yaml(
 struct IndexTemplate {
     filters: Filters,
     months: Vec<Month>,
+    has_filters: bool,
 }
 
 struct Month {
