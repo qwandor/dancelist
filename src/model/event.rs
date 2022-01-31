@@ -12,10 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+use super::dancestyle::DanceStyle;
 use chrono::NaiveDate;
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
-use std::fmt::{self, Display, Formatter};
 
 /// The prefix which Facebook event URLs start with.
 const FACEBOOK_EVENT_PREFIX: &str = "https://www.facebook.com/events/";
@@ -102,56 +102,5 @@ impl Event {
     /// Checks whether the event lasts more than one day.
     pub fn multiday(&self) -> bool {
         self.start_date != self.end_date
-    }
-}
-
-#[derive(Copy, Clone, Debug, Deserialize, Eq, JsonSchema, PartialEq, Serialize)]
-pub enum DanceStyle {
-    #[serde(rename = "balfolk")]
-    Balfolk,
-    #[serde(rename = "contra")]
-    Contra,
-    #[serde(rename = "e-ceilidh")]
-    EnglishCeilidh,
-    #[serde(rename = "playford")]
-    Playford,
-    #[serde(rename = "reeling")]
-    Reeling,
-    #[serde(rename = "s-ceilidh")]
-    ScottishCeilidh,
-    #[serde(rename = "scd")]
-    ScottishCountryDance,
-    #[serde(rename = "scandi")]
-    Scandinavian,
-}
-
-impl DanceStyle {
-    pub fn tag(self) -> &'static str {
-        match self {
-            Self::Balfolk => "balfolk",
-            Self::Contra => "contra",
-            Self::EnglishCeilidh => "e-ceilidh",
-            Self::Playford => "playford",
-            Self::Reeling => "reeling",
-            Self::ScottishCeilidh => "s-ceilidh",
-            Self::ScottishCountryDance => "scd",
-            Self::Scandinavian => "scandi",
-        }
-    }
-}
-
-impl Display for DanceStyle {
-    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
-        let s = match self {
-            Self::Balfolk => "balfolk",
-            Self::Contra => "contra",
-            Self::EnglishCeilidh => "English ceilidh",
-            Self::Playford => "Playford",
-            Self::Reeling => "Scottish reeling",
-            Self::ScottishCeilidh => "Scottish ceilidh",
-            Self::ScottishCountryDance => "SCD",
-            Self::Scandinavian => "scandi",
-        };
-        f.write_str(s)
     }
 }

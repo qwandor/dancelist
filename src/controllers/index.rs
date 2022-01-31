@@ -14,10 +14,7 @@
 
 use crate::{
     errors::InternalError,
-    model::{
-        event::{DanceStyle, Event},
-        events::Events,
-    },
+    model::{dancestyle::DanceStyle, event::Event, events::Events},
 };
 use askama::Template;
 use axum::{
