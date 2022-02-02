@@ -30,7 +30,7 @@ use axum::{
 use eyre::Report;
 use log::info;
 use schemars::schema_for;
-use std::env;
+use std::{env, path::Path, process::exit};
 use tower_http::services::ServeDir;
 
 #[tokio::main]
@@ -40,13 +40,34 @@ async fn main() -> Result<(), Report> {
     color_backtrace::install();
 
     let args: Vec<String> = env::args().collect();
-    if args.len() == 2 && args[1] == "schema" {
+    if args.len() == 1 {
+        serve().await
+    } else if args.len() == 2 && args[1] == "schema" {
         // Output JSON schema for events.
         print!("{}", event_schema()?);
         Ok(())
+    } else if args.len() >= 2 && args.len() <= 3 && args[1] == "validate" {
+        validate(args.get(2).map(Path::new))
     } else {
-        serve().await
+        eprintln!("Invalid command.");
+        exit(1);
     }
+}
+
+fn validate(path: Option<&Path>) -> Result<(), Report> {
+    let events = if let Some(path) = path {
+        if path.is_dir() {
+            Events::load_directory(path)?
+        } else {
+            Events::load_file(path)?
+        }
+    } else {
+        let config = Config::from_file()?;
+        Events::load_directory(&config.events_dir)?
+    };
+    println!("Successfully validated {} events.", events.events.len());
+
+    Ok(())
 }
 
 async fn serve() -> Result<(), Report> {
