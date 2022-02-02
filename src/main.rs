@@ -51,7 +51,7 @@ async fn main() -> Result<(), Report> {
 
 async fn serve() -> Result<(), Report> {
     let config = Config::from_file()?;
-    let events = Events::load(&config.events_dir)?;
+    let events = Events::load_directory(&config.events_dir)?;
 
     let app = Router::new()
         .route("/", get(index::index))

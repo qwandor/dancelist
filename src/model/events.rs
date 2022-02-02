@@ -37,7 +37,8 @@ impl Events {
         }
     }
 
-    pub fn load(directory: &Path) -> Result<Self, Report> {
+    /// Load events from all YAML files in the given directory.
+    pub fn load_directory(directory: &Path) -> Result<Self, Report> {
         let mut events = vec![];
         for entry in read_dir(directory)? {
             let filename = entry?.path();
@@ -45,26 +46,31 @@ impl Events {
                 trace!("Not reading events from {:?}", filename);
                 continue;
             }
-            trace!("Reading events from {:?}", filename);
-            let contents =
-                read_to_string(&filename).wrap_err_with(|| format!("Reading {:?}", filename))?;
-            let file_events = serde_yaml::from_str::<Events>(&contents)
-                .wrap_err_with(|| format!("Reading {:?}", filename))?
-                .events;
-            for event in &file_events {
-                let problems = event.validate();
-                if !problems.is_empty() {
-                    bail!(
-                        "Problems with event '{}' in {:?}: {:?}",
-                        event.name,
-                        filename,
-                        problems
-                    );
-                }
-            }
-            events.extend(file_events);
+            let file_events = Self::load_file(&filename)?;
+            events.extend(file_events.events);
         }
         Ok(Self { events })
+    }
+
+    /// Load events from the given YAML file.
+    pub fn load_file(filename: &Path) -> Result<Self, Report> {
+        trace!("Reading events from {:?}", filename);
+        let contents =
+            read_to_string(&filename).wrap_err_with(|| format!("Reading {:?}", filename))?;
+        let events = serde_yaml::from_str::<Events>(&contents)
+            .wrap_err_with(|| format!("Reading {:?}", filename))?;
+        for event in &events.events {
+            let problems = event.validate();
+            if !problems.is_empty() {
+                bail!(
+                    "Problems with event '{}' in {:?}: {:?}",
+                    event.name,
+                    filename,
+                    problems
+                );
+            }
+        }
+        Ok(events)
     }
 
     /// Get all events matching the given filters.
