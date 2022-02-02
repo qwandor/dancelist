@@ -1,6 +1,7 @@
 # dancelist
 
-`dancelist` is software to run a website listing folk dance events.
+`dancelist` is software to run [a website listing folk dance events](https://dance.q.geek.nz/). It
+reads data from [a separate repository](https://github.com/qwandor/dancelist-data).
 
 This is not an officially supported Google product.
 
