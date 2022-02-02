@@ -48,14 +48,18 @@ async fn main() -> Result<(), Report> {
         Ok(())
     } else if args.len() >= 2 && args.len() <= 3 && args[1] == "validate" {
         validate(args.get(2).map(Path::new))
+    } else if args.len() >= 2 && args.len() <= 3 && args[1] == "cat" {
+        concatenate(args.get(2).map(Path::new))
     } else {
         eprintln!("Invalid command.");
         exit(1);
     }
 }
 
-fn validate(path: Option<&Path>) -> Result<(), Report> {
-    let events = if let Some(path) = path {
+/// Load events from the given file or directory, or from the directory in the config file if no
+/// path is provided.
+fn load_events(path: Option<&Path>) -> Result<Events, Report> {
+    Ok(if let Some(path) = path {
         if path.is_dir() {
             Events::load_directory(path)?
         } else {
@@ -64,9 +68,19 @@ fn validate(path: Option<&Path>) -> Result<(), Report> {
     } else {
         let config = Config::from_file()?;
         Events::load_directory(&config.events_dir)?
-    };
+    })
+}
+
+fn validate(path: Option<&Path>) -> Result<(), Report> {
+    let events = load_events(path)?;
     println!("Successfully validated {} events.", events.events.len());
 
+    Ok(())
+}
+
+fn concatenate(path: Option<&Path>) -> Result<(), Report> {
+    let events = load_events(path)?;
+    print!("{}", serde_yaml::to_string(&events)?);
     Ok(())
 }
 
