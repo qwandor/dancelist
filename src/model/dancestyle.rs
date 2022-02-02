@@ -24,6 +24,12 @@ pub enum DanceStyle {
     Contra,
     #[serde(rename = "e-ceilidh")]
     EnglishCeilidh,
+    #[serde(rename = "ceili")]
+    IrishCeili,
+    #[serde(rename = "irish-set")]
+    IrishSet,
+    #[serde(rename = "italian")]
+    Italian,
     #[serde(rename = "playford")]
     Playford,
     #[serde(rename = "reeling")]
@@ -42,6 +48,9 @@ impl DanceStyle {
             Self::Balfolk => "balfolk",
             Self::Contra => "contra",
             Self::EnglishCeilidh => "e-ceilidh",
+            Self::IrishCeili => "ceili",
+            Self::IrishSet => "irish-set",
+            Self::Italian => "italian",
             Self::Playford => "playford",
             Self::Reeling => "reeling",
             Self::ScottishCeilidh => "s-ceilidh",
@@ -57,6 +66,9 @@ impl Display for DanceStyle {
             Self::Balfolk => "balfolk",
             Self::Contra => "contra",
             Self::EnglishCeilidh => "English ceilidh",
+            Self::IrishCeili => "Irish céilí",
+            Self::IrishSet => "Irish set",
+            Self::Italian => "Italian",
             Self::Playford => "Playford",
             Self::Reeling => "Scottish reeling",
             Self::ScottishCeilidh => "Scottish cèilidh",

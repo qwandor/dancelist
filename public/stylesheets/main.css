@@ -10,6 +10,15 @@
 .dance-style.e-ceilidh {
   background-color: gray;
 }
+.dance-style.ceili {
+  background-color: greenyellow;
+}
+.dance-style.irish-set {
+  background-color: lightgreen;
+}
+.dance-style.italian {
+  background-color: pink;
+}
 .dance-style.playford {
   background-color: orange;
 }
