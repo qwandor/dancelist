@@ -43,9 +43,13 @@ async fn main() -> Result<(), Report> {
     if args.len() == 2 && args[1] == "schema" {
         // Output JSON schema for events.
         print!("{}", event_schema()?);
-        return Ok(());
+        Ok(())
+    } else {
+        serve().await
     }
+}
 
+async fn serve() -> Result<(), Report> {
     let config = Config::from_file()?;
     let events = Events::load(&config.events_dir)?;
 
