@@ -12,8 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub mod bands;
-pub mod callers;
-pub mod cities;
-pub mod index;
-pub mod organisations;
+use crate::{
+    errors::InternalError,
+    model::events::{Country, Events},
+};
+use askama::Template;
+use axum::{extract::Extension, response::Html};
+
+pub async fn cities(Extension(events): Extension<Events>) -> Result<Html<String>, InternalError> {
+    let countries = events.countries();
+    let template = CitiesTemplate { countries };
+    Ok(Html(template.render()?))
+}
+
+#[derive(Template)]
+#[template(path = "cities.html")]
+struct CitiesTemplate {
+    countries: Vec<Country>,
+}

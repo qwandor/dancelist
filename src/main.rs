@@ -19,7 +19,7 @@ mod model;
 
 use crate::{
     config::Config,
-    controllers::{bands, callers, index, organisations},
+    controllers::{bands, callers, cities, index, organisations},
     errors::internal_error,
     model::events::Events,
 };
@@ -95,6 +95,7 @@ async fn serve() -> Result<(), Report> {
         .route("/balfolk", get(index::balfolk))
         .route("/bands", get(bands::bands))
         .route("/callers", get(callers::callers))
+        .route("/cities", get(cities::cities))
         .route("/organisations", get(organisations::organisations))
         .nest(
             "/stylesheets",

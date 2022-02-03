@@ -19,6 +19,7 @@ use log::trace;
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 use std::{
+    collections::HashMap,
     ffi::OsStr,
     fs::{read_dir, read_to_string},
     path::Path,
@@ -117,6 +118,36 @@ impl Events {
         organisations.dedup();
         organisations
     }
+
+    /// Gets all cities which have dance events, grouped by country, in alphabetical order.
+    pub fn countries(&self) -> Vec<Country> {
+        let mut countries = HashMap::new();
+        for event in &self.events {
+            countries
+                .entry(event.country.to_owned())
+                .or_insert_with(Vec::new)
+                .push(event.city.to_owned());
+        }
+        let mut countries: Vec<_> = countries
+            .into_iter()
+            .map(|(country, mut cities)| {
+                cities.sort();
+                cities.dedup();
+                Country {
+                    name: country,
+                    cities,
+                }
+            })
+            .collect();
+        countries.sort();
+        countries
+    }
+}
+
+#[derive(Clone, Debug, Eq, Ord, PartialEq, PartialOrd)]
+pub struct Country {
+    pub name: String,
+    pub cities: Vec<String>,
 }
 
 #[cfg(test)]

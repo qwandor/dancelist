@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Cities</title>
+	<link rel="stylesheet" type="text/css" href="/stylesheets/main.css" />
+</head>
+
+<body>
+	<h1>Cities</h1>
+
+	{% for country in countries %}
+	<h2><a href="/?country={{ country.name|urlencode }}">{{ country.name }}</a></h2>
+	<ul>
+		{% for city in country.cities %}
+		<li><a href="/?country={{ country.name|urlencode }}&city={{ city|urlencode }}">{{ city }}</a></li>
+		{% endfor %}
+	</ul>
+	{% endfor %}
+</body>
+
+</html>
