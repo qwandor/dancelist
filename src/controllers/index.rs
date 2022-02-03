@@ -14,7 +14,7 @@
 
 use crate::{
     errors::InternalError,
-    icalendar::events_to_calendar,
+    icalendar::{events_to_calendar, Ics},
     model::{
         dancestyle::DanceStyle,
         event::{Event, Filters},
@@ -85,11 +85,11 @@ pub async fn index_yaml(
 pub async fn index_ics(
     Extension(events): Extension<Events>,
     Query(filters): Query<Filters>,
-) -> Result<String, InternalError> {
+) -> Result<Ics, InternalError> {
     let mut events = events.matching(&filters);
     events.sort_by_key(|event| event.start_date);
     let calendar = events_to_calendar(&events);
-    Ok(calendar.to_string())
+    Ok(Ics(calendar))
 }
 
 #[derive(Template)]

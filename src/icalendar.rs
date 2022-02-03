@@ -1,4 +1,9 @@
 use crate::model::event::Event;
+use axum::{
+    body::{boxed, Full},
+    http::{header, HeaderValue},
+    response::{IntoResponse, Response},
+};
 use chrono::{Date, Utc};
 use icalendar::{Calendar, Component};
 use std::fmt::Write;
@@ -57,4 +62,18 @@ fn event_to_event(event: &Event) -> icalendar::Event {
         .location(&format!("{}, {}", event.city, event.country))
         .description(&description)
         .done()
+}
+
+#[derive(Debug)]
+pub struct Ics(pub Calendar);
+
+impl IntoResponse for Ics {
+    fn into_response(self) -> Response {
+        let mut res = Response::new(boxed(Full::from(self.0.to_string())));
+        res.headers_mut().insert(
+            header::CONTENT_TYPE,
+            HeaderValue::from_static("text/calendar"),
+        );
+        res
+    }
 }
