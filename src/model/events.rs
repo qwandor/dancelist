@@ -158,6 +158,95 @@ mod tests {
     use chrono::NaiveDate;
 
     #[test]
+    fn countries() {
+        let london_event_1 = Event {
+            name: "Name".to_string(),
+            start_date: NaiveDate::from_ymd(2022, 1, 1),
+            end_date: NaiveDate::from_ymd(2022, 1, 1),
+            details: None,
+            links: vec![],
+            country: "UK".to_string(),
+            city: "London".to_string(),
+            styles: vec![DanceStyle::Playford],
+            workshop: true,
+            social: false,
+            bands: vec![],
+            callers: vec![],
+            price: None,
+            organisation: None,
+        };
+        let london_event_2 = Event {
+            name: "Name".to_string(),
+            start_date: NaiveDate::from_ymd(2022, 1, 1),
+            end_date: NaiveDate::from_ymd(2022, 1, 1),
+            details: None,
+            links: vec![],
+            country: "UK".to_string(),
+            city: "London".to_string(),
+            styles: vec![DanceStyle::Playford],
+            workshop: true,
+            social: false,
+            bands: vec![],
+            callers: vec![],
+            price: None,
+            organisation: None,
+        };
+        let oxford_event = Event {
+            name: "Name".to_string(),
+            start_date: NaiveDate::from_ymd(2022, 1, 1),
+            end_date: NaiveDate::from_ymd(2022, 1, 1),
+            details: None,
+            links: vec![],
+            country: "UK".to_string(),
+            city: "Oxford".to_string(),
+            styles: vec![DanceStyle::Playford],
+            workshop: true,
+            social: false,
+            bands: vec![],
+            callers: vec![],
+            price: None,
+            organisation: None,
+        };
+        let amsterdam_event = Event {
+            name: "Name".to_string(),
+            start_date: NaiveDate::from_ymd(2022, 1, 1),
+            end_date: NaiveDate::from_ymd(2022, 1, 1),
+            details: None,
+            links: vec![],
+            country: "Netherlands".to_string(),
+            city: "Amsterdam".to_string(),
+            styles: vec![DanceStyle::Playford],
+            workshop: true,
+            social: false,
+            bands: vec![],
+            callers: vec![],
+            price: None,
+            organisation: None,
+        };
+        let events = Events {
+            events: vec![
+                oxford_event,
+                london_event_1,
+                amsterdam_event,
+                london_event_2,
+            ],
+        };
+        assert_eq!(
+            events.countries(),
+            vec![
+                Country {
+                    name: "Netherlands".to_string(),
+                    cities: vec!["Amsterdam".to_string()]
+                },
+                Country {
+                    name: "UK".to_string(),
+                    cities: vec!["London".to_string(), "Oxford".to_string()]
+                }
+            ]
+        );
+    }
+
+    #[test]
     fn filter_past() {
         let past_event = Event {
             name: "Past".to_string(),
