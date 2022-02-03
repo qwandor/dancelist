@@ -15,6 +15,7 @@
 mod config;
 mod controllers;
 mod errors;
+mod icalendar;
 mod model;
 
 use crate::{
@@ -90,6 +91,7 @@ async fn serve() -> Result<(), Report> {
 
     let app = Router::new()
         .route("/", get(index::index))
+        .route("/index.ics", get(index::index_ics))
         .route("/index.toml", get(index::index_toml))
         .route("/index.yaml", get(index::index_yaml))
         .route("/balfolk", get(index::balfolk))
