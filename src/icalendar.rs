@@ -5,7 +5,7 @@ use axum::{
     response::{IntoResponse, Response},
 };
 use chrono::{Date, Utc};
-use icalendar::{Calendar, Component};
+use icalendar::{Calendar, Component, Property};
 use std::fmt::Write;
 
 pub fn events_to_calendar(events: &[&Event]) -> Calendar {
@@ -54,6 +54,13 @@ fn event_to_event(event: &Event) -> icalendar::Event {
         writeln!(description, "Price: {}", price).unwrap();
     }
 
+    let categories = event
+        .styles
+        .iter()
+        .map(ToString::to_string)
+        .collect::<Vec<_>>()
+        .join(",");
+
     icalendar::Event::new()
         .summary(&event.name)
         // TODO: Use proper timezones rather than assuming everything is UTC.
@@ -61,6 +68,7 @@ fn event_to_event(event: &Event) -> icalendar::Event {
         .end_date(Date::<Utc>::from_utc(event.end_date, Utc))
         .location(&format!("{}, {}", event.city, event.country))
         .description(&description)
+        .append_property(Property::new("CATEGORIES", &categories))
         .done()
 }
 
