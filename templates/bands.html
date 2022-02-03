@@ -11,7 +11,7 @@
 
 	<ul>
 		{% for band in bands %}
-		<li><a href="/?band={{ band }}">{{ band }}</a></li>
+		<li><a href="/?band={{ band|urlencode }}">{{ band }}</a></li>
 		{% endfor %}
 	</ul>
 </body>

@@ -11,7 +11,7 @@
 
 	<ul>
 		{% for caller in callers %}
-		<li><a href="/?caller={{ caller }}">{{ caller }}</a></li>
+		<li><a href="/?caller={{ caller|urlencode }}">{{ caller }}</a></li>
 		{% endfor %}
 	</ul>
 </body>
