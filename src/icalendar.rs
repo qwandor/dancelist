@@ -5,7 +5,7 @@ use axum::{
     response::{IntoResponse, Response},
 };
 use chrono::{Date, Utc};
-use icalendar::{Calendar, Component, Property};
+use icalendar::{Calendar, Component};
 use std::fmt::Write;
 
 pub fn events_to_calendar(events: &[&Event]) -> Calendar {
@@ -53,6 +53,9 @@ fn event_to_event(event: &Event) -> icalendar::Event {
     if let Some(price) = &event.price {
         writeln!(description, "Price: {}", price).unwrap();
     }
+    for link in &event.links {
+        writeln!(description, "{}", link).unwrap();
+    }
 
     let categories = event
         .styles
@@ -61,15 +64,19 @@ fn event_to_event(event: &Event) -> icalendar::Event {
         .collect::<Vec<_>>()
         .join(",");
 
-    icalendar::Event::new()
+    let mut calendar_event = icalendar::Event::new();
+    calendar_event
         .summary(&event.name)
         // TODO: Use proper timezones rather than assuming everything is UTC.
         .start_date(Date::<Utc>::from_utc(event.start_date, Utc))
         .end_date(Date::<Utc>::from_utc(event.end_date, Utc))
         .location(&format!("{}, {}", event.city, event.country))
         .description(&description)
-        .append_property(Property::new("CATEGORIES", &categories))
-        .done()
+        .add_property("CATEGORIES", &categories);
+    for link in &event.links {
+        calendar_event.add_multi_property("ATTACH", link);
+    }
+    calendar_event
 }
 
 #[derive(Debug)]
