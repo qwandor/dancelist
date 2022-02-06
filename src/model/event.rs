@@ -99,6 +99,15 @@ impl Event {
             .find(|link| !link.starts_with(FACEBOOK_EVENT_PREFIX))
     }
 
+    /// Gets any further links, which are not the first and not the Facebook event.
+    pub fn further_links(&self) -> Vec<&String> {
+        self.links
+            .iter()
+            .skip(1)
+            .filter(|link| !link.starts_with(FACEBOOK_EVENT_PREFIX))
+            .collect()
+    }
+
     /// Checks whether the event lasts more than one day.
     pub fn multiday(&self) -> bool {
         self.start_date != self.end_date
