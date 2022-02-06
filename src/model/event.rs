@@ -296,38 +296,20 @@ impl Filters {
 
     pub fn matches(&self, event: &Event, now: DateTime<Utc>) -> bool {
         let today = now.naive_utc().date();
-        match self.date {
-            DateFilter::Future => match event.time {
-                EventTime::DateOnly {
-                    start_date,
-                    end_date,
-                } => {
-                    if end_date < today {
-                        return false;
-                    }
-                }
-                EventTime::DateTime { start, end } => {
-                    if end < now {
-                        return false;
-                    }
-                }
+        match event.time {
+            EventTime::DateOnly {
+                start_date,
+                end_date,
+            } => match self.date {
+                DateFilter::Future if end_date < today => return false,
+                DateFilter::Past if start_date >= today => return false,
+                _ => {}
             },
-            DateFilter::Past => match event.time {
-                EventTime::DateOnly {
-                    start_date,
-                    end_date,
-                } => {
-                    if start_date >= today {
-                        return false;
-                    }
-                }
-                EventTime::DateTime { start, end } => {
-                    if start >= now {
-                        return false;
-                    }
-                }
+            EventTime::DateTime { start, end } => match self.date {
+                DateFilter::Future if end < now => return false,
+                DateFilter::Past if start >= now => return false,
+                _ => {}
             },
-            _ => {}
         }
 
         if let Some(country) = &self.country {
