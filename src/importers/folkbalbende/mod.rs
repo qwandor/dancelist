@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+mod bool_as_int;
+
 use eyre::Report;
 use serde::{Deserialize, Serialize};
 
@@ -23,9 +25,12 @@ pub struct Event {
     pub recurrence: u32,
     #[serde(rename = "type")]
     pub event_type: EventType,
-    pub cancelled: u32,
-    pub deleted: u32,
-    pub checked: u32,
+    #[serde(with = "bool_as_int")]
+    pub cancelled: bool,
+    #[serde(with = "bool_as_int")]
+    pub deleted: bool,
+    #[serde(with = "bool_as_int")]
+    pub checked: bool,
     pub dates: Vec<String>,
     pub location: Location,
     pub prices: Vec<Price>,
