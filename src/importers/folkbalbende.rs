@@ -16,6 +16,7 @@ use eyre::Report;
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+#[serde(deny_unknown_fields)]
 pub struct Event {
     pub id: u32,
     pub name: String,
@@ -41,6 +42,7 @@ pub enum Type {
 }
 
 #[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+#[serde(deny_unknown_fields)]
 pub struct Location {
     pub id: u32,
     pub name: String,
@@ -49,6 +51,7 @@ pub struct Location {
 }
 
 #[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+#[serde(deny_unknown_fields)]
 pub struct Address {
     pub id: u32,
     pub street: Option<String>,
@@ -62,6 +65,7 @@ pub struct Address {
 }
 
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
+#[serde(deny_unknown_fields)]
 pub struct Price {
     pub name: String,
     pub price: String,
@@ -69,6 +73,7 @@ pub struct Price {
 }
 
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
+#[serde(deny_unknown_fields)]
 pub struct Course {
     pub id: u32,
     pub title: String,
@@ -78,12 +83,14 @@ pub struct Course {
 }
 
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
+#[serde(deny_unknown_fields)]
 pub struct Teacher {
     pub id: u32,
     pub name: String,
 }
 
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
+#[serde(deny_unknown_fields)]
 pub struct Ball {
     pub initiation_start: Option<String>,
     pub initiation_end: Option<String>,
@@ -91,6 +98,7 @@ pub struct Ball {
 }
 
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
+#[serde(deny_unknown_fields)]
 pub struct Performance {
     pub start: Option<String>,
     pub end: Option<String>,
@@ -98,6 +106,7 @@ pub struct Performance {
 }
 
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
+#[serde(deny_unknown_fields)]
 pub struct Band {
     pub id: u32,
     pub name: String,
