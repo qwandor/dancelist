@@ -34,12 +34,50 @@
     },
     "Event": {
       "type": "object",
+      "anyOf": [
+        {
+          "type": "object",
+          "required": [
+            "end_date",
+            "start_date"
+          ],
+          "properties": {
+            "end_date": {
+              "description": "The last day of the event, in the local timezone. Events which finish some hours after midnight should be considered to finish the day before.",
+              "type": "string",
+              "format": "date"
+            },
+            "start_date": {
+              "description": "The first day of the event, in the local timezone.",
+              "type": "string",
+              "format": "date"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "end",
+            "start"
+          ],
+          "properties": {
+            "end": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "start": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          "additionalProperties": false
+        }
+      ],
       "required": [
         "city",
         "country",
-        "end_date",
-        "name",
-        "start_date"
+        "name"
       ],
       "properties": {
         "bands": {
@@ -68,11 +106,6 @@
             "string",
             "null"
           ]
-        },
-        "end_date": {
-          "description": "The last day of the event, in the local timezone. Events which finish some hours after midnight should be considered to finish the day before.",
-          "type": "string",
-          "format": "date"
         },
         "links": {
           "description": "URLs with more information about the event, including the Facebook event page if any.",
@@ -106,11 +139,6 @@
           "default": false,
           "type": "boolean"
         },
-        "start_date": {
-          "description": "The first day of the event, in the local timezone.",
-          "type": "string",
-          "format": "date"
-        },
         "styles": {
           "description": "The dance styles included in the event.",
           "default": [],
@@ -124,8 +152,7 @@
           "default": false,
           "type": "boolean"
         }
-      },
-      "additionalProperties": false
+      }
     }
   }
 }

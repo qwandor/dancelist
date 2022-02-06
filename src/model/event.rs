@@ -13,7 +13,7 @@
 // limitations under the License.
 
 use super::dancestyle::DanceStyle;
-use chrono::NaiveDate;
+use chrono::{Date, DateTime, Datelike, FixedOffset, NaiveDate, Utc};
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 
@@ -22,7 +22,6 @@ const FACEBOOK_EVENT_PREFIX: &str = "https://www.facebook.com/events/";
 const FBB_EVENT_PREFIX: &str = "https://folkbalbende.be/event/";
 
 #[derive(Clone, Debug, Deserialize, Eq, JsonSchema, PartialEq, Serialize)]
-#[serde(deny_unknown_fields)]
 pub struct Event {
     /// The name of the event.
     pub name: String,
@@ -32,11 +31,8 @@ pub struct Event {
     /// URLs with more information about the event, including the Facebook event page if any.
     #[serde(default)]
     pub links: Vec<String>,
-    /// The first day of the event, in the local timezone.
-    pub start_date: NaiveDate,
-    /// The last day of the event, in the local timezone. Events which finish some hours after
-    /// midnight should be considered to finish the day before.
-    pub end_date: NaiveDate,
+    #[serde(flatten)]
+    pub time: EventTime,
     // TODO: Should start and end require time or just date? What about timezone?
     pub country: String,
     pub city: String,
@@ -65,6 +61,22 @@ pub struct Event {
     pub organisation: Option<String>,
 }
 
+#[derive(Clone, Debug, Deserialize, Eq, JsonSchema, PartialEq, Serialize)]
+#[serde(untagged, deny_unknown_fields)]
+pub enum EventTime {
+    DateOnly {
+        /// The first day of the event, in the local timezone.
+        start_date: NaiveDate,
+        /// The last day of the event, in the local timezone. Events which finish some hours after
+        /// midnight should be considered to finish the day before.
+        end_date: NaiveDate,
+    },
+    DateTime {
+        start: DateTime<FixedOffset>,
+        end: DateTime<FixedOffset>,
+    },
+}
+
 impl Event {
     /// Check that the event information is valid. Returns an empty list if it is, or a list of
     /// problems if not.
@@ -75,8 +87,20 @@ impl Event {
             problems.push("Must have at least a workshop or a social.")
         }
 
-        if self.start_date > self.end_date {
-            problems.push("Start date must not be before or equal to end date.");
+        match self.time {
+            EventTime::DateOnly {
+                start_date,
+                end_date,
+            } => {
+                if start_date > end_date {
+                    problems.push("Start date must be before or equal to end date.");
+                }
+            }
+            EventTime::DateTime { start, end } => {
+                if start > end {
+                    problems.push("Start must be before or equal to end.");
+                }
+            }
         }
 
         if self.styles.is_empty() {
@@ -128,7 +152,94 @@ impl Event {
 
     /// Checks whether the event lasts more than one day.
     pub fn multiday(&self) -> bool {
-        self.start_date != self.end_date
+        match self.time {
+            EventTime::DateOnly {
+                start_date,
+                end_date,
+            } => start_date != end_date,
+            EventTime::DateTime { start, end } => start.date() != end.date(),
+        }
+    }
+
+    /// Gets the event start time in UTC for the purposes of sorting.
+    pub fn start_time_sort_key(&self) -> DateTime<Utc> {
+        match self.time {
+            EventTime::DateOnly {
+                start_date,
+                end_date: _,
+            } => Date::<Utc>::from_utc(start_date, Utc).and_hms(0, 0, 0),
+            EventTime::DateTime { start, end: _ } => start.with_timezone(&Utc),
+        }
+    }
+
+    /// Gets the year in which the event starts.
+    pub fn start_year(&self) -> i32 {
+        match self.time {
+            EventTime::DateOnly {
+                start_date,
+                end_date: _,
+            } => start_date.year(),
+            EventTime::DateTime { start, end: _ } => start.year(),
+        }
+    }
+
+    /// Gets the month in which the event starts.
+    pub fn start_month(&self) -> u32 {
+        match self.time {
+            EventTime::DateOnly {
+                start_date,
+                end_date: _,
+            } => start_date.month(),
+            EventTime::DateTime { start, end: _ } => start.month(),
+        }
+    }
+
+    /// Formats the event start date/time, and end date/time if it is different,
+    /// assuming that the start year and month is already known.
+    pub fn short_time(&self) -> String {
+        match self.time {
+            EventTime::DateOnly {
+                start_date,
+                end_date,
+            } => {
+                if !self.multiday() {
+                    start_date.format("%a %e").to_string()
+                } else if start_date.month() == end_date.month() {
+                    format!(
+                        "{}–{}",
+                        start_date.format("%a %e"),
+                        end_date.format("%a %e")
+                    )
+                } else {
+                    format!(
+                        "{}–{}",
+                        start_date.format("%a %e"),
+                        end_date.format("%a %e %B")
+                    )
+                }
+            }
+            EventTime::DateTime { start, end } => {
+                if !self.multiday() {
+                    format!(
+                        "{}–{}",
+                        start.format("%a %e %l:%M %P"),
+                        end.format("%l:%M %P")
+                    )
+                } else if start.month() == end.month() {
+                    format!(
+                        "{}–{}",
+                        start.format("%a %e %l:%M %P"),
+                        end.format("%a %e %l:%M %P")
+                    )
+                } else {
+                    format!(
+                        "{}–{}",
+                        start.format("%a %e %l:%M %P"),
+                        end.format("%a %e %B %l:%M %P")
+                    )
+                }
+            }
+        }
     }
 }
 
@@ -183,10 +294,39 @@ impl Filters {
             || self.organisation.is_some()
     }
 
-    pub fn matches(&self, event: &Event, today: NaiveDate) -> bool {
+    pub fn matches(&self, event: &Event, now: DateTime<Utc>) -> bool {
+        let today = now.naive_utc().date();
         match self.date {
-            DateFilter::Future if event.end_date < today => return false,
-            DateFilter::Past if event.start_date >= today => return false,
+            DateFilter::Future => match event.time {
+                EventTime::DateOnly {
+                    start_date,
+                    end_date,
+                } => {
+                    if end_date < today {
+                        return false;
+                    }
+                }
+                EventTime::DateTime { start, end } => {
+                    if end < now {
+                        return false;
+                    }
+                }
+            },
+            DateFilter::Past => match event.time {
+                EventTime::DateOnly {
+                    start_date,
+                    end_date,
+                } => {
+                    if start_date >= today {
+                        return false;
+                    }
+                }
+                EventTime::DateTime { start, end } => {
+                    if start >= now {
+                        return false;
+                    }
+                }
+            },
             _ => {}
         }
 

@@ -76,10 +76,10 @@ impl Events {
 
     /// Get all events matching the given filters.
     pub fn matching(&self, filters: &Filters) -> Vec<&Event> {
-        let today = Utc::now().naive_utc().date();
+        let now = Utc::now();
         self.events
             .iter()
-            .filter(|event| filters.matches(event, today))
+            .filter(|event| filters.matches(event, now))
             .collect()
     }
 
@@ -154,15 +154,20 @@ pub struct Country {
 mod tests {
     use super::*;
 
-    use crate::model::{dancestyle::DanceStyle, event::DateFilter};
+    use crate::model::{
+        dancestyle::DanceStyle,
+        event::{DateFilter, EventTime},
+    };
     use chrono::NaiveDate;
 
     #[test]
     fn countries() {
         let london_event_1 = Event {
             name: "Name".to_string(),
-            start_date: NaiveDate::from_ymd(2022, 1, 1),
-            end_date: NaiveDate::from_ymd(2022, 1, 1),
+            time: EventTime::DateOnly {
+                start_date: NaiveDate::from_ymd(2022, 1, 1),
+                end_date: NaiveDate::from_ymd(2022, 1, 1),
+            },
             details: None,
             links: vec![],
             country: "UK".to_string(),
@@ -177,8 +182,10 @@ mod tests {
         };
         let london_event_2 = Event {
             name: "Name".to_string(),
-            start_date: NaiveDate::from_ymd(2022, 1, 1),
-            end_date: NaiveDate::from_ymd(2022, 1, 1),
+            time: EventTime::DateOnly {
+                start_date: NaiveDate::from_ymd(2022, 1, 1),
+                end_date: NaiveDate::from_ymd(2022, 1, 1),
+            },
             details: None,
             links: vec![],
             country: "UK".to_string(),
@@ -193,8 +200,10 @@ mod tests {
         };
         let oxford_event = Event {
             name: "Name".to_string(),
-            start_date: NaiveDate::from_ymd(2022, 1, 1),
-            end_date: NaiveDate::from_ymd(2022, 1, 1),
+            time: EventTime::DateOnly {
+                start_date: NaiveDate::from_ymd(2022, 1, 1),
+                end_date: NaiveDate::from_ymd(2022, 1, 1),
+            },
             details: None,
             links: vec![],
             country: "UK".to_string(),
@@ -209,8 +218,10 @@ mod tests {
         };
         let amsterdam_event = Event {
             name: "Name".to_string(),
-            start_date: NaiveDate::from_ymd(2022, 1, 1),
-            end_date: NaiveDate::from_ymd(2022, 1, 1),
+            time: EventTime::DateOnly {
+                start_date: NaiveDate::from_ymd(2022, 1, 1),
+                end_date: NaiveDate::from_ymd(2022, 1, 1),
+            },
             details: None,
             links: vec![],
             country: "Netherlands".to_string(),
@@ -250,8 +261,10 @@ mod tests {
     fn filter_past() {
         let past_event = Event {
             name: "Past".to_string(),
-            start_date: NaiveDate::from_ymd(1000, 1, 1),
-            end_date: NaiveDate::from_ymd(1000, 1, 1),
+            time: EventTime::DateOnly {
+                start_date: NaiveDate::from_ymd(1000, 1, 1),
+                end_date: NaiveDate::from_ymd(1000, 1, 1),
+            },
             details: None,
             links: vec![],
             country: "Test".to_string(),
@@ -266,8 +279,10 @@ mod tests {
         };
         let future_event = Event {
             name: "Future".to_string(),
-            start_date: NaiveDate::from_ymd(3000, 1, 1),
-            end_date: NaiveDate::from_ymd(3000, 1, 1),
+            time: EventTime::DateOnly {
+                start_date: NaiveDate::from_ymd(3000, 1, 1),
+                end_date: NaiveDate::from_ymd(3000, 1, 1),
+            },
             details: None,
             links: vec![],
             country: "Test".to_string(),

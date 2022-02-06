@@ -15,7 +15,11 @@
 mod bool_as_int;
 mod uint_as_string;
 
-use crate::model::{dancestyle::DanceStyle, event, events::Events};
+use crate::model::{
+    dancestyle::DanceStyle,
+    event::{self, EventTime},
+    events::Events,
+};
 use chrono::NaiveDate;
 use eyre::Report;
 use serde::{Deserialize, Serialize};
@@ -330,8 +334,10 @@ fn convert(event: &Event) -> Vec<event::Event> {
             name: event.name.clone(),
             details: Some(details.clone()),
             links: links.clone(),
-            start_date: date,
-            end_date: date,
+            time: EventTime::DateOnly {
+                start_date: date,
+                end_date: date,
+            },
             country: "Belgium".to_string(),
             city: event.location.address.city.clone(),
             styles: vec![DanceStyle::Balfolk],

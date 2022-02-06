@@ -1,4 +1,4 @@
-use crate::model::event::Event;
+use crate::model::event::{Event, EventTime};
 use axum::{
     body::{boxed, Full},
     http::{header, HeaderValue},
@@ -67,13 +67,23 @@ fn event_to_event(event: &Event) -> icalendar::Event {
     let mut calendar_event = icalendar::Event::new();
     calendar_event
         .summary(&event.name)
-        // TODO: Use proper timezones rather than assuming everything is UTC.
-        .start_date(Date::<Utc>::from_utc(event.start_date, Utc))
-        // iCalendar DTEND is non-inclusive, so add one day.
-        .end_date(Date::<Utc>::from_utc(event.end_date.succ(), Utc))
         .location(&format!("{}, {}", event.city, event.country))
         .description(&description)
         .add_property("CATEGORIES", &categories);
+    match event.time {
+        EventTime::DateOnly {
+            start_date,
+            end_date,
+        } => {
+            calendar_event
+                .start_date(Date::<Utc>::from_utc(start_date, Utc))
+                // iCalendar DTEND is non-inclusive, so add one day.
+                .end_date(Date::<Utc>::from_utc(end_date.succ(), Utc));
+        }
+        EventTime::DateTime { start, end } => {
+            calendar_event.starts(start.with_timezone(&Utc)).ends(end.with_timezone(&Utc));
+        }
+    }
     for link in &event.links {
         calendar_event.add_multi_property("ATTACH", link);
     }

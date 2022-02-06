@@ -28,13 +28,7 @@
 		{% for event in month.events %}
 		<tr class="event {% if event.multiday() %}multiday{% endif %}">
 			<td class="event-dates">
-				{% if !event.multiday() %}
-				{{ event.start_date.format("%a %e") }}
-				{% elseif event.start_date.month() == event.end_date.month() %}
-				{{ event.start_date.format("%a %e") }}&ndash;{{ event.end_date.format("%a %e") }}
-				{% else %}
-				{{ event.start_date.format("%a %e") }}&ndash;{{ event.end_date.format("%a %e %B") }}
-				{% endif %}
+				{{ event.short_time() }}
 			</td>
 			<td class="event-name" title="{{ event.details.as_deref().unwrap_or_default() }}">
 				{% match event.main_link() %}
