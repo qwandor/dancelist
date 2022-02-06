@@ -19,6 +19,7 @@ use serde::{Deserialize, Serialize};
 
 /// The prefix which Facebook event URLs start with.
 const FACEBOOK_EVENT_PREFIX: &str = "https://www.facebook.com/events/";
+const FBB_EVENT_PREFIX: &str = "https://folkbalbende.be/event/";
 
 #[derive(Clone, Debug, Deserialize, Eq, JsonSchema, PartialEq, Serialize)]
 #[serde(deny_unknown_fields)]
@@ -85,33 +86,56 @@ impl Event {
         problems
     }
 
-    /// Get the URL of the event's Facebook event, if any.
-    pub fn facebook_event(&self) -> Option<&String> {
-        self.links
-            .iter()
-            .find(|link| link.starts_with(FACEBOOK_EVENT_PREFIX))
-    }
-
-    /// Get the event's first non-Facebook link.
+    /// Get the event's first non-Facebook non-FBB link.
     pub fn main_link(&self) -> Option<&String> {
-        self.links
-            .iter()
-            .find(|link| !link.starts_with(FACEBOOK_EVENT_PREFIX))
+        self.links.iter().find(|link| {
+            !link.starts_with(FACEBOOK_EVENT_PREFIX) && !link.starts_with(FBB_EVENT_PREFIX)
+        })
     }
 
     /// Gets any further links, which are not the first and not the Facebook event.
-    pub fn further_links(&self) -> Vec<&String> {
-        self.links
-            .iter()
-            .skip(1)
-            .filter(|link| !link.starts_with(FACEBOOK_EVENT_PREFIX))
-            .collect()
+    pub fn further_links(&self) -> Vec<Link> {
+        let mut facebook_links = vec![];
+        let mut fbb_links = vec![];
+        let mut other_links = vec![];
+        let mut first_gone = false;
+        for link in &self.links {
+            if link.starts_with(FACEBOOK_EVENT_PREFIX) {
+                facebook_links.push(Link {
+                    short_name: "Facebook".to_string(),
+                    url: link.to_owned(),
+                })
+            } else if link.starts_with(FBB_EVENT_PREFIX) {
+                fbb_links.push(Link {
+                    short_name: "FBB".to_string(),
+                    url: link.to_owned(),
+                })
+            } else if first_gone {
+                other_links.push(Link {
+                    short_name: "…".to_string(),
+                    url: link.to_owned(),
+                })
+            } else {
+                first_gone = true;
+            }
+        }
+
+        let mut links = facebook_links;
+        links.extend(fbb_links);
+        links.extend(other_links);
+        links
     }
 
     /// Checks whether the event lasts more than one day.
     pub fn multiday(&self) -> bool {
         self.start_date != self.end_date
     }
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct Link {
+    pub short_name: String,
+    pub url: String,
 }
 
 #[derive(Clone, Debug, Default, Deserialize, Eq, PartialEq)]

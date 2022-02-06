@@ -45,14 +45,8 @@
 				{% endmatch %}
 			</td>
 			<td>
-				{% match event.facebook_event() %}
-				{% when Some with (link) %}
-				<a href="{{ link }}">(Facebook)</a>
-				{% when None %}
-				{% endmatch %}
-
 				{% for link in event.further_links() %}
-				<a href="{{ link }}">(&hellip;)</a>
+				<a href="{{ link.url }}">({{ link.short_name }})</a>
 				{% endfor %}
 			</td>
 			<td class="event-price">
