@@ -159,7 +159,8 @@ pub struct Band {
     pub fr: String,
     pub en: String,
     pub country: Country,
-    pub placeholder: u32,
+    #[serde(with = "bool_as_int")]
+    pub placeholder: bool,
     pub websites: Vec<Website>,
     pub tags: Vec<String>,
     pub musicians: Vec<Musician>,
