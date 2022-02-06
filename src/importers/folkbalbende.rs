@@ -45,6 +45,7 @@ pub struct Location {
     pub id: u32,
     pub name: String,
     pub address: Address,
+    pub duplicate_of: Option<String>,
 }
 
 #[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
