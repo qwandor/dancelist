@@ -54,9 +54,7 @@ async fn main() -> Result<(), Report> {
     } else if args.len() >= 2 && args.len() <= 3 && args[1] == "cat" {
         concatenate(args.get(2).map(Path::new))
     } else if args.len() == 2 && args[1] == "balbende" {
-        let events = folkbalbende::import_events().await?;
-        print!("{}", serde_yaml::to_string(&events)?);
-        Ok(())
+        import_balbende().await
     } else {
         eprintln!("Invalid command.");
         exit(1);
@@ -88,6 +86,18 @@ fn validate(path: Option<&Path>) -> Result<(), Report> {
 fn concatenate(path: Option<&Path>) -> Result<(), Report> {
     let events = load_events(path)?;
     print!("{}", serde_yaml::to_string(&events)?);
+    Ok(())
+}
+
+async fn import_balbende() -> Result<(), Report> {
+    let events = folkbalbende::import_events().await?;
+    let yaml = serde_yaml::to_string(&events)?;
+    let yaml = yaml.replacen(
+        "---",
+        "# yaml-language-server: $schema=../events_schema.json",
+        1,
+    );
+    print!("{}", yaml);
     Ok(())
 }
 
