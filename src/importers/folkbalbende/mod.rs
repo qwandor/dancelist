@@ -14,6 +14,7 @@
 
 mod bool_as_int;
 
+use chrono::NaiveDate;
 use eyre::Report;
 use serde::{Deserialize, Serialize};
 
@@ -31,7 +32,7 @@ pub struct Event {
     pub deleted: bool,
     #[serde(with = "bool_as_int")]
     pub checked: bool,
-    pub dates: Vec<String>,
+    pub dates: Vec<NaiveDate>,
     pub location: Location,
     pub prices: Vec<Price>,
     pub thumbnail: String,
