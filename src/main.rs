@@ -23,7 +23,7 @@ use crate::{
     config::Config,
     controllers::{bands, callers, cities, index, organisations},
     errors::internal_error,
-    importers::folkbalbende::minimal_events,
+    importers::folkbalbende,
     model::events::Events,
 };
 use axum::{
@@ -54,7 +54,7 @@ async fn main() -> Result<(), Report> {
     } else if args.len() >= 2 && args.len() <= 3 && args[1] == "cat" {
         concatenate(args.get(2).map(Path::new))
     } else if args.len() == 2 && args[1] == "balbende" {
-        let events = minimal_events().await?;
+        let events = folkbalbende::events().await?;
         println!("{:#?}", events);
         Ok(())
     } else {

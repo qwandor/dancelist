@@ -20,17 +20,29 @@ use serde::{Deserialize, Serialize};
 pub struct Event {
     pub id: u32,
     pub name: String,
+    pub recurrence: u32,
     #[serde(rename = "type")]
     pub event_type: Type,
     pub cancelled: u32,
+    pub deleted: u32,
+    pub checked: u32,
     pub dates: Vec<String>,
     pub location: Location,
     pub prices: Vec<Price>,
+    pub thumbnail: String,
     pub reservation_type: u32,
     pub reservation_url: String,
+    pub websites: Vec<Website>,
     #[serde(default)]
     pub courses: Vec<Course>,
     pub ball: Option<Ball>,
+    pub facebook_event: String,
+    pub nl: String,
+    pub fr: String,
+    pub en: String,
+    pub tags: Vec<String>,
+    pub image: String,
+    pub organisation: Option<Organisation>,
 }
 
 #[derive(Copy, Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
@@ -73,6 +85,24 @@ pub struct Price {
 }
 
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
+pub struct Website {
+    pub id: u32,
+    #[serde(rename = "type")]
+    pub website_type: WebsiteType,
+    pub url: String,
+    pub icon: String,
+}
+
+#[derive(Copy, Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
+pub enum WebsiteType {
+    Facebook,
+    SoundCloud,
+    Website,
+    #[serde(rename = "Vi.be")]
+    ViBe,
+}
+
+#[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
 #[serde(deny_unknown_fields)]
 pub struct Course {
     pub id: u32,
@@ -80,6 +110,9 @@ pub struct Course {
     pub start: String,
     pub end: String,
     pub teachers: Vec<Teacher>,
+    pub nl: String,
+    pub fr: String,
+    pub en: String,
 }
 
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
@@ -87,6 +120,11 @@ pub struct Course {
 pub struct Teacher {
     pub id: u32,
     pub name: String,
+    pub nl: String,
+    pub fr: String,
+    pub en: String,
+    pub thumbnail: Option<String>,
+    pub image: String,
 }
 
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
@@ -94,6 +132,7 @@ pub struct Teacher {
 pub struct Ball {
     pub initiation_start: Option<String>,
     pub initiation_end: Option<String>,
+    pub initiators: Vec<String>,
     pub performances: Vec<Performance>,
 }
 
@@ -110,10 +149,46 @@ pub struct Performance {
 pub struct Band {
     pub id: u32,
     pub name: String,
+    pub nl: String,
+    pub fr: String,
+    pub en: String,
+    pub country: Country,
+    pub placeholder: u32,
+    pub websites: Vec<Website>,
+    pub tags: Vec<String>,
+    pub musicians: Vec<Musician>,
+    pub image: String,
 }
 
-pub async fn minimal_events() -> Result<Vec<Event>, Report> {
-    let json = reqwest::get("https://folkbalbende.be/interface/minimal_events.php?start=2022-02-01&end=3000-01-01&type=ball,course,festal").await?.text().await?;
+#[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
+#[serde(deny_unknown_fields)]
+pub struct Country {
+    pub code: Option<String>,
+    pub name: String,
+}
+
+#[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
+#[serde(deny_unknown_fields)]
+pub struct Musician {
+    pub id: u32,
+    pub name: String,
+    pub instruments: String,
+    pub country: Country,
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+#[serde(deny_unknown_fields)]
+pub struct Organisation {
+    pub id: u32,
+    pub name: String,
+    pub websites: Vec<Website>,
+    pub thumbnail: String,
+    pub image: String,
+    pub address: Option<Address>,
+}
+
+pub async fn events() -> Result<Vec<Event>, Report> {
+    let json = reqwest::get("https://folkbalbende.be/interface/events.php?start=2022-02-01&end=3000-01-01&type=ball,course,festal").await?.text().await?;
     let events = serde_json::from_str(&json)?;
     Ok(events)
 }
