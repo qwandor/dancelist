@@ -54,8 +54,8 @@ async fn main() -> Result<(), Report> {
     } else if args.len() >= 2 && args.len() <= 3 && args[1] == "cat" {
         concatenate(args.get(2).map(Path::new))
     } else if args.len() == 2 && args[1] == "balbende" {
-        let events = folkbalbende::events().await?;
-        println!("{:#?}", events);
+        let events = folkbalbende::import_events().await?;
+        print!("{}", serde_yaml::to_string(&events)?);
         Ok(())
     } else {
         eprintln!("Invalid command.");

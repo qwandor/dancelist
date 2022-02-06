@@ -14,6 +14,7 @@
 
 mod bool_as_int;
 
+use crate::model::{dancestyle::DanceStyle, event, events::Events};
 use chrono::NaiveDate;
 use eyre::Report;
 use serde::{Deserialize, Serialize};
@@ -198,4 +199,113 @@ pub async fn events() -> Result<Vec<Event>, Report> {
     let json = reqwest::get("https://folkbalbende.be/interface/events.php?start=2022-02-01&end=3000-01-01&type=ball,course,festal").await?.text().await?;
     let events = serde_json::from_str(&json)?;
     Ok(events)
+}
+
+pub async fn import_events() -> Result<Events, Report> {
+    let events = events().await?;
+
+    Ok(Events {
+        events: events
+            .iter()
+            .flat_map(|event| {
+                if event.checked && !event.cancelled && !event.deleted {
+                    convert(event)
+                } else {
+                    vec![]
+                }
+            })
+            .collect(),
+    })
+}
+
+fn convert(event: &Event) -> Vec<event::Event> {
+    // Filter out "mailto:" URLs and duplicates in non-English languages.
+    let mut links: Vec<String> = event
+        .websites
+        .iter()
+        .filter_map(|website| {
+            if website.url.starts_with("http")
+                && !website
+                    .url
+                    .starts_with("https://frissefolk.be/fr/civicrm/event/info")
+                && !website
+                    .url
+                    .starts_with("https://frissefolk.be/nl/civicrm/event/info")
+            {
+                Some(website.url.to_owned())
+            } else {
+                None
+            }
+        })
+        .collect();
+    links.push(format!("https://folkbalbende.be/event/{}", event.id));
+
+    let details = format!("{:?}", event.event_type);
+
+    let mut workshop = event.event_type == EventType::Course || !event.courses.is_empty();
+    if let Some(ball) = &event.ball {
+        if ball.initiation_start.is_some() || !ball.initiators.is_empty() {
+            workshop = true;
+        }
+    }
+
+    let social = match event.event_type {
+        EventType::Course => false,
+        EventType::Ball | EventType::Festival => true,
+    };
+
+    let price = if event.prices.is_empty() {
+        None
+    } else {
+        Some(
+            event
+                .prices
+                .iter()
+                .map(|price| price.price.as_ref())
+                .collect::<Vec<_>>()
+                .join(","),
+        )
+    };
+
+    let bands = if let Some(ball) = &event.ball {
+        ball.performances
+            .iter()
+            .filter_map(|performance| {
+                if performance.band.placeholder {
+                    None
+                } else {
+                    Some(performance.band.name.to_owned())
+                }
+            })
+            .collect()
+    } else {
+        vec![]
+    };
+
+    let organisation = if let Some(organisation) = &event.organisation {
+        Some(organisation.name.to_owned())
+    } else {
+        None
+    };
+
+    event
+        .dates
+        .iter()
+        .map(|&date| event::Event {
+            name: event.name.clone(),
+            details: Some(details.clone()),
+            links: links.clone(),
+            start_date: date,
+            end_date: date,
+            country: "Belgium".to_string(),
+            city: event.location.address.city.clone(),
+            styles: vec![DanceStyle::Balfolk],
+            workshop,
+            social,
+            bands: bands.clone(),
+            callers: vec![],
+            price: price.clone(),
+            organisation: organisation.clone(),
+        })
+        .collect()
 }
