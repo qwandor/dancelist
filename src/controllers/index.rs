@@ -62,6 +62,16 @@ pub async fn balfolk(
     Ok(Html(template.render()?))
 }
 
+pub async fn index_json(
+    Extension(events): Extension<Events>,
+    Query(filters): Query<Filters>,
+) -> Result<String, InternalError> {
+    let mut events = events.matching(&filters);
+    events.sort_by_key(|event| event.start_date);
+    let events = Events::cloned(events);
+    Ok(serde_json::to_string(&events)?)
+}
+
 pub async fn index_toml(
     Extension(events): Extension<Events>,
     Query(filters): Query<Filters>,

@@ -92,6 +92,7 @@ async fn serve() -> Result<(), Report> {
     let app = Router::new()
         .route("/", get(index::index))
         .route("/index.ics", get(index::index_ics))
+        .route("/index.json", get(index::index_json))
         .route("/index.toml", get(index::index_toml))
         .route("/index.yaml", get(index::index_yaml))
         .route("/balfolk", get(index::balfolk))
