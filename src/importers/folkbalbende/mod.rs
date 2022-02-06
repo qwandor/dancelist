@@ -206,6 +206,25 @@ pub async fn events() -> Result<Vec<Event>, Report> {
 pub async fn import_events() -> Result<Events, Report> {
     let events = events().await?;
 
+    // Print warnings about cancelled, deleted and unchecked events.
+    for event in &events {
+        let dates = event
+            .dates
+            .iter()
+            .map(|date| date.to_string())
+            .collect::<Vec<_>>()
+            .join(",");
+        if event.cancelled {
+            eprintln!("Cancelled: {} {}", dates, event.name);
+        }
+        if event.deleted {
+            eprintln!("Deleted: {} {}", dates, event.name);
+        }
+        if !event.checked {
+            eprintln!("Not checked: {} {}", dates, event.name);
+        }
+    }
+
     Ok(Events {
         events: events
             .iter()
