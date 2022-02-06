@@ -13,6 +13,7 @@
 // limitations under the License.
 
 mod bool_as_int;
+mod uint_as_string;
 
 use crate::model::{dancestyle::DanceStyle, event, events::Events};
 use chrono::NaiveDate;
@@ -87,7 +88,8 @@ pub struct Address {
 #[serde(deny_unknown_fields)]
 pub struct Price {
     pub name: String,
-    pub price: String,
+    #[serde(with = "uint_as_string")]
+    pub price: u32,
     pub free_contribution: u32,
 }
 
@@ -257,14 +259,28 @@ fn convert(event: &Event) -> Vec<event::Event> {
     let price = if event.prices.is_empty() {
         None
     } else {
-        Some(
-            event
-                .prices
-                .iter()
-                .map(|price| price.price.as_ref())
-                .collect::<Vec<_>>()
-                .join(","),
-        )
+        let prices: Vec<_> = event
+            .prices
+            .iter()
+            .filter_map(|price| {
+                if price.price == 0 {
+                    None
+                } else {
+                    Some(price.price)
+                }
+            })
+            .collect();
+        let min_price = prices.iter().min();
+        let max_price = prices.iter().max();
+        if let (Some(min_price), Some(max_price)) = (min_price, max_price) {
+            Some(if min_price == max_price {
+                format!("€{}", min_price)
+            } else {
+                format!("€{}-€{}", min_price, max_price)
+            })
+        } else {
+            None
+        }
     };
 
     let bands = if let Some(ball) = &event.ball {
