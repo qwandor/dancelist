@@ -22,7 +22,7 @@ pub struct Event {
     pub name: String,
     pub recurrence: u32,
     #[serde(rename = "type")]
-    pub event_type: Type,
+    pub event_type: EventType,
     pub cancelled: u32,
     pub deleted: u32,
     pub checked: u32,
@@ -47,7 +47,7 @@ pub struct Event {
 
 #[derive(Copy, Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
 #[serde(rename_all = "snake_case")]
-pub enum Type {
+pub enum EventType {
     Ball,
     Course,
     Festival,
