@@ -69,7 +69,8 @@ fn event_to_event(event: &Event) -> icalendar::Event {
         .summary(&event.name)
         // TODO: Use proper timezones rather than assuming everything is UTC.
         .start_date(Date::<Utc>::from_utc(event.start_date, Utc))
-        .end_date(Date::<Utc>::from_utc(event.end_date, Utc))
+        // iCalendar DTEND is non-inclusive, so add one day.
+        .end_date(Date::<Utc>::from_utc(event.end_date.succ(), Utc))
         .location(&format!("{}, {}", event.city, event.country))
         .description(&description)
         .add_property("CATEGORIES", &categories);
