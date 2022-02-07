@@ -203,7 +203,9 @@ pub struct Organisation {
 
 pub async fn events() -> Result<Vec<Event>, Report> {
     let json = reqwest::get("https://folkbalbende.be/interface/events.php?start=2022-02-01&end=3000-01-01&type=ball,course,festal").await?.text().await?;
-    let events = serde_json::from_str(&json)?;
+    let mut events: Vec<Event> = serde_json::from_str(&json)?;
+    // Sort by ID to give a stable order.
+    events.sort_by_key(|event| event.id);
     Ok(events)
 }
 
