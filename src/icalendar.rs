@@ -81,7 +81,9 @@ fn event_to_event(event: &Event) -> icalendar::Event {
                 .end_date(Date::<Utc>::from_utc(end_date.succ(), Utc));
         }
         EventTime::DateTime { start, end } => {
-            calendar_event.starts(start.with_timezone(&Utc)).ends(end.with_timezone(&Utc));
+            calendar_event
+                .starts(start.with_timezone(&Utc))
+                .ends(end.with_timezone(&Utc));
         }
     }
     for link in &event.links {
