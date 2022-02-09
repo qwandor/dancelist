@@ -266,6 +266,9 @@ fn convert(event: &Event) -> Vec<event::Event> {
         })
         .collect();
     links.push(format!("https://folkbalbende.be/event/{}", event.id));
+    if !event.facebook_event.is_empty() {
+        links.push(event.facebook_event.to_owned());
+    }
 
     let details = format!("{:?}", event.event_type);
 
