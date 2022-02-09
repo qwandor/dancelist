@@ -20,7 +20,8 @@ use crate::model::{
     event::{self, EventTime},
     events::Events,
 };
-use chrono::NaiveDate;
+use chrono::{DateTime, FixedOffset, NaiveDate, NaiveTime, Offset, TimeZone};
+use chrono_tz::{Europe::Brussels, Tz};
 use eyre::Report;
 use serde::{Deserialize, Serialize};
 
@@ -120,8 +121,8 @@ pub enum WebsiteType {
 pub struct Course {
     pub id: u32,
     pub title: String,
-    pub start: String,
-    pub end: String,
+    pub start: NaiveTime,
+    pub end: NaiveTime,
     pub teachers: Vec<Teacher>,
     pub nl: String,
     pub fr: String,
@@ -143,8 +144,8 @@ pub struct Teacher {
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
 #[serde(deny_unknown_fields)]
 pub struct Ball {
-    pub initiation_start: Option<String>,
-    pub initiation_end: Option<String>,
+    pub initiation_start: Option<NaiveTime>,
+    pub initiation_end: Option<NaiveTime>,
     pub initiators: Vec<String>,
     pub performances: Vec<Performance>,
 }
@@ -152,8 +153,8 @@ pub struct Ball {
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
 #[serde(deny_unknown_fields)]
 pub struct Performance {
-    pub start: Option<String>,
-    pub end: Option<String>,
+    pub start: Option<NaiveTime>,
+    pub end: Option<NaiveTime>,
     pub band: Band,
 }
 
@@ -332,6 +333,29 @@ fn convert(event: &Event) -> Vec<event::Event> {
         None
     };
 
+    // Find the earliest start time and latest finish time, if any.
+    let mut start_times: Vec<NaiveTime> = event.courses.iter().map(|course| course.start).collect();
+    let mut end_times: Vec<NaiveTime> = event.courses.iter().map(|course| course.end).collect();
+    if let Some(ball) = &event.ball {
+        start_times.extend(ball.initiation_start);
+        end_times.extend(ball.initiation_end);
+        start_times.extend(
+            ball.performances
+                .iter()
+                .flat_map(|performance| performance.start),
+        );
+        end_times.extend(
+            ball.performances
+                .iter()
+                .flat_map(|performance| performance.end),
+        );
+    }
+    let mut start_time = start_times.into_iter().min();
+    if start_time == Some(NaiveTime::from_hms(0, 0, 0)) {
+        start_time = None;
+    }
+    let end_time = end_times.into_iter().max();
+
     event
         .dates
         .iter()
@@ -339,10 +363,7 @@ fn convert(event: &Event) -> Vec<event::Event> {
             name: event.name.clone(),
             details: Some(details.clone()),
             links: links.clone(),
-            time: EventTime::DateOnly {
-                start_date: date,
-                end_date: date,
-            },
+            time: make_time(date, start_time, end_time),
             country: "Belgium".to_string(),
             city: event.location.address.city.clone(),
             styles: vec![DanceStyle::Balfolk],
@@ -354,4 +375,36 @@ fn convert(event: &Event) -> Vec<event::Event> {
             organisation: organisation.clone(),
         })
         .collect()
+}
+
+fn make_time(
+    date: NaiveDate,
+    start_time: Option<NaiveTime>,
+    end_time: Option<NaiveTime>,
+) -> EventTime {
+    if let (Some(start_time), Some(end_time)) = (start_time, end_time) {
+        if let (Some(start), Some(end)) = (
+            Brussels
+                .from_local_datetime(&date.and_time(start_time))
+                .single(),
+            Brussels
+                .from_local_datetime(&date.and_time(end_time))
+                .single(),
+        ) {
+            return EventTime::DateTime {
+                start: to_fixed_offset(start),
+                end: to_fixed_offset(end),
+            };
+        }
+    }
+
+    EventTime::DateOnly {
+        start_date: date,
+        end_date: date,
+    }
+}
+
+fn to_fixed_offset(date_time: DateTime<Tz>) -> DateTime<FixedOffset> {
+    let fixed_offset = date_time.offset().fix();
+    date_time.with_timezone(&fixed_offset)
 }

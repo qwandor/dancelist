@@ -13,6 +13,7 @@ categories = ["web-programming"]
 askama = "0.11.0"
 axum = "0.4.4"
 chrono = { version = "0.4.19", features = ["serde"] }
+chrono-tz = { version = "0.6.1", features = ["serde"] }
 color-backtrace = "0.5.1"
 eyre = "0.6.6"
 icalendar = "0.11.0"
