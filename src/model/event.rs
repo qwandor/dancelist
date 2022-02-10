@@ -14,6 +14,7 @@
 
 use super::dancestyle::DanceStyle;
 use chrono::{Date, DateTime, Datelike, FixedOffset, NaiveDate, Utc};
+use eyre::Report;
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 use std::ops::Not;
@@ -253,7 +254,7 @@ pub struct Link {
     pub url: String,
 }
 
-#[derive(Clone, Debug, Default, Deserialize, Eq, PartialEq)]
+#[derive(Clone, Debug, Default, Deserialize, Eq, PartialEq, Serialize)]
 pub struct Filters {
     #[serde(default)]
     pub date: DateFilter,
@@ -269,7 +270,7 @@ pub struct Filters {
     pub cancelled: Option<bool>,
 }
 
-#[derive(Copy, Clone, Debug, Deserialize, Eq, PartialEq)]
+#[derive(Copy, Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
 #[serde(rename_all = "snake_case")]
 pub enum DateFilter {
     /// Include only events which started before the current day.
@@ -298,6 +299,10 @@ impl Filters {
             || self.caller.is_some()
             || self.organisation.is_some()
             || self.cancelled.is_some()
+    }
+
+    pub fn to_query_string(&self) -> Result<String, Report> {
+        Ok(serde_urlencoded::to_string(self)?)
     }
 
     pub fn matches(&self, event: &Event, now: DateTime<Utc>) -> bool {
