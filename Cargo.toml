@@ -19,6 +19,7 @@ eyre = "0.6.6"
 icalendar = "0.11.0"
 log = "0.4.14"
 pretty_env_logger = "0.4.0"
+quick-xml = { version = "0.22.0", features = ["serialize"] }
 reqwest = "0.11.9"
 schemars = { version = "0.8", features = ["chrono"] }
 serde = { version = "1.0.136", features = ["derive"] }
