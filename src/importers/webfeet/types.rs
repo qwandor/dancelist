@@ -37,6 +37,7 @@ pub struct EventRecord {
 }
 
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
+#[serde(deny_unknown_fields)]
 pub struct Id {
     #[serde(rename = "Type")]
     pub id_type: String,
@@ -45,7 +46,7 @@ pub struct Id {
 }
 
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
-#[serde(rename_all = "PascalCase")]
+#[serde(deny_unknown_fields, rename_all = "PascalCase")]
 pub struct CanonicalDate {
     pub isoformat: String,
     pub uncertainty: Option<u32>,
@@ -54,7 +55,7 @@ pub struct CanonicalDate {
 }
 
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
-#[serde(rename_all = "PascalCase")]
+#[serde(deny_unknown_fields, rename_all = "PascalCase")]
 pub struct TextDate {
     pub isoformat: String,
     pub status: String,
@@ -63,13 +64,13 @@ pub struct TextDate {
 }
 
 #[derive(Clone, Debug, Default, Deserialize, Eq, PartialEq, Serialize)]
-#[serde(rename_all = "PascalCase")]
+#[serde(deny_unknown_fields, rename_all = "PascalCase")]
 pub struct EventCollection {
     pub event: Vec<Event>,
 }
 
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
-#[serde(rename_all = "PascalCase")]
+#[serde(deny_unknown_fields, rename_all = "PascalCase")]
 pub struct Event {
     pub style: Option<Style>,
     #[serde(rename = "$value")]
@@ -77,13 +78,13 @@ pub struct Event {
 }
 
 #[derive(Clone, Debug, Default, Deserialize, Eq, PartialEq, Serialize)]
-#[serde(rename_all = "PascalCase")]
+#[serde(deny_unknown_fields, rename_all = "PascalCase")]
 pub struct BandCollection {
     pub band: Vec<Band>,
 }
 
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
-#[serde(rename_all = "PascalCase")]
+#[serde(deny_unknown_fields, rename_all = "PascalCase")]
 pub struct Band {
     #[serde(default)]
     pub status: Status,
@@ -93,28 +94,29 @@ pub struct Band {
 }
 
 #[derive(Clone, Debug, Default, Deserialize, Eq, PartialEq, Serialize)]
-#[serde(rename_all = "PascalCase")]
+#[serde(deny_unknown_fields, rename_all = "PascalCase")]
 pub struct CallerCollection {
     pub caller: Vec<Caller>,
 }
 
 #[derive(Clone, Debug, Default, Deserialize, Eq, PartialEq, Serialize)]
-#[serde(rename_all = "PascalCase")]
+#[serde(deny_unknown_fields, rename_all = "PascalCase")]
 pub struct Caller {
     #[serde(default)]
     pub status: Status,
+    pub style: Option<Style>,
     #[serde(rename = "$value")]
     pub value: String,
 }
 
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
-#[serde(rename_all = "PascalCase")]
+#[serde(deny_unknown_fields, rename_all = "PascalCase")]
 pub struct LocationCollection {
     pub location: Vec<Location>,
 }
 
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
-#[serde(rename_all = "PascalCase")]
+#[serde(deny_unknown_fields, rename_all = "PascalCase")]
 pub struct Location {
     pub status: Option<String>,
     pub area: Option<String>,
@@ -157,7 +159,7 @@ pub enum Style {
 }
 
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
-#[serde(rename_all = "PascalCase")]
+#[serde(deny_unknown_fields, rename_all = "PascalCase")]
 pub struct Reference {
     pub source_data: SourceData,
     #[serde(rename = "URL")]
@@ -165,7 +167,7 @@ pub struct Reference {
 }
 
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
-#[serde(rename_all = "PascalCase")]
+#[serde(deny_unknown_fields, rename_all = "PascalCase")]
 pub struct SourceData {
     pub localcopy: String,
     pub source_format: SourceFormat,
