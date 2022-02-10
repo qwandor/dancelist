@@ -179,6 +179,7 @@ mod tests {
             callers: vec![],
             price: None,
             organisation: None,
+            cancelled: false,
         };
         let london_event_2 = Event {
             name: "Name".to_string(),
@@ -197,6 +198,7 @@ mod tests {
             callers: vec![],
             price: None,
             organisation: None,
+            cancelled: false,
         };
         let oxford_event = Event {
             name: "Name".to_string(),
@@ -215,6 +217,7 @@ mod tests {
             callers: vec![],
             price: None,
             organisation: None,
+            cancelled: false,
         };
         let amsterdam_event = Event {
             name: "Name".to_string(),
@@ -233,6 +236,7 @@ mod tests {
             callers: vec![],
             price: None,
             organisation: None,
+            cancelled: false,
         };
         let events = Events {
             events: vec![
@@ -276,6 +280,7 @@ mod tests {
             callers: vec![],
             price: None,
             organisation: None,
+            cancelled: false,
         };
         let future_event = Event {
             name: "Future".to_string(),
@@ -294,6 +299,7 @@ mod tests {
             callers: vec![],
             price: None,
             organisation: None,
+            cancelled: false,
         };
         let events = Events {
             events: vec![past_event.clone(), future_event.clone()],

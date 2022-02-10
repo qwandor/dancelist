@@ -5,7 +5,7 @@ use axum::{
     response::{IntoResponse, Response},
 };
 use chrono::{Date, Utc};
-use icalendar::{Calendar, Component};
+use icalendar::{Calendar, Component, EventStatus};
 use std::fmt::Write;
 
 pub fn events_to_calendar(events: &[&Event]) -> Calendar {
@@ -69,6 +69,11 @@ fn event_to_event(event: &Event) -> icalendar::Event {
         .summary(&event.name)
         .location(&format!("{}, {}", event.city, event.country))
         .description(&description)
+        .status(if event.cancelled {
+            EventStatus::Cancelled
+        } else {
+            EventStatus::Confirmed
+        })
         .add_property("CATEGORIES", &categories);
     match event.time {
         EventTime::DateOnly {

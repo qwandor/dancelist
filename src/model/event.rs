@@ -16,6 +16,7 @@ use super::dancestyle::DanceStyle;
 use chrono::{Date, DateTime, Datelike, FixedOffset, NaiveDate, Utc};
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
+use std::ops::Not;
 
 /// The prefix which Facebook event URLs start with.
 const FACEBOOK_EVENT_PREFIX: &str = "https://www.facebook.com/events/";
@@ -59,6 +60,9 @@ pub struct Event {
     /// The organisation who run the event.
     #[serde(default)]
     pub organisation: Option<String>,
+    /// Whether the event has been cancelled.
+    #[serde(default, skip_serializing_if = "Not::not")]
+    pub cancelled: bool,
 }
 
 #[derive(Clone, Debug, Deserialize, Eq, JsonSchema, PartialEq, Serialize)]
@@ -262,6 +266,7 @@ pub struct Filters {
     pub band: Option<String>,
     pub caller: Option<String>,
     pub organisation: Option<String>,
+    pub cancelled: Option<bool>,
 }
 
 #[derive(Copy, Clone, Debug, Deserialize, Eq, PartialEq)]
@@ -292,6 +297,7 @@ impl Filters {
             || self.band.is_some()
             || self.caller.is_some()
             || self.organisation.is_some()
+            || self.cancelled.is_some()
     }
 
     pub fn matches(&self, event: &Event, now: DateTime<Utc>) -> bool {
@@ -354,6 +360,11 @@ impl Filters {
         }
         if let Some(organisation) = &self.organisation {
             if &event.organisation.as_deref().unwrap_or_default() != organisation {
+                return false;
+            }
+        }
+        if let Some(cancelled) = self.cancelled {
+            if event.cancelled != cancelled {
                 return false;
             }
         }

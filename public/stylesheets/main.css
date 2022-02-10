@@ -76,3 +76,9 @@ table {
 .multiday .event-name {
   font-weight: bold;
 }
+
+.cancelled .event-dates,
+.cancelled .event-name,
+.cancelled .event-location {
+  text-decoration: line-through;
+}

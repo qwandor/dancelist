@@ -26,7 +26,7 @@
 	<h2>{{ month.name() }}</h2>
 	<table>
 		{% for event in month.events %}
-		<tr class="event {% if event.multiday() %}multiday{% endif %}">
+		<tr class="event{% if event.multiday() %} multiday{% endif %}{% if event.cancelled %} cancelled{% endif %}">
 			<td class="event-dates">
 				{{ event.short_time() }}
 			</td>

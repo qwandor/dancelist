@@ -236,7 +236,7 @@ pub async fn import_events() -> Result<Events, Report> {
         events: events
             .iter()
             .flat_map(|event| {
-                if event.checked && !event.cancelled && !event.deleted {
+                if event.checked && !event.deleted {
                     convert(event)
                 } else {
                     vec![]
@@ -373,6 +373,7 @@ fn convert(event: &Event) -> Vec<event::Event> {
             callers: vec![],
             price: price.clone(),
             organisation: organisation.clone(),
+            cancelled: event.cancelled,
         })
         .collect()
 }
