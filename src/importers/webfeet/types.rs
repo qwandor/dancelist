@@ -112,7 +112,7 @@ pub struct Caller {
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
 #[serde(deny_unknown_fields, rename_all = "PascalCase")]
 pub struct LocationCollection {
-    pub location: Vec<Location>,
+    pub location: Location,
 }
 
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
@@ -137,7 +137,7 @@ impl Default for Status {
     }
 }
 
-#[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
+#[derive(Copy, Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
 pub enum Style {
     Contra,
     #[serde(rename = "Dance.American.American Contra")]

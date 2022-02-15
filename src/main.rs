@@ -104,8 +104,14 @@ async fn import_balbende() -> Result<(), Report> {
 }
 
 async fn import_webfeet() -> Result<(), Report> {
-    let events = webfeet::events().await?;
-    println!("{:#?}", events);
+    let events = webfeet::import_events().await?;
+    let yaml = serde_yaml::to_string(&events)?;
+    let yaml = yaml.replacen(
+        "---",
+        "# yaml-language-server: $schema=../events_schema.json",
+        1,
+    );
+    print!("{}", yaml);
     Ok(())
 }
 
