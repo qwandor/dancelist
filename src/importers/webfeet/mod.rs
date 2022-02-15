@@ -136,6 +136,9 @@ fn convert(event: &EventRecord) -> Option<Event> {
     } else if city == "Zoom" {
         eprintln!("Dropping {} on Zoom.", name);
         None
+    } else if city == "Cecil Sharp House, Camden" {
+        eprintln!("Dropping {} at Cecil Sharp House.", name);
+        None
     } else {
         Some(Event {
             name,
