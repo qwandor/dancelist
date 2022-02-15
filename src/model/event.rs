@@ -115,6 +115,91 @@ impl Event {
         problems
     }
 
+    /// Merge this event and the other into a combined one, if they are similar enough.
+    pub fn merge(&self, other: &Event) -> Option<Event> {
+        if self.name == other.name
+            && self.time == other.time
+            && self.country == other.country
+            && self.city == other.city
+        {
+            let mut links = self.links.clone();
+            links.extend(other.links.clone());
+            links.dedup();
+
+            let mut styles = self.styles.clone();
+            styles.extend(other.styles.clone());
+            styles.sort();
+            styles.dedup();
+
+            let mut bands = self.bands.clone();
+            bands.extend(other.bands.clone());
+            bands.sort();
+            bands.dedup();
+
+            let mut callers = self.callers.clone();
+            callers.extend(other.callers.clone());
+            callers.sort();
+            callers.dedup();
+
+            let details = match (&self.details, &other.details) {
+                (None, None) => None,
+                (Some(d), None) | (None, Some(d)) => Some(d.clone()),
+                (Some(a), Some(b)) => {
+                    if a == b {
+                        Some(a.clone())
+                    } else {
+                        Some(format!("{}\n{}", a, b))
+                    }
+                }
+            };
+
+            let price = match (&self.price, &other.price) {
+                (None, None) => None,
+                (Some(p), None) | (None, Some(p)) => Some(p.clone()),
+                (Some(a), Some(b)) => {
+                    if a == b {
+                        Some(a.clone())
+                    } else {
+                        // Can't merge different prices.
+                        return None;
+                    }
+                }
+            };
+
+            let organisation = match (&self.organisation, &other.organisation) {
+                (None, None) => None,
+                (Some(o), None) | (None, Some(o)) => Some(o.clone()),
+                (Some(a), Some(b)) => {
+                    if a == b {
+                        Some(a.clone())
+                    } else {
+                        // Can't merge different organisations.
+                        return None;
+                    }
+                }
+            };
+
+            Some(Event {
+                name: self.name.clone(),
+                details,
+                links,
+                time: self.time.clone(),
+                country: self.country.clone(),
+                city: self.city.clone(),
+                styles,
+                workshop: self.workshop || other.workshop,
+                social: self.social || other.social,
+                bands,
+                callers,
+                price,
+                organisation,
+                cancelled: self.cancelled || other.cancelled,
+            })
+        } else {
+            None
+        }
+    }
+
     /// Get the event's first non-Facebook non-FBB link.
     pub fn main_link(&self) -> Option<&String> {
         self.links.iter().find(|link| {

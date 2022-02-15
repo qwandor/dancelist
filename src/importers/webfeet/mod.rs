@@ -50,10 +50,27 @@ pub async fn events() -> Result<Vec<EventRecord>, Report> {
 }
 
 pub async fn import_events() -> Result<Events, Report> {
-    let events = events().await?;
-    Ok(Events {
-        events: events.iter().filter_map(convert).collect(),
-    })
+    let event_records = events().await?;
+
+    let mut events = vec![];
+    let mut merging_event: Option<Event> = None;
+    for event in &event_records {
+        if let Some(converted) = convert(event) {
+            if let Some(previous_event) = merging_event {
+                if let Some(merged) = previous_event.merge(&converted) {
+                    merging_event = Some(merged);
+                } else {
+                    events.push(previous_event);
+                    merging_event = Some(converted);
+                }
+            } else {
+                merging_event = Some(converted);
+            }
+        }
+    }
+    events.extend(merging_event);
+
+    Ok(Events { events })
 }
 
 fn replace_entities(source: &str) -> String {
