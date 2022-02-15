@@ -68,12 +68,6 @@ fn convert(event: &EventRecord) -> Option<Event> {
         .iter()
         .map(|band| band.value.clone())
         .collect();
-    let callers = event
-        .caller_collection
-        .caller
-        .iter()
-        .map(|caller| caller.value.clone())
-        .collect();
     let city = event.location_collection.location.value.clone();
 
     let mut name = format!("{} in {}", bands.join(" & "), city);
@@ -89,7 +83,9 @@ fn convert(event: &EventRecord) -> Option<Event> {
         }
     }
 
+    let mut callers = vec![];
     let mut styles = vec![];
+    let mut links = vec![event.reference.url.clone()];
     for event in &event.event_collection.event {
         if let Some(style) = event.style {
             styles.extend(convert_style(style));
@@ -104,8 +100,14 @@ fn convert(event: &EventRecord) -> Option<Event> {
         if let Some(style) = caller.style {
             styles.extend(convert_style(style));
         }
-        if caller.value.to_lowercase() == "ceilidh" {
+        let value_lowercase = caller.value.to_lowercase();
+        if value_lowercase == "ceilidh" {
             styles.push(DanceStyle::EnglishCeilidh);
+        } else if value_lowercase == "barn dance" {
+        } else if caller.value.starts_with("http") {
+            links.push(caller.value.clone());
+        } else {
+            callers.push(caller.value.clone());
         }
     }
     styles.sort();
@@ -121,7 +123,7 @@ fn convert(event: &EventRecord) -> Option<Event> {
         Some(Event {
             name,
             details,
-            links: vec![event.reference.url.clone()],
+            links,
             time: parse_date(&event.canonical_date.isoformat),
             country: "UK".to_string(),
             city,
