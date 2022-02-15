@@ -92,17 +92,17 @@ fn convert(event: &EventRecord) -> Option<Event> {
     let mut styles = vec![];
     for event in &event.event_collection.event {
         if let Some(style) = event.style {
-            styles.push(style.into());
+            styles.extend(convert_style(style));
         }
     }
     for band in &event.band_collection.band {
         if let Some(style) = band.style {
-            styles.push(style.into());
+            styles.extend(convert_style(style));
         }
     }
     for caller in &event.caller_collection.caller {
         if let Some(style) = caller.style {
-            styles.push(style.into());
+            styles.extend(convert_style(style));
         }
         if caller.value.to_lowercase() == "ceilidh" {
             styles.push(DanceStyle::EnglishCeilidh);
@@ -151,15 +151,17 @@ fn parse_date(date_str: &str) -> EventTime {
     }
 }
 
-impl From<Style> for DanceStyle {
-    fn from(style: Style) -> Self {
-        match style {
-            Style::Contra | Style::DanceContra | Style::DanceAmericanAmericanContra => Self::Contra,
-            Style::DanceEurobal | Style::DanceEuropean | Style::DanceFrenchBreton => Self::Balfolk,
-            Style::DanceCountryDance => Self::Playford,
-            Style::DanceEnglishCeilidh => Self::EnglishCeilidh,
-            Style::DanceEnglishFolk => Self::Playford,
+fn convert_style(style: Style) -> Option<DanceStyle> {
+    match style {
+        Style::Contra | Style::DanceContra | Style::DanceAmericanAmericanContra => {
+            Some(DanceStyle::Contra)
         }
+        Style::DanceEurobal | Style::DanceEuropean | Style::DanceFrenchBreton => {
+            Some(DanceStyle::Balfolk)
+        }
+        Style::DanceCountryDance => Some(DanceStyle::Playford),
+        Style::DanceEnglishCeilidh => Some(DanceStyle::EnglishCeilidh),
+        Style::DanceEnglishFolk => None, // TODO
     }
 }
 
