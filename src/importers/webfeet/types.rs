@@ -33,7 +33,7 @@ pub struct EventRecord {
     pub caller_collection: CallerCollection,
     pub location_collection: LocationCollection,
     pub reference: Reference,
-    pub rank: u32,
+    pub rank: i32,
 }
 
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
