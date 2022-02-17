@@ -461,4 +461,30 @@ impl Filters {
 
         true
     }
+
+    /// Make a page title for this set of filters.
+    pub fn make_title(&self) -> String {
+        let style = if let Some(style) = self.style {
+            uppercase_first_letter(style.name())
+        } else {
+            "Folk dance".to_string()
+        };
+
+        match (&self.country, &self.city) {
+            (None, None) => format!("{} events", style),
+            (Some(country), None) => format!("{} events in {}", style, country),
+            (None, Some(city)) => format!("{} events in {}", style, city),
+            (Some(country), Some(city)) => format!("{} events in {}, {}", style, city, country),
+        }
+    }
+}
+
+/// Make the first letter of the given string uppercase.
+fn uppercase_first_letter(s: &str) -> String {
+    let mut chars = s.chars();
+    if let Some(first) = chars.next() {
+        first.to_uppercase().collect::<String>() + chars.as_str()
+    } else {
+        String::new()
+    }
 }

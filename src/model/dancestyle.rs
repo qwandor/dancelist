@@ -63,11 +63,9 @@ impl DanceStyle {
             Self::Scandinavian => "scandi",
         }
     }
-}
 
-impl Display for DanceStyle {
-    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
-        let s = match self {
+    pub fn name(self) -> &'static str {
+        match self {
             Self::Balfolk => "balfolk",
             Self::Contra => "contra",
             Self::EnglishCeilidh => "English ceilidh",
@@ -80,7 +78,12 @@ impl Display for DanceStyle {
             Self::ScottishCeilidh => "Scottish cèilidh",
             Self::ScottishCountryDance => "SCD",
             Self::Scandinavian => "scandi",
-        };
-        f.write_str(s)
+        }
+    }
+}
+
+impl Display for DanceStyle {
+    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
+        f.write_str(self.name())
     }
 }
