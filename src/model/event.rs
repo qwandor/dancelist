@@ -472,7 +472,13 @@ impl Filters {
 
         match (&self.country, &self.city) {
             (None, None) => format!("{} events", style),
-            (Some(country), None) => format!("{} events in {}", style, country),
+            (Some(country), None) => {
+                if country == "UK" || country == "USA" {
+                    format!("{} events in the {}", style, country)
+                } else {
+                    format!("{} events in {}", style, country)
+                }
+            }
             (None, Some(city)) => format!("{} events in {}", style, city),
             (Some(country), Some(city)) => format!("{} events in {}, {}", style, city, country),
         }
