@@ -23,35 +23,24 @@ use crate::{
 };
 use askama::Template;
 use axum::{
-    extract::{Extension, Query},
+    extract::{Extension, Query, TypedHeader},
+    headers::Host,
     response::Html,
 };
 use chrono::{naive, Datelike, NaiveDate};
 
 pub async fn index(
     Extension(events): Extension<Events>,
-    Query(filters): Query<Filters>,
-) -> Result<Html<String>, InternalError> {
-    let has_filters = filters.has_some();
-    let events = events.matching(&filters);
-    let months = sort_and_group_by_month(events);
-    let template = IndexTemplate {
-        filters,
-        months,
-        has_filters,
-    };
-    Ok(Html(template.render()?))
-}
-
-/// Like index, but default to only showing Balfolk events.
-pub async fn balfolk(
-    Extension(events): Extension<Events>,
     Query(mut filters): Query<Filters>,
+    TypedHeader(host): TypedHeader<Host>,
 ) -> Result<Html<String>, InternalError> {
     let has_filters = filters.has_some();
-    if filters.style.is_none() {
+
+    if host.hostname().contains("balfolk.org") && filters.style.is_none() {
+        // Default to only showing Balfolk events.
         filters.style = Some(DanceStyle::Balfolk);
     }
+
     let events = events.matching(&filters);
     let months = sort_and_group_by_month(events);
     let template = IndexTemplate {
