@@ -15,3 +15,4 @@
 pub mod dancestyle;
 pub mod event;
 pub mod events;
+pub mod filters;

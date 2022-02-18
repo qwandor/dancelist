@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use super::event::{Event, Filters};
+use super::{event::Event, filters::Filters};
 use chrono::Utc;
 use eyre::{bail, Report, WrapErr};
 use log::trace;
@@ -154,10 +154,7 @@ pub struct Country {
 mod tests {
     use super::*;
 
-    use crate::model::{
-        dancestyle::DanceStyle,
-        event::{DateFilter, EventTime},
-    };
+    use crate::model::{dancestyle::DanceStyle, event::EventTime, filters::DateFilter};
     use chrono::NaiveDate;
 
     #[test]

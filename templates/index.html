@@ -20,11 +20,11 @@
 	<p><a href="?multiday=true">Multi-day events</a></p>
 	{% endif %}
 	{% match filters.date %}
-	{% when crate::model::event::DateFilter::Future %}
+	{% when crate::model::filters::DateFilter::Future %}
 	<p><a href="?date=past">Past events</a></p>
-	{% when crate::model::event::DateFilter::Past %}
+	{% when crate::model::filters::DateFilter::Past %}
 	<p><a href="?">Future events</a></p>
-	{% when crate::model::event::DateFilter::All %}
+	{% when crate::model::filters::DateFilter::All %}
 	{% endmatch %}
 
 	{% for month in months %}

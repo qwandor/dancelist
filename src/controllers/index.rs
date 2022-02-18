@@ -17,8 +17,9 @@ use crate::{
     icalendar::{events_to_calendar, Ics},
     model::{
         dancestyle::DanceStyle,
-        event::{Event, Filters},
-        events::Events,
+        event::Event,
+        events::{Country, Events},
+        filters::Filters,
     },
 };
 use askama::Template;
