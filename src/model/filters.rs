@@ -54,6 +54,13 @@ impl Default for DateFilter {
 }
 
 impl Filters {
+    pub fn all() -> Self {
+        Self {
+            date: DateFilter::All,
+            ..Default::default()
+        }
+    }
+
     pub fn has_some(&self) -> bool {
         self.country.is_some()
             || self.city.is_some()

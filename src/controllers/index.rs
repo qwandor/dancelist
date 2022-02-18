@@ -42,7 +42,7 @@ pub async fn index(
         filters.style = Some(DanceStyle::Balfolk);
     }
 
-    let countries = events.countries();
+    let countries = events.countries(&filters.with_country(None));
     let events = events.matching(&filters);
     let months = sort_and_group_by_month(events);
     let template = IndexTemplate {

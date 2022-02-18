@@ -14,13 +14,16 @@
 
 use crate::{
     errors::InternalError,
-    model::events::{Country, Events},
+    model::{
+        events::{Country, Events},
+        filters::Filters,
+    },
 };
 use askama::Template;
 use axum::{extract::Extension, response::Html};
 
 pub async fn cities(Extension(events): Extension<Events>) -> Result<Html<String>, InternalError> {
-    let countries = events.countries();
+    let countries = events.countries(&Filters::all());
     let template = CitiesTemplate { countries };
     Ok(Html(template.render()?))
 }

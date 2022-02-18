@@ -119,14 +119,18 @@ impl Events {
         organisations
     }
 
-    /// Gets all cities which have dance events, grouped by country, in alphabetical order.
-    pub fn countries(&self) -> Vec<Country> {
+    /// Gets all cities which have dance events matching the given filters, grouped by country, in
+    /// alphabetical order.
+    pub fn countries(&self, filters: &Filters) -> Vec<Country> {
+        let now = Utc::now();
         let mut countries = HashMap::new();
         for event in &self.events {
-            countries
-                .entry(event.country.to_owned())
-                .or_insert_with(Vec::new)
-                .push(event.city.to_owned());
+            if filters.matches(event, now) {
+                countries
+                    .entry(event.country.to_owned())
+                    .or_insert_with(Vec::new)
+                    .push(event.city.to_owned());
+            }
         }
         let mut countries: Vec<_> = countries
             .into_iter()
@@ -244,7 +248,7 @@ mod tests {
             ],
         };
         assert_eq!(
-            events.countries(),
+            events.countries(&Filters::all()),
             vec![
                 Country {
                     name: "Netherlands".to_string(),
