@@ -14,11 +14,11 @@
 
 use serde::{de::Error as _, Deserialize, Deserializer, Serializer};
 
-pub fn serialize<S: Serializer>(value: &u32, serializer: S) -> Result<S::Ok, S::Error> {
+pub fn serialize<S: Serializer>(value: &i32, serializer: S) -> Result<S::Ok, S::Error> {
     serializer.serialize_str(&value.to_string())
 }
 
-pub fn deserialize<'de, D: Deserializer<'de>>(deserializer: D) -> Result<u32, D::Error> {
+pub fn deserialize<'de, D: Deserializer<'de>>(deserializer: D) -> Result<i32, D::Error> {
     let string = String::deserialize(deserializer)?;
     string.parse().map_err(D::Error::custom)
 }

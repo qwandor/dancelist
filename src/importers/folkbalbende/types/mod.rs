@@ -13,7 +13,7 @@
 // limitations under the License.
 
 mod bool_as_int;
-mod uint_as_string;
+mod int_as_string;
 
 use chrono::{NaiveDate, NaiveTime};
 use serde::{Deserialize, Serialize};
@@ -86,8 +86,8 @@ pub struct Address {
 #[serde(deny_unknown_fields)]
 pub struct Price {
     pub name: String,
-    #[serde(with = "uint_as_string")]
-    pub price: u32,
+    #[serde(with = "int_as_string")]
+    pub price: i32,
     pub free_contribution: u32,
 }
 
@@ -97,16 +97,20 @@ pub struct Website {
     #[serde(rename = "type")]
     pub website_type: WebsiteType,
     pub url: String,
-    pub icon: String,
+    pub icon: Option<String>,
 }
 
 #[derive(Copy, Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
 pub enum WebsiteType {
     Facebook,
+    MySpace,
+    ReverbNation,
     SoundCloud,
-    Website,
+    Spotify,
     #[serde(rename = "Vi.be")]
     ViBe,
+    Website,
+    Youtube,
 }
 
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
@@ -139,7 +143,7 @@ pub struct Teacher {
 pub struct Ball {
     pub initiation_start: Option<NaiveTime>,
     pub initiation_end: Option<NaiveTime>,
-    pub initiators: Vec<String>,
+    pub initiators: Vec<Teacher>,
     pub performances: Vec<Performance>,
 }
 
