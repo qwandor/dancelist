@@ -27,6 +27,18 @@
 	{% when crate::model::filters::DateFilter::All %}
 	{% endmatch %}
 
+	<p>
+		Country:
+		{% for country in countries %}
+		{% if filters.country.as_ref() == Some(country.name) %}
+		<strong>{{ country.name }}</strong>
+		{% else %}
+		<a href="?{{ filters.with_country(Some(country.name)).to_query_string().unwrap()|safe }}">{{ country.name }}</a>
+		{% endif %}
+		{% endfor %}
+		<a href=""></a>
+	</p>
+
 	{% for month in months %}
 	<h2>{{ month.name() }}</h2>
 	<table>

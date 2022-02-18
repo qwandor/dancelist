@@ -164,6 +164,14 @@ impl Filters {
             (Some(country), Some(city)) => format!("{} events in {}, {}", style, city, country),
         }
     }
+
+    /// Makes a new set of filters like this one but with the given country filter.
+    pub fn with_country(&self, country: Option<&str>) -> Self {
+        Self {
+            country: owned(country),
+            ..self.clone()
+        }
+    }
 }
 
 /// Make the first letter of the given string uppercase.
@@ -174,4 +182,8 @@ fn uppercase_first_letter(s: &str) -> String {
     } else {
         String::new()
     }
+}
+
+fn owned<T: ToOwned + ?Sized>(option_ref: Option<&T>) -> Option<T::Owned> {
+    option_ref.map(ToOwned::to_owned)
 }

@@ -42,12 +42,14 @@ pub async fn index(
         filters.style = Some(DanceStyle::Balfolk);
     }
 
+    let countries = events.countries();
     let events = events.matching(&filters);
     let months = sort_and_group_by_month(events);
     let template = IndexTemplate {
         filters,
         months,
         has_filters,
+        countries,
     };
     Ok(Html(template.render()?))
 }
@@ -98,6 +100,7 @@ struct IndexTemplate {
     filters: Filters,
     months: Vec<Month>,
     has_filters: bool,
+    countries: Vec<Country>,
 }
 
 struct Month {
