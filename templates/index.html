@@ -36,7 +36,23 @@
 		<a href="?{{ filters.with_country(Some(country.name)).to_query_string().unwrap()|safe }}">{{ country.name }}</a>
 		{% endif %}
 		{% endfor %}
+
+		{% if filters.country.is_some() %}
 		<a href="?{{ filters.with_country(None).to_query_string().unwrap()|safe }}">All</a>
+		<br />
+
+		City:
+		{% for city in cities %}
+		{% if filters.city.as_ref() == Some(city) %}
+		<strong>{{ city }}</strong>
+		{% else %}
+		<a href="?{{ filters.with_city(Some(city)).to_query_string().unwrap()|safe }}">{{ city }}</a>
+		{% endif %}
+		{% endfor %}
+		{% if filters.city.is_some() %}
+		<a href="?{{ filters.with_city(None).to_query_string().unwrap()|safe }}">All</a>
+		{% endif %}
+		{% endif %}
 	</p>
 
 	{% for month in months %}

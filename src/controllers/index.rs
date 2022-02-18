@@ -43,6 +43,11 @@ pub async fn index(
     }
 
     let countries = events.countries(&filters.with_country(None));
+    let cities = if filters.country.is_some() {
+        events.cities(&filters.with_city(None))
+    } else {
+        vec![]
+    };
     let events = events.matching(&filters);
     let months = sort_and_group_by_month(events);
     let template = IndexTemplate {
@@ -50,6 +55,7 @@ pub async fn index(
         months,
         has_filters,
         countries,
+        cities,
     };
     Ok(Html(template.render()?))
 }
@@ -101,6 +107,7 @@ struct IndexTemplate {
     months: Vec<Month>,
     has_filters: bool,
     countries: Vec<Country>,
+    cities: Vec<String>,
 }
 
 struct Month {

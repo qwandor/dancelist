@@ -146,6 +146,20 @@ impl Events {
         countries.sort();
         countries
     }
+
+    /// Gets all cities which have dance events matching the given filters, in alphabetical order.
+    pub fn cities(&self, filters: &Filters) -> Vec<String> {
+        let now = Utc::now();
+        let mut cities = vec![];
+        for event in &self.events {
+            if filters.matches(event, now) {
+                cities.push(event.city.to_owned());
+            }
+        }
+        cities.sort();
+        cities.dedup();
+        cities
+    }
 }
 
 #[derive(Clone, Debug, Eq, Ord, PartialEq, PartialOrd)]
