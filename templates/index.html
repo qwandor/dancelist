@@ -78,7 +78,7 @@
 		{% endif %}
 		{% endfor %}
 		{% if filters.style.is_some() %}
-		<a href="?{{ filters.with_style(None).to_query_string().unwrap()|safe }}">all styles</a>
+		<a href="https://folkdance.page/?{{ filters.with_style(None).to_query_string().unwrap()|safe }}">all styles</a>
 		{% endif %}
 	</p>
 
