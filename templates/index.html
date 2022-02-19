@@ -30,7 +30,6 @@
 		{% endfor %}
 		<br />
 
-		Country:
 		{% for country in countries %}
 		{% if filters.country.as_ref() == Some(country.name) %}
 		<strong>{{ country.name }}</strong>
@@ -39,12 +38,11 @@
 		{% endif %}
 		{% endfor %}
 		{% if filters.country.is_some() %}
-		<a href="?{{ filters.with_country(None).to_query_string().unwrap()|safe }}">All</a>
+		<a href="?{{ filters.with_country(None).to_query_string().unwrap()|safe }}">all countries</a>
 		{% endif %}
 
 		{% if cities.len() > 1 %}
 		<br />
-		City:
 		{% for city in cities %}
 		{% if filters.city.as_ref() == Some(city) %}
 		<strong>{{ city }}</strong>
@@ -53,7 +51,7 @@
 		{% endif %}
 		{% endfor %}
 		{% if filters.city.is_some() %}
-		<a href="?{{ filters.with_city(None).to_query_string().unwrap()|safe }}">All</a>
+		<a href="?{{ filters.with_city(None).to_query_string().unwrap()|safe }}">all cities</a>
 		{% endif %}
 		{% endif %}
 
@@ -67,7 +65,7 @@
 		{% endif %}
 		{% endfor %}
 		{% if filters.style.is_some() %}
-		<a href="?{{ filters.with_style(None).to_query_string().unwrap()|safe }}">All</a>
+		<a href="?{{ filters.with_style(None).to_query_string().unwrap()|safe }}">all styles</a>
 		{% endif %}
 	</p>
 
