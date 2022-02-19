@@ -39,8 +39,10 @@
 
 		{% if filters.country.is_some() %}
 		<a href="?{{ filters.with_country(None).to_query_string().unwrap()|safe }}">All</a>
-		<br />
+		{% endif %}
 
+		{% if cities.len() > 1 %}
+		<br />
 		City:
 		{% for city in cities %}
 		{% if filters.city.as_ref() == Some(city) %}
