@@ -80,6 +80,23 @@
 		{% if filters.style.is_some() %}
 		<a href="https://folkdance.page/?{{ filters.with_style(None).to_query_string().unwrap()|safe }}">all styles</a>
 		{% endif %}
+		<br />
+
+		{% if filters.social == Some(true) %}
+		<strong class="social">social</strong>
+		{% else %}
+		<a class="social"
+			href="?{{ filters.with_workshop(None).with_social(Some(true)).to_query_string().unwrap()|safe }}">social</a>
+		{% endif %}
+		{% if filters.workshop == Some(true) %}
+		<strong class="workshop">workshop</strong>
+		{% else %}
+		<a class="workshop"
+			href="?{{ filters.with_social(None).with_workshop(Some(true)).to_query_string().unwrap()|safe }}">workshop</a>
+		{% endif %}
+		{% if filters.social.is_some() || filters.workshop.is_some() %}
+		<a href="?{{ filters.with_social(None).with_workshop(None).to_query_string().unwrap()|safe }}">either</a>
+		{% endif %}
 	</p>
 
 	{% for month in months %}

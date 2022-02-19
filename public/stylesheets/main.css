@@ -42,11 +42,11 @@
   background-color: lightblue;
 }
 
-.event-type .workshop {
+.workshop {
   background-color: darkmagenta;
   color: white;
 }
-.event-type .social {
+.social {
   background-color: darkolivegreen;
   color: white;
 }

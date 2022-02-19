@@ -231,6 +231,22 @@ impl Filters {
             ..self.clone()
         }
     }
+
+    /// Makes a new set of filters like this one but with the given social filter.
+    pub fn with_social(&self, social: Option<bool>) -> Self {
+        Self {
+            social,
+            ..self.clone()
+        }
+    }
+
+    /// Makes a new set of filters like this one but with the given workshop filter.
+    pub fn with_workshop(&self, workshop: Option<bool>) -> Self {
+        Self {
+            workshop,
+            ..self.clone()
+        }
+    }
 }
 
 /// Make the first letter of the given string uppercase.
