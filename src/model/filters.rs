@@ -223,6 +223,14 @@ impl Filters {
             ..self.clone()
         }
     }
+
+    /// Makes a new set of filters like this one but with the given multi-day filter.
+    pub fn with_multiday(&self, multiday: Option<bool>) -> Self {
+        Self {
+            multiday,
+            ..self.clone()
+        }
+    }
 }
 
 /// Make the first letter of the given string uppercase.

@@ -16,11 +16,24 @@
 
 	{% if has_filters %}
 	<p><a href="?">Show all</a></p>
-	{% else %}
-	<p><a href="?multiday=true">Multi-day events</a></p>
 	{% endif %}
 
 	<p>
+		{% match filters.multiday %}
+		{% when Some with (true) %}
+		<strong>multi-day</strong>
+		<a href="?{{ filters.with_multiday(Some(false)).to_query_string().unwrap()|safe }}">single day</a>
+		<a href="?{{ filters.with_multiday(None).to_query_string().unwrap()|safe }}">any length</a>
+		{% when Some with (false) %}
+		<a href="?{{ filters.with_multiday(Some(true)).to_query_string().unwrap()|safe }}">multi-day</a>
+		<strong>single day</strong>
+		<a href="?{{ filters.with_multiday(None).to_query_string().unwrap()|safe }}">any length</a>
+		{% when None %}
+		<a href="?{{ filters.with_multiday(Some(true)).to_query_string().unwrap()|safe }}">multi-day</a>
+		<a href="?{{ filters.with_multiday(Some(false)).to_query_string().unwrap()|safe }}">single day</a>
+		{% endmatch %}
+		<br />
+
 		{% for date_filter in crate::model::filters::DateFilter::values() %}
 		{% if filters.date == date_filter %}
 		<strong>{{ date_filter }}</strong>
