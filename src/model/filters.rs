@@ -17,8 +17,10 @@ use super::{
     event::{Event, EventTime},
 };
 use chrono::{DateTime, Utc};
+use enum_iterator::IntoEnumIterator;
 use eyre::Report;
 use serde::{Deserialize, Serialize};
+use std::fmt::{self, Display, Formatter};
 
 #[derive(Clone, Debug, Default, Deserialize, Eq, PartialEq, Serialize)]
 pub struct Filters {
@@ -36,7 +38,7 @@ pub struct Filters {
     pub cancelled: Option<bool>,
 }
 
-#[derive(Copy, Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
+#[derive(Copy, Clone, Debug, Deserialize, Eq, IntoEnumIterator, PartialEq, Serialize)]
 #[serde(rename_all = "snake_case")]
 pub enum DateFilter {
     /// Include only events which started before the current day.
@@ -47,9 +49,26 @@ pub enum DateFilter {
     All,
 }
 
+impl DateFilter {
+    pub fn values() -> impl Iterator<Item = Self> {
+        DateFilter::into_enum_iter()
+    }
+}
+
 impl Default for DateFilter {
     fn default() -> Self {
         Self::Future
+    }
+}
+
+impl Display for DateFilter {
+    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
+        let s = match self {
+            Self::Past => "past",
+            Self::Future => "future",
+            Self::All => "all",
+        };
+        f.write_str(s)
     }
 }
 
@@ -185,6 +204,14 @@ impl Filters {
     pub fn with_city(&self, city: Option<&str>) -> Self {
         Self {
             city: owned(city),
+            ..self.clone()
+        }
+    }
+
+    /// Makes a new set of filters like this one but with the given date filter.
+    pub fn with_date(&self, date: DateFilter) -> Self {
+        Self {
+            date,
             ..self.clone()
         }
     }
