@@ -208,6 +208,14 @@ impl Filters {
         }
     }
 
+    /// Makes a new set of filters like this one but with the given dance style filter.
+    pub fn with_style(&self, style: Option<DanceStyle>) -> Self {
+        Self {
+            style,
+            ..self.clone()
+        }
+    }
+
     /// Makes a new set of filters like this one but with the given date filter.
     pub fn with_date(&self, date: DateFilter) -> Self {
         Self {

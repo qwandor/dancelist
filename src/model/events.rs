@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use super::{event::Event, filters::Filters};
+use super::{dancestyle::DanceStyle, event::Event, filters::Filters};
 use chrono::Utc;
 use eyre::{bail, Report, WrapErr};
 use log::trace;
@@ -159,6 +159,20 @@ impl Events {
         cities.sort();
         cities.dedup();
         cities
+    }
+
+    /// Gets all dance styles which have events matching the given filters, in order.
+    pub fn styles(&self, filters: &Filters) -> Vec<DanceStyle> {
+        let now = Utc::now();
+        let mut styles = vec![];
+        for event in &self.events {
+            if filters.matches(event, now) {
+                styles.extend_from_slice(&event.styles);
+            }
+        }
+        styles.sort();
+        styles.dedup();
+        styles
     }
 }
 

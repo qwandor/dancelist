@@ -56,6 +56,19 @@
 		<a href="?{{ filters.with_city(None).to_query_string().unwrap()|safe }}">All</a>
 		{% endif %}
 		{% endif %}
+
+		<br />
+		{% for style in styles %}
+		{% if filters.style.as_ref() == Some(style) %}
+		<strong class="dance-style {{ style.tag() }}">{{ style }}</strong>
+		{% else %}
+		<a class="dance-style {{ style.tag() }}"
+			href="?{{ filters.with_style(Some(style.clone())).to_query_string().unwrap()|safe }}">{{ style }}</a>
+		{% endif %}
+		{% endfor %}
+		{% if filters.style.is_some() %}
+		<a href="?{{ filters.with_style(None).to_query_string().unwrap()|safe }}">All</a>
+		{% endif %}
 	</p>
 
 	{% for month in months %}

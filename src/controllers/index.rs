@@ -43,6 +43,7 @@ pub async fn index(
     }
 
     let countries = events.countries(&filters.with_country(None));
+    let styles = events.styles(&filters.with_style(None));
     let cities = if filters.country.is_some() {
         events.cities(&filters.with_city(None))
     } else {
@@ -56,6 +57,7 @@ pub async fn index(
         has_filters,
         countries,
         cities,
+        styles,
     };
     Ok(Html(template.render()?))
 }
@@ -108,6 +110,7 @@ struct IndexTemplate {
     has_filters: bool,
     countries: Vec<Country>,
     cities: Vec<String>,
+    styles: Vec<DanceStyle>,
 }
 
 struct Month {
