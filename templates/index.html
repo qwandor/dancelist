@@ -53,9 +53,9 @@
 		{% if filters.country.is_some() %}
 		<a href="?{{ filters.with_country(None).to_query_string().unwrap()|safe }}">all countries</a>
 		{% endif %}
+		<br />
 
 		{% if cities.len() > 1 %}
-		<br />
 		{% for city in cities %}
 		{% if filters.city.as_ref() == Some(city) %}
 		<strong>{{ city }}</strong>
@@ -66,9 +66,9 @@
 		{% if filters.city.is_some() %}
 		<a href="?{{ filters.with_city(None).to_query_string().unwrap()|safe }}">all cities</a>
 		{% endif %}
+		<br />
 		{% endif %}
 
-		<br />
 		{% for style in styles %}
 		{% if filters.style.as_ref() == Some(style) %}
 		<strong class="dance-style {{ style.tag() }}">{{ style }}</strong>
