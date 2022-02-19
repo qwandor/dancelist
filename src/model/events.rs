@@ -38,16 +38,19 @@ impl Events {
         }
     }
 
-    /// Load events from all YAML files in the given directory.
+    /// Load events from all YAML files in the given directory and its subdirectories.
     pub fn load_directory(directory: &Path) -> Result<Self, Report> {
         let mut events = vec![];
         for entry in read_dir(directory)? {
             let filename = entry?.path();
-            if filename.extension() != Some(OsStr::new("yaml")) {
+            let file_events = if filename.is_dir() {
+                Self::load_directory(&filename)?
+            } else if filename.extension() == Some(OsStr::new("yaml")) {
+                Self::load_file(&filename)?
+            } else {
                 trace!("Not reading events from {:?}", filename);
                 continue;
-            }
-            let file_events = Self::load_file(&filename)?;
+            };
             events.extend(file_events.events);
         }
         Ok(Self { events })
