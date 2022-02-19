@@ -22,7 +22,7 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, Default, Deserialize, Eq, PartialEq, Serialize)]
 pub struct Filters {
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "is_default")]
     pub date: DateFilter,
     pub country: Option<String>,
     pub city: Option<String>,
@@ -202,4 +202,8 @@ fn uppercase_first_letter(s: &str) -> String {
 
 fn owned<T: ToOwned + ?Sized>(option_ref: Option<&T>) -> Option<T::Owned> {
     option_ref.map(ToOwned::to_owned)
+}
+
+fn is_default<T: Default + PartialEq>(value: &T) -> bool {
+    value == &T::default()
 }
