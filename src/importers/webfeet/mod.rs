@@ -74,7 +74,9 @@ pub async fn import_events() -> Result<Events, Report> {
 }
 
 fn replace_entities(source: &str) -> String {
-    source.replace("&icirc;", "&#238;")
+    source
+        .replace("&icirc;", "&#238;")
+        .replace("&Ouml;", "&#214;")
 }
 
 fn convert(event: &EventRecord) -> Option<Event> {
