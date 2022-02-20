@@ -167,6 +167,14 @@
 	<p>
 		<a href="https://github.com/qwandor/dancelist-data">Add or correct events</a>
 	</p>
+
+	<p>
+		Export data:
+		<a href="/index.ics?{{ filters.to_query_string().unwrap()|safe }}">ICS</a> |
+		<a href="/index.json?{{ filters.to_query_string().unwrap()|safe }}">JSON</a> |
+		<a href="/index.toml?{{ filters.to_query_string().unwrap()|safe }}">TOML</a> |
+		<a href="/index.yaml?{{ filters.to_query_string().unwrap()|safe }}">YAML</a>
+	</p>
 </body>
 
 </html>
