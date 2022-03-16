@@ -1,0 +1,91 @@
+/*--- Overrides ---*/
+
+.dance-style.contra {
+  background-color: gold;
+}
+.band {
+  background-color: darkseagreen;
+}
+.caller {
+  background-color: tan;
+}
+
+
+/*--- New stuff ---*/
+
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap');
+
+:root {
+
+  --color-primary: darkslategray;
+  --color-secondary: slategray;
+  --color-tertiary: ;
+  --color-success: ;
+  --color-warning: ;
+  --color-error: ;
+  --color-info: ;
+  --color-text: #333333;
+  --color-text-rev: #ffffff;
+  --color-link: darkcyan;
+
+  --font-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  --font-cursive: 'Caveat', serif;
+
+}
+
+body {
+  font-family: var(--font-sans-serif);
+  color: var(--color-text);
+}
+
+h1 {
+  margin: 0.25em 0;
+  font-size: min(15vw, 4em);
+  font-family: var(--font-cursive);
+  color: var(--color-primary);
+}
+
+h2 {
+  margin: 0.5em 0;
+  font-size: 2em;
+  font-family: var(--font-cursive);
+  color: var(--color-secondary);
+}
+
+a {
+  color: var(--color-link);
+  text-decoration: none;
+}
+
+a:focus, a:hover {
+  color: var(--color-link);
+  text-decoration: underline;
+}
+
+a[class] {
+  display: inline-block;
+  min-width: 1em;
+  border-radius: 0.25em;
+  padding: 0 0.25em;
+  text-align: center;
+  text-decoration: none;
+  text-shadow: 0 0 0.25em rgba(0, 0, 0, 0.25);
+  color: var(--color-text-rev);
+}
+
+td {
+  padding: 0.25em;
+}
+
+.event-dates, .event-name + td:not([class]) {
+  font-style: italic;
+}
+
+/* Should replace the following with more structured nav > ul > li elements... */
+body > p > *:not(br):not(a[class]) {
+  margin: 0 0.25em;
+  line-height: 2;
+}
+body > p > a[class] {
+  margin: 0.25em 0;
+}

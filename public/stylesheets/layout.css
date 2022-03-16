@@ -1,0 +1,72 @@
+/*--- Overrides ---*/
+
+.event-location {
+  text-align: unset;
+}
+
+.dance-style {
+  padding: unset;
+}
+
+table {
+  border-bottom: unset;
+}
+
+.event td {
+  border-top: unset;
+}
+
+
+/*--- New stuff ---*/
+
+table {
+  border-bottom: 1px solid gainsboro;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.event {
+  border-top: 1px solid gainsboro;
+}
+
+.event-dates {
+  grid-area: dates;
+}
+.event-name {
+  grid-area: name;
+}
+.event-name + td:not([class]) {
+  grid-area: source;
+}
+.event-price {
+  grid-area: price;
+}
+.event-location {
+  grid-area: location;
+}
+.event-type {
+  grid-area: type;
+}
+.event-styles {
+  grid-area: styles;
+}
+
+
+/*-- Responsive queries --*/
+
+@media (orientation: portrait) {
+  .event {
+    display: grid;
+    grid:
+      "dates price"
+      "name type"
+      "location source"
+      "styles styles"
+      / auto auto;
+  }
+  .event-price,
+  .event-type,
+  .event-name + td:not([class]) {
+    justify-self: end;
+  }
+}
