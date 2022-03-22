@@ -1,15 +1,3 @@
-/*--- Overrides ---*/
-
-.dance-style.contra {
-  background-color: gold;
-}
-.band {
-  background-color: darkseagreen;
-}
-.caller {
-  background-color: tan;
-}
-
 /*--- New stuff ---*/
 
 @import url("https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap");

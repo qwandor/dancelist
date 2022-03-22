@@ -6,7 +6,7 @@
   padding: 0px 3px;
 }
 .dance-style.contra {
-  background-color: yellow;
+  background-color: gold;
 }
 .dance-style.balfolk {
   background-color: violet;
@@ -59,10 +59,10 @@
   padding: 0px 3px;
 }
 .band {
-  background-color: lightgreen;
+  background-color: darkseagreen;
 }
 .caller {
-  background-color: palegoldenrod;
+  background-color: tan;
 }
 
 table {
