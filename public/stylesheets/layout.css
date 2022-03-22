@@ -16,7 +16,6 @@ table {
   border-top: unset;
 }
 
-
 /*--- New stuff ---*/
 
 table {
@@ -50,7 +49,6 @@ table {
 .event-styles {
   grid-area: styles;
 }
-
 
 /*-- Responsive queries --*/
 
