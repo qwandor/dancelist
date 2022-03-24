@@ -70,7 +70,7 @@ td {
 }
 
 .event-dates,
-.event-name + td:not([class]) {
+.event-links {
   font-style: italic;
 }
 

@@ -134,7 +134,7 @@
 				{{ event.name }}
 				{% endmatch %}
 			</td>
-			<td>
+			<td class="event-links">
 				{% for link in event.further_links() %}
 				<a href="{{ link.url }}">({{ link.short_name }})</a>
 				{% endfor %}
