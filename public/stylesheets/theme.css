@@ -44,8 +44,8 @@ a {
   text-decoration: none;
 }
 
-a:focus,
-a:hover {
+a:focus:not([class]),
+a:hover:not([class]) {
   color: var(--color-link);
   text-decoration: underline;
 }
