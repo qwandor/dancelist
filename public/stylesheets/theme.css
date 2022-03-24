@@ -50,7 +50,11 @@ a:hover {
   text-decoration: underline;
 }
 
-a[class] {
+.dance-style,
+.workshop,
+.social,
+.band,
+.caller {
   display: inline-block;
   min-width: 1em;
   border-radius: 0.25em;
@@ -70,11 +74,19 @@ td {
   font-style: italic;
 }
 
-/* Should replace the following with more structured nav > ul > li elements... */
-body > p > *:not(br):not(a[class]) {
-  margin: 0 0.25em;
-  line-height: 2;
+.nav ul,
+.nav p {
+  list-style: none;
+  padding: 0;
+  margin-block-start: 0;
+  margin-block-end: 0.5em;
 }
-body > p > a[class] {
-  margin: 0.25em 0;
+
+.nav li {
+  display: inline;
+  margin-right: 0.25em;
+}
+
+.nav ul.unpadded li {
+  margin-right: 0;
 }
