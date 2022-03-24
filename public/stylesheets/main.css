@@ -2,9 +2,6 @@
   text-align: right;
 }
 
-.dance-style {
-  padding: 0px 3px;
-}
 .dance-style.contra {
   background-color: gold;
 }
