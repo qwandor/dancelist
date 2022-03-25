@@ -98,8 +98,8 @@ tr.details td {
 .event-name {
   grid-area: name;
 }
-.event-name + td:not([class]) {
-  grid-area: source;
+.event-links {
+  grid-area: links;
 }
 .event-price {
   grid-area: price;
@@ -122,13 +122,13 @@ tr.details td {
     grid:
       "dates price"
       "name type"
-      "location source"
+      "location links"
       "styles styles"
       / auto auto;
   }
   .event-price,
   .event-type,
-  .event-name + td:not([class]) {
+  .event-links {
     justify-self: end;
   }
 }
