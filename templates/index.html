@@ -4,8 +4,6 @@
 <head>
 	<title>{{ filters.make_title() }}</title>
 	<link rel="stylesheet" type="text/css" href="/stylesheets/main.css" />
-	<link rel="stylesheet" type="text/css" href="/stylesheets/layout.css" />
-	<link rel="stylesheet" type="text/css" href="/stylesheets/theme.css" />
 	<link rel="alternate" type="text/calendar" href="/index.ics?{{ filters.to_query_string().unwrap()|safe }}" />
 	<link rel="alternate" type="application/json" href="/index.json?{{ filters.to_query_string().unwrap()|safe }}" />
 	<link rel="alternate" href="/index.toml?{{ filters.to_query_string().unwrap()|safe }}" />
