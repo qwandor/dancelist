@@ -122,13 +122,13 @@ tr.details td {
     grid:
       "dates price"
       "name type"
-      "location links"
+      "links location"
       "styles styles"
       / auto auto;
   }
   .event-price,
   .event-type,
-  .event-links {
+  .event-location {
     justify-self: end;
   }
 }
