@@ -121,9 +121,9 @@ tr.details td {
     display: grid;
     grid:
       "dates price"
-      "name type"
+      "name name"
       "links location"
-      "styles styles"
+      "styles type"
       / auto auto;
   }
   .event-price,
