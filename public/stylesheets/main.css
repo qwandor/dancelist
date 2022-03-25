@@ -64,13 +64,6 @@
   background-color: tan;
 }
 
-table {
-  border-bottom: 1px solid lightgrey;
-}
-.event td {
-  border-top: 1px solid lightgrey;
-}
-
 .multiday .event-dates,
 .multiday .event-name {
   font-weight: bold;
@@ -80,16 +73,6 @@ table {
 .cancelled .event-name,
 .cancelled .event-location {
   text-decoration: line-through;
-}
-
-/*--- Overrides ---*/
-
-table {
-  border-bottom: unset;
-}
-
-.event td {
-  border-top: unset;
 }
 
 /*--- Layout ---*/
