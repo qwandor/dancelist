@@ -99,9 +99,14 @@ table {
   border-collapse: collapse;
   width: 100%;
 }
-
-.event {
+tr.event {
   border-top: 1px solid gainsboro;
+}
+td {
+  padding: 0.25em;
+}
+tr.details td {
+  padding-top: 0;
 }
 
 .event-dates {
@@ -208,10 +213,6 @@ a:hover:not([class]) {
   text-decoration: none;
   text-shadow: 0 0 0.25em rgba(0, 0, 0, 0.25);
   color: var(--color-text-rev);
-}
-
-td {
-  padding: 0.25em;
 }
 
 .event-dates,
