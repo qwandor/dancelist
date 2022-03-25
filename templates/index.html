@@ -8,96 +8,113 @@
 	<link rel="alternate" type="application/json" href="/index.json?{{ filters.to_query_string().unwrap()|safe }}" />
 	<link rel="alternate" href="/index.toml?{{ filters.to_query_string().unwrap()|safe }}" />
 	<link rel="alternate" href="/index.yaml?{{ filters.to_query_string().unwrap()|safe }}" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<meta name="google-site-verification" content="dqUAJnNacTD9meHqbEEYe728cGTcT3InVLUJECB-pk8" />
 </head>
 
 <body>
 	<h1>{{ filters.make_title() }}</h1>
 
-	{% if has_filters %}
-	<p><a href="?">Show all</a></p>
-	{% endif %}
-
-	<p>
-		{% match filters.multiday %}
-		{% when Some with (true) %}
-		<strong>multi-day</strong>
-		<a href="?{{ filters.with_multiday(Some(false)).to_query_string().unwrap()|safe }}">single day</a>
-		<a href="?{{ filters.with_multiday(None).to_query_string().unwrap()|safe }}">any length</a>
-		{% when Some with (false) %}
-		<a href="?{{ filters.with_multiday(Some(true)).to_query_string().unwrap()|safe }}">multi-day</a>
-		<strong>single day</strong>
-		<a href="?{{ filters.with_multiday(None).to_query_string().unwrap()|safe }}">any length</a>
-		{% when None %}
-		<a href="?{{ filters.with_multiday(Some(true)).to_query_string().unwrap()|safe }}">multi-day</a>
-		<a href="?{{ filters.with_multiday(Some(false)).to_query_string().unwrap()|safe }}">single day</a>
-		{% endmatch %}
-		<br />
-
-		{% for date_filter in crate::model::filters::DateFilter::values() %}
-		{% if filters.date == date_filter %}
-		<strong>{{ date_filter }}</strong>
-		{% else %}
-		<a href="?{{ filters.with_date(date_filter.clone()).to_query_string().unwrap()|safe }}">{{ date_filter }}</a>
+	<div class="nav">
+		{% if has_filters %}
+		<p><a href="?">Show all</a></p>
 		{% endif %}
-		{% endfor %}
-		<br />
 
-		{% for country in countries %}
-		{% if filters.country.as_ref() == Some(country.name) %}
-		<strong>{{ country.name }}</strong>
-		{% else %}
-		<a href="?{{ filters.with_country(Some(country.name)).to_query_string().unwrap()|safe }}">{{ country.name }}</a>
-		{% endif %}
-		{% endfor %}
-		{% if filters.country.is_some() %}
-		<a href="?{{ filters.with_country(None).to_query_string().unwrap()|safe }}">all countries</a>
-		{% endif %}
-		<br />
+		<ul>
+			{% match filters.multiday %}
+			{% when Some with (true) %}
+			<li><strong>multi-day</strong></li>
+			<li><a href="?{{ filters.with_multiday(Some(false)).to_query_string().unwrap()|safe }}">single day</a></li>
+			<li><a href="?{{ filters.with_multiday(None).to_query_string().unwrap()|safe }}">any length</a></li>
+			{% when Some with (false) %}
+			<li><a href="?{{ filters.with_multiday(Some(true)).to_query_string().unwrap()|safe }}">multi-day</a></li>
+			<li><strong>single day</strong></li>
+			<li><a href="?{{ filters.with_multiday(None).to_query_string().unwrap()|safe }}">any length</a></li>
+			{% when None %}
+			<li><a href="?{{ filters.with_multiday(Some(true)).to_query_string().unwrap()|safe }}">multi-day</a></li>
+			<li><a href="?{{ filters.with_multiday(Some(false)).to_query_string().unwrap()|safe }}">single day</a></li>
+			{% endmatch %}
+		</ul>
+
+		<ul>
+			{% for date_filter in crate::model::filters::DateFilter::values() %}
+			{% if filters.date == date_filter %}
+			<li><strong>{{ date_filter }}</strong></li>
+			{% else %}
+			<li><a href="?{{ filters.with_date(date_filter.clone()).to_query_string().unwrap()|safe }}">{{ date_filter
+					}}</a></li>
+			{% endif %}
+			{% endfor %}
+		</ul>
+
+		<ul>
+			{% for country in countries %}
+			{% if filters.country.as_ref() == Some(country.name) %}
+			<li><strong>{{ country.name }}</strong></li>
+			{% else %}
+			<li><a href="?{{ filters.with_country(Some(country.name)).to_query_string().unwrap()|safe }}">{{
+					country.name
+					}}</a></li>
+			{% endif %}
+			{% endfor %}
+			{% if filters.country.is_some() %}
+			<li><a href="?{{ filters.with_country(None).to_query_string().unwrap()|safe }}">all countries</a></li>
+			{% endif %}
+		</ul>
 
 		{% if cities.len() > 1 %}
-		{% for city in cities %}
-		{% if filters.city.as_ref() == Some(city) %}
-		<strong>{{ city }}</strong>
-		{% else %}
-		<a href="?{{ filters.with_city(Some(city)).to_query_string().unwrap()|safe }}">{{ city }}</a>
-		{% endif %}
-		{% endfor %}
-		{% if filters.city.is_some() %}
-		<a href="?{{ filters.with_city(None).to_query_string().unwrap()|safe }}">all cities</a>
-		{% endif %}
-		<br />
+		<ul>
+			{% for city in cities %}
+			{% if filters.city.as_ref() == Some(city) %}
+			<li><strong>{{ city }}</strong></li>
+			{% else %}
+			<li><a href="?{{ filters.with_city(Some(city)).to_query_string().unwrap()|safe }}">{{ city }}</a></li>
+			{% endif %}
+			{% endfor %}
+			{% if filters.city.is_some() %}
+			<li><a href="?{{ filters.with_city(None).to_query_string().unwrap()|safe }}">all cities</a></li>
+			{% endif %}
+		</ul>
 		{% endif %}
 
-		{% for style in styles %}
-		{% if filters.style.as_ref() == Some(style) %}
-		<strong class="dance-style {{ style.tag() }}">{{ style }}</strong>
-		{% else %}
-		<a class="dance-style {{ style.tag() }}"
-			href="?{{ filters.with_style(Some(style.clone())).to_query_string().unwrap()|safe }}">{{ style }}</a>
-		{% endif %}
-		{% endfor %}
-		{% if filters.style.is_some() %}
-		<a href="https://folkdance.page/?{{ filters.with_style(None).to_query_string().unwrap()|safe }}">all styles</a>
-		{% endif %}
-		<br />
+		<ul class="unpadded">
+			{% for style in styles %}
+			{% if filters.style.as_ref() == Some(style) %}
+			<li><strong class="dance-style {{ style.tag() }}">{{ style }}</strong></li>
+			{% else %}
+			<li><a class="dance-style {{ style.tag() }}"
+					href="?{{ filters.with_style(Some(style.clone())).to_query_string().unwrap()|safe }}">{{ style
+					}}</a></li>
+			{% endif %}
+			{% endfor %}
+			{% if filters.style.is_some() %}
+			<li><a href="https://folkdance.page/?{{ filters.with_style(None).to_query_string().unwrap()|safe }}">all
+					styles</a></li>
+			{% endif %}
+		</ul>
 
-		{% if filters.social == Some(true) %}
-		<strong class="social">social</strong>
-		{% else %}
-		<a class="social"
-			href="?{{ filters.with_workshop(None).with_social(Some(true)).to_query_string().unwrap()|safe }}">social</a>
-		{% endif %}
-		{% if filters.workshop == Some(true) %}
-		<strong class="workshop">workshop</strong>
-		{% else %}
-		<a class="workshop"
-			href="?{{ filters.with_social(None).with_workshop(Some(true)).to_query_string().unwrap()|safe }}">workshop</a>
-		{% endif %}
-		{% if filters.social.is_some() || filters.workshop.is_some() %}
-		<a href="?{{ filters.with_social(None).with_workshop(None).to_query_string().unwrap()|safe }}">either</a>
-		{% endif %}
-	</p>
+		<ul class="unpadded">
+			{% if filters.social == Some(true) %}
+			<li><strong class="social">social</strong></li>
+			{% else %}
+			<li><a class="social"
+					href="?{{ filters.with_workshop(None).with_social(Some(true)).to_query_string().unwrap()|safe }}">social</a>
+			</li>
+			{% endif %}
+			{% if filters.workshop == Some(true) %}
+			<li><strong class="workshop">workshop</strong></li>
+			{% else %}
+			<li><a class="workshop"
+					href="?{{ filters.with_social(None).with_workshop(Some(true)).to_query_string().unwrap()|safe }}">workshop</a>
+			</li>
+			{% endif %}
+			{% if filters.social.is_some() || filters.workshop.is_some() %}
+			<li><a
+					href="?{{ filters.with_social(None).with_workshop(None).to_query_string().unwrap()|safe }}">either</a>
+			</li>
+			{% endif %}
+		</ul>
+	</div>
 
 	{% for month in months %}
 	<h2>{{ month.name() }}</h2>
@@ -115,7 +132,7 @@
 				{{ event.name }}
 				{% endmatch %}
 			</td>
-			<td>
+			<td class="event-links">
 				{% for link in event.further_links() %}
 				<a href="{{ link.url }}">({{ link.short_name }})</a>
 				{% endfor %}

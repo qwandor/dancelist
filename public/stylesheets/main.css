@@ -1,12 +1,11 @@
+@import url("https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap");
+
 .event-location {
   text-align: right;
 }
 
-.dance-style {
-  padding: 0px 3px;
-}
 .dance-style.contra {
-  background-color: yellow;
+  background-color: gold;
 }
 .dance-style.balfolk {
   background-color: violet;
@@ -59,17 +58,10 @@
   padding: 0px 3px;
 }
 .band {
-  background-color: lightgreen;
+  background-color: darkseagreen;
 }
 .caller {
-  background-color: palegoldenrod;
-}
-
-table {
-  border-bottom: 1px solid lightgrey;
-}
-.event td {
-  border-top: 1px solid lightgrey;
+  background-color: tan;
 }
 
 .multiday .event-dates,
@@ -81,4 +73,149 @@ table {
 .cancelled .event-name,
 .cancelled .event-location {
   text-decoration: line-through;
+}
+
+/*--- Layout ---*/
+
+table {
+  border-bottom: 1px solid gainsboro;
+  border-collapse: collapse;
+  width: 100%;
+}
+tr.event {
+  border-top: 1px solid gainsboro;
+}
+td {
+  padding: 0.25em;
+}
+tr.details td {
+  padding-top: 0;
+}
+
+.event-dates {
+  grid-area: dates;
+}
+.event-name {
+  grid-area: name;
+}
+.event-name + td:not([class]) {
+  grid-area: source;
+}
+.event-price {
+  grid-area: price;
+}
+.event-location {
+  grid-area: location;
+}
+.event-type {
+  grid-area: type;
+}
+.event-styles {
+  grid-area: styles;
+}
+
+/*-- Responsive queries --*/
+
+@media (orientation: portrait) {
+  .event {
+    display: grid;
+    grid:
+      "dates price"
+      "name type"
+      "location source"
+      "styles styles"
+      / auto auto;
+  }
+  .event-price,
+  .event-type,
+  .event-name + td:not([class]) {
+    justify-self: end;
+  }
+}
+
+/*--- Theme ---*/
+
+:root {
+  --color-primary: darkslategray;
+  --color-secondary: slategray;
+  --color-tertiary: ;
+  --color-success: ;
+  --color-warning: ;
+  --color-error: ;
+  --color-info: ;
+  --color-text: #333333;
+  --color-text-rev: #ffffff;
+  --color-link: darkcyan;
+
+  --font-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol";
+  --font-cursive: "Caveat", serif;
+}
+
+body {
+  font-family: var(--font-sans-serif);
+  color: var(--color-text);
+}
+
+h1 {
+  margin: 0.25em 0;
+  font-size: min(15vw, 4em);
+  font-family: var(--font-cursive);
+  color: var(--color-primary);
+}
+
+h2 {
+  margin: 0.5em 0;
+  font-size: 2em;
+  font-family: var(--font-cursive);
+  color: var(--color-secondary);
+}
+
+a {
+  color: var(--color-link);
+  text-decoration: none;
+}
+
+a:focus:not([class]),
+a:hover:not([class]) {
+  color: var(--color-link);
+  text-decoration: underline;
+}
+
+.dance-style,
+.workshop,
+.social,
+.band,
+.caller {
+  display: inline-block;
+  min-width: 1em;
+  border-radius: 0.25em;
+  padding: 0 0.25em;
+  text-align: center;
+  text-decoration: none;
+  text-shadow: 0 0 0.25em rgba(0, 0, 0, 0.25);
+  color: var(--color-text-rev);
+}
+
+.event-dates,
+.event-links {
+  font-style: italic;
+}
+
+.nav ul,
+.nav p {
+  list-style: none;
+  padding: 0;
+  margin-block-start: 0;
+  margin-block-end: 0.5em;
+}
+
+.nav li {
+  display: inline;
+  margin-right: 0.25em;
+}
+
+.nav ul.unpadded li {
+  margin-right: 0;
 }
