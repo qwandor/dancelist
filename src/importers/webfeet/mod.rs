@@ -77,6 +77,7 @@ fn replace_entities(source: &str) -> String {
     source
         .replace("&icirc;", "&#238;")
         .replace("&Ouml;", "&#214;")
+        .replace("&Agrave;", "&#192;")
 }
 
 fn convert(event: &EventRecord) -> Option<Event> {
@@ -184,7 +185,9 @@ fn convert_style(style: Style) -> Option<DanceStyle> {
             Some(DanceStyle::Balfolk)
         }
         Style::DanceCountryDance => Some(DanceStyle::Playford),
-        Style::DanceEnglishCeilidh | Style::DanceCeilidh => Some(DanceStyle::EnglishCeilidh),
+        Style::DanceEnglishCeilidh | Style::DanceCeilidh | Style::DanceCeildh => {
+            Some(DanceStyle::EnglishCeilidh)
+        }
         Style::DanceEnglishFolk => None, // TODO
     }
 }
