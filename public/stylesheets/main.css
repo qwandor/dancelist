@@ -116,7 +116,7 @@ tr.details td {
 
 /*-- Responsive queries --*/
 
-@media (orientation: portrait) {
+@media (max-width: 600px) {
   .event {
     display: grid;
     grid:
