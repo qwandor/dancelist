@@ -33,7 +33,7 @@ use axum::{
 use eyre::Report;
 use log::info;
 use schemars::schema_for;
-use std::{env, path::Path, process::exit};
+use std::{env, process::exit};
 use tower_http::services::ServeDir;
 
 #[tokio::main]
@@ -50,9 +50,9 @@ async fn main() -> Result<(), Report> {
         print!("{}", event_schema()?);
         Ok(())
     } else if args.len() >= 2 && args.len() <= 3 && args[1] == "validate" {
-        validate(args.get(2).map(Path::new))
+        validate(args.get(2).map(String::as_str)).await
     } else if args.len() >= 2 && args.len() <= 3 && args[1] == "cat" {
-        concatenate(args.get(2).map(Path::new))
+        concatenate(args.get(2).map(String::as_str)).await
     } else if args.len() == 2 && args[1] == "balbende" {
         import_balbende().await
     } else if args.len() == 2 && args[1] == "webfeet" {
@@ -63,30 +63,26 @@ async fn main() -> Result<(), Report> {
     }
 }
 
-/// Load events from the given file or directory, or from the directory in the config file if no
-/// path is provided.
-fn load_events(path: Option<&Path>) -> Result<Events, Report> {
-    Ok(if let Some(path) = path {
-        if path.is_dir() {
-            Events::load_directory(path)?
-        } else {
-            Events::load_file(path)?
-        }
+/// Load events from the given file, directory or URL, or from the one in the config file if no path
+/// is provided.
+async fn load_events(path: Option<&str>) -> Result<Events, Report> {
+    if let Some(path) = path {
+        Events::load_events(path).await
     } else {
         let config = Config::from_file()?;
-        Events::load_directory(&config.events_dir)?
-    })
+        Events::load_events(&config.events).await
+    }
 }
 
-fn validate(path: Option<&Path>) -> Result<(), Report> {
-    let events = load_events(path)?;
+async fn validate(path: Option<&str>) -> Result<(), Report> {
+    let events = load_events(path).await?;
     println!("Successfully validated {} events.", events.events.len());
 
     Ok(())
 }
 
-fn concatenate(path: Option<&Path>) -> Result<(), Report> {
-    let events = load_events(path)?;
+async fn concatenate(path: Option<&str>) -> Result<(), Report> {
+    let events = load_events(path).await?;
     print!("{}", serde_yaml::to_string(&events)?);
     Ok(())
 }
@@ -117,7 +113,7 @@ async fn import_webfeet() -> Result<(), Report> {
 
 async fn serve() -> Result<(), Report> {
     let config = Config::from_file()?;
-    let events = Events::load_directory(&config.events_dir)?;
+    let events = Events::load_events(&config.events).await?;
 
     let app = Router::new()
         .route("/", get(index::index))

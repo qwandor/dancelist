@@ -38,6 +38,20 @@ impl Events {
         }
     }
 
+    /// Load events from the given file, directory or URL.
+    pub async fn load_events(path_or_url: &str) -> Result<Self, Report> {
+        if path_or_url.starts_with("http://") || path_or_url.starts_with("https://") {
+            Self::load_url(path_or_url).await
+        } else {
+            let path = Path::new(path_or_url);
+            if path.is_dir() {
+                Self::load_directory(path)
+            } else {
+                Self::load_file(path)
+            }
+        }
+    }
+
     /// Load events from all YAML files in the given directory and its subdirectories.
     pub fn load_directory(directory: &Path) -> Result<Self, Report> {
         let mut events = vec![];
@@ -56,22 +70,27 @@ impl Events {
         Ok(Self { events })
     }
 
-    /// Load events from the given YAML file.
+    /// Load and validate events from the given YAML file.
     pub fn load_file(filename: &Path) -> Result<Self, Report> {
         trace!("Reading events from {:?}", filename);
         let contents =
             read_to_string(&filename).wrap_err_with(|| format!("Reading {:?}", filename))?;
-        let events = serde_yaml::from_str::<Events>(&contents)
-            .wrap_err_with(|| format!("Reading {:?}", filename))?;
+        Self::load_str(&contents).wrap_err_with(|| format!("Reading {:?}", filename))
+    }
+
+    /// Load events from the given YAML URL.
+    pub async fn load_url(url: &str) -> Result<Self, Report> {
+        let contents = reqwest::get(url).await?.text().await?;
+        Self::load_str(&contents).wrap_err_with(|| format!("Reading {}", url))
+    }
+
+    /// Load and validate events from the given YAML string.
+    fn load_str(s: &str) -> Result<Self, Report> {
+        let events = serde_yaml::from_str::<Events>(s)?;
         for event in &events.events {
             let problems = event.validate();
             if !problems.is_empty() {
-                bail!(
-                    "Problems with event '{}' in {:?}: {:?}",
-                    event.name,
-                    filename,
-                    problems
-                );
+                bail!("Problems with event '{}': {:?}", event.name, problems);
             }
         }
         Ok(events)
