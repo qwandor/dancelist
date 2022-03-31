@@ -13,7 +13,7 @@
 // limitations under the License.
 
 use super::dancestyle::DanceStyle;
-use chrono::{Date, DateTime, Datelike, FixedOffset, NaiveDate, Utc};
+use chrono::{Date, DateTime, Datelike, Duration, FixedOffset, NaiveDate, Utc};
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 use std::ops::Not;
@@ -246,7 +246,9 @@ impl Event {
                 start_date,
                 end_date,
             } => start_date != end_date,
-            EventTime::DateTime { start, end } => start.date() != end.date(),
+            EventTime::DateTime { start, end } => {
+                start.date() != end.date() && end - start > Duration::hours(20)
+            }
         }
     }
 
@@ -336,4 +338,58 @@ impl Event {
 pub struct Link {
     pub short_name: String,
     pub url: String,
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use chrono::TimeZone;
+
+    #[test]
+    fn multiday() {
+        // An event which starts in the evening and finishes a bit after midnight shouldn't count as
+        // a multi-day event.
+        let mut event = Event {
+            name: "Test event".to_string(),
+            details: None,
+            links: vec![],
+            time: EventTime::DateTime {
+                start: FixedOffset::east(0).ymd(2020, 1, 2).and_hms(19, 0, 0),
+                end: FixedOffset::east(0).ymd(2020, 1, 3).and_hms(4, 0, 0),
+            },
+            country: "Country".to_string(),
+            city: "City".to_string(),
+            styles: vec![],
+            workshop: false,
+            social: true,
+            bands: vec![],
+            callers: vec![],
+            price: None,
+            organisation: None,
+            cancelled: false,
+        };
+        assert!(!event.multiday());
+
+        // Even if it starts in the morning it still shouldn't count as multi-day.
+        event.time = EventTime::DateTime {
+            start: FixedOffset::east(0).ymd(2020, 1, 2).and_hms(9, 0, 0),
+            end: FixedOffset::east(0).ymd(2020, 1, 3).and_hms(4, 0, 0),
+        };
+        assert!(!event.multiday());
+
+        // But if it starts a day earlier, it should.
+        event.time = EventTime::DateTime {
+            start: FixedOffset::east(0).ymd(2020, 1, 1).and_hms(19, 0, 0),
+            end: FixedOffset::east(0).ymd(2020, 1, 3).and_hms(4, 0, 0),
+        };
+        assert!(event.multiday());
+
+        // An event that starts in the evening and continues on into the next afternoon is multi-day.
+        // TODO: This should be true even if it starts a bit later or finishes a bit earlier.
+        event.time = EventTime::DateTime {
+            start: FixedOffset::east(0).ymd(2020, 1, 2).and_hms(20, 0, 0),
+            end: FixedOffset::east(0).ymd(2020, 1, 3).and_hms(17, 0, 0),
+        };
+        assert!(event.multiday());
+    }
 }
