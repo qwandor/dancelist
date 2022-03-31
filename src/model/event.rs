@@ -246,9 +246,8 @@ impl Event {
                 start_date,
                 end_date,
             } => start_date != end_date,
-            EventTime::DateTime { start, end } => {
-                start.date() != end.date() && end - start > Duration::hours(20)
-            }
+            // Subtract a few hours from the end time in case it finishes after midnight.
+            EventTime::DateTime { start, end } => start.date() < (end - Duration::hours(5)).date(),
         }
     }
 
@@ -385,10 +384,9 @@ mod tests {
         assert!(event.multiday());
 
         // An event that starts in the evening and continues on into the next afternoon is multi-day.
-        // TODO: This should be true even if it starts a bit later or finishes a bit earlier.
         event.time = EventTime::DateTime {
-            start: FixedOffset::east(0).ymd(2020, 1, 2).and_hms(20, 0, 0),
-            end: FixedOffset::east(0).ymd(2020, 1, 3).and_hms(17, 0, 0),
+            start: FixedOffset::east(0).ymd(2020, 1, 2).and_hms(21, 0, 0),
+            end: FixedOffset::east(0).ymd(2020, 1, 3).and_hms(16, 0, 0),
         };
         assert!(event.multiday());
     }
