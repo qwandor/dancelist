@@ -51,7 +51,7 @@ pub async fn import_events() -> Result<Events, Report> {
 fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
     let properties = event.properties();
 
-    let url = get_property_value(properties, "URL")?;
+    let url = get_property_value(properties, "URL")?.to_owned();
 
     let summary = get_property_value(properties, "SUMMARY")?.replace("\\,", ",");
     // Remove city from end of summary.
@@ -150,11 +150,11 @@ fn convert_date(property: &Property) -> Result<NaiveDate, Report> {
         .wrap_err_with(|| format!("Error parsing date {:?}", property))
 }
 
-fn get_property_value(
-    properties: &BTreeMap<String, Property>,
+fn get_property_value<'a>(
+    properties: &'a BTreeMap<String, Property>,
     property_name: &str,
-) -> Result<String, Report> {
-    Ok(get_property(properties, property_name)?.value().to_owned())
+) -> Result<&'a str, Report> {
+    Ok(get_property(properties, property_name)?.value())
 }
 
 fn get_property<'a>(
