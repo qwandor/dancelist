@@ -26,6 +26,24 @@ use eyre::{eyre, Context, Report};
 use icalendar::{Calendar, CalendarComponent, Component, Event, Property};
 use log::{info, warn};
 
+const BANDS: [&str; 15] = [
+    "Beat Bouet Trio",
+    "Berkenwerk",
+    "BmB",
+    "Duo Mackie/Hendrix",
+    "Fahrenheit",
+    "Geronimo",
+    "Hartwin Dhoore",
+    "La Sauterelle",
+    "Laouen",
+    "Madlot",
+    "Mieneke",
+    "Naragonia",
+    "Paracetamol",
+    "QuiVive",
+    "Wilma",
+];
+
 pub async fn import_events() -> Result<Events, Report> {
     let calendar = reqwest::get("https://www.balfolk.nl/events.ics")
         .await?
@@ -120,6 +138,21 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
         || name == "DenneFeest"
         || description.contains("Bal deel");
 
+    let bands = if social {
+        BANDS
+            .iter()
+            .filter_map(|band| {
+                if description.contains(band) {
+                    Some(band.to_string())
+                } else {
+                    None
+                }
+            })
+            .collect()
+    } else {
+        vec![]
+    };
+
     Ok(Some(event::Event {
         name,
         details,
@@ -130,7 +163,7 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
         styles: vec![DanceStyle::Balfolk],
         workshop,
         social,
-        bands: vec![],
+        bands,
         callers: vec![],
         price: None,
         organisation: Some("balfolk.nl".to_string()),
