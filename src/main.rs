@@ -89,19 +89,16 @@ async fn concatenate(path: Option<&str>) -> Result<(), Report> {
 
 async fn import_balbende() -> Result<(), Report> {
     let events = folkbalbende::import_events().await?;
-    let yaml = serde_yaml::to_string(&events)?;
-    let yaml = yaml.replacen(
-        "---",
-        "# yaml-language-server: $schema=../events_schema.json",
-        1,
-    );
-    print!("{}", yaml);
-    Ok(())
+    print_events(&events)
 }
 
 async fn import_webfeet() -> Result<(), Report> {
     let events = webfeet::import_events().await?;
-    let yaml = serde_yaml::to_string(&events)?;
+    print_events(&events)
+}
+
+fn print_events(events: &Events) -> Result<(), Report> {
+    let yaml = serde_yaml::to_string(events)?;
     let yaml = yaml.replacen(
         "---",
         "# yaml-language-server: $schema=../events_schema.json",
