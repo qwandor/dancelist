@@ -24,7 +24,7 @@ use chrono::{DateTime, FixedOffset, NaiveDate, TimeZone};
 use chrono_tz::Europe::Amsterdam;
 use eyre::{eyre, Context, Report};
 use icalendar::{Calendar, CalendarComponent, Component, Event, Property};
-use log::warn;
+use log::{info, warn};
 
 pub async fn import_events() -> Result<Events, Report> {
     let calendar = reqwest::get("https://www.balfolk.nl/events.ics")
@@ -39,7 +39,7 @@ pub async fn import_events() -> Result<Events, Report> {
             .iter()
             .filter_map(|component| {
                 if let CalendarComponent::Event(event) = component {
-                    Some(convert(event))
+                    convert(event).transpose()
                 } else {
                     None
                 }
@@ -48,7 +48,7 @@ pub async fn import_events() -> Result<Events, Report> {
     })
 }
 
-fn convert(event: &Event) -> Result<event::Event, Report> {
+fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
     let properties = event.properties();
 
     let url = get_property_value(properties, "URL")?;
@@ -56,6 +56,12 @@ fn convert(event: &Event) -> Result<event::Event, Report> {
     let summary = get_property_value(properties, "SUMMARY")?.replace("\\,", ",");
     // Remove city from end of summary.
     let name = summary.rsplitn(2, ",").last().unwrap().to_owned();
+
+    // Try to skip music workshops.
+    if name.starts_with("Muziekstage") {
+        info!("Skipping \"{}\" {}", name, url);
+        return Ok(None);
+    }
 
     let description = unescape(&get_property_value(properties, "DESCRIPTION")?);
     // Remove name from start of description
@@ -91,7 +97,7 @@ fn convert(event: &Event) -> Result<event::Event, Report> {
         location_parts[2].to_string()
     };
 
-    Ok(event::Event {
+    Ok(Some(event::Event {
         name,
         details,
         links: vec![url],
@@ -106,7 +112,7 @@ fn convert(event: &Event) -> Result<event::Event, Report> {
         price: None,
         organisation: Some("balfolk.nl".to_string()),
         cancelled: false,
-    })
+    }))
 }
 
 fn convert_datetime(property: &Property) -> Result<DateTime<FixedOffset>, Report> {
