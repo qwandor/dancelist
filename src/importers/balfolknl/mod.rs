@@ -86,6 +86,7 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
     // Remove name from start of description
     let details = description
         .trim_start_matches(&format!("{}, ", raw_name))
+        .trim()
         .to_owned();
     let details = if details.is_empty() {
         None
