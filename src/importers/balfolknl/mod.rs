@@ -72,8 +72,9 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
     let url = get_property_value(properties, "URL")?.to_owned();
 
     let summary = get_property_value(properties, "SUMMARY")?.replace("\\,", ",");
-    // Remove city from end of summary.
-    let name = summary.rsplitn(2, ",").last().unwrap().to_owned();
+    // Remove city from end of summary and use em dash where appropriate.
+    let raw_name = summary.rsplitn(2, ",").last().unwrap();
+    let name = raw_name.replace(" - ", " — ");
 
     // Try to skip music workshops.
     if name.starts_with("Muziekstage") {
@@ -84,7 +85,7 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
     let description = unescape(&get_property_value(properties, "DESCRIPTION")?);
     // Remove name from start of description
     let details = description
-        .trim_start_matches(&format!("{}, ", name))
+        .trim_start_matches(&format!("{}, ", raw_name))
         .to_owned();
     let details = if details.is_empty() {
         None
