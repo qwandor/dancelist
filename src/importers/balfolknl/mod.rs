@@ -97,6 +97,29 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
         location_parts[2].to_string()
     };
 
+    let workshop = name.contains("Fundamentals")
+        || name.contains("Basis van")
+        || name == "DenneFeest"
+        || description.contains("Dansworkshop")
+        || description.contains("Workshopbeschrijving")
+        || description.contains("Workshop ")
+        || description.contains("dans uitleg")
+        || description.contains("dansuitleg")
+        || description.contains(" leren ")
+        || description.contains("Vooraf dansuitleg")
+        || description.contains("de Docent");
+    let social = name.contains("Social dance")
+        || name.contains("Balfolkbal")
+        || name.contains("Avondbal")
+        || name.contains("Bal in")
+        || name.contains("Balfolk Bal")
+        || name.starts_with("Balfolk Wilhelmina")
+        || name.starts_with("Fest Noz")
+        || name.starts_with("Verjaardagsbal")
+        || name == "Balfolk café Nijmegen"
+        || name == "DenneFeest"
+        || description.contains("Bal deel");
+
     Ok(Some(event::Event {
         name,
         details,
@@ -105,8 +128,8 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
         country: "Netherlands".to_string(),
         city,
         styles: vec![DanceStyle::Balfolk],
-        workshop: false,
-        social: true,
+        workshop,
+        social,
         bands: vec![],
         callers: vec![],
         price: None,
