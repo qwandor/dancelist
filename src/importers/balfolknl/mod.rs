@@ -54,9 +54,19 @@ fn convert(event: &Event) -> Result<event::Event, Report> {
     let url = get_property_value(properties, "URL")?;
 
     let summary = get_property_value(properties, "SUMMARY")?.replace("\\,", ",");
+    // Remove city from end of summary.
     let name = summary.rsplitn(2, ",").last().unwrap().to_owned();
 
     let description = unescape(&get_property_value(properties, "DESCRIPTION")?);
+    // Remove name from start of description
+    let details = description
+        .trim_start_matches(&format!("{}, ", name))
+        .to_owned();
+    let details = if details.is_empty() {
+        None
+    } else {
+        Some(details)
+    };
 
     let dtstart = get_property(properties, "DTSTART")?;
     let dtend = get_property(properties, "DTEND")?;
@@ -83,7 +93,7 @@ fn convert(event: &Event) -> Result<event::Event, Report> {
 
     Ok(event::Event {
         name,
-        details: Some(description),
+        details,
         links: vec![url],
         time,
         country: "Netherlands".to_string(),
