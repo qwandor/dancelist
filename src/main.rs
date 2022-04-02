@@ -108,7 +108,7 @@ fn print_events(events: &Events) -> Result<(), Report> {
     let yaml = serde_yaml::to_string(events)?;
     let yaml = yaml.replacen(
         "---",
-        "# yaml-language-server: $schema=../events_schema.json",
+        "# yaml-language-server: $schema=../../events_schema.json",
         1,
     );
     print!("{}", yaml);
