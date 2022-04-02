@@ -15,13 +15,14 @@
 pub mod types;
 
 use self::types::{Event, EventType};
+use super::to_fixed_offset;
 use crate::model::{
     dancestyle::DanceStyle,
     event::{self, EventTime},
     events::Events,
 };
-use chrono::{DateTime, FixedOffset, NaiveDate, NaiveTime, Offset, TimeZone};
-use chrono_tz::{Europe::Brussels, Tz};
+use chrono::{NaiveDate, NaiveTime, TimeZone};
+use chrono_tz::Europe::Brussels;
 use eyre::Report;
 
 pub async fn events() -> Result<Vec<Event>, Report> {
@@ -225,9 +226,4 @@ fn make_time(
         start_date: date,
         end_date: date,
     }
-}
-
-fn to_fixed_offset(date_time: DateTime<Tz>) -> DateTime<FixedOffset> {
-    let fixed_offset = date_time.offset().fix();
-    date_time.with_timezone(&fixed_offset)
 }

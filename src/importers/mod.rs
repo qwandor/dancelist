@@ -12,5 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+pub mod balfolknl;
 pub mod folkbalbende;
 pub mod webfeet;
+
+use chrono::{DateTime, FixedOffset, Offset};
+use chrono_tz::Tz;
+
+pub fn to_fixed_offset(date_time: DateTime<Tz>) -> DateTime<FixedOffset> {
+    let fixed_offset = date_time.offset().fix();
+    date_time.with_timezone(&fixed_offset)
+}

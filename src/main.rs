@@ -23,7 +23,7 @@ use crate::{
     config::Config,
     controllers::{bands, callers, cities, index, organisations},
     errors::internal_error,
-    importers::{folkbalbende, webfeet},
+    importers::{balfolknl, folkbalbende, webfeet},
     model::events::Events,
 };
 use axum::{
@@ -57,6 +57,8 @@ async fn main() -> Result<(), Report> {
         import_balbende().await
     } else if args.len() == 2 && args[1] == "webfeet" {
         import_webfeet().await
+    } else if args.len() == 2 && args[1] == "balfolknl" {
+        import_balfolknl().await
     } else {
         eprintln!("Invalid command.");
         exit(1);
@@ -94,6 +96,11 @@ async fn import_balbende() -> Result<(), Report> {
 
 async fn import_webfeet() -> Result<(), Report> {
     let events = webfeet::import_events().await?;
+    print_events(&events)
+}
+
+async fn import_balfolknl() -> Result<(), Report> {
+    let events = balfolknl::import_events().await?;
     print_events(&events)
 }
 
