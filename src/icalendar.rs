@@ -4,7 +4,7 @@ use axum::{
     http::{header, HeaderValue},
     response::{IntoResponse, Response},
 };
-use chrono::{Date, Utc};
+use chrono::{TimeZone, Utc};
 use icalendar::{Calendar, Component, EventStatus};
 use std::fmt::Write;
 
@@ -81,9 +81,9 @@ fn event_to_event(event: &Event) -> icalendar::Event {
             end_date,
         } => {
             calendar_event
-                .start_date(Date::<Utc>::from_utc(start_date, Utc))
+                .start_date(Utc.from_utc_date(&start_date))
                 // iCalendar DTEND is non-inclusive, so add one day.
-                .end_date(Date::<Utc>::from_utc(end_date.succ(), Utc));
+                .end_date(Utc.from_utc_date(&end_date.succ()));
         }
         EventTime::DateTime { start, end } => {
             calendar_event
