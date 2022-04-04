@@ -179,6 +179,11 @@ fn convert(event: &Event) -> Vec<event::Event> {
     }
     let end_time = end_times.into_iter().max();
 
+    let city = match event.location.address.city.as_str() {
+        "Saint-Gilles" => "Brussels",
+        other => other,
+    };
+
     event
         .dates
         .iter()
@@ -188,7 +193,7 @@ fn convert(event: &Event) -> Vec<event::Event> {
             links: links.clone(),
             time: make_time(date, start_time, end_time),
             country: "Belgium".to_string(),
-            city: event.location.address.city.clone(),
+            city: city.to_owned(),
             styles: vec![DanceStyle::Balfolk],
             workshop,
             social,
