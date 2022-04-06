@@ -83,7 +83,7 @@ fn convert(event: &Event) -> Vec<event::Event> {
                     .url
                     .starts_with("https://frissefolk.be/nl/civicrm/event/info")
             {
-                Some(website.url.to_owned())
+                Some(website.url.trim().to_owned())
             } else {
                 None
             }
@@ -91,7 +91,7 @@ fn convert(event: &Event) -> Vec<event::Event> {
         .collect();
     links.push(format!("https://folkbalbende.be/event/{}", event.id));
     if !event.facebook_event.is_empty() {
-        links.push(event.facebook_event.to_owned());
+        links.push(event.facebook_event.trim().to_owned());
     }
 
     let details = format!("{:?}", event.event_type);
