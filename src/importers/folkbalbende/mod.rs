@@ -142,7 +142,7 @@ fn convert(event: &Event) -> Vec<event::Event> {
                 if performance.band.placeholder {
                     None
                 } else {
-                    Some(performance.band.name.to_owned())
+                    Some(performance.band.name.trim().to_owned())
                 }
             })
             .collect()
