@@ -14,9 +14,9 @@
 
 use crate::{errors::InternalError, model::events::Events};
 use askama::Template;
-use axum::{extract::Extension, response::Html};
+use axum::response::Html;
 
-pub async fn bands(Extension(events): Extension<Events>) -> Result<Html<String>, InternalError> {
+pub async fn bands(events: Events) -> Result<Html<String>, InternalError> {
     let bands = events.bands();
     let template = BandsTemplate { bands };
     Ok(Html(template.render()?))

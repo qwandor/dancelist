@@ -14,9 +14,9 @@
 
 use crate::{errors::InternalError, model::events::Events};
 use askama::Template;
-use axum::{extract::Extension, response::Html};
+use axum::response::Html;
 
-pub async fn callers(Extension(events): Extension<Events>) -> Result<Html<String>, InternalError> {
+pub async fn callers(events: Events) -> Result<Html<String>, InternalError> {
     let callers = events.callers();
     let template = CallersTemplate { callers };
     Ok(Html(template.render()?))

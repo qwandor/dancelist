@@ -23,6 +23,7 @@ use std::{error::Error, fmt::Debug};
 pub enum InternalError {
     Internal(Report),
     NotFound,
+    Unauthorised,
 }
 
 impl<E: Error + Send + Sync + 'static> From<E> for InternalError {
@@ -36,6 +37,7 @@ impl IntoResponse for InternalError {
         match self {
             Self::Internal(report) => internal_error_response(report),
             Self::NotFound => StatusCode::NOT_FOUND.into_response(),
+            Self::Unauthorised => StatusCode::UNAUTHORIZED.into_response(),
         }
     }
 }

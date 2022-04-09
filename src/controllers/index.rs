@@ -24,14 +24,14 @@ use crate::{
 };
 use askama::Template;
 use axum::{
-    extract::{Extension, Query, TypedHeader},
+    extract::{Query, TypedHeader},
     headers::Host,
     response::Html,
 };
 use chrono::{naive, Datelike, NaiveDate};
 
 pub async fn index(
-    Extension(events): Extension<Events>,
+    events: Events,
     Query(mut filters): Query<Filters>,
     TypedHeader(host): TypedHeader<Host>,
 ) -> Result<Html<String>, InternalError> {
@@ -63,7 +63,7 @@ pub async fn index(
 }
 
 pub async fn index_json(
-    Extension(events): Extension<Events>,
+    events: Events,
     Query(filters): Query<Filters>,
 ) -> Result<String, InternalError> {
     let mut events = events.matching(&filters);
@@ -73,7 +73,7 @@ pub async fn index_json(
 }
 
 pub async fn index_toml(
-    Extension(events): Extension<Events>,
+    events: Events,
     Query(filters): Query<Filters>,
 ) -> Result<String, InternalError> {
     let mut events = events.matching(&filters);
@@ -83,7 +83,7 @@ pub async fn index_toml(
 }
 
 pub async fn index_yaml(
-    Extension(events): Extension<Events>,
+    events: Events,
     Query(filters): Query<Filters>,
 ) -> Result<String, InternalError> {
     let mut events = events.matching(&filters);
@@ -93,7 +93,7 @@ pub async fn index_yaml(
 }
 
 pub async fn index_ics(
-    Extension(events): Extension<Events>,
+    events: Events,
     Query(filters): Query<Filters>,
 ) -> Result<Ics, InternalError> {
     let mut events = events.matching(&filters);

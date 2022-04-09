@@ -12,24 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use crate::{
-    errors::InternalError,
-    model::{
-        events::{Country, Events},
-        filters::Filters,
-    },
+use crate::{errors::InternalError, model::events::Events};
+use axum::{
+    async_trait,
+    body::Body,
+    extract::{Extension, FromRequest, RequestParts},
 };
-use askama::Template;
-use axum::response::Html;
+use std::sync::{Arc, Mutex};
 
-pub async fn cities(events: Events) -> Result<Html<String>, InternalError> {
-    let countries = events.countries(&Filters::all());
-    let template = CitiesTemplate { countries };
-    Ok(Html(template.render()?))
-}
+#[async_trait]
+impl FromRequest<Body> for Events {
+    type Rejection = InternalError;
 
-#[derive(Template)]
-#[template(path = "cities.html")]
-struct CitiesTemplate {
-    countries: Vec<Country>,
+    async fn from_request(req: &mut RequestParts<Body>) -> Result<Self, Self::Rejection> {
+        let Extension(events): Extension<Arc<Mutex<Events>>> = Extension::from_request(req).await?;
+        let events = events.lock().unwrap();
+        Ok(events.clone())
+    }
 }

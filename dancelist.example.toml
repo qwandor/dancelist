@@ -7,3 +7,6 @@ events = "/var/lib/dancelist"
 
 # The address on which the server should listen.
 bind_address = "0.0.0.0:3002"
+
+# A secret token used to force a reload of event data.
+reload_token = "secret"

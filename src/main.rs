@@ -15,25 +15,30 @@
 mod config;
 mod controllers;
 mod errors;
+mod extractors;
 mod icalendar;
 mod importers;
 mod model;
 
 use crate::{
     config::Config,
-    controllers::{bands, callers, cities, index, organisations},
+    controllers::{bands, callers, cities, index, organisations, reload},
     errors::internal_error,
     importers::{balfolknl, folkbalbende, webfeet},
     model::events::Events,
 };
 use axum::{
-    routing::{get, get_service},
+    routing::{get, get_service, post},
     AddExtensionLayer, Router,
 };
 use eyre::Report;
 use log::info;
 use schemars::schema_for;
-use std::{env, process::exit};
+use std::{
+    env,
+    process::exit,
+    sync::{Arc, Mutex},
+};
 use tower_http::services::ServeDir;
 
 #[tokio::main]
@@ -118,6 +123,7 @@ fn print_events(events: &Events) -> Result<(), Report> {
 async fn serve() -> Result<(), Report> {
     let config = Config::from_file()?;
     let events = Events::load_events(&config.events).await?;
+    let events = Arc::new(Mutex::new(events));
 
     let app = Router::new()
         .route("/", get(index::index))
@@ -129,6 +135,7 @@ async fn serve() -> Result<(), Report> {
         .route("/callers", get(callers::callers))
         .route("/cities", get(cities::cities))
         .route("/organisations", get(organisations::organisations))
+        .route("/reload", post(reload::reload))
         .nest(
             "/stylesheets",
             get_service(ServeDir::new(config.public_dir.join("stylesheets")))

@@ -33,6 +33,8 @@ pub struct Config {
     pub events: String,
     #[serde(default = "default_bind_address")]
     pub bind_address: SocketAddr,
+    #[serde(default)]
+    pub reload_token: String,
 }
 
 impl Config {
