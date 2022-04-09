@@ -22,7 +22,6 @@ use std::{error::Error, fmt::Debug};
 /// Newtype wrapper around `Report` which implements `IntoResponse`.
 pub enum InternalError {
     Internal(Report),
-    NotFound,
     Unauthorised,
 }
 
@@ -36,7 +35,6 @@ impl IntoResponse for InternalError {
     fn into_response(self) -> Response {
         match self {
             Self::Internal(report) => internal_error_response(report),
-            Self::NotFound => StatusCode::NOT_FOUND.into_response(),
             Self::Unauthorised => StatusCode::UNAUTHORIZED.into_response(),
         }
     }
