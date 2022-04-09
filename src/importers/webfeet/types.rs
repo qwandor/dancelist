@@ -183,6 +183,7 @@ pub struct SourceData {
 pub enum SourceFormat {
     Anchor,
     Custom,
+    DL,
     #[serde(rename = "JSON-LD")]
     JsonLd,
     PBR,
