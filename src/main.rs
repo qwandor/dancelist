@@ -29,7 +29,7 @@ use crate::{
 };
 use axum::{
     routing::{get, get_service, post},
-    Router, Extension,
+    Extension, Router,
 };
 use eyre::Report;
 use log::info;
