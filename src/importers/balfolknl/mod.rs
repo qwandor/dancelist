@@ -26,10 +26,11 @@ use eyre::{eyre, Context, Report};
 use icalendar::{Calendar, CalendarComponent, Component, Event, Property};
 use log::{info, warn};
 
-const BANDS: [&str; 15] = [
+const BANDS: [&str; 17] = [
     "Beat Bouet Trio",
     "Berkenwerk",
     "BmB",
+    "Celts without Borders",
     "Duo Mackie/Hendrix",
     "Fahrenheit",
     "Geronimo",
@@ -42,6 +43,7 @@ const BANDS: [&str; 15] = [
     "Paracetamol",
     "QuiVive",
     "Wilma",
+    "Wouter en de Draak",
 ];
 
 pub async fn import_events() -> Result<Events, Report> {
@@ -119,7 +121,9 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
 
     let workshop = name.contains("Fundamentals")
         || name.contains("Basis van")
+        || name.contains("workshop")
         || name == "DenneFeest"
+        || name == "Folkbal Wilhelmina"
         || description.contains("Dansworkshop")
         || description.contains("Workshopbeschrijving")
         || description.contains("Workshop ")
@@ -138,6 +142,7 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
         || name.starts_with("Verjaardagsbal")
         || name == "Balfolk café Nijmegen"
         || name == "DenneFeest"
+        || name == "Folkbal Wilhelmina"
         || description.contains("Bal deel");
 
     let bands = if social {
