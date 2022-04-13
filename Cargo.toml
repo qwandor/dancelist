@@ -30,7 +30,7 @@ serde_urlencoded = "0.7.1"
 serde_yaml = "0.8.23"
 # FIXME: shuttle doesn't seem to let you point at shuttle-service as a git dep?
 # Should be unblocked by https://github.com/getsynth/shuttle/pull/118
-shuttle-service = { git = "https://github.com/getsynth/shuttle", branch = "chore/axum-0.5", features = ["web-axum"] }
+shuttle-service = { version = "0.2.5", git = "https://github.com/getsynth/shuttle", branch = "chore/axum-0.5", features = ["web-axum"] }
 stable-eyre = "0.2.2"
 sync_wrapper = "0.1.1"
 tokio = { version = "1.15.0", features = ["macros", "rt-multi-thread"] }
