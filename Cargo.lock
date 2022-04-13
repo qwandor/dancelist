@@ -27,6 +27,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "anyhow"
+version = "1.0.56"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "4361135be9122e0870de935d7c439aef945b9f9ddd4199a553b5270b49c82a27"
+
+[[package]]
 name = "askama"
 version = "0.11.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -292,6 +298,7 @@ dependencies = [
 name = "dancelist"
 version = "0.1.0"
 dependencies = [
+ "anyhow",
  "askama",
  "axum",
  "chrono",
@@ -309,7 +316,9 @@ dependencies = [
  "serde_json",
  "serde_urlencoded",
  "serde_yaml",
+ "shuttle-service",
  "stable-eyre",
+ "sync_wrapper",
  "tokio",
  "toml",
  "tower-http",
@@ -1063,9 +1072,9 @@ dependencies = [
 
 [[package]]
 name = "quote"
-version = "1.0.15"
+version = "1.0.18"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "864d3e96a899863136fc6e99f3d7cae289dafe43bf2c5ac19b70df7210c0a145"
+checksum = "a1feb54ed693b93a84e14094943b84b7c4eae204c512b7ccb95ab0c66d278ad1"
 dependencies = [
  "proc-macro2",
 ]
@@ -1329,6 +1338,30 @@ dependencies = [
 ]
 
 [[package]]
+name = "shuttle-codegen"
+version = "0.2.5"
+source = "git+https://github.com/getsynth/shuttle?branch=chore/axum-0.5#a5ebf856ea2426c74fb3a1f3cfcca6e770674457"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn",
+]
+
+[[package]]
+name = "shuttle-service"
+version = "0.2.5"
+source = "git+https://github.com/getsynth/shuttle?branch=chore/axum-0.5#a5ebf856ea2426c74fb3a1f3cfcca6e770674457"
+dependencies = [
+ "anyhow",
+ "async-trait",
+ "axum",
+ "shuttle-codegen",
+ "sync_wrapper",
+ "thiserror",
+ "tokio",
+]
+
+[[package]]
 name = "siphasher"
 version = "0.3.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1363,9 +1396,9 @@ dependencies = [
 
 [[package]]
 name = "syn"
-version = "1.0.86"
+version = "1.0.91"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8a65b3f4ffa0092e9887669db0eae07941f023991ab58ea44da8fe8e2d511c6b"
+checksum = "b683b2b825c8eef438b77c36a06dc262294da3d5a5813fac20da149241dcd44d"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -1399,6 +1432,26 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2dfed899f0eb03f32ee8c6a0aabdb8a7949659e3466561fc0adf54e26d88c5f4"
 dependencies = [
  "winapi-util",
+]
+
+[[package]]
+name = "thiserror"
+version = "1.0.30"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "854babe52e4df1653706b98fcfc05843010039b406875930a70e4d9644e5c417"
+dependencies = [
+ "thiserror-impl",
+]
+
+[[package]]
+name = "thiserror-impl"
+version = "1.0.30"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "aa32fd3f627f367fe16f893e2597ae3c05020f8bba2666a4e6ea73d377e5714b"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn",
 ]
 
 [[package]]

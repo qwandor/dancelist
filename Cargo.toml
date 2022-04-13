@@ -10,6 +10,7 @@ keywords = ["folk", "dance", "balfolk", "website"]
 categories = ["web-programming"]
 
 [dependencies]
+anyhow = "1.0.56"
 askama = "0.11.0"
 axum = { version = "0.5.0", features = ["headers"] }
 chrono = { version = "0.4.19", features = ["serde"] }
@@ -27,7 +28,9 @@ serde = { version = "1.0.136", features = ["derive"] }
 serde_json = "1.0.78"
 serde_urlencoded = "0.7.1"
 serde_yaml = "0.8.23"
+shuttle-service = { git = "https://github.com/getsynth/shuttle", branch = "chore/axum-0.5", features = ["web-axum"] }
 stable-eyre = "0.2.2"
+sync_wrapper = "0.1.1"
 tokio = { version = "1.15.0", features = ["macros", "rt-multi-thread"] }
 toml = "0.5.8"
 tower-http = { version = "0.2.1", features = ["fs"] }

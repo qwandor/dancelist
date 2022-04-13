@@ -124,6 +124,19 @@ pub async fn serve() -> Result<(), Report> {
     Ok(())
 }
 
+fn eyre_to_anyhow(e: Report) -> anyhow::Error {
+    let e: Box<dyn std::error::Error + Send + Sync + 'static> = e.into();
+    anyhow::anyhow!(e)
+}
+
+#[shuttle_service::main]
+async fn setup_shuttle() -> Result<sync_wrapper::SyncWrapper<Router>, shuttle_service::Error> {
+    let config = Config::from_file().map_err(eyre_to_anyhow)?;
+    let app = setup_app(&config).await.map_err(eyre_to_anyhow)?;
+
+    Ok(sync_wrapper::SyncWrapper::new(app))
+}
+
 /// Returns the JSON schema for events.
 pub fn event_schema() -> Result<String, Report> {
     let schema = schema_for!(Events);
