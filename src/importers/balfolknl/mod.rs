@@ -12,8 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use std::collections::BTreeMap;
-
 use super::to_fixed_offset;
 use crate::model::{
     dancestyle::DanceStyle,
@@ -69,11 +67,15 @@ pub async fn import_events() -> Result<Events, Report> {
 }
 
 fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
-    let properties = event.properties();
+    let url = event
+        .property_value("URL")
+        .ok_or_else(|| eyre!("Event {:?} missing url.", event))?
+        .to_owned();
 
-    let url = get_property_value(properties, "URL")?.to_owned();
-
-    let summary = get_property_value(properties, "SUMMARY")?.replace("\\,", ",");
+    let summary = event
+        .get_summary()
+        .ok_or_else(|| eyre!("Event {:?} missing summary.", event))?
+        .replace("\\,", ",");
     // Remove city from end of summary and use em dash where appropriate.
     let raw_name = summary.rsplitn(2, ",").last().unwrap();
     let name = raw_name.replace(" - ", " — ");
@@ -84,7 +86,11 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
         return Ok(None);
     }
 
-    let description = unescape(&get_property_value(properties, "DESCRIPTION")?);
+    let description = unescape(
+        &event
+            .get_description()
+            .ok_or_else(|| eyre!("Event {:?} missing description.", event))?,
+    );
     // Remove name from start of description
     let details = description
         .trim_start_matches(&format!("{}, ", raw_name))
@@ -96,8 +102,8 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
         Some(details)
     };
 
-    let dtstart = get_property(properties, "DTSTART")?;
-    let dtend = get_property(properties, "DTEND")?;
+    let dtstart = get_property(event, "DTSTART")?;
+    let dtend = get_property(event, "DTEND")?;
     let time = if dtstart.value().len() > 8 {
         EventTime::DateTime {
             start: convert_datetime(dtstart)?,
@@ -110,7 +116,9 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
         }
     };
 
-    let location = get_property_value(properties, "LOCATION")?;
+    let location = event
+        .get_location()
+        .ok_or_else(|| eyre!("Event {:?} missing location.", event))?;
     let location_parts = location.split("\\, ").collect::<Vec<_>>();
     let city = if location_parts.len() < 5 {
         warn!("Invalid location \"{}\" for {}", location, url);
@@ -190,17 +198,8 @@ fn convert_date(property: &Property) -> Result<NaiveDate, Report> {
         .wrap_err_with(|| format!("Error parsing date {:?}", property))
 }
 
-fn get_property_value<'a>(
-    properties: &'a BTreeMap<String, Property>,
-    property_name: &str,
-) -> Result<&'a str, Report> {
-    Ok(get_property(properties, property_name)?.value())
-}
-
-fn get_property<'a>(
-    properties: &'a BTreeMap<String, Property>,
-    property_name: &str,
-) -> Result<&'a Property, Report> {
+fn get_property<'a>(event: &'a Event, property_name: &str) -> Result<&'a Property, Report> {
+    let properties = event.properties();
     properties
         .get(property_name)
         .ok_or_else(|| eyre!("Event {:?} missing {}.", properties, property_name))
