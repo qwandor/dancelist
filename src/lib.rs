@@ -87,8 +87,7 @@ pub fn print_events(events: &Events) -> Result<(), Report> {
     Ok(())
 }
 
-pub async fn serve() -> Result<(), Report> {
-    let config = Config::from_file()?;
+pub async fn setup_app(config: &Config) -> Result<Router, Report> {
     let events = Events::load_events(&config.events).await?;
     let events = Arc::new(Mutex::new(events));
 
@@ -109,6 +108,13 @@ pub async fn serve() -> Result<(), Report> {
                 .handle_error(internal_error),
         )
         .layer(Extension(events));
+
+    Ok(app)
+}
+
+pub async fn serve() -> Result<(), Report> {
+    let config = Config::from_file()?;
+    let app = setup_app(&config).await?;
 
     info!("Listening on {}", config.bind_address);
     axum::Server::bind(&config.bind_address)
