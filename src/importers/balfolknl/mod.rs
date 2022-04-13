@@ -18,10 +18,12 @@ use crate::model::{
     event::{self, EventTime},
     events::Events,
 };
-use chrono::{DateTime, FixedOffset, NaiveDate, TimeZone};
+use chrono::TimeZone;
 use chrono_tz::Europe::Amsterdam;
-use eyre::{eyre, Context, Report};
-use icalendar::{Calendar, CalendarComponent, Component, Event, Property};
+use eyre::{bail, eyre, Report};
+use icalendar::{
+    Calendar, CalendarComponent, CalendarDateTime, Component, DatePerhapsTime, Event, Property,
+};
 use log::{info, warn};
 
 const BANDS: [&str; 17] = [
@@ -102,19 +104,7 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
         Some(details)
     };
 
-    let dtstart = get_property(event, "DTSTART")?;
-    let dtend = get_property(event, "DTEND")?;
-    let time = if dtstart.value().len() > 8 {
-        EventTime::DateTime {
-            start: convert_datetime(dtstart)?,
-            end: convert_datetime(dtend)?,
-        }
-    } else {
-        EventTime::DateOnly {
-            start_date: convert_date(dtstart)?,
-            end_date: convert_date(dtend)?,
-        }
-    };
+    let time = get_time(event)?;
 
     let location = event
         .get_location()
@@ -186,25 +176,6 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
     }))
 }
 
-fn convert_datetime(property: &Property) -> Result<DateTime<FixedOffset>, Report> {
-    let amsterdam_datetime = Amsterdam
-        .datetime_from_str(property.value(), "%Y%m%dT%H%M%S")
-        .wrap_err_with(|| format!("Error parsing datetime {:?}", property))?;
-    Ok(to_fixed_offset(amsterdam_datetime))
-}
-
-fn convert_date(property: &Property) -> Result<NaiveDate, Report> {
-    NaiveDate::parse_from_str(property.value(), "%Y%m%d")
-        .wrap_err_with(|| format!("Error parsing date {:?}", property))
-}
-
-fn get_property<'a>(event: &'a Event, property_name: &str) -> Result<&'a Property, Report> {
-    let properties = event.properties();
-    properties
-        .get(property_name)
-        .ok_or_else(|| eyre!("Event {:?} missing {}.", properties, property_name))
-}
-
 fn unescape(s: &str) -> String {
     s.replace("\\,", ",")
         .replace("\\;", ";")
@@ -215,19 +186,80 @@ fn unescape(s: &str) -> String {
         .replace("&nbsp;", " ")
 }
 
+fn get_time(event: &Event) -> Result<EventTime, Report> {
+    let start = event
+        .get_start()
+        .ok_or_else(|| eyre!("Event {:?} missing start time.", event))?;
+    let end = event
+        .get_end()
+        .ok_or_else(|| eyre!("Event {:?} missing end time.", event))?;
+    Ok(match (start, end) {
+        (DatePerhapsTime::Date(start_date), DatePerhapsTime::Date(end_date)) => {
+            EventTime::DateOnly {
+                start_date,
+                end_date,
+            }
+        }
+        (
+            DatePerhapsTime::DateTime(CalendarDateTime::WithTimezone {
+                date_time: start,
+                tzid: start_tzid,
+            }),
+            DatePerhapsTime::DateTime(CalendarDateTime::WithTimezone {
+                date_time: end,
+                tzid: end_tzid,
+            }),
+        ) => {
+            if start_tzid != "Europe/Amsterdam" {
+                bail!("Unexpected start timezone {}.", start_tzid)
+            }
+            if end_tzid != "Europe/Amsterdam" {
+                bail!("Unexpected end timezone {}.", end_tzid)
+            }
+            EventTime::DateTime {
+                start: to_fixed_offset(
+                    Amsterdam
+                        .from_local_datetime(&start)
+                        .single()
+                        .ok_or_else(|| eyre!("Ambiguous datetime for event {:?}", event))?,
+                ),
+                end: to_fixed_offset(
+                    Amsterdam
+                        .from_local_datetime(&end)
+                        .single()
+                        .ok_or_else(|| eyre!("Ambiguous datetime for event {:?}", event))?,
+                ),
+            }
+        }
+        _ => bail!("Mismatched start and end times."),
+    })
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
 
+    use chrono::FixedOffset;
+
     #[test]
     fn parse_datetime() {
-        let property = Property::new("DTSTART", "20220401T190000")
+        let start = Property::new("DTSTART", "20220401T190000")
             .add_parameter("TZID", "Europe/Amsterdam")
+            .done();
+        let end = Property::new("DTEND", "20220401T190000")
+            .add_parameter("TZID", "Europe/Amsterdam")
+            .done();
+        let event = Event::new()
+            .append_property(start)
+            .append_property(end)
             .done();
 
         assert_eq!(
-            convert_datetime(&property).unwrap(),
-            FixedOffset::east(7200).ymd(2022, 4, 1).and_hms(19, 0, 0)
+            get_time(&event).unwrap(),
+            EventTime::DateTime {
+                start: FixedOffset::east(7200).ymd(2022, 4, 1).and_hms(19, 0, 0),
+                end: FixedOffset::east(7200).ymd(2022, 4, 1).and_hms(19, 0, 0),
+            }
         );
     }
 }
