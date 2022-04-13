@@ -62,7 +62,7 @@ fn default_public_dir() -> PathBuf {
 }
 
 fn default_events() -> String {
-    "events".to_string()
+    "https://raw.githubusercontent.com/qwandor/dancelist-data/release/events.yaml".to_string()
 }
 
 fn default_bind_address() -> SocketAddr {
