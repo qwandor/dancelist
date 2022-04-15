@@ -10,8 +10,8 @@ keywords = ["folk", "dance", "balfolk", "website"]
 categories = ["web-programming"]
 
 [lib]
-# required by shuttle
-crate-type = ["cdylib"]
+# "lib" is required by main.rs, "cdylib" is required by shuttle
+crate-type = ["lib", "cdylib"]
 
 [dependencies]
 anyhow = "1.0.56"
