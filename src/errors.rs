@@ -40,11 +40,6 @@ impl IntoResponse for InternalError {
     }
 }
 
-/// Converts an error into an 'internal server error' response.
-pub async fn internal_error<E: Debug>(e: E) -> Response {
-    internal_error_response(e)
-}
-
 fn internal_error_response<E: Debug>(e: E) -> Response {
     (
         StatusCode::INTERNAL_SERVER_ERROR,

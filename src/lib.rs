@@ -40,7 +40,6 @@ use std::{
     sync::{Arc, Mutex},
 };
 use tokio::runtime::Runtime;
-use tower_http::services::ServeDir;
 
 /// Load events from the given file, directory or URL, or from the one in the config file if no path
 /// is provided.
