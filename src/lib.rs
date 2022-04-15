@@ -34,7 +34,12 @@ use axum::{
 use eyre::Report;
 use log::info;
 use schemars::schema_for;
-use std::sync::{Arc, Mutex};
+use shuttle_service::{IntoService, Service};
+use std::{
+    net::SocketAddr,
+    sync::{Arc, Mutex},
+};
+use tokio::runtime::Runtime;
 use tower_http::services::ServeDir;
 
 /// Load events from the given file, directory or URL, or from the one in the config file if no path
@@ -124,18 +129,48 @@ pub async fn serve() -> Result<(), Report> {
     Ok(())
 }
 
+pub async fn serve_shuttle(addr: SocketAddr) -> Result<(), Report> {
+    let config = Config::from_file()?;
+    let app = setup_app(&config).await?;
+
+    info!("Listening on {}", config.bind_address);
+    axum::Server::bind(&addr)
+        .serve(app.into_make_service())
+        .await?;
+
+    Ok(())
+}
+// We can't use the web-axum feature because there is no released 0.5 version on crates.io yet.
+// We can't use the shuttle_service::main macro because that needs a SimpleService, and orphan rules
+// do not allow us to impl anything useful for SimpleService outside of the shuttle_service crate.
+struct MyService;
+impl MyService {
+    fn new() -> Self {
+        Self
+    }
+}
+
+impl IntoService for MyService {
+    type Service = Self;
+
+    fn into_service(self) -> Self::Service {
+        self
+    }
+}
+
 fn eyre_to_anyhow(e: Report) -> anyhow::Error {
     let e: Box<dyn std::error::Error + Send + Sync + 'static> = e.into();
     anyhow::anyhow!(e)
 }
 
-#[shuttle_service::main]
-async fn setup_shuttle() -> Result<sync_wrapper::SyncWrapper<Router>, shuttle_service::Error> {
-    let config = Config::from_file().map_err(eyre_to_anyhow)?;
-    let app = setup_app(&config).await.map_err(eyre_to_anyhow)?;
-
-    Ok(sync_wrapper::SyncWrapper::new(app))
+impl Service for MyService {
+    fn bind(&mut self, addr: SocketAddr) -> Result<(), shuttle_service::error::Error> {
+        let rt = Runtime::new().unwrap();
+        rt.block_on(serve_shuttle(addr)).map_err(eyre_to_anyhow)?;
+        Ok(())
+    }
 }
+shuttle_service::declare_service!(MyService, MyService::new);
 
 /// Returns the JSON schema for events.
 pub fn event_schema() -> Result<String, Report> {

@@ -1340,7 +1340,8 @@ dependencies = [
 [[package]]
 name = "shuttle-codegen"
 version = "0.2.5"
-source = "git+https://github.com/getsynth/shuttle?branch=chore/axum-0.5#a5ebf856ea2426c74fb3a1f3cfcca6e770674457"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "45ffedff87b5e1e01d5175779d13b4d3c1868921c73d704252cc62075ab6ba46"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -1350,13 +1351,12 @@ dependencies = [
 [[package]]
 name = "shuttle-service"
 version = "0.2.5"
-source = "git+https://github.com/getsynth/shuttle?branch=chore/axum-0.5#a5ebf856ea2426c74fb3a1f3cfcca6e770674457"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d1891383ccf575543efe8caa6e2ccd55ff47f37f1be7ec384538cc4727a71568"
 dependencies = [
  "anyhow",
  "async-trait",
- "axum",
  "shuttle-codegen",
- "sync_wrapper",
  "thiserror",
  "tokio",
 ]
