@@ -132,7 +132,7 @@ pub async fn serve() -> Result<(), Report> {
 pub async fn serve_shuttle(addr: SocketAddr) -> Result<(), Report> {
     println!("in shuttle_service()");
     log::warn!("in shuttle_service()");
-    let config = Config::from_file()?;
+    let config = Config::default();
     let app = setup_app(&config).await?;
 
     println!("Listening on {}", config.bind_address);

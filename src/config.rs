@@ -57,6 +57,12 @@ impl Config {
     }
 }
 
+impl Default for Config {
+    fn default() -> Self {
+        toml::from_str("").unwrap()
+    }
+}
+
 fn default_public_dir() -> PathBuf {
     Path::new("public").to_path_buf()
 }
