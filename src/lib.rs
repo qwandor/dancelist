@@ -23,12 +23,12 @@ mod model;
 use crate::{
     config::Config,
     controllers::{bands, callers, cities, index, organisations, reload},
-    errors::internal_error,
     importers::{balfolknl, folkbalbende, webfeet},
     model::events::Events,
 };
 use axum::{
-    routing::{get, get_service, post},
+    http::header,
+    routing::{get, post},
     Extension, Router,
 };
 use eyre::Report;
@@ -107,10 +107,14 @@ pub async fn setup_app(config: &Config) -> Result<Router, Report> {
         .route("/cities", get(cities::cities))
         .route("/organisations", get(organisations::organisations))
         .route("/reload", post(reload::reload))
-        .nest(
-            "/stylesheets",
-            get_service(ServeDir::new(config.public_dir.join("stylesheets")))
-                .handle_error(internal_error),
+        .route(
+            "/stylesheets/main.css",
+            get(|| async {
+                (
+                    [(header::CONTENT_TYPE, "text/css")],
+                    include_str!("../public/stylesheets/main.css"),
+                )
+            }),
         )
         .layer(Extension(events));
 
