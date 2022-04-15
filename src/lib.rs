@@ -130,10 +130,13 @@ pub async fn serve() -> Result<(), Report> {
 }
 
 pub async fn serve_shuttle(addr: SocketAddr) -> Result<(), Report> {
+    println!("in shuttle_service()");
+    log::warn!("in shuttle_service()");
     let config = Config::from_file()?;
     let app = setup_app(&config).await?;
 
-    info!("Listening on {}", config.bind_address);
+    println!("Listening on {}", config.bind_address);
+    log::warn!("Listening on {}", config.bind_address);
     axum::Server::bind(&addr)
         .serve(app.into_make_service())
         .await?;
@@ -146,6 +149,8 @@ pub async fn serve_shuttle(addr: SocketAddr) -> Result<(), Report> {
 struct MyService;
 impl MyService {
     fn new() -> Self {
+        println!("in MyService::new()");
+        log::warn!("in MyService::new()");
         Self
     }
 }
@@ -154,6 +159,8 @@ impl IntoService for MyService {
     type Service = Self;
 
     fn into_service(self) -> Self::Service {
+        println!("in into_service()");
+        log::warn!("in into_service()");
         self
     }
 }
@@ -165,8 +172,12 @@ fn eyre_to_anyhow(e: Report) -> anyhow::Error {
 
 impl Service for MyService {
     fn bind(&mut self, addr: SocketAddr) -> Result<(), shuttle_service::error::Error> {
+        println!("in bind()");
+        log::warn!("in bind()");
         let rt = Runtime::new().unwrap();
         rt.block_on(serve_shuttle(addr)).map_err(eyre_to_anyhow)?;
+        println!("out bind()");
+        log::warn!("out bind()");
         Ok(())
     }
 }
