@@ -167,7 +167,7 @@ impl IntoService for MyService {
 
 fn eyre_to_anyhow(e: Report) -> anyhow::Error {
     let e: Box<dyn std::error::Error + Send + Sync + 'static> = e.into();
-    anyhow::anyhow!(e)
+    anyhow::anyhow!(dbg!(e))
 }
 
 impl Service for MyService {
