@@ -125,7 +125,9 @@ fn convert(event: &Event) -> Vec<event::Event> {
         let min_price = prices.iter().min();
         let max_price = prices.iter().max();
         if let (Some(min_price), Some(max_price)) = (min_price, max_price) {
-            Some(if min_price == max_price {
+            Some(if *min_price == -1 {
+                "donation".to_string()
+            } else if min_price == max_price {
                 format!("€{}", min_price)
             } else {
                 format!("€{}-€{}", min_price, max_price)
