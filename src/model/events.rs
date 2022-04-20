@@ -106,38 +106,38 @@ impl Events {
     }
 
     /// Gets all bands who play for at least one event, in alphabetical order.
-    pub fn bands(&self) -> Vec<String> {
-        let mut bands: Vec<String> = self
-            .events
-            .iter()
-            .flat_map(|event| event.bands.clone())
-            .collect();
+    pub fn bands(&self) -> Vec<Band> {
+        let mut bands: Vec<Band> =
+            count_duplicates(self.events.iter().flat_map(|event| event.bands.clone()))
+                .into_iter()
+                .map(|(name, event_count)| Band { name, event_count })
+                .collect();
         bands.sort();
-        bands.dedup();
         bands
     }
 
     /// Gets all callers who call for at least one event, in alphabetical order.
-    pub fn callers(&self) -> Vec<String> {
-        let mut callers: Vec<String> = self
-            .events
-            .iter()
-            .flat_map(|event| event.callers.clone())
-            .collect();
+    pub fn callers(&self) -> Vec<Caller> {
+        let mut callers: Vec<Caller> =
+            count_duplicates(self.events.iter().flat_map(|event| event.callers.clone()))
+                .into_iter()
+                .map(|(name, event_count)| Caller { name, event_count })
+                .collect();
         callers.sort();
-        callers.dedup();
         callers
     }
 
     /// Gets all dance organisations, in alphabetical order.
-    pub fn organisations(&self) -> Vec<String> {
-        let mut organisations: Vec<String> = self
-            .events
-            .iter()
-            .filter_map(|event| event.organisation.clone())
-            .collect();
+    pub fn organisations(&self) -> Vec<Organisation> {
+        let mut organisations: Vec<Organisation> = count_duplicates(
+            self.events
+                .iter()
+                .filter_map(|event| event.organisation.clone()),
+        )
+        .into_iter()
+        .map(|(name, event_count)| Organisation { name, event_count })
+        .collect();
         organisations.sort();
-        organisations.dedup();
         organisations
     }
 
@@ -202,6 +202,33 @@ impl Events {
 pub struct Country {
     pub name: String,
     pub cities: Vec<String>,
+}
+
+#[derive(Clone, Debug, Eq, Ord, PartialEq, PartialOrd)]
+pub struct Band {
+    pub name: String,
+    pub event_count: usize,
+}
+
+#[derive(Clone, Debug, Eq, Ord, PartialEq, PartialOrd)]
+pub struct Caller {
+    pub name: String,
+    pub event_count: usize,
+}
+
+#[derive(Clone, Debug, Eq, Ord, PartialEq, PartialOrd)]
+pub struct Organisation {
+    pub name: String,
+    pub event_count: usize,
+}
+
+/// Counts the number of occurrences of duplicate items in the iterator.
+fn count_duplicates(elements: impl Iterator<Item = String>) -> HashMap<String, usize> {
+    let mut counts = HashMap::new();
+    for element in elements {
+        *counts.entry(element).or_insert(0) += 1;
+    }
+    counts
 }
 
 #[cfg(test)]

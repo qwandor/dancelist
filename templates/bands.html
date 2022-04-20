@@ -11,7 +11,10 @@
 
 	<ul>
 		{% for band in bands %}
-		<li><a href="/?band={{ band|urlencode }}">{{ band }}</a></li>
+		<li>
+			<a href="/?band={{ band.name|urlencode }}">{{ band.name }}</a>
+			({{ band.event_count }} event{% if band.event_count != 1 %}s{% endif %})
+		</li>
 		{% endfor %}
 	</ul>
 </body>

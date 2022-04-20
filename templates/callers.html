@@ -11,7 +11,10 @@
 
 	<ul>
 		{% for caller in callers %}
-		<li><a href="/?caller={{ caller|urlencode }}">{{ caller }}</a></li>
+		<li>
+			<a href="/?caller={{ caller.name|urlencode }}">{{ caller.name }}</a>
+			({{ caller.event_count }} event{% if caller.event_count != 1 %}s{% endif %})
+		</li>
 		{% endfor %}
 	</ul>
 </body>

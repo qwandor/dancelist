@@ -12,7 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use crate::{errors::InternalError, model::events::Events};
+use crate::{
+    errors::InternalError,
+    model::events::{Caller, Events},
+};
 use askama::Template;
 use axum::response::Html;
 
@@ -25,5 +28,5 @@ pub async fn callers(events: Events) -> Result<Html<String>, InternalError> {
 #[derive(Template)]
 #[template(path = "callers.html")]
 struct CallersTemplate {
-    callers: Vec<String>,
+    callers: Vec<Caller>,
 }

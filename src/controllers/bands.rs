@@ -12,7 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use crate::{errors::InternalError, model::events::Events};
+use crate::{
+    errors::InternalError,
+    model::events::{Band, Events},
+};
 use askama::Template;
 use axum::response::Html;
 
@@ -25,5 +28,5 @@ pub async fn bands(events: Events) -> Result<Html<String>, InternalError> {
 #[derive(Template)]
 #[template(path = "bands.html")]
 struct BandsTemplate {
-    bands: Vec<String>,
+    bands: Vec<Band>,
 }

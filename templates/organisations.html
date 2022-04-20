@@ -11,7 +11,10 @@
 
 	<ul>
 		{% for organisation in organisations %}
-		<li><a href="/?organisation={{ organisation|urlencode }}">{{ organisation }}</a></li>
+		<li>
+			<a href="/?organisation={{ organisation.name|urlencode }}">{{ organisation.name }}</a>
+			({{ organisation.event_count }} event{% if organisation.event_count != 1 %}s{% endif %})
+		</li>
 		{% endfor %}
 	</ul>
 </body>

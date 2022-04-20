@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use crate::{errors::InternalError, model::events::Events};
+use crate::{errors::InternalError, model::events::{Events, Organisation}};
 use askama::Template;
 use axum::response::Html;
 
@@ -25,5 +25,5 @@ pub async fn organisations(events: Events) -> Result<Html<String>, InternalError
 #[derive(Template)]
 #[template(path = "organisations.html")]
 struct OrganisationsTemplate {
-    organisations: Vec<String>,
+    organisations: Vec<Organisation>,
 }
