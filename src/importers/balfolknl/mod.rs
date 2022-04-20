@@ -68,7 +68,7 @@ pub async fn import_events() -> Result<Events, Report> {
 
 fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
     let url = event
-        .property_value("URL")
+        .get_url()
         .ok_or_else(|| eyre!("Event {:?} missing url.", event))?
         .to_owned();
 
