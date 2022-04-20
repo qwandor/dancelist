@@ -21,9 +21,7 @@ use crate::model::{
 use chrono::TimeZone;
 use chrono_tz::Europe::Amsterdam;
 use eyre::{bail, eyre, Report};
-use icalendar::{
-    Calendar, CalendarComponent, CalendarDateTime, Component, DatePerhapsTime, Event, Property,
-};
+use icalendar::{Calendar, CalendarComponent, CalendarDateTime, Component, DatePerhapsTime, Event};
 use log::{info, warn};
 
 const BANDS: [&str; 17] = [
@@ -240,6 +238,7 @@ mod tests {
     use super::*;
 
     use chrono::FixedOffset;
+    use icalendar::Property;
 
     #[test]
     fn parse_datetime() {
