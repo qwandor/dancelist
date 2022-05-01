@@ -108,11 +108,13 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
         .get_location()
         .ok_or_else(|| eyre!("Event {:?} missing location.", event))?;
     let location_parts = location.split("\\, ").collect::<Vec<_>>();
-    let city = if location_parts.len() < 5 {
-        warn!("Invalid location \"{}\" for {}", location, url);
-        "".to_string()
-    } else {
-        location_parts[2].to_string()
+    let city = match location_parts.len() {
+        8 => location_parts[3].to_string(),
+        4.. => location_parts[2].to_string(),
+        _ => {
+            warn!("Invalid location \"{}\" for {}", location, url);
+            "".to_string()
+        }
     };
 
     let workshop = name.contains("Fundamentals")
