@@ -24,17 +24,19 @@ use eyre::{bail, eyre, Report};
 use icalendar::{Calendar, CalendarComponent, CalendarDateTime, Component, DatePerhapsTime, Event};
 use log::{info, warn};
 
-const BANDS: [&str; 17] = [
+const BANDS: [&str; 20] = [
     "Beat Bouet Trio",
     "Berkenwerk",
     "BmB",
     "Celts without Borders",
     "Duo Mackie/Hendrix",
+    "Emelie Waldken",
     "Fahrenheit",
     "Geronimo",
     "Hartwin Dhoore",
     "La Sauterelle",
     "Laouen",
+    "Les Bottines Artistiques",
     "Madlot",
     "Mieneke",
     "Naragonia",
@@ -42,6 +44,7 @@ const BANDS: [&str; 17] = [
     "QuiVive",
     "Wilma",
     "Wouter en de Draak",
+    "Wouter Kuyper",
 ];
 
 pub async fn import_events() -> Result<Events, Report> {
@@ -140,6 +143,7 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
         || name.starts_with("Fest Noz")
         || name.starts_with("Socialles ")
         || name.starts_with("Verjaardagsbal")
+        || name.starts_with("Balfolk Utrecht Bal")
         || name == "Balfolk café Nijmegen"
         || name == "DenneFeest"
         || name == "Folkbal Wilhelmina"
