@@ -24,12 +24,14 @@ use eyre::{bail, eyre, Report};
 use icalendar::{Calendar, CalendarComponent, CalendarDateTime, Component, DatePerhapsTime, Event};
 use log::{info, warn};
 
-const BANDS: [&str; 20] = [
+const BANDS: [&str; 22] = [
+    "Androneda",
     "Beat Bouet Trio",
     "Berkenwerk",
     "BmB",
     "Celts without Borders",
     "Duo Mackie/Hendrix",
+    "Duo Roblin-Thebaut",
     "Emelie Waldken",
     "Fahrenheit",
     "Geronimo",
@@ -144,6 +146,7 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
         || name.starts_with("Socialles ")
         || name.starts_with("Verjaardagsbal")
         || name.starts_with("Balfolk Utrecht Bal")
+        || name.starts_with("Verjaardagsbal")
         || name == "Balfolk café Nijmegen"
         || name == "DenneFeest"
         || name == "Folkbal Wilhelmina"
