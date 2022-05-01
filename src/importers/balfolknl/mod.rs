@@ -120,6 +120,7 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
     let workshop = name.contains("Fundamentals")
         || name.contains("Basis van")
         || name.contains("workshop")
+        || name.starts_with("Socialles ")
         || name == "DenneFeest"
         || name == "Folkbal Wilhelmina"
         || description.contains("Dansworkshop")
@@ -137,6 +138,7 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
         || name.contains("Balfolk Bal")
         || name.starts_with("Balfolk Wilhelmina")
         || name.starts_with("Fest Noz")
+        || name.starts_with("Socialles ")
         || name.starts_with("Verjaardagsbal")
         || name == "Balfolk café Nijmegen"
         || name == "DenneFeest"
