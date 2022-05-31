@@ -167,7 +167,7 @@ pub enum Style {
 pub struct Reference {
     pub source_data: SourceData,
     #[serde(rename = "URL")]
-    pub url: String,
+    pub url: Option<String>,
 }
 
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]

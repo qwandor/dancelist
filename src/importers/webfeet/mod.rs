@@ -105,10 +105,10 @@ fn convert(event: &EventRecord) -> Option<Event> {
 
     let mut callers = vec![];
     let mut styles = vec![];
-    let mut links = vec![event
-        .reference
-        .url
-        .replace("https://en-gb.facebook.com/", "https://www.facebook.com/")];
+    let mut links = vec![];
+    if let Some(url) = &event.reference.url {
+        links.push(url.replace("https://en-gb.facebook.com/", "https://www.facebook.com/"));
+    }
     for event in &event.event_collection.event {
         if let Some(style) = event.style {
             styles.extend(convert_style(style));
