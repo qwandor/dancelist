@@ -47,7 +47,7 @@ pub struct Event {
     pub fr: String,
     pub en: String,
     pub tags: Vec<String>,
-    pub image: String,
+    pub image: Option<String>,
     pub organisation: Option<Organisation>,
 }
 
@@ -135,7 +135,7 @@ pub struct Teacher {
     pub fr: String,
     pub en: String,
     pub thumbnail: Option<String>,
-    pub image: String,
+    pub image: Option<String>,
 }
 
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
@@ -169,7 +169,7 @@ pub struct Band {
     pub websites: Vec<Website>,
     pub tags: Vec<String>,
     pub musicians: Vec<Musician>,
-    pub image: String,
+    pub image: Option<String>,
 }
 
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
@@ -195,6 +195,6 @@ pub struct Organisation {
     pub name: String,
     pub websites: Vec<Website>,
     pub thumbnail: String,
-    pub image: String,
+    pub image: Option<String>,
     pub address: Option<Address>,
 }
