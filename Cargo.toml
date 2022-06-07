@@ -16,7 +16,7 @@ chrono = { version = "0.4.19", features = ["serde"] }
 chrono-tz = { version = "0.6.1", features = ["serde"] }
 color-backtrace = "0.5.1"
 enum-iterator = "0.7.0"
-eyre = "0.6.6"
+eyre = "0.6.8"
 icalendar = { version = "0.13.0", features = ["parser"] }
 log = "0.4.17"
 pretty_env_logger = "0.4.0"
