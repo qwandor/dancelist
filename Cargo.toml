@@ -11,7 +11,7 @@ categories = ["web-programming"]
 
 [dependencies]
 askama = "0.11.1"
-axum = { version = "0.5.7", features = ["headers"] }
+axum = { version = "0.5.9", features = ["headers"] }
 chrono = { version = "0.4.19", features = ["serde"] }
 chrono-tz = { version = "0.6.1", features = ["serde"] }
 color-backtrace = "0.5.1"
