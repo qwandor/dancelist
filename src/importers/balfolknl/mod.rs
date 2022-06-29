@@ -24,7 +24,7 @@ use eyre::{bail, eyre, Report};
 use icalendar::{Calendar, CalendarComponent, CalendarDateTime, Component, DatePerhapsTime, Event};
 use log::{info, warn};
 
-const BANDS: [&str; 22] = [
+const BANDS: [&str; 24] = [
     "Androneda",
     "Beat Bouet Trio",
     "Berkenwerk",
@@ -42,6 +42,8 @@ const BANDS: [&str; 22] = [
     "Madlot",
     "Mieneke",
     "Naragonia",
+    "Nebel",
+    "Nubia",
     "Paracetamol",
     "QuiVive",
     "Wilma",
