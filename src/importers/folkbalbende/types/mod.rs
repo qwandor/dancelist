@@ -103,6 +103,8 @@ pub struct Website {
 #[derive(Copy, Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
 pub enum WebsiteType {
     Facebook,
+    #[serde(rename = "last.fm")]
+    LastFm,
     MySpace,
     ReverbNation,
     SoundCloud,
