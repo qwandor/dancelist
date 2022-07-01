@@ -184,8 +184,11 @@ fn convert(event: &Event) -> Vec<event::Event> {
     let end_time = end_times.into_iter().max();
 
     let city = match event.location.address.city.as_str() {
-        "Saint-Gilles" => "Brussels",
+        "Brugge" => "Bruges",
         "Bruxelles" => "Brussels",
+        "Ixelles" => "Brussels",
+        "Jette" => "Brussels",
+        "Saint-Gilles" => "Brussels",
         "Wijgmaal" => "Leuven",
         other => other,
     };
