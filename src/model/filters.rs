@@ -17,7 +17,7 @@ use super::{
     event::{Event, EventTime},
 };
 use chrono::{DateTime, Utc};
-use enum_iterator::IntoEnumIterator;
+use enum_iterator::{all, Sequence};
 use eyre::Report;
 use serde::{Deserialize, Serialize};
 use std::fmt::{self, Display, Formatter};
@@ -38,7 +38,7 @@ pub struct Filters {
     pub cancelled: Option<bool>,
 }
 
-#[derive(Copy, Clone, Debug, Deserialize, Eq, IntoEnumIterator, PartialEq, Serialize)]
+#[derive(Copy, Clone, Debug, Deserialize, Eq, PartialEq, Sequence, Serialize)]
 #[serde(rename_all = "snake_case")]
 pub enum DateFilter {
     /// Include only events which started before the current day.
@@ -51,7 +51,7 @@ pub enum DateFilter {
 
 impl DateFilter {
     pub fn values() -> impl Iterator<Item = Self> {
-        DateFilter::into_enum_iter()
+        all::<DateFilter>()
     }
 }
 
