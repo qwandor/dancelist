@@ -24,7 +24,7 @@ use eyre::{bail, eyre, Report};
 use icalendar::{Calendar, CalendarComponent, CalendarDateTime, Component, DatePerhapsTime, Event};
 use log::{info, warn};
 
-const BANDS: [&str; 24] = [
+const BANDS: [&str; 25] = [
     "Androneda",
     "Beat Bouet Trio",
     "Berkenwerk",
@@ -46,6 +46,7 @@ const BANDS: [&str; 24] = [
     "Nubia",
     "Paracetamol",
     "QuiVive",
+    "Swinco",
     "Wilma",
     "Wouter en de Draak",
     "Wouter Kuyper",
@@ -126,6 +127,7 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
 
     let workshop = name.contains("Fundamentals")
         || name.contains("Basis van")
+        || name.contains("beginnerslessen")
         || name.contains("workshop")
         || name.starts_with("Socialles ")
         || name == "DenneFeest"
@@ -145,6 +147,7 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
         || name.contains("Balfolk Bal")
         || name.starts_with("Balfolk Wilhelmina")
         || name.starts_with("Fest Noz")
+        || name.starts_with("Folkwoods")
         || name.starts_with("Socialles ")
         || name.starts_with("Verjaardagsbal")
         || name.starts_with("Balfolk Utrecht Bal")
