@@ -141,7 +141,9 @@ fn convert(event: &Event) -> Vec<event::Event> {
         ball.performances
             .iter()
             .filter_map(|performance| {
-                if performance.band.placeholder {
+                if performance.band.placeholder
+                    || performance.band.name == "Practica, Bal Folk Sans Musique Live"
+                {
                     None
                 } else {
                     Some(performance.band.name.trim().to_owned())
