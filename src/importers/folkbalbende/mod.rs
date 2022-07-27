@@ -195,8 +195,11 @@ fn convert(event: &Event) -> Vec<event::Event> {
         other => other,
     };
 
-    event
-        .dates
+    // Remove duplicate dates.
+    let mut dates = event.dates.clone();
+    dates.dedup();
+
+    dates
         .iter()
         .map(|&date| event::Event {
             name: event.name.clone(),
