@@ -188,6 +188,7 @@ fn convert(event: &Event) -> Vec<event::Event> {
     let city = match event.location.address.city.as_str() {
         "Brugge" => "Bruges",
         "Bruxelles" => "Brussels",
+        "Etterbeek" => "Brussels",
         "Ixelles" => "Brussels",
         "Jette" => "Brussels",
         "Saint-Gilles" => "Brussels",
