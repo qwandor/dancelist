@@ -85,7 +85,7 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
         .ok_or_else(|| eyre!("Event {:?} missing summary.", event))?
         .replace("\\,", ",");
     // Remove city from end of summary and use em dash where appropriate.
-    let raw_name = summary.rsplitn(2, ",").last().unwrap();
+    let raw_name = summary.rsplitn(2, ',').last().unwrap();
     let name = raw_name.replace(" - ", " — ");
 
     // Try to skip music workshops.
@@ -95,7 +95,7 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
     }
 
     let description = unescape(
-        &event
+        event
             .get_description()
             .ok_or_else(|| eyre!("Event {:?} missing description.", event))?,
     );

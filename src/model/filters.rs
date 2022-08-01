@@ -156,7 +156,7 @@ impl Filters {
             }
         }
         if let Some(organisation) = &self.organisation {
-            if &event.organisation.as_deref().unwrap_or_default() != organisation {
+            if event.organisation.as_deref().unwrap_or_default() != organisation {
                 return false;
             }
         }

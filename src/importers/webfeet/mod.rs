@@ -34,7 +34,7 @@ pub async fn events() -> Result<Vec<EventRecord>, Report> {
     // Sort by ID to give a stable order.
     events.sort_by(|a, b| a.id.value.cmp(&b.id.value));
     for event in &events {
-        if event.canonical_date.isoformat.contains("-") {
+        if event.canonical_date.isoformat.contains('-') {
             eprintln!("{}", event.canonical_date.isoformat);
         }
         if let Some(text_date) = &event.text_date {
@@ -93,7 +93,7 @@ fn convert(event: &EventRecord) -> Option<Event> {
     let mut name = format!("{} in {}", bands.join(" & "), city);
     let mut cancelled = false;
     if let Some(event) = event.event_collection.event.first() {
-        if event.value.chars().next().unwrap() == '[' {
+        if event.value.starts_with('[') {
             if event.value == "[Cancelled]" || event.value == "[Postponed]" {
                 cancelled = true;
             }
