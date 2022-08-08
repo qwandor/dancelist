@@ -28,7 +28,7 @@ use axum::{
     headers::Host,
     response::Html,
 };
-use chrono::{naive, Datelike, NaiveDate};
+use chrono::{Datelike, NaiveDate};
 
 pub async fn index(
     events: Events,
@@ -131,7 +131,7 @@ fn sort_and_group_by_month(mut events: Vec<&Event>) -> Vec<Month> {
 
     let mut months = vec![];
     let mut month = Month {
-        start: naive::MIN_DATE,
+        start: NaiveDate::MIN,
         events: vec![],
     };
     for event in events {
