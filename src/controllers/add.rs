@@ -12,10 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub mod add;
-pub mod bands;
-pub mod callers;
-pub mod cities;
-pub mod index;
-pub mod organisations;
-pub mod reload;
+use crate::errors::InternalError;
+use askama::Template;
+use axum::response::Html;
+
+pub async fn add() -> Result<Html<String>, InternalError> {
+    let template = AddTemplate {};
+    Ok(Html(template.render()?))
+}
+
+#[derive(Template)]
+#[template(path = "add.html")]
+struct AddTemplate {}

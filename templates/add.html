@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Add event</title>
+	<link rel="stylesheet" type="text/css" href="/stylesheets/main.css" />
+</head>
+
+<body>
+	<h1>Add event</h1>
+
+	<p>In all fields, please use English if possible.</p>
+
+	<form method="post">
+		<table>
+			<tr>
+				<td>
+					<label for="name" class="required">Name</label>
+					<p>The name of the event. Try not to make it too long.</p>
+				</td>
+				<td><input name="name" id="name" type="text"/></td>
+			</tr>
+			<tr>
+				<td>
+					<label for="details">Details</label>
+					<p>Any further details or description of the event, if you like.</p>
+				</td>
+				<td><textarea name="details" id="details"></textarea></td>
+			</tr>
+			<tr>
+				<td>
+					<label for="links" class="required">Links</label>
+					<p>
+						One or more links to details of the event. Link to the specific event if possible,
+						rather than a list of events. If there is a Facebook event please include a link to it.
+					</p>
+				</td>
+				<td><textarea name="links" id="links"></textarea></td>
+			</tr>
+			<tr>
+				<td>
+					<label for="country" class="required">Country</label>
+					<p>The country in which the event will take place.</p>
+				</td>
+				<td>
+					<input name="country" id="country" type="text" list="countries"/>
+					<datalist id="countries">
+						<option>UK</option>
+						<option>New Zealand</option>
+					</datalist>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label for="city" class="required">City</label>
+					<p>
+						The city or town in which (or near which) the event will take place. If it's in the
+						suburbs surrounding a large city then prefer the name of that city rather than the
+						suburb.
+					</p>
+				</td>
+				<td><input name="city" id="city" type="text"/></td>
+			</tr>
+			<tr>
+				<td><label for="styles" class="required">Dance styles</label></td>
+				<td>
+					<fieldset>
+						<ul>
+							<li>
+								<input type="checkbox" name="styles" id="styles_balfolk" value="balfolk"/>
+								<label for="styles_balfolk">Balfolk</label>
+							</li>
+							<li>
+								<input type="checkbox" name="styles" id="styles_contra" value="contra"/>
+								<label for="styles_contra">Contra</label>
+							</li>
+						</ul>
+					</fieldset>
+				</td>
+			</tr>
+			<tr>
+				<td><label for="workshop" class="required">Workshop</label></td>
+				<td><input name="workshop" id="workshop" type="checkbox"/></td>
+			</tr>
+			<tr>
+				<td><label for="social" class="required">Social</label></td>
+				<td><input name="social" id="social" type="checkbox"/></td>
+			</tr>
+			<tr>
+				<td><label for="bands">Bands</label></td>
+				<td><input name="bands" id="bands" type="text"/></td>
+			</tr>
+			<tr>
+				<td><label for="callers">Callers</label></td>
+				<td><input name="callers" id="callers" type="text"/></td>
+			</tr>
+			<tr>
+				<td><label for="price">Price</label></td>
+				<td><input name="price" id="price" type="text"/></td>
+			</tr>
+			<tr>
+				<td><label for="organisation">Organisation</label></td>
+				<td><input name="organisation" id="organisation" type="text"/></td>
+			</tr>
+		</table>
+		<input type="submit" value="Add"/>
+	</form>
+</body>
+
+</html>

@@ -219,3 +219,10 @@ a:hover:not([class]) {
 .nav ul.unpadded li {
   margin-right: 0;
 }
+
+textarea {
+  overflow: auto;
+}
+label.required {
+  font-weight: bold;
+}
