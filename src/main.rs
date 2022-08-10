@@ -178,6 +178,7 @@ async fn serve() -> Result<(), Report> {
         .route("/index.toml", get(index::index_toml))
         .route("/index.yaml", get(index::index_yaml))
         .route("/add", get(add::add))
+        .route("/add", post(add::submit))
         .route("/bands", get(bands::bands))
         .route("/callers", get(callers::callers))
         .route("/cities", get(cities::cities))

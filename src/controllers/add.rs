@@ -15,12 +15,17 @@
 use crate::{
     errors::InternalError,
     model::{
+        dancestyle::DanceStyle,
+        event::{Event, EventTime},
         events::{Band, Caller, Country, Events, Organisation},
         filters::Filters,
     },
 };
 use askama::Template;
 use axum::response::Html;
+use axum_extra::extract::Form;
+use chrono::NaiveDate;
+use serde::{Deserialize, Deserializer};
 
 pub async fn add(events: Events) -> Result<Html<String>, InternalError> {
     let countries = events.countries(&Filters::all());
@@ -36,6 +41,16 @@ pub async fn add(events: Events) -> Result<Html<String>, InternalError> {
     Ok(Html(template.render()?))
 }
 
+pub async fn submit(Form(form): Form<AddForm>) -> Result<String, InternalError> {
+    let event = Event::from(form.clone());
+    Ok(format!(
+        "{:#?}\n{:#?}\nproblems: {:#?}",
+        form,
+        event,
+        event.validate()
+    ))
+}
+
 #[derive(Template)]
 #[template(path = "add.html")]
 struct AddTemplate {
@@ -43,4 +58,83 @@ struct AddTemplate {
     bands: Vec<Band>,
     callers: Vec<Caller>,
     organisations: Vec<Organisation>,
+}
+
+#[derive(Clone, Debug, Deserialize, Eq, PartialEq)]
+pub struct AddForm {
+    #[serde(deserialize_with = "trim")]
+    name: String,
+    #[serde(deserialize_with = "trim_non_empty")]
+    details: Option<String>,
+    links: String,
+    start_date: NaiveDate,
+    end_date: NaiveDate,
+    #[serde(deserialize_with = "trim")]
+    country: String,
+    #[serde(deserialize_with = "trim")]
+    city: String,
+    #[serde(default)]
+    styles: Vec<DanceStyle>,
+    #[serde(default)]
+    workshop: bool,
+    #[serde(default)]
+    social: bool,
+    bands: Vec<String>,
+    callers: Vec<String>,
+    #[serde(deserialize_with = "trim_non_empty")]
+    price: Option<String>,
+    #[serde(deserialize_with = "trim_non_empty")]
+    organisation: Option<String>,
+}
+
+impl From<AddForm> for Event {
+    fn from(form: AddForm) -> Self {
+        let time = EventTime::DateOnly {
+            start_date: form.start_date,
+            end_date: form.end_date,
+        };
+        Self {
+            name: form.name,
+            details: form.details,
+            links: vec![], // TODO
+            time,
+            country: form.country,
+            city: form.city,
+            styles: form.styles,
+            workshop: form.workshop,
+            social: form.social,
+            bands: form
+                .bands
+                .into_iter()
+                .filter_map(trimmed_non_empty)
+                .collect(),
+            callers: form
+                .callers
+                .into_iter()
+                .filter_map(trimmed_non_empty)
+                .collect(),
+            price: form.price,
+            organisation: form.organisation,
+            cancelled: false,
+            source: None,
+        }
+    }
+}
+
+fn trim<'de, D: Deserializer<'de>>(deserializer: D) -> Result<String, D::Error> {
+    Ok(String::deserialize(deserializer)?.trim().to_string())
+}
+
+fn trimmed_non_empty(s: String) -> Option<String> {
+    let trimmed = s.trim();
+    if trimmed.is_empty() {
+        None
+    } else {
+        Some(trimmed.to_string())
+    }
+}
+
+fn trim_non_empty<'de, D: Deserializer<'de>>(deserializer: D) -> Result<Option<String>, D::Error> {
+    let s = Option::<String>::deserialize(deserializer)?;
+    Ok(s.and_then(trimmed_non_empty))
 }
