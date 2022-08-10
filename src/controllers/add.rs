@@ -25,7 +25,7 @@ use askama::Template;
 use axum::response::Html;
 use axum_extra::extract::Form;
 use chrono::NaiveDate;
-use serde::{Deserialize, Deserializer};
+use serde::{de::IntoDeserializer, Deserialize, Deserializer};
 
 pub async fn add(events: Events) -> Result<Html<String>, InternalError> {
     let countries = events.countries(&Filters::all());
@@ -42,13 +42,8 @@ pub async fn add(events: Events) -> Result<Html<String>, InternalError> {
 }
 
 pub async fn submit(Form(form): Form<AddForm>) -> Result<String, InternalError> {
-    let event = Event::from(form.clone());
-    Ok(format!(
-        "{:#?}\n{:#?}\nproblems: {:#?}",
-        form,
-        event,
-        event.validate()
-    ))
+    let event = Event::try_from(form.clone());
+    Ok(format!("{:#?}\n{:#?}", form, event,))
 }
 
 #[derive(Template)]
@@ -67,8 +62,10 @@ pub struct AddForm {
     #[serde(deserialize_with = "trim_non_empty")]
     details: Option<String>,
     links: String,
-    start_date: NaiveDate,
-    end_date: NaiveDate,
+    #[serde(deserialize_with = "date_or_none")]
+    start_date: Option<NaiveDate>,
+    #[serde(deserialize_with = "date_or_none")]
+    end_date: Option<NaiveDate>,
     #[serde(deserialize_with = "trim")]
     country: String,
     #[serde(deserialize_with = "trim")]
@@ -87,13 +84,15 @@ pub struct AddForm {
     organisation: Option<String>,
 }
 
-impl From<AddForm> for Event {
-    fn from(form: AddForm) -> Self {
+impl TryFrom<AddForm> for Event {
+    type Error = Vec<&'static str>;
+
+    fn try_from(form: AddForm) -> Result<Self, Self::Error> {
         let time = EventTime::DateOnly {
-            start_date: form.start_date,
-            end_date: form.end_date,
+            start_date: form.start_date.ok_or(vec!["Missing start date"])?,
+            end_date: form.end_date.ok_or(vec!["Missing end date"])?,
         };
-        Self {
+        let event = Self {
             name: form.name,
             details: form.details,
             links: vec![], // TODO
@@ -117,6 +116,12 @@ impl From<AddForm> for Event {
             organisation: form.organisation,
             cancelled: false,
             source: None,
+        };
+        let problems = event.validate();
+        if problems.is_empty() {
+            Ok(event)
+        } else {
+            Err(problems)
         }
     }
 }
@@ -137,4 +142,16 @@ fn trimmed_non_empty(s: String) -> Option<String> {
 fn trim_non_empty<'de, D: Deserializer<'de>>(deserializer: D) -> Result<Option<String>, D::Error> {
     let s = Option::<String>::deserialize(deserializer)?;
     Ok(s.and_then(trimmed_non_empty))
+}
+
+fn date_or_none<'de, D: Deserializer<'de>>(deserializer: D) -> Result<Option<NaiveDate>, D::Error> {
+    if let Some(str) = Option::<String>::deserialize(deserializer)? {
+        if str.is_empty() {
+            Ok(None)
+        } else {
+            Ok(Some(NaiveDate::deserialize(str.into_deserializer())?))
+        }
+    } else {
+        Ok(None)
+    }
 }
