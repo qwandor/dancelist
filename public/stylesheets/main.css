@@ -226,3 +226,9 @@ textarea {
 label.required {
   font-weight: bold;
 }
+input:not([type=submit]):valid, textarea:valid {
+  background-color: #eeffee;
+}
+input:not([type=submit]):invalid, textarea:invalid {
+  background-color: #ffeeee;
+}
