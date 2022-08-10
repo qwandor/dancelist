@@ -45,8 +45,9 @@
 				<td>
 					<input name="country" id="country" type="text" list="countries"/>
 					<datalist id="countries">
-						<option>UK</option>
-						<option>New Zealand</option>
+						{% for country in countries %}
+						<option>{{ country.name }}</option>
+						{% endfor %}
 					</datalist>
 				</td>
 			</tr>
@@ -59,21 +60,26 @@
 						suburb.
 					</p>
 				</td>
-				<td><input name="city" id="city" type="text"/></td>
+				<td><input name="city" id="city" type="text" list="cities"/></td>
+				<datalist id="cities">
+					{% for country in countries %}
+					{% for city in country.cities %}
+					<option>{{ city }}</option>
+					{% endfor %}
+					{% endfor %}
+			</datalist>
 			</tr>
 			<tr>
 				<td><label for="styles" class="required">Dance styles</label></td>
 				<td>
 					<fieldset>
 						<ul>
+							{% for style in crate::model::dancestyle::DanceStyle::values() %}
 							<li>
-								<input type="checkbox" name="styles" id="styles_balfolk" value="balfolk"/>
-								<label for="styles_balfolk">Balfolk</label>
+								<input type="checkbox" name="styles" id="styles_{{ style.tag() }}" value="{{ style.tag() }}"/>
+								<label for="styles_{{ style.tag() }}" class="dance-style {{ style.tag() }}">{{ style }}</label>
 							</li>
-							<li>
-								<input type="checkbox" name="styles" id="styles_contra" value="contra"/>
-								<label for="styles_contra">Contra</label>
-							</li>
+							{% endfor %}
 						</ul>
 					</fieldset>
 				</td>
@@ -88,11 +94,21 @@
 			</tr>
 			<tr>
 				<td><label for="bands">Bands</label></td>
-				<td><input name="bands" id="bands" type="text"/></td>
+				<td><input name="bands" id="bands" type="text" list="bands_datalist"/></td>
+				<datalist id="bands_datalist">
+					{% for band in bands %}
+					<option>{{ band.name }}</option>
+					{% endfor %}
+				</datalist>
 			</tr>
 			<tr>
 				<td><label for="callers">Callers</label></td>
-				<td><input name="callers" id="callers" type="text"/></td>
+				<td><input name="callers" id="callers" type="text" list="callers_datalist"/></td>
+				<datalist id="callers_datalist">
+					{% for caller in callers %}
+					<option>{{ caller.name }}</option>
+					{% endfor %}
+				</datalist>
 			</tr>
 			<tr>
 				<td><label for="price">Price</label></td>
@@ -100,7 +116,12 @@
 			</tr>
 			<tr>
 				<td><label for="organisation">Organisation</label></td>
-				<td><input name="organisation" id="organisation" type="text"/></td>
+				<td><input name="organisation" id="organisation" type="text" list="organisations"></td>
+				<datalist id="organisations">
+					{% for organisation in organisations %}
+					<option>{{ organisation.name }}</option>
+					{% endfor %}
+				</datalist>
 			</tr>
 		</table>
 		<input type="submit" value="Add"/>

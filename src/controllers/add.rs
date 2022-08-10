@@ -12,15 +12,35 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use crate::errors::InternalError;
+use crate::{
+    errors::InternalError,
+    model::{
+        events::{Band, Caller, Country, Events, Organisation},
+        filters::Filters,
+    },
+};
 use askama::Template;
 use axum::response::Html;
 
-pub async fn add() -> Result<Html<String>, InternalError> {
-    let template = AddTemplate {};
+pub async fn add(events: Events) -> Result<Html<String>, InternalError> {
+    let countries = events.countries(&Filters::all());
+    let bands = events.bands();
+    let callers = events.callers();
+    let organisations = events.organisations();
+    let template = AddTemplate {
+        countries,
+        bands,
+        callers,
+        organisations,
+    };
     Ok(Html(template.render()?))
 }
 
 #[derive(Template)]
 #[template(path = "add.html")]
-struct AddTemplate {}
+struct AddTemplate {
+    countries: Vec<Country>,
+    bands: Vec<Band>,
+    callers: Vec<Caller>,
+    organisations: Vec<Organisation>,
+}
