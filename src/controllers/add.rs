@@ -37,7 +37,17 @@ pub async fn submit(
     Form(form): Form<AddForm>,
 ) -> Result<Html<String>, InternalError> {
     match Event::try_from(form.clone()) {
-        Ok(event) => Ok(Html(format!("<pre>{:#?}\n{:#?}</pre>", form, event))),
+        Ok(event) => {
+            let new_events = Events {
+                events: vec![event],
+            };
+
+            Ok(Html(format!(
+                "<pre>{:#?}\n{}</pre>",
+                form,
+                serde_yaml::to_string(&new_events)?,
+            )))
+        }
         Err(errors) => {
             let template = AddTemplate::new(&events, form, errors);
             Ok(Html(template.render()?))
