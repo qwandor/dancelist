@@ -263,6 +263,8 @@ fieldset > ul {
   padding: 0;
   margin-block-start: 0;
   margin-block-end: 0;
+  display: grid;
+  grid-template-columns: repeat(2, max-content);
 }
 
 /*--- Add event form theme ---*/
