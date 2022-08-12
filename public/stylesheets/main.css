@@ -220,9 +220,52 @@ a:hover:not([class]) {
   margin-right: 0;
 }
 
+/*--- Add event form layout ---*/
+
+form > ul {
+  list-style: none;
+  padding: 0;
+  margin-block-start: 0;
+  margin-block-end: 0;
+}
+
+form > ul > li {
+  display: grid;
+  grid-template-columns: 10em max-content 1fr;
+  grid-template-areas:
+    'label input -'
+    'description description description';
+  margin-bottom: 5px;
+}
+
+form > ul > li > label {
+  grid-area: label;
+}
+form > ul > li > input, form > ul > li > textarea, form > ul > li > fieldset {
+  grid-area: input;
+}
+form > ul > li > p {
+  grid-area: description;
+  margin-top: 0.1em;
+}
 textarea {
+  width: 30em;
   overflow: auto;
 }
+
+fieldset {
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+fieldset > ul {
+  list-style: none;
+  padding: 0;
+  margin-block-start: 0;
+  margin-block-end: 0;
+}
+
+/*--- Add event form theme ---*/
 label.required {
   font-weight: bold;
 }
