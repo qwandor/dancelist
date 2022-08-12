@@ -113,12 +113,28 @@ pub struct AddForm {
 }
 
 impl AddForm {
-    pub fn workshop(&self) -> bool {
+    fn workshop(&self) -> bool {
         self.workshop
     }
 
-    pub fn social(&self) -> bool {
+    fn social(&self) -> bool {
         self.social
+    }
+
+    fn start_date_string(&self) -> String {
+        if let Some(start_date) = self.start_date {
+            start_date.to_string()
+        } else {
+            String::default()
+        }
+    }
+
+    fn end_date_string(&self) -> String {
+        if let Some(end_date) = self.end_date {
+            end_date.to_string()
+        } else {
+            String::default()
+        }
     }
 }
 
