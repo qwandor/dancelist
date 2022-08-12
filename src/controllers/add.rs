@@ -89,7 +89,8 @@ pub struct AddForm {
     name: String,
     #[serde(deserialize_with = "trim_non_empty")]
     details: Option<String>,
-    links: String,
+    #[serde(deserialize_with = "trim_non_empty_vec")]
+    links: Vec<String>,
     #[serde(deserialize_with = "date_or_none")]
     start_date: Option<NaiveDate>,
     #[serde(deserialize_with = "date_or_none")]
@@ -104,7 +105,9 @@ pub struct AddForm {
     workshop: bool,
     #[serde(default)]
     social: bool,
+    #[serde(deserialize_with = "trim_non_empty_vec")]
     bands: Vec<String>,
+    #[serde(deserialize_with = "trim_non_empty_vec")]
     callers: Vec<String>,
     #[serde(deserialize_with = "trim_non_empty")]
     price: Option<String>,
@@ -196,6 +199,11 @@ fn trimmed_non_empty(s: String) -> Option<String> {
 fn trim_non_empty<'de, D: Deserializer<'de>>(deserializer: D) -> Result<Option<String>, D::Error> {
     let s = Option::<String>::deserialize(deserializer)?;
     Ok(s.and_then(trimmed_non_empty))
+}
+
+fn trim_non_empty_vec<'de, D: Deserializer<'de>>(deserializer: D) -> Result<Vec<String>, D::Error> {
+    let s = Vec::<String>::deserialize(deserializer)?;
+    Ok(s.into_iter().filter_map(trimmed_non_empty).collect())
 }
 
 fn date_or_none<'de, D: Deserializer<'de>>(deserializer: D) -> Result<Option<NaiveDate>, D::Error> {

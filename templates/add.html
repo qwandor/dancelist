@@ -39,7 +39,14 @@
 					One or more links to details of the event. Link to the specific event if possible, rather
 					than a list of events. If there is a Facebook event please include a link to it.
 				</p>
-				<input name="links" id="links" type="url" pattern="https?://.+"/>
+				<fieldset>
+					<ul>
+						{% for link in form.links %}
+						<li><input name="links" type="text" list="links_datalist" value="{{ link }}"/></li>
+						{% endfor %}
+						<li><input name="links" id="links" type="text"/></li>
+					</ul>
+				</fieldset>
 			</li>
 			<li>
 				<label for="start_date" class="required">Start date</label>
@@ -90,7 +97,7 @@
 			</li>
 			<li>
 				<label for="styles" class="required">Dance styles</label>
-				<fieldset>
+				<fieldset class="styles">
 					<ul>
 						{% for style in crate::model::dancestyle::DanceStyle::values() %}
 						<li>
@@ -119,7 +126,14 @@
 			</li>
 			<li>
 				<label for="bands">Bands</label>
-				<input name="bands" id="bands" type="text" list="bands_datalist"/>
+				<fieldset>
+					<ul>
+					{% for band in form.bands %}
+					<li><input name="bands" type="text" list="bands_datalist" value="{{ band }}"/></li>
+					{% endfor %}
+					<li><input name="bands" id="bands" type="text" list="bands_datalist"/></li>
+					</ul>
+				</fieldset>
 				<datalist id="bands_datalist">
 					{% for band in bands %}
 					<option>{{ band.name }}</option>
@@ -128,12 +142,14 @@
 			</li>
 			<li>
 				<label for="callers">Callers</label>
-				<input
-					name="callers"
-					id="callers"
-					type="text"
-					list="callers_datalist"
-				/>
+				<fieldset>
+					<ul>
+						{% for caller in form.callers %}
+						<li><input name="callers" type="text" list="callers_datalist" value="{{ caller }}"/></li>
+						{% endfor %}
+						<li><input name="callers" id="callers" type="text" list="callers_datalist"/></li>
+					</ul>
+				</fieldset>
 				<datalist id="callers_datalist">
 					{% for caller in callers %}
 					<option>{{ caller.name }}</option>
