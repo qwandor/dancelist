@@ -11,38 +11,55 @@
 
 	<p>In all fields, please use English if possible.</p>
 
+	{% for error in errors %}
+	<p class="error">{{ error }}</p>
+	{% endfor %}
+
 	<form method="post">
 		<ul>
 			<li>
 				<label for="name" class="required">Name</label>
 				<p>The name of the event. Try not to make it too long.</p>
-				<input name="name" id="name" type="text" required="required"/>
+				<input
+					name="name"
+					id="name"
+					type="text"
+					required="required"
+					value="{{ form.name }}"
+				/>
 			</li>
 			<li>
 				<label for="details">Details</label>
 				<p>Any further details or description of the event, if you like.</p>
-				<textarea name="details" id="details"></textarea>
+				<textarea name="details" id="details">{{ form.details.as_deref().unwrap_or_default() }}</textarea>
 			</li>
 			<li>
 				<label for="links" class="required">Links</label>
 				<p>
-					One or more links to details of the event. Link to the specific event if possible,
-					rather than a list of events. If there is a Facebook event please include a link to it.
+					One or more links to details of the event. Link to the specific event if possible, rather
+					than a list of events. If there is a Facebook event please include a link to it.
 				</p>
 				<input name="links" id="links" type="url" pattern="https?://.+"/>
 			</li>
 			<li>
 				<label for="start_date" class="required">Start date</label>
-				<input name="start_date" id="start_date" type="date"/>
+				<input name="start_date" id="start_date" type="date" value="{{ form.start_date.unwrap_or_default() }}"/>
 			</li>
 			<li>
 				<label for="end_date" class="required">End date</label>
-				<input name="end_date" id="end_date" type="date"/>
+				<input name="end_date" id="end_date" type="date" value="{{ form.end_date.unwrap_or_default() }}"/>
 			</li>
 			<li>
 				<label for="country" class="required">Country</label>
 				<p>The country in which the event will take place.</p>
-				<input name="country" id="country" type="text" required="required" list="countries"/>
+				<input
+					name="country"
+					id="country"
+					type="text"
+					required="required"
+					list="countries"
+					value="{{ form.country }}"
+				/>
 				<datalist id="countries">
 					{% for country in countries %}
 					<option>{{ country.name }}</option>
@@ -52,19 +69,24 @@
 			<li>
 				<label for="city" class="required">City</label>
 				<p>
-					The city or town in which (or near which) the event will take place. If it's in the
-					suburbs surrounding a large city then prefer the name of that city rather than the
-					suburb.
+					The city or town in which (or near which) the event will take place.
+					If it's in the suburbs surrounding a large city then prefer the name
+					of that city rather than the suburb.
 				</p>
-			
-				<input name="city" id="city" type="text" required="required" list="cities"/>
+
+				<input
+					name="city"
+					id="city"
+					type="text"
+					required="required"
+					list="cities"
+					value="{{ form.city }}"
+				/>
 				<datalist id="cities">
-					{% for country in countries %}
-					{% for city in country.cities %}
+					{% for country in countries %} {% for city in country.cities %}
 					<option>{{ city }}</option>
-					{% endfor %}
-					{% endfor %}
-				</datalist>	
+					{% endfor %} {% endfor %}
+				</datalist>
 			</li>
 			<li>
 				<label for="styles" class="required">Dance styles</label>
@@ -72,8 +94,16 @@
 					<ul>
 						{% for style in crate::model::dancestyle::DanceStyle::values() %}
 						<li>
-							<input type="checkbox" name="styles" id="styles_{{ style.tag() }}" value="{{ style.tag() }}"/>
-							<label for="styles_{{ style.tag() }}" class="dance-style {{ style.tag() }}">{{ style }}</label>
+							<input
+								type="checkbox"
+								name="styles"
+								id="styles_{{ style.tag() }}"
+								value="{{ style.tag() }}"
+								{{ form.styles.contains(style)|checked_if_true }}
+							/>
+							<label for="styles_{{ style.tag() }}" class="dance-style {{ style.tag() }}">
+								{{ style }}
+							</label>
 						</li>
 						{% endfor %}
 					</ul>
@@ -81,11 +111,11 @@
 			</li>
 			<li>
 				<label for="workshop" class="required">Workshop</label>
-				<input name="workshop" id="workshop" type="checkbox" value="true"/>
+				<input name="workshop" id="workshop" type="checkbox" value="true" {{ form.workshop()|checked_if_true }}/>
 			</li>
 			<li>
 				<label for="social" class="required">Social</label>
-				<input name="social" id="social" type="checkbox" value="true"/>
+				<input name="social" id="social" type="checkbox" value="true" {{ form.social()|checked_if_true }}/>
 			</li>
 			<li>
 				<label for="bands">Bands</label>
@@ -98,7 +128,12 @@
 			</li>
 			<li>
 				<label for="callers">Callers</label>
-				<input name="callers" id="callers" type="text" list="callers_datalist"/>
+				<input
+					name="callers"
+					id="callers"
+					type="text"
+					list="callers_datalist"
+				/>
 				<datalist id="callers_datalist">
 					{% for caller in callers %}
 					<option>{{ caller.name }}</option>
@@ -107,11 +142,22 @@
 			</li>
 			<li>
 				<label for="price">Price</label>
-				<input name="price" id="price" type="text"/>
+				<input
+					name="price"
+					id="price"
+					type="text"
+					value="{{ form.price.as_deref().unwrap_or_default() }}"
+				/>
 			</li>
 			<li>
 				<label for="organisation">Organisation</label>
-				<input name="organisation" id="organisation" type="text" list="organisations">
+				<input
+					name="organisation"
+					id="organisation"
+					type="text"
+					list="organisations"
+					value="{{ form.organisation.as_deref().unwrap_or_default() }}"
+				/>
 				<datalist id="organisations">
 					{% for organisation in organisations %}
 					<option>{{ organisation.name }}</option>

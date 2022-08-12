@@ -28,22 +28,21 @@ use chrono::NaiveDate;
 use serde::{de::IntoDeserializer, Deserialize, Deserializer};
 
 pub async fn add(events: Events) -> Result<Html<String>, InternalError> {
-    let countries = events.countries(&Filters::all());
-    let bands = events.bands();
-    let callers = events.callers();
-    let organisations = events.organisations();
-    let template = AddTemplate {
-        countries,
-        bands,
-        callers,
-        organisations,
-    };
+    let template = AddTemplate::new(&events, AddForm::default(), vec![]);
     Ok(Html(template.render()?))
 }
 
-pub async fn submit(Form(form): Form<AddForm>) -> Result<String, InternalError> {
-    let event = Event::try_from(form.clone());
-    Ok(format!("{:#?}\n{:#?}", form, event,))
+pub async fn submit(
+    events: Events,
+    Form(form): Form<AddForm>,
+) -> Result<Html<String>, InternalError> {
+    match Event::try_from(form.clone()) {
+        Ok(event) => Ok(Html(format!("<pre>{:#?}\n{:#?}</pre>", form, event))),
+        Err(errors) => {
+            let template = AddTemplate::new(&events, form, errors);
+            Ok(Html(template.render()?))
+        }
+    }
 }
 
 #[derive(Template)]
@@ -53,9 +52,28 @@ struct AddTemplate {
     bands: Vec<Band>,
     callers: Vec<Caller>,
     organisations: Vec<Organisation>,
+    form: AddForm,
+    errors: Vec<&'static str>,
 }
 
-#[derive(Clone, Debug, Deserialize, Eq, PartialEq)]
+impl AddTemplate {
+    fn new(events: &Events, form: AddForm, errors: Vec<&'static str>) -> Self {
+        let countries = events.countries(&Filters::all());
+        let bands = events.bands();
+        let callers = events.callers();
+        let organisations = events.organisations();
+        Self {
+            countries,
+            bands,
+            callers,
+            organisations,
+            form,
+            errors,
+        }
+    }
+}
+
+#[derive(Clone, Debug, Default, Deserialize, Eq, PartialEq)]
 pub struct AddForm {
     #[serde(deserialize_with = "trim")]
     name: String,
@@ -82,6 +100,16 @@ pub struct AddForm {
     price: Option<String>,
     #[serde(deserialize_with = "trim_non_empty")]
     organisation: Option<String>,
+}
+
+impl AddForm {
+    pub fn workshop(&self) -> bool {
+        self.workshop
+    }
+
+    pub fn social(&self) -> bool {
+        self.social
+    }
 }
 
 impl TryFrom<AddForm> for Event {
@@ -153,5 +181,11 @@ fn date_or_none<'de, D: Deserializer<'de>>(deserializer: D) -> Result<Option<Nai
         }
     } else {
         Ok(None)
+    }
+}
+
+mod filters {
+    pub fn checked_if_true(value: bool) -> askama::Result<&'static str> {
+        Ok(if value { "checked=\"checked\"" } else { "" })
     }
 }

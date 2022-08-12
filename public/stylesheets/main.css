@@ -274,3 +274,6 @@ label.required {
 input:not([type=submit]):invalid, textarea:invalid {
   background-color: #ffeeee;
 }
+.error {
+  color: #bb0000;
+}
