@@ -24,13 +24,14 @@ use eyre::{bail, eyre, Report};
 use icalendar::{Calendar, CalendarComponent, CalendarDateTime, Component, DatePerhapsTime, Event};
 use log::{info, warn};
 
-const BANDS: [&str; 26] = [
+const BANDS: [&str; 27] = [
     "Achterband",
     "Androneda",
     "Beat Bouet Trio",
     "Berkenwerk",
     "BmB",
     "Celts without Borders",
+    "Duo Absynthe",
     "Duo Mackie/Hendrix",
     "Duo Roblin-Thebaut",
     "Emelie Waldken",
