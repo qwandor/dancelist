@@ -247,6 +247,7 @@ form > ul > li > input, form > ul > li > textarea, form > ul > li > fieldset {
 form > ul > li > p {
   grid-area: description;
   margin-top: 0.1em;
+  font-style: italic;
 }
 textarea {
   width: 30em;
