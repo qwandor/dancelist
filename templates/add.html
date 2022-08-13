@@ -163,8 +163,13 @@
 					name="price"
 					id="price"
 					type="text"
+					list="price_datalist"
 					value="{{ form.price.as_deref().unwrap_or_default() }}"
 				/>
+				<datalist id="price_datalist">
+					<option>donation</option>
+					<option>free</option>
+				</datalist>
 			</li>
 			<li>
 				<label for="organisation">Organisation</label>
