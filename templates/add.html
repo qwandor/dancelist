@@ -119,10 +119,12 @@
 			</li>
 			<li>
 				<label for="workshop" class="required">Workshop</label>
+				<p>Does the event include some organised teaching such as a workshop, class or beginner lesson?</p>
 				<input name="workshop" id="workshop" type="checkbox" value="true" {{ form.workshop()|checked_if_true }}/>
 			</li>
 			<li>
 				<label for="social" class="required">Social</label>
+				<p>Does the event include social dancing (rather than just a workshop or practice)?</p>
 				<input name="social" id="social" type="checkbox" value="true" {{ form.social()|checked_if_true }}/>
 			</li>
 			<li>
@@ -143,6 +145,10 @@
 			</li>
 			<li>
 				<label for="callers">Callers</label>
+				<p>
+					For styles like contra and ceilidh where there is a caller on stage with the band calling
+					the figures.
+				</p>
 				<fieldset>
 					<ul id="callers_list">
 						{% for caller in form.callers %}
@@ -173,6 +179,7 @@
 			</li>
 			<li>
 				<label for="organisation">Organisation</label>
+				<p>The name of the group who organise the event.</p>
 				<input
 					name="organisation"
 					id="organisation"
