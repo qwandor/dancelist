@@ -234,7 +234,7 @@ form > ul > li {
   grid-template-columns: 10em max-content 1fr;
   grid-template-areas:
     'label input -'
-    'description description description';
+    'explanation explanation explanation';
   margin-bottom: 5px;
 }
 
@@ -245,7 +245,7 @@ form > ul > li > input, form > ul > li > textarea, form > ul > li > fieldset {
   grid-area: input;
 }
 form > ul > li > p {
-  grid-area: description;
+  grid-area: explanation;
   margin-top: 0.1em;
   font-style: italic;
 }
