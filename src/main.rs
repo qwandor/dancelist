@@ -185,6 +185,11 @@ async fn serve() -> Result<(), Report> {
         .route("/organisations", get(organisations::organisations))
         .route("/reload", post(reload::reload))
         .nest_service(
+            "/scripts",
+            get_service(ServeDir::new(config.public_dir.join("scripts")))
+                .handle_error(internal_error),
+        )
+        .nest_service(
             "/stylesheets",
             get_service(ServeDir::new(config.public_dir.join("stylesheets")))
                 .handle_error(internal_error),

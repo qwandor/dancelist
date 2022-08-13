@@ -4,6 +4,7 @@
 <head>
 	<title>Add event</title>
 	<link rel="stylesheet" type="text/css" href="/stylesheets/main.css" />
+	<script type="text/javascript" src="/scripts/add.js"></script>
 </head>
 
 <body>
@@ -40,11 +41,11 @@
 					than a list of events. If there is a Facebook event please include a link to it.
 				</p>
 				<fieldset>
-					<ul>
+					<ul id="links_list">
 						{% for link in form.links %}
-						<li><input name="links" type="text" list="links_datalist" value="{{ link }}"/></li>
+						<li><input name="links" type="url" value="{{ link }}"/></li>
 						{% endfor %}
-						<li><input name="links" id="links" type="text"/></li>
+						<li><input name="links" id="links" type="url"/></li>
 					</ul>
 				</fieldset>
 			</li>
@@ -127,7 +128,7 @@
 			<li>
 				<label for="bands">Bands</label>
 				<fieldset>
-					<ul>
+					<ul id="bands_list">
 					{% for band in form.bands %}
 					<li><input name="bands" type="text" list="bands_datalist" value="{{ band }}"/></li>
 					{% endfor %}
@@ -143,7 +144,7 @@
 			<li>
 				<label for="callers">Callers</label>
 				<fieldset>
-					<ul>
+					<ul id="callers_list">
 						{% for caller in form.callers %}
 						<li><input name="callers" type="text" list="callers_datalist" value="{{ caller }}"/></li>
 						{% endfor %}
