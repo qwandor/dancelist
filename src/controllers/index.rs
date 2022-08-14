@@ -98,7 +98,7 @@ pub async fn index_ics(
 ) -> Result<Ics, InternalError> {
     let mut events = events.matching(&filters);
     events.sort_by_key(|event| event.start_time_sort_key());
-    let calendar = events_to_calendar(&events);
+    let calendar = events_to_calendar(&events, &filters.make_title());
     Ok(Ics(calendar))
 }
 

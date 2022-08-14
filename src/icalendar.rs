@@ -8,12 +8,12 @@ use chrono::Utc;
 use icalendar::{Calendar, Component, EventStatus};
 use std::fmt::Write;
 
-pub fn events_to_calendar(events: &[&Event]) -> Calendar {
+pub fn events_to_calendar(events: &[&Event], name: &str) -> Calendar {
     events
         .iter()
         .map(|event| event_to_event(event))
         .collect::<Calendar>()
-        .name("Folk dance events")
+        .name(name)
         .done()
 }
 
