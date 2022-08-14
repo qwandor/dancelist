@@ -192,6 +192,11 @@
 		<a href="/index.toml?{{ filters.to_query_string().unwrap()|safe }}">TOML</a> |
 		<a href="/index.yaml?{{ filters.to_query_string().unwrap()|safe }}">YAML</a>
 	</p>
+	<p>
+		<a href="https://www.google.com/calendar/render?cid=webcal://folkdance.page/index.ics?{{ filters.to_query_string().unwrap()|safe }}">
+			Subscribe to this view in Google Calendar
+		</a>
+	</p>
 </body>
 
 </html>
