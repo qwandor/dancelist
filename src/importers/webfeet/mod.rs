@@ -78,6 +78,8 @@ fn replace_entities(source: &str) -> String {
         .replace("&icirc;", "&#238;")
         .replace("&Ouml;", "&#214;")
         .replace("&Agrave;", "&#192;")
+        .replace("&eacute;", "&#233;")
+        .replace("&aring;", "&#229;")
 }
 
 fn convert(event: &EventRecord) -> Option<Event> {

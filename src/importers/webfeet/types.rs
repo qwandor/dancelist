@@ -28,6 +28,7 @@ pub struct EventRecord {
     pub text_date: Option<TextDate>,
     #[serde(default)]
     pub event_collection: EventCollection,
+    #[serde(default)]
     pub band_collection: BandCollection,
     #[serde(default)]
     pub caller_collection: CallerCollection,
