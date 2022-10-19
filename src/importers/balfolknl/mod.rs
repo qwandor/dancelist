@@ -24,9 +24,11 @@ use eyre::{bail, eyre, Report};
 use icalendar::{Calendar, CalendarComponent, CalendarDateTime, Component, DatePerhapsTime, Event};
 use log::{info, warn};
 
-const BANDS: [&str; 27] = [
+const BANDS: [&str; 31] = [
     "Achterband",
     "Androneda",
+    "Artisjok",
+    "Aurélien Claranbaux",
     "Beat Bouet Trio",
     "Berkenwerk",
     "BmB",
@@ -41,8 +43,10 @@ const BANDS: [&str; 27] = [
     "La Sauterelle",
     "Laouen",
     "Les Bottines Artistiques",
+    "Les Zéoles",
     "Madlot",
     "Mieneke",
+    "Momiro",
     "Naragonia",
     "Nebel",
     "Nubia",
