@@ -174,8 +174,14 @@ impl Event {
                 }
             };
 
+            let name = if self.name.contains("TBA") {
+                other.name.clone()
+            } else {
+                self.name.clone()
+            };
+
             Some(Event {
-                name: self.name.clone(),
+                name,
                 details,
                 links,
                 time: self.time.clone(),
