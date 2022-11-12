@@ -75,11 +75,25 @@ pub async fn import_events() -> Result<Events, Report> {
 
 fn replace_entities(source: &str) -> String {
     source
-        .replace("&icirc;", "&#238;")
-        .replace("&Ouml;", "&#214;")
+        .replace("&nbsp;", "&#160;")
+        .replace("&sup2;", "&#178;")
         .replace("&Agrave;", "&#192;")
+        .replace("&agrave;", "&#224;")
+        .replace("&Ccedil;", "&#199;")
+        .replace("&ccedil;", "&#231;")
+        .replace("&Eacute;", "&#201;")
         .replace("&eacute;", "&#233;")
+        .replace("&Egrave;", "&#200;")
+        .replace("&egrave;", "&#232;")
         .replace("&aring;", "&#229;")
+        .replace("&Euml;", "&#203;")
+        .replace("&euml;", "&#235;")
+        .replace("&Ouml;", "&#214;")
+        .replace("&ouml;", "&#246;")
+        .replace("&icirc;", "&#238;")
+        .replace("&ucirc;", "&#219;")
+        .replace("&pound;", "&#163;")
+        .replace("&euro;", "&#8364;")
 }
 
 fn convert(event: &EventRecord) -> Option<Event> {
