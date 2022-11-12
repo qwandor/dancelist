@@ -107,6 +107,7 @@ fn convert(event: &EventRecord) -> Option<Event> {
     let city = event.location_collection.location.value.clone();
 
     let mut name = format!("{} in {}", bands.join(" & "), city);
+    let bands = bands.into_iter().filter(|band| band != "TBA").collect();
     let mut cancelled = false;
     if let Some(event) = event.event_collection.event.first() {
         if event.value.starts_with('[') {
