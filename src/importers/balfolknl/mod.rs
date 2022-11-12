@@ -221,7 +221,8 @@ fn get_time(event: &Event) -> Result<EventTime, Report> {
         (DatePerhapsTime::Date(start_date), DatePerhapsTime::Date(end_date)) => {
             EventTime::DateOnly {
                 start_date,
-                end_date,
+                // iCalendar DTEND is non-inclusive, so subtract one day.
+                end_date: end_date.pred_opt().unwrap(),
             }
         }
         (
