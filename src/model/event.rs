@@ -13,7 +13,7 @@
 // limitations under the License.
 
 use super::dancestyle::DanceStyle;
-use chrono::{Date, DateTime, Datelike, Duration, FixedOffset, NaiveDate, Utc};
+use chrono::{DateTime, Datelike, Duration, FixedOffset, NaiveDate, TimeZone, Utc};
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 use std::ops::Not;
@@ -247,7 +247,9 @@ impl Event {
                 end_date,
             } => start_date != end_date,
             // Subtract a few hours from the end time in case it finishes after midnight.
-            EventTime::DateTime { start, end } => start.date() < (end - Duration::hours(5)).date(),
+            EventTime::DateTime { start, end } => {
+                start.date_naive() < (end - Duration::hours(5)).date_naive()
+            }
         }
     }
 
@@ -257,7 +259,7 @@ impl Event {
             EventTime::DateOnly {
                 start_date,
                 end_date: _,
-            } => Date::<Utc>::from_utc(start_date, Utc).and_hms(0, 0, 0),
+            } => Utc.from_utc_datetime(&start_date.and_hms_opt(0, 0, 0).unwrap()),
             EventTime::DateTime { start, end: _ } => start.with_timezone(&Utc),
         }
     }
@@ -353,8 +355,16 @@ mod tests {
             details: None,
             links: vec![],
             time: EventTime::DateTime {
-                start: FixedOffset::east(0).ymd(2020, 1, 2).and_hms(19, 0, 0),
-                end: FixedOffset::east(0).ymd(2020, 1, 3).and_hms(4, 0, 0),
+                start: FixedOffset::east_opt(0)
+                    .unwrap()
+                    .with_ymd_and_hms(2020, 1, 2, 19, 0, 0)
+                    .single()
+                    .unwrap(),
+                end: FixedOffset::east_opt(0)
+                    .unwrap()
+                    .with_ymd_and_hms(2020, 1, 3, 4, 0, 0)
+                    .single()
+                    .unwrap(),
             },
             country: "Country".to_string(),
             city: "City".to_string(),
@@ -371,22 +381,46 @@ mod tests {
 
         // Even if it starts in the morning it still shouldn't count as multi-day.
         event.time = EventTime::DateTime {
-            start: FixedOffset::east(0).ymd(2020, 1, 2).and_hms(9, 0, 0),
-            end: FixedOffset::east(0).ymd(2020, 1, 3).and_hms(4, 0, 0),
+            start: FixedOffset::east_opt(0)
+                .unwrap()
+                .with_ymd_and_hms(2020, 1, 2, 9, 0, 0)
+                .single()
+                .unwrap(),
+            end: FixedOffset::east_opt(0)
+                .unwrap()
+                .with_ymd_and_hms(2020, 1, 3, 4, 0, 0)
+                .single()
+                .unwrap(),
         };
         assert!(!event.multiday());
 
         // But if it starts a day earlier, it should.
         event.time = EventTime::DateTime {
-            start: FixedOffset::east(0).ymd(2020, 1, 1).and_hms(19, 0, 0),
-            end: FixedOffset::east(0).ymd(2020, 1, 3).and_hms(4, 0, 0),
+            start: FixedOffset::east_opt(0)
+                .unwrap()
+                .with_ymd_and_hms(2020, 1, 1, 19, 0, 0)
+                .single()
+                .unwrap(),
+            end: FixedOffset::east_opt(0)
+                .unwrap()
+                .with_ymd_and_hms(2020, 1, 3, 4, 0, 0)
+                .single()
+                .unwrap(),
         };
         assert!(event.multiday());
 
         // An event that starts in the evening and continues on into the next afternoon is multi-day.
         event.time = EventTime::DateTime {
-            start: FixedOffset::east(0).ymd(2020, 1, 2).and_hms(21, 0, 0),
-            end: FixedOffset::east(0).ymd(2020, 1, 3).and_hms(16, 0, 0),
+            start: FixedOffset::east_opt(0)
+                .unwrap()
+                .with_ymd_and_hms(2020, 1, 2, 21, 0, 0)
+                .single()
+                .unwrap(),
+            end: FixedOffset::east_opt(0)
+                .unwrap()
+                .with_ymd_and_hms(2020, 1, 3, 16, 0, 0)
+                .single()
+                .unwrap(),
         };
         assert!(event.multiday());
     }

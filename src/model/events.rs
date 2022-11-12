@@ -243,8 +243,8 @@ mod tests {
         let london_event_1 = Event {
             name: "Name".to_string(),
             time: EventTime::DateOnly {
-                start_date: NaiveDate::from_ymd(2022, 1, 1),
-                end_date: NaiveDate::from_ymd(2022, 1, 1),
+                start_date: NaiveDate::from_ymd_opt(2022, 1, 1).unwrap(),
+                end_date: NaiveDate::from_ymd_opt(2022, 1, 1).unwrap(),
             },
             details: None,
             links: vec![],
@@ -262,8 +262,8 @@ mod tests {
         let london_event_2 = Event {
             name: "Name".to_string(),
             time: EventTime::DateOnly {
-                start_date: NaiveDate::from_ymd(2022, 1, 1),
-                end_date: NaiveDate::from_ymd(2022, 1, 1),
+                start_date: NaiveDate::from_ymd_opt(2022, 1, 1).unwrap(),
+                end_date: NaiveDate::from_ymd_opt(2022, 1, 1).unwrap(),
             },
             details: None,
             links: vec![],
@@ -281,8 +281,8 @@ mod tests {
         let oxford_event = Event {
             name: "Name".to_string(),
             time: EventTime::DateOnly {
-                start_date: NaiveDate::from_ymd(2022, 1, 1),
-                end_date: NaiveDate::from_ymd(2022, 1, 1),
+                start_date: NaiveDate::from_ymd_opt(2022, 1, 1).unwrap(),
+                end_date: NaiveDate::from_ymd_opt(2022, 1, 1).unwrap(),
             },
             details: None,
             links: vec![],
@@ -300,8 +300,8 @@ mod tests {
         let amsterdam_event = Event {
             name: "Name".to_string(),
             time: EventTime::DateOnly {
-                start_date: NaiveDate::from_ymd(2022, 1, 1),
-                end_date: NaiveDate::from_ymd(2022, 1, 1),
+                start_date: NaiveDate::from_ymd_opt(2022, 1, 1).unwrap(),
+                end_date: NaiveDate::from_ymd_opt(2022, 1, 1).unwrap(),
             },
             details: None,
             links: vec![],
@@ -344,8 +344,8 @@ mod tests {
         let past_event = Event {
             name: "Past".to_string(),
             time: EventTime::DateOnly {
-                start_date: NaiveDate::from_ymd(1000, 1, 1),
-                end_date: NaiveDate::from_ymd(1000, 1, 1),
+                start_date: NaiveDate::from_ymd_opt(1000, 1, 1).unwrap(),
+                end_date: NaiveDate::from_ymd_opt(1000, 1, 1).unwrap(),
             },
             details: None,
             links: vec![],
@@ -363,8 +363,8 @@ mod tests {
         let future_event = Event {
             name: "Future".to_string(),
             time: EventTime::DateOnly {
-                start_date: NaiveDate::from_ymd(3000, 1, 1),
-                end_date: NaiveDate::from_ymd(3000, 1, 1),
+                start_date: NaiveDate::from_ymd_opt(3000, 1, 1).unwrap(),
+                end_date: NaiveDate::from_ymd_opt(3000, 1, 1).unwrap(),
             },
             details: None,
             links: vec![],

@@ -206,29 +206,29 @@ mod tests {
         assert_eq!(
             parse_date("20210114"),
             EventTime::DateOnly {
-                start_date: NaiveDate::from_ymd(2021, 1, 14),
-                end_date: NaiveDate::from_ymd(2021, 1, 14),
+                start_date: NaiveDate::from_ymd_opt(2021, 1, 14).unwrap(),
+                end_date: NaiveDate::from_ymd_opt(2021, 1, 14).unwrap(),
             }
         );
         assert_eq!(
             parse_date("20210114-16"),
             EventTime::DateOnly {
-                start_date: NaiveDate::from_ymd(2021, 1, 14),
-                end_date: NaiveDate::from_ymd(2021, 1, 16),
+                start_date: NaiveDate::from_ymd_opt(2021, 1, 14).unwrap(),
+                end_date: NaiveDate::from_ymd_opt(2021, 1, 16).unwrap(),
             }
         );
         assert_eq!(
             parse_date("20210114-0203"),
             EventTime::DateOnly {
-                start_date: NaiveDate::from_ymd(2021, 1, 14),
-                end_date: NaiveDate::from_ymd(2021, 2, 3),
+                start_date: NaiveDate::from_ymd_opt(2021, 1, 14).unwrap(),
+                end_date: NaiveDate::from_ymd_opt(2021, 2, 3).unwrap(),
             }
         );
         assert_eq!(
             parse_date("20210114-20220607"),
             EventTime::DateOnly {
-                start_date: NaiveDate::from_ymd(2021, 1, 14),
-                end_date: NaiveDate::from_ymd(2022, 6, 7),
+                start_date: NaiveDate::from_ymd_opt(2021, 1, 14).unwrap(),
+                end_date: NaiveDate::from_ymd_opt(2022, 6, 7).unwrap(),
             }
         );
     }

@@ -142,7 +142,7 @@ fn sort_and_group_by_month(mut events: Vec<&Event>) -> Vec<Month> {
                 months.push(month);
             }
             month = Month {
-                start: NaiveDate::from_ymd(event.start_year(), event.start_month(), 1),
+                start: NaiveDate::from_ymd_opt(event.start_year(), event.start_month(), 1).unwrap(),
                 events: vec![event.to_owned()],
             };
         }

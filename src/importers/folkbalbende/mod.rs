@@ -180,7 +180,7 @@ fn convert(event: &Event) -> Vec<event::Event> {
         );
     }
     let mut start_time = start_times.into_iter().min();
-    if start_time == Some(NaiveTime::from_hms(0, 0, 0)) {
+    if start_time == Some(NaiveTime::from_hms_opt(0, 0, 0).unwrap()) {
         start_time = None;
     }
     let end_time = end_times.into_iter().max();

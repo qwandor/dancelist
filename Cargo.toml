@@ -12,7 +12,7 @@ categories = ["web-programming"]
 [dependencies]
 askama = "0.11.1"
 axum = { version = "0.5.17", features = ["headers"] }
-chrono = { version = "0.4.22", features = ["serde"] }
+chrono = { version = "0.4.23", features = ["serde"] }
 chrono-tz = { version = "0.8.0", features = ["serde"] }
 color-backtrace = "0.5.1"
 enum-iterator = "1.2.0"
@@ -37,9 +37,21 @@ section = "web"
 maintainer-scripts = "debian-scripts"
 conf-files = ["/etc/dancelist.toml"]
 assets = [
-	["target/release/dancelist", "usr/bin/", "755"],
-	["public/stylesheets/*", "/usr/share/dancelist/stylesheets/", "644"],
-	["dancelist.example.toml", "etc/dancelist.toml", "640"],
+	[
+		"target/release/dancelist",
+		"usr/bin/",
+		"755",
+	],
+	[
+		"public/stylesheets/*",
+		"/usr/share/dancelist/stylesheets/",
+		"644",
+	],
+	[
+		"dancelist.example.toml",
+		"etc/dancelist.toml",
+		"640",
+	],
 ]
 
 # This section needs to be here even if it's empty, for the systemd integration to work.

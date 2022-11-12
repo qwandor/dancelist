@@ -83,7 +83,7 @@ fn event_to_event(event: &Event) -> icalendar::Event {
             calendar_event
                 .starts(start_date)
                 // iCalendar DTEND is non-inclusive, so add one day.
-                .ends(end_date.succ());
+                .ends(end_date.succ_opt().unwrap());
         }
         EventTime::DateTime { start, end } => {
             calendar_event

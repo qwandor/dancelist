@@ -282,8 +282,16 @@ mod tests {
         assert_eq!(
             get_time(&event).unwrap(),
             EventTime::DateTime {
-                start: FixedOffset::east(7200).ymd(2022, 4, 1).and_hms(19, 0, 0),
-                end: FixedOffset::east(7200).ymd(2022, 4, 1).and_hms(19, 0, 0),
+                start: FixedOffset::east_opt(7200)
+                    .unwrap()
+                    .with_ymd_and_hms(2022, 4, 1, 19, 0, 0)
+                    .single()
+                    .unwrap(),
+                end: FixedOffset::east_opt(7200)
+                    .unwrap()
+                    .with_ymd_and_hms(2022, 4, 1, 19, 0, 0)
+                    .single()
+                    .unwrap(),
             }
         );
     }
