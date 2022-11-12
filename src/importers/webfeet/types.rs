@@ -143,6 +143,8 @@ pub enum Style {
     Contra,
     #[serde(rename = "Dance.American.American Contra")]
     DanceAmericanAmericanContra,
+    #[serde(rename = "Dance.Bal")]
+    DanceBal,
     #[serde(rename = "Dance.Eurobal")]
     DanceEurobal,
     #[serde(rename = "Dance.European")]
@@ -163,6 +165,8 @@ pub enum Style {
     DanceEnglishCeilidh,
     #[serde(rename = "Dance.English Folk")]
     DanceEnglishFolk,
+    #[serde(rename = "Dance.Swedish")]
+    DanceSwedish,
 }
 
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
