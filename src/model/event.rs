@@ -116,11 +116,7 @@ impl Event {
 
     /// Merge this event and the other into a combined one, if they are similar enough.
     pub fn merge(&self, other: &Event) -> Option<Event> {
-        if self.name == other.name
-            && self.time == other.time
-            && self.country == other.country
-            && self.city == other.city
-        {
+        if self.time == other.time && self.country == other.country && self.city == other.city {
             let mut links = self.links.clone();
             links.extend(other.links.clone());
             links.dedup();
