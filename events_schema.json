@@ -143,6 +143,14 @@
           "default": false,
           "type": "boolean"
         },
+        "source": {
+          "description": "The name of the file in which this event is stored.",
+          "default": null,
+          "type": [
+            "string",
+            "null"
+          ]
+        },
         "styles": {
           "description": "The dance styles included in the event.",
           "default": [],

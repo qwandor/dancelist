@@ -63,6 +63,9 @@ pub struct Event {
     /// Whether the event has been cancelled.
     #[serde(default, skip_serializing_if = "Not::not")]
     pub cancelled: bool,
+    /// The name of the file in which this event is stored.
+    #[serde(default)]
+    pub source: Option<String>,
 }
 
 #[derive(Clone, Debug, Deserialize, Eq, JsonSchema, PartialEq, Serialize)]
@@ -161,32 +164,6 @@ impl Event {
                 }
             };
 
-            let price = match (&self.price, &other.price) {
-                (None, None) => None,
-                (Some(p), None) | (None, Some(p)) => Some(p.clone()),
-                (Some(a), Some(b)) => {
-                    if a == b {
-                        Some(a.clone())
-                    } else {
-                        // Can't merge different prices.
-                        return None;
-                    }
-                }
-            };
-
-            let organisation = match (&self.organisation, &other.organisation) {
-                (None, None) => None,
-                (Some(o), None) | (None, Some(o)) => Some(o.clone()),
-                (Some(a), Some(b)) => {
-                    if a == b {
-                        Some(a.clone())
-                    } else {
-                        // Can't merge different organisations.
-                        return None;
-                    }
-                }
-            };
-
             let name = if self.name.contains("TBA")
                 || self.name.contains(" in ") && !other.name.contains("TBA")
             {
@@ -194,6 +171,10 @@ impl Event {
             } else {
                 self.name.clone()
             };
+
+            let price = merge_strings(&self.price, &other.price);
+            let organisation = merge_strings(&self.organisation, &other.organisation);
+            let source = merge_strings(&self.source, &other.source);
 
             Some(Event {
                 name,
@@ -210,6 +191,7 @@ impl Event {
                 price,
                 organisation,
                 cancelled: self.cancelled || other.cancelled,
+                source,
             })
         } else {
             None
@@ -341,6 +323,21 @@ impl Event {
     }
 }
 
+fn merge_strings(a: &Option<String>, b: &Option<String>) -> Option<String> {
+    match (a, b) {
+        (None, None) => None,
+        (Some(o), None) | (None, Some(o)) => Some(o.clone()),
+        (Some(a), Some(b)) => {
+            if a == b {
+                Some(a.clone())
+            } else {
+                // Can't merge different strings.
+                return None;
+            }
+        }
+    }
+}
+
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct Link {
     pub short_name: String,
@@ -382,6 +379,7 @@ mod tests {
             price: None,
             organisation: None,
             cancelled: false,
+            source: None,
         };
         assert!(!event.multiday());
 

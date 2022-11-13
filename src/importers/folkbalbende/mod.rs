@@ -217,6 +217,7 @@ fn convert(event: &Event) -> Vec<event::Event> {
             price: price.clone(),
             organisation: organisation.clone(),
             cancelled: event.cancelled,
+            source: None,
         })
         .collect()
 }

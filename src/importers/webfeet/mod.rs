@@ -184,6 +184,7 @@ fn convert(event: &EventRecord) -> Option<Event> {
             price: None,
             organisation: Some("Webfeet".to_string()),
             cancelled,
+            source: None,
         })
     }
 }

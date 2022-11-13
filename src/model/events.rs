@@ -75,7 +75,17 @@ impl Events {
         trace!("Reading events from {:?}", filename);
         let contents =
             read_to_string(&filename).wrap_err_with(|| format!("Reading {:?}", filename))?;
-        Self::load_str(&contents).wrap_err_with(|| format!("Reading {:?}", filename))
+        let mut events =
+            Self::load_str(&contents).wrap_err_with(|| format!("Reading {:?}", filename))?;
+
+        // Fill in the source with the filename.
+        if let Some(source) = filename.to_str() {
+            for event in &mut events.events {
+                event.source = Some(source.to_owned());
+            }
+        }
+
+        Ok(events)
     }
 
     /// Load events from the given YAML URL.
@@ -258,6 +268,7 @@ mod tests {
             price: None,
             organisation: None,
             cancelled: false,
+            source: None,
         };
         let london_event_2 = Event {
             name: "Name".to_string(),
@@ -277,6 +288,7 @@ mod tests {
             price: None,
             organisation: None,
             cancelled: false,
+            source: None,
         };
         let oxford_event = Event {
             name: "Name".to_string(),
@@ -296,6 +308,7 @@ mod tests {
             price: None,
             organisation: None,
             cancelled: false,
+            source: None,
         };
         let amsterdam_event = Event {
             name: "Name".to_string(),
@@ -315,6 +328,7 @@ mod tests {
             price: None,
             organisation: None,
             cancelled: false,
+            source: None,
         };
         let events = Events {
             events: vec![
@@ -359,6 +373,7 @@ mod tests {
             price: None,
             organisation: None,
             cancelled: false,
+            source: None,
         };
         let future_event = Event {
             name: "Future".to_string(),
@@ -378,6 +393,7 @@ mod tests {
             price: None,
             organisation: None,
             cancelled: false,
+            source: None,
         };
         let events = Events {
             events: vec![past_event.clone(), future_event.clone()],

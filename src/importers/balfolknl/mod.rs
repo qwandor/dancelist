@@ -197,6 +197,7 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
         price: None,
         organisation: Some("balfolk.nl".to_string()),
         cancelled: false,
+        source: None,
     }))
 }
 
