@@ -31,8 +31,14 @@ pub async fn events() -> Result<Vec<EventRecord>, Report> {
     let xml = replace_entities(&xml);
     let event_list: Eventlist = quick_xml::de::from_str(&xml)?;
     let mut events = event_list.event_record;
-    // Sort by ID to give a stable order.
-    events.sort_by(|a, b| a.id.value.cmp(&b.id.value));
+    // Sort by date then city, to give a stable order and so that events we might want to merge are
+    // after each other.
+    events.sort_by_key(|event| {
+        (
+            parse_date(&event.canonical_date.isoformat).start_time_sort_key(),
+            event.location_collection.location.value.clone(),
+        )
+    });
     for event in &events {
         if event.canonical_date.isoformat.contains('-') {
             eprintln!("{}", event.canonical_date.isoformat);

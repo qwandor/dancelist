@@ -81,6 +81,19 @@ pub enum EventTime {
     },
 }
 
+impl EventTime {
+    /// Gets the start time in UTC for the purposes of sorting.
+    pub fn start_time_sort_key(&self) -> DateTime<Utc> {
+        match self {
+            EventTime::DateOnly {
+                start_date,
+                end_date: _,
+            } => Utc.from_utc_datetime(&start_date.and_hms_opt(0, 0, 0).unwrap()),
+            EventTime::DateTime { start, end: _ } => start.with_timezone(&Utc),
+        }
+    }
+}
+
 impl Event {
     /// Check that the event information is valid. Returns an empty list if it is, or a list of
     /// problems if not.
@@ -254,17 +267,6 @@ impl Event {
             EventTime::DateTime { start, end } => {
                 start.date_naive() < (end - Duration::hours(5)).date_naive()
             }
-        }
-    }
-
-    /// Gets the event start time in UTC for the purposes of sorting.
-    pub fn start_time_sort_key(&self) -> DateTime<Utc> {
-        match self.time {
-            EventTime::DateOnly {
-                start_date,
-                end_date: _,
-            } => Utc.from_utc_datetime(&start_date.and_hms_opt(0, 0, 0).unwrap()),
-            EventTime::DateTime { start, end: _ } => start.with_timezone(&Utc),
         }
     }
 

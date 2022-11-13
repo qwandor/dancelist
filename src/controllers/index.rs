@@ -67,7 +67,7 @@ pub async fn index_json(
     Query(filters): Query<Filters>,
 ) -> Result<String, InternalError> {
     let mut events = events.matching(&filters);
-    events.sort_by_key(|event| event.start_time_sort_key());
+    events.sort_by_key(|event| event.time.start_time_sort_key());
     let events = Events::cloned(events);
     Ok(serde_json::to_string(&events)?)
 }
@@ -77,7 +77,7 @@ pub async fn index_toml(
     Query(filters): Query<Filters>,
 ) -> Result<String, InternalError> {
     let mut events = events.matching(&filters);
-    events.sort_by_key(|event| event.start_time_sort_key());
+    events.sort_by_key(|event| event.time.start_time_sort_key());
     let events = Events::cloned(events);
     Ok(toml::to_string(&events)?)
 }
@@ -87,7 +87,7 @@ pub async fn index_yaml(
     Query(filters): Query<Filters>,
 ) -> Result<String, InternalError> {
     let mut events = events.matching(&filters);
-    events.sort_by_key(|event| event.start_time_sort_key());
+    events.sort_by_key(|event| event.time.start_time_sort_key());
     let events = Events::cloned(events);
     Ok(serde_yaml::to_string(&events)?)
 }
@@ -97,7 +97,7 @@ pub async fn index_ics(
     Query(filters): Query<Filters>,
 ) -> Result<Ics, InternalError> {
     let mut events = events.matching(&filters);
-    events.sort_by_key(|event| event.start_time_sort_key());
+    events.sort_by_key(|event| event.time.start_time_sort_key());
     let calendar = events_to_calendar(&events, &filters.make_title());
     Ok(Ics(calendar))
 }
@@ -127,7 +127,7 @@ impl Month {
 
 /// Given a list of events in arbitrary order, sort them in ascending order of start date, then group them by starting month.
 fn sort_and_group_by_month(mut events: Vec<&Event>) -> Vec<Month> {
-    events.sort_by_key(|event| event.start_time_sort_key());
+    events.sort_by_key(|event| event.time.start_time_sort_key());
 
     let mut months = vec![];
     let mut month = Month {
