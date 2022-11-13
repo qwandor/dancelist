@@ -174,7 +174,9 @@ impl Event {
                 }
             };
 
-            let name = if self.name.contains("TBA") {
+            let name = if self.name.contains("TBA")
+                || self.name.contains(" in ") && !other.name.contains("TBA")
+            {
                 other.name.clone()
             } else {
                 self.name.clone()
