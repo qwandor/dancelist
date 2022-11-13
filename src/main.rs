@@ -64,6 +64,8 @@ async fn main() -> Result<(), Report> {
         import_webfeet().await
     } else if args.len() == 2 && args[1] == "balfolknl" {
         import_balfolknl().await
+    } else if args.len() == 2 && args[1] == "dups" {
+        find_duplicates().await
     } else {
         eprintln!("Invalid command.");
         exit(1);
@@ -117,6 +119,33 @@ fn print_events(events: &Events) -> Result<(), Report> {
         1,
     );
     print!("{}", yaml);
+    Ok(())
+}
+
+async fn find_duplicates() -> Result<(), Report> {
+    let mut events = load_events(None).await?.events;
+
+    // Sort by date then location, so that possible duplicates are next to each other.
+    events.sort_by_key(|event| {
+        (
+            event.time.start_time_sort_key(),
+            event.country.clone(),
+            event.city.clone(),
+        )
+    });
+    for i in 1..events.len() {
+        let a = &events[i - 1];
+        let b = &events[i];
+        if a.merge(b).is_some() {
+            println!(
+                "Found possible duplicate, {:?} in {}, {}:",
+                a.time, a.country, a.city
+            );
+            println!("  {}", a.name);
+            println!("  {}", b.name);
+        }
+    }
+
     Ok(())
 }
 
