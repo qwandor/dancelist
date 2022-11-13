@@ -58,6 +58,8 @@ async fn main() -> Result<(), Report> {
         validate(args.get(2).map(String::as_str)).await
     } else if args.len() >= 2 && args.len() <= 3 && args[1] == "cat" {
         concatenate(args.get(2).map(String::as_str)).await
+    } else if args.len() == 3 && args[1] == "sort" {
+        sort(&args[2]).await
     } else if args.len() == 2 && args[1] == "balbende" {
         import_balbende().await
     } else if args.len() == 2 && args[1] == "webfeet" {
@@ -93,6 +95,21 @@ async fn validate(path: Option<&str>) -> Result<(), Report> {
 async fn concatenate(path: Option<&str>) -> Result<(), Report> {
     let events = load_events(path).await?;
     print!("{}", serde_yaml::to_string(&events)?);
+    Ok(())
+}
+
+/// Load the given file of events, and output them again sorted by start time, country then city.
+async fn sort(path: &str) -> Result<(), Report> {
+    let mut events = load_events(Some(path)).await?;
+    // Sort by date then location.
+    events.events.sort_by_key(|event| {
+        (
+            event.time.start_time_sort_key(),
+            event.country.clone(),
+            event.city.clone(),
+        )
+    });
+    print_events(&events)?;
     Ok(())
 }
 
