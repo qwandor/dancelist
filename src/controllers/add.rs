@@ -14,6 +14,7 @@
 
 use crate::{
     errors::InternalError,
+    github::add_event_to_file,
     model::{
         dancestyle::DanceStyle,
         event::{Event, EventTime},
@@ -84,10 +85,11 @@ pub async fn submit(
                 )
             };
 
+            add_event_to_file(event.clone(), chosen_file.clone()).await?;
+
             let new_events = Events {
                 events: vec![event],
             };
-
             Ok(Html(format!(
                 "<pre>{:#?}\n{}\nPossible files:\n{:#?}\n{:#?}\n{}</pre>",
                 form,

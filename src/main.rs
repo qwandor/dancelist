@@ -16,6 +16,7 @@ mod config;
 mod controllers;
 mod errors;
 mod extractors;
+mod github;
 mod icalendar;
 mod importers;
 mod model;
