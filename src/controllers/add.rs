@@ -26,6 +26,7 @@ use axum::response::Html;
 use axum_extra::extract::Form;
 use chrono::NaiveDate;
 use serde::{de::IntoDeserializer, Deserialize, Deserializer};
+use std::collections::HashSet;
 
 pub async fn add(events: Events) -> Result<Html<String>, InternalError> {
     let template = AddTemplate::new(&events, AddForm::default(), vec![]);
@@ -38,14 +39,62 @@ pub async fn submit(
 ) -> Result<Html<String>, InternalError> {
     match Event::try_from(form.clone()) {
         Ok(event) => {
+            // Check whether it is a duplicate of any event we already know about, or what file it
+            // might belong in.
+            let mut organisation_files = HashSet::new();
+            let mut city_files = HashSet::new();
+            for existing_event in &events.events {
+                if let Some(merged) = existing_event.merge(&event) {
+                    if &merged == existing_event {
+                        return Ok(Html(format!(
+                            "Event<pre>{}</pre> appears to be a duplicate of existing event <pre>{}</pre>",
+                            serde_yaml::to_string(&event)?,
+                            serde_yaml::to_string(&existing_event)?,
+                        )));
+                    } else {
+                        return Ok(Html(format!(
+                            "Event<pre>{}</pre> appears to be a duplicate of existing event <pre>{}</pre> with more details. Merged: <pre>{}</pre>",
+                            serde_yaml::to_string(&event)?,
+                            serde_yaml::to_string(&existing_event)?,
+                            serde_yaml::to_string(&merged)?,
+                        )));
+                    }
+                } else if let Some(source) = &existing_event.source {
+                    if event.organisation.is_some()
+                        && event.organisation == existing_event.organisation
+                    {
+                        organisation_files.insert(source.to_owned());
+                    }
+                    if event.country == existing_event.country && event.city == existing_event.city
+                    {
+                        city_files.insert(source.to_owned());
+                    }
+                }
+            }
+
+            let chosen_file = if !organisation_files.is_empty() {
+                organisation_files.iter().next().unwrap().to_owned()
+            } else if city_files.len() == 1 {
+                city_files.iter().next().unwrap().to_owned()
+            } else {
+                format!(
+                    "events/{}/{}.yaml",
+                    to_filename(&event.country),
+                    to_filename(&event.city),
+                )
+            };
+
             let new_events = Events {
                 events: vec![event],
             };
 
             Ok(Html(format!(
-                "<pre>{:#?}\n{}</pre>",
+                "<pre>{:#?}\n{}\nPossible files:\n{:#?}\n{:#?}\n{}</pre>",
                 form,
                 serde_yaml::to_string(&new_events)?,
+                organisation_files,
+                city_files,
+                chosen_file,
             )))
         }
         Err(errors) => {
@@ -53,6 +102,11 @@ pub async fn submit(
             Ok(Html(template.render()?))
         }
     }
+}
+
+/// Converts the given string to a suitable filename.
+fn to_filename(s: &str) -> String {
+    s.to_lowercase().replace(' ', "_")
 }
 
 #[derive(Template)]
