@@ -1,23 +1,44 @@
 use crate::{
+    config::GitHubConfig,
     errors::InternalError,
     model::{event::Event, events::Events},
 };
 use eyre::eyre;
+use jsonwebtoken::EncodingKey;
 use log::info;
 use octocrab::{
-    models::repos::Object, params::repos::Reference, repos::RepoHandler, OctocrabBuilder,
+    models::repos::Object, params::repos::Reference, pulls::PullRequestHandler, repos::RepoHandler,
+    Octocrab, OctocrabBuilder,
 };
+use std::fs;
 
-const MAIN_BRANCH: &str = "main";
-const OWNER: &str = "qwandor";
-const REPO: &str = "dancelist-data";
-const PAT: &str = "";
+fn build_octocrab(config: &GitHubConfig) -> Result<Octocrab, InternalError> {
+    let file_contents = fs::read(&config.private_key)?;
+    let key = EncodingKey::from_rsa_pem(&file_contents)?;
+    let octocrab = OctocrabBuilder::new()
+        .app(config.app_id.into(), key)
+        .build()?;
+    Ok(octocrab)
+}
+
+fn get_repo_pulls<'a>(
+    octocrab: &'a Octocrab,
+    config: &GitHubConfig,
+) -> Result<(RepoHandler<'a>, PullRequestHandler<'a>), InternalError> {
+    Ok((
+        octocrab.repos(&config.owner, &config.repository),
+        octocrab.pulls(&config.owner, &config.repository),
+    ))
+}
 
 /// Creates a PR to add the given event to the given file.
-pub async fn add_event_to_file(event: Event, filename: String) -> Result<(), InternalError> {
-    let octocrab = OctocrabBuilder::new()
-        .personal_token(PAT.to_string())
-        .build()?;
+pub async fn add_event_to_file(
+    event: Event,
+    filename: String,
+    config: &GitHubConfig,
+) -> Result<(), InternalError> {
+    let octocrab = build_octocrab(config)?;
+    let (repo, pulls) = get_repo_pulls(&octocrab, config)?;
 
     let new_events = Events {
         events: vec![event.clone()],
@@ -34,8 +55,7 @@ pub async fn add_event_to_file(event: Event, filename: String) -> Result<(), Int
     );
 
     info!("Creating branch \"{}\"", pr_branch);
-    let repo = octocrab.repos(OWNER, REPO);
-    let head_sha = sha_for_branch(&repo, MAIN_BRANCH).await?;
+    let head_sha = sha_for_branch(&repo, &config.main_branch).await?;
     // TODO: Check if branch already exists, pick a different name
     repo.create_ref(&Reference::Branch(pr_branch.clone()), head_sha)
         .await?;
@@ -79,9 +99,8 @@ pub async fn add_event_to_file(event: Event, filename: String) -> Result<(), Int
     }
 
     // Create PR for the branch.
-    let pr = octocrab
-        .pulls(OWNER, REPO)
-        .create(&commit_message, &pr_branch, MAIN_BRANCH)
+    let pr = pulls
+        .create(&commit_message, &pr_branch, &config.main_branch)
         .body("Added from web form.")
         .send()
         .await?;

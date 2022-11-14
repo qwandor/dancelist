@@ -411,6 +411,7 @@ dependencies = [
  "enum-iterator",
  "eyre",
  "icalendar",
+ "jsonwebtoken",
  "log",
  "octocrab",
  "pretty_env_logger",

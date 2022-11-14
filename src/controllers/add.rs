@@ -13,6 +13,7 @@
 // limitations under the License.
 
 use crate::{
+    config::Config,
     errors::InternalError,
     github::add_event_to_file,
     model::{
@@ -23,11 +24,11 @@ use crate::{
     },
 };
 use askama::Template;
-use axum::response::Html;
+use axum::{response::Html, Extension};
 use axum_extra::extract::Form;
 use chrono::NaiveDate;
 use serde::{de::IntoDeserializer, Deserialize, Deserializer};
-use std::collections::HashSet;
+use std::{collections::HashSet, sync::Arc};
 
 pub async fn add(events: Events) -> Result<Html<String>, InternalError> {
     let template = AddTemplate::new(&events, AddForm::default(), vec![]);
@@ -35,6 +36,7 @@ pub async fn add(events: Events) -> Result<Html<String>, InternalError> {
 }
 
 pub async fn submit(
+    Extension(config): Extension<Arc<Config>>,
     events: Events,
     Form(form): Form<AddForm>,
 ) -> Result<Html<String>, InternalError> {
@@ -85,7 +87,9 @@ pub async fn submit(
                 )
             };
 
-            add_event_to_file(event.clone(), chosen_file.clone()).await?;
+            if let Some(github) = &config.github {
+                add_event_to_file(event.clone(), chosen_file.clone(), github).await?;
+            }
 
             let new_events = Events {
                 events: vec![event],
