@@ -168,7 +168,7 @@ async fn find_duplicates() -> Result<(), Report> {
 }
 
 async fn serve() -> Result<(), Report> {
-    let config = Config::from_file()?;
+    let config = Arc::new(Config::from_file()?);
     let events = Events::load_events(&config.events).await?;
     let events = Arc::new(Mutex::new(events));
 
@@ -195,7 +195,8 @@ async fn serve() -> Result<(), Report> {
             get_service(ServeDir::new(config.public_dir.join("stylesheets")))
                 .handle_error(internal_error),
         )
-        .layer(Extension(events));
+        .layer(Extension(events))
+        .layer(Extension(config.clone()));
 
     info!("Listening on {}", config.bind_address);
     axum::Server::bind(&config.bind_address)

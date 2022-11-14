@@ -20,10 +20,9 @@ use std::sync::{Arc, Mutex};
 
 pub async fn reload(
     Extension(events): Extension<Arc<Mutex<Events>>>,
+    Extension(config): Extension<Arc<Config>>,
     Form(request): Form<ReloadRequest>,
 ) -> Result<String, InternalError> {
-    let config = Config::from_file().map_err(InternalError::Internal)?;
-
     if request.reload_token != config.reload_token {
         return Err(InternalError::Unauthorised);
     }
