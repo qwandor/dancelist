@@ -12,13 +12,21 @@ use octocrab::{
 };
 use std::fs;
 
-fn build_octocrab(config: &GitHubConfig) -> Result<Octocrab, InternalError> {
+async fn build_octocrab(config: &GitHubConfig) -> Result<Octocrab, InternalError> {
     let file_contents = fs::read(&config.private_key)?;
     let key = EncodingKey::from_rsa_pem(&file_contents)?;
     let octocrab = OctocrabBuilder::new()
         .app(config.app_id.into(), key)
         .build()?;
-    Ok(octocrab)
+
+    // Get the installation for the repository we care about.
+    let installation = octocrab
+        .apps()
+        .get_repository_installation(&config.owner, &config.repository)
+        .await?;
+
+    // Make an Octocrab for that installation.
+    Ok(octocrab.installation(installation.id))
 }
 
 fn get_repo_pulls<'a>(
@@ -37,7 +45,7 @@ pub async fn add_event_to_file(
     filename: String,
     config: &GitHubConfig,
 ) -> Result<(), InternalError> {
-    let octocrab = build_octocrab(config)?;
+    let octocrab = build_octocrab(config).await?;
     let (repo, pulls) = get_repo_pulls(&octocrab, config)?;
 
     let new_events = Events {
