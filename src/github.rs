@@ -10,6 +10,7 @@ use octocrab::{
     models::repos::Object, params::repos::Reference, pulls::PullRequestHandler, repos::RepoHandler,
     Octocrab, OctocrabBuilder,
 };
+use reqwest::Url;
 use std::fs;
 
 async fn build_octocrab(config: &GitHubConfig) -> Result<Octocrab, InternalError> {
@@ -40,11 +41,13 @@ fn get_repo_pulls<'a>(
 }
 
 /// Creates a PR to add the given event to the given file.
+///
+/// Returns the URL of the new PR.
 pub async fn add_event_to_file(
     event: Event,
     filename: String,
     config: &GitHubConfig,
-) -> Result<(), InternalError> {
+) -> Result<Url, InternalError> {
     let octocrab = build_octocrab(config).await?;
     let (repo, pulls) = get_repo_pulls(&octocrab, config)?;
 
@@ -113,8 +116,10 @@ pub async fn add_event_to_file(
         .send()
         .await?;
     info!("Made PR {:?}", pr);
-
-    Ok(())
+    let pr_url = pr
+        .html_url
+        .ok_or_else(|| InternalError::Internal(eyre!("PR missing html_url")))?;
+    Ok(pr_url)
 }
 
 /// Returns the SHA for the current head of the given branch.

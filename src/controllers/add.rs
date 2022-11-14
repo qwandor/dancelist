@@ -87,20 +87,23 @@ pub async fn submit(
                 )
             };
 
-            if let Some(github) = &config.github {
-                add_event_to_file(event.clone(), chosen_file.clone(), github).await?;
-            }
+            let pr = if let Some(github) = &config.github {
+                Some(add_event_to_file(event.clone(), chosen_file.clone(), github).await?)
+            } else {
+                None
+            };
 
             let new_events = Events {
                 events: vec![event],
             };
             Ok(Html(format!(
-                "<pre>{:#?}\n{}\nPossible files:\n{:#?}\n{:#?}\n{}</pre>",
+                "<pre>{:#?}\n{}\nPossible files:\n{:#?}\n{:#?}\nChose {}\nPR: {:?}</pre>",
                 form,
                 serde_yaml::to_string(&new_events)?,
                 organisation_files,
                 city_files,
                 chosen_file,
+                pr,
             )))
         }
         Err(errors) => {
