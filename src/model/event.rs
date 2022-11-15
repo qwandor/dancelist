@@ -34,7 +34,6 @@ pub struct Event {
     pub links: Vec<String>,
     #[serde(flatten)]
     pub time: EventTime,
-    // TODO: Should start and end require time or just date? What about timezone?
     pub country: String,
     pub city: String,
     // TODO: What about full address?
@@ -56,7 +55,6 @@ pub struct Event {
     /// The price or price range of the event, if available.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub price: Option<String>,
-    // TODO: Should free events be distinguished from events with unknown price?
     /// The organisation who run the event.
     #[serde(default)]
     pub organisation: Option<String>,
