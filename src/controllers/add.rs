@@ -51,9 +51,9 @@ pub async fn submit(
             for existing_event in &events.events {
                 if let Some(merged) = existing_event.merge(&event) {
                     let template = SubmitFailedTemplate {
-                        event,
-                        existing_event: existing_event.clone(),
-                        merged,
+                        event: &event,
+                        existing_event,
+                        merged: &merged,
                     };
                     return Ok(Html(template.render()?));
                 } else if let Some(source) = &existing_event.source {
@@ -238,10 +238,10 @@ struct SubmitTemplate {
 
 #[derive(Template)]
 #[template(path = "submit_failed.html")]
-struct SubmitFailedTemplate {
-    event: Event,
-    existing_event: Event,
-    merged: Event,
+struct SubmitFailedTemplate<'a> {
+    event: &'a Event,
+    existing_event: &'a Event,
+    merged: &'a Event,
 }
 
 fn trim<'de, D: Deserializer<'de>>(deserializer: D) -> Result<String, D::Error> {
