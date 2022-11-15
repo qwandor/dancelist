@@ -15,7 +15,7 @@
 use crate::{
     config::Config,
     errors::InternalError,
-    github::add_event_to_file,
+    github::{add_event_to_file, to_safe_filename},
     model::{
         dancestyle::DanceStyle,
         event::{Event, EventTime},
@@ -82,8 +82,8 @@ pub async fn submit(
             } else {
                 format!(
                     "events/{}/{}.yaml",
-                    to_filename(&event.country),
-                    to_filename(&event.city),
+                    to_safe_filename(&event.country),
+                    to_safe_filename(&event.city),
                 )
             };
 
@@ -111,11 +111,6 @@ pub async fn submit(
             Ok(Html(template.render()?))
         }
     }
-}
-
-/// Converts the given string to a suitable filename.
-fn to_filename(s: &str) -> String {
-    s.to_lowercase().replace(' ', "_")
 }
 
 #[derive(Template)]

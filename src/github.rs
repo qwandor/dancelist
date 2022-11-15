@@ -60,9 +60,9 @@ pub async fn add_event_to_file(
     let commit_message = format!("Add {} in {}", event.name, event.city);
     let pr_branch = format!(
         "add-{}-{}-{}",
-        to_filename(&event.country),
-        to_filename(&event.city),
-        to_filename(&event.name),
+        to_safe_filename(&event.country),
+        to_safe_filename(&event.city),
+        to_safe_filename(&event.name),
     );
 
     info!("Creating branch \"{}\"", pr_branch);
@@ -140,7 +140,26 @@ async fn sha_for_branch(
     }
 }
 
-/// Converts the given string to a suitable filename.
-fn to_filename(s: &str) -> String {
-    s.to_lowercase().replace(' ', "_")
+/// Converts the given string to a suitable filename by converting it to lowercase, replacing spaces
+/// with underscores, and removing special characters.
+///
+/// The returned string will only contain ASCII alphanumeric characters, underscores and hyphens.
+pub fn to_safe_filename(s: &str) -> String {
+    let mut filename = s.to_lowercase().replace(' ', "_");
+    filename.retain(|c| c.is_ascii_alphanumeric() || c == '_' || c == '-');
+    filename
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn safe_filenames() {
+        assert_eq!(to_safe_filename("Southend-on-Sea"), "southend-on-sea");
+        assert_eq!(
+            to_safe_filename("weird'\"@\\/ characters"),
+            "weird_characters"
+        )
+    }
 }
