@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Submission failed</title>
+	<link rel="stylesheet" type="text/css" href="/stylesheets/main.css" />
+</head>
+
+<body>
+	<h1>Failed to submit event</h1>
+
+  {% if merged == existing_event %}
+  <p class="error">The event you submitted appears to be a duplicate of an existing event.</p>
+  {% else %}
+  <p class="error">The event you submitted appears to be a duplicate of an existing event with more details.</p>
+  {% endif %}
+
+  <p>Your event:</p>
+  <p>Existing event:</p>
+  {% if merged != existing_event %}
+  <p>Merged:</p>
+  {% endif %}
+
+</body>
+
+</html>

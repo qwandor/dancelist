@@ -50,20 +50,12 @@ pub async fn submit(
             let mut city_files = HashSet::new();
             for existing_event in &events.events {
                 if let Some(merged) = existing_event.merge(&event) {
-                    if &merged == existing_event {
-                        return Ok(Html(format!(
-                            "Event<pre>{}</pre> appears to be a duplicate of existing event <pre>{}</pre>",
-                            serde_yaml::to_string(&event)?,
-                            serde_yaml::to_string(&existing_event)?,
-                        )));
-                    } else {
-                        return Ok(Html(format!(
-                            "Event<pre>{}</pre> appears to be a duplicate of existing event <pre>{}</pre> with more details. Merged: <pre>{}</pre>",
-                            serde_yaml::to_string(&event)?,
-                            serde_yaml::to_string(&existing_event)?,
-                            serde_yaml::to_string(&merged)?,
-                        )));
-                    }
+                    let template = SubmitFailedTemplate {
+                        event,
+                        existing_event: existing_event.clone(),
+                        merged,
+                    };
+                    return Ok(Html(template.render()?));
                 } else if let Some(source) = &existing_event.source {
                     if event.organisation.is_some()
                         && event.organisation == existing_event.organisation
@@ -242,6 +234,14 @@ impl TryFrom<AddForm> for Event {
 struct SubmitTemplate {
     pr: Option<Url>,
     event: Event,
+}
+
+#[derive(Template)]
+#[template(path = "submit_failed.html")]
+struct SubmitFailedTemplate {
+    event: Event,
+    existing_event: Event,
+    merged: Event,
 }
 
 fn trim<'de, D: Deserializer<'de>>(deserializer: D) -> Result<String, D::Error> {
