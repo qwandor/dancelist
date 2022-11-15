@@ -20,6 +20,7 @@ use eyre::Report;
 use std::{error::Error, fmt::Debug};
 
 /// Newtype wrapper around `Report` which implements `IntoResponse`.
+#[derive(Debug)]
 pub enum InternalError {
     Internal(Report),
     Unauthorised,
