@@ -147,6 +147,7 @@ async fn sha_for_branch(
 pub fn to_safe_filename(s: &str) -> String {
     let mut filename = s.to_lowercase().replace(' ', "_");
     filename.retain(|c| c.is_ascii_alphanumeric() || c == '_' || c == '-');
+    filename.truncate(30);
     filename
 }
 
