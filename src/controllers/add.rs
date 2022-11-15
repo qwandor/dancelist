@@ -210,7 +210,7 @@ impl TryFrom<AddForm> for Event {
         let event = Self {
             name: form.name,
             details: form.details,
-            links: vec![], // TODO
+            links: form.links,
             time,
             country: form.country,
             city: form.city,
