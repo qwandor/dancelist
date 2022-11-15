@@ -5,13 +5,16 @@ use crate::{
 };
 use eyre::eyre;
 use jsonwebtoken::EncodingKey;
-use log::info;
+use log::{info, warn};
 use octocrab::{
     models::repos::Object, params::repos::Reference, pulls::PullRequestHandler, repos::RepoHandler,
     Octocrab, OctocrabBuilder,
 };
-use reqwest::Url;
+use reqwest::{StatusCode, Url};
 use std::fs;
+
+/// The higher suffix number to add to a branch name.
+const MAX_SUFFIX: u32 = 9;
 
 async fn build_octocrab(config: &GitHubConfig) -> Result<Octocrab, InternalError> {
     let file_contents = fs::read(&config.private_key)?;
@@ -40,6 +43,53 @@ fn get_repo_pulls<'a>(
     ))
 }
 
+/// Creates a branch for the PR to add the given event, and returns its name.
+async fn create_branch(
+    repo: &RepoHandler<'_>,
+    event: &Event,
+    head_sha: &str,
+) -> Result<String, InternalError> {
+    // Create the branch, retrying with different suffixes if it already exists.
+    let pr_branch_base = format!(
+        "add-{}-{}-{}",
+        to_safe_filename(&event.country),
+        to_safe_filename(&event.city),
+        to_safe_filename(&event.name),
+    );
+
+    let mut last_error = eyre!("Failed to create branch for event PR.");
+    for suffix in 0..=MAX_SUFFIX {
+        let branch_name = if suffix == 0 {
+            pr_branch_base.clone()
+        } else {
+            format!("{}{}", pr_branch_base, suffix)
+        };
+        info!("Creating branch \"{}\"", branch_name);
+        if let Err(e) = repo
+            .create_ref(&Reference::Branch(branch_name.clone()), head_sha)
+            .await
+        {
+            if matches!(&e, octocrab::Error::Http {source, .. }
+        if source.status() == Some(StatusCode::UNPROCESSABLE_ENTITY))
+            {
+                // Probably the branch already exists, let the loop try a different suffix.
+                last_error = e.into();
+            } else {
+                // Some other error, return immediately.
+                return Err(e.into());
+            }
+        } else {
+            return Ok(branch_name);
+        }
+    }
+
+    warn!(
+        "Failed to create PR branch {} after trying all suffixes: {}",
+        pr_branch_base, last_error
+    );
+    Err(InternalError::Internal(last_error))
+}
+
 /// Creates a PR to add the given event to the given file.
 ///
 /// Returns the URL of the new PR.
@@ -56,21 +106,11 @@ pub async fn add_event_to_file(
     };
     let yaml = serde_yaml::to_string(&new_events)?;
 
-    // Create branch with change to file.
-    let commit_message = format!("Add {} in {}", event.name, event.city);
-    let pr_branch = format!(
-        "add-{}-{}-{}",
-        to_safe_filename(&event.country),
-        to_safe_filename(&event.city),
-        to_safe_filename(&event.name),
-    );
-
-    info!("Creating branch \"{}\"", pr_branch);
     let head_sha = sha_for_branch(&repo, &config.main_branch).await?;
-    // TODO: Check if branch already exists, pick a different name
-    repo.create_ref(&Reference::Branch(pr_branch.clone()), head_sha)
-        .await?;
+    let pr_branch = create_branch(&repo, &event, &head_sha).await?;
 
+    // Create a commit to add or modify the file.
+    let commit_message = format!("Add {} in {}", event.name, event.city);
     if let Ok(contents) = repo
         .get_content()
         .path(&filename)
