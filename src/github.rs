@@ -5,7 +5,7 @@ use crate::{
 };
 use eyre::eyre;
 use jsonwebtoken::EncodingKey;
-use log::{info, warn};
+use log::{trace, warn};
 use octocrab::{
     models::repos::Object, params::repos::Reference, pulls::PullRequestHandler, repos::RepoHandler,
     Octocrab, OctocrabBuilder,
@@ -64,7 +64,7 @@ async fn create_branch(
         } else {
             format!("{}{}", pr_branch_base, suffix)
         };
-        info!("Creating branch \"{}\"", branch_name);
+        trace!("Creating branch \"{}\"", branch_name);
         if let Err(e) = repo
             .create_ref(&Reference::Branch(branch_name.clone()), head_sha)
             .await
@@ -126,14 +126,14 @@ pub async fn add_event_to_file(
         let formatted_event = yaml.trim_start_matches("---\nevents:\n");
         let new_content = format!("{}\n{}", existing_content, formatted_event);
 
-        info!("Got existing file, sha {}", existing_file.sha);
+        trace!("Got existing file, sha {}", existing_file.sha);
         // Update the file
         let update = repo
             .update_file(&filename, &commit_message, new_content, &existing_file.sha)
             .branch(&pr_branch)
             .send()
             .await?;
-        info!("Update: {:?}", update);
+        trace!("Update: {:?}", update);
     } else {
         // File doesn't exist, create it.
         let content = yaml.replacen(
@@ -146,7 +146,7 @@ pub async fn add_event_to_file(
             .branch(&pr_branch)
             .send()
             .await?;
-        info!("Create: {:?}", create);
+        trace!("Create: {:?}", create);
     }
 
     // Create PR for the branch.
@@ -155,7 +155,7 @@ pub async fn add_event_to_file(
         .body("Added from web form.")
         .send()
         .await?;
-    info!("Made PR {:?}", pr);
+    trace!("Made PR {:?}", pr);
     let pr_url = pr
         .html_url
         .ok_or_else(|| InternalError::Internal(eyre!("PR missing html_url")))?;
