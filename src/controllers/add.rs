@@ -27,6 +27,8 @@ use askama::Template;
 use axum::{response::Html, Extension};
 use axum_extra::extract::Form;
 use chrono::NaiveDate;
+use log::trace;
+use reqwest::Url;
 use serde::{de::IntoDeserializer, Deserialize, Deserializer};
 use std::{collections::HashSet, sync::Arc};
 
@@ -93,18 +95,12 @@ pub async fn submit(
                 None
             };
 
-            let new_events = Events {
-                events: vec![event],
-            };
-            Ok(Html(format!(
-                "<pre>{:#?}\n{}\nPossible files:\n{:#?}\n{:#?}\nChose {}\nPR: {:?}</pre>",
-                form,
-                serde_yaml::to_string(&new_events)?,
-                organisation_files,
-                city_files,
-                chosen_file,
-                pr,
-            )))
+            trace!("Possible files for organisation: {:?}", organisation_files);
+            trace!("Possible files for city: {:?}", city_files);
+            trace!("Chosen file: {}", chosen_file);
+
+            let template = SubmitTemplate { pr, event };
+            Ok(Html(template.render()?))
         }
         Err(errors) => {
             let template = AddTemplate::new(&events, form, errors);
@@ -239,6 +235,13 @@ impl TryFrom<AddForm> for Event {
             Err(problems)
         }
     }
+}
+
+#[derive(Template)]
+#[template(path = "submit.html")]
+struct SubmitTemplate {
+    pr: Option<Url>,
+    event: Event,
 }
 
 fn trim<'de, D: Deserializer<'de>>(deserializer: D) -> Result<String, D::Error> {
