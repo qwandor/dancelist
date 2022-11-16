@@ -340,7 +340,7 @@ fn merge_strings(a: &Option<String>, b: &Option<String>) -> Option<String> {
                 Some(a.clone())
             } else {
                 // Can't merge different strings.
-                return None;
+                None
             }
         }
     }
