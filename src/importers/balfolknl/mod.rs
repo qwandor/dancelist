@@ -21,7 +21,9 @@ use crate::model::{
 use chrono::TimeZone;
 use chrono_tz::Europe::Amsterdam;
 use eyre::{bail, eyre, Report};
-use icalendar::{Calendar, CalendarComponent, CalendarDateTime, Component, DatePerhapsTime, Event};
+use icalendar::{
+    Calendar, CalendarComponent, CalendarDateTime, Component, DatePerhapsTime, Event, EventLike,
+};
 use log::{info, warn};
 
 const BANDS: [&str; 31] = [

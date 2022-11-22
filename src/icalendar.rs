@@ -5,7 +5,7 @@ use axum::{
     response::{IntoResponse, Response},
 };
 use chrono::Utc;
-use icalendar::{Calendar, Component, EventStatus};
+use icalendar::{Calendar, Component, EventLike, EventStatus};
 use std::fmt::Write;
 
 pub fn events_to_calendar(events: &[&Event], name: &str) -> Calendar {
