@@ -13,13 +13,13 @@
 // limitations under the License.
 
 use crate::{config::Config, errors::InternalError, model::events::Events};
-use axum::extract::{Extension, Form};
+use axum::extract::{Form, State};
 use log::info;
 use serde::{Deserialize, Serialize};
 use std::sync::{Arc, Mutex};
 
 pub async fn reload(
-    Extension(events): Extension<Arc<Mutex<Events>>>,
+    State(events): State<Arc<Mutex<Events>>>,
     Form(request): Form<ReloadRequest>,
 ) -> Result<String, InternalError> {
     let config = Config::from_file().map_err(InternalError::Internal)?;

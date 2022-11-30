@@ -29,7 +29,7 @@ use crate::{
 };
 use axum::{
     routing::{get, get_service, post},
-    Extension, Router,
+    Router,
 };
 use eyre::Report;
 use log::info;
@@ -187,7 +187,7 @@ async fn serve() -> Result<(), Report> {
             get_service(ServeDir::new(config.public_dir.join("stylesheets")))
                 .handle_error(internal_error),
         )
-        .layer(Extension(events));
+        .with_state(events);
 
     info!("Listening on {}", config.bind_address);
     axum::Server::bind(&config.bind_address)
