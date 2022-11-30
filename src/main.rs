@@ -182,7 +182,7 @@ async fn serve() -> Result<(), Report> {
         .route("/cities", get(cities::cities))
         .route("/organisations", get(organisations::organisations))
         .route("/reload", post(reload::reload))
-        .nest(
+        .nest_service(
             "/stylesheets",
             get_service(ServeDir::new(config.public_dir.join("stylesheets")))
                 .handle_error(internal_error),
