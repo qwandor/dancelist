@@ -15,18 +15,21 @@
 use crate::{errors::InternalError, model::events::Events};
 use axum::{
     async_trait,
-    extract::{Extension, FromRequestParts},
+    extract::{FromRequestParts, State},
     http::request::Parts,
 };
 use std::sync::{Arc, Mutex};
 
 #[async_trait]
-impl<S: Send + Sync> FromRequestParts<S> for Events {
+impl FromRequestParts<Arc<Mutex<Events>>> for Events {
     type Rejection = InternalError;
 
-    async fn from_request_parts(parts: &mut Parts, state: &S) -> Result<Self, Self::Rejection> {
-        let Extension(events): Extension<Arc<Mutex<Events>>> =
-            Extension::from_request_parts(parts, state).await?;
+    async fn from_request_parts(
+        parts: &mut Parts,
+        state: &Arc<Mutex<Events>>,
+    ) -> Result<Self, Self::Rejection> {
+        let State(events): State<Arc<Mutex<Events>>> =
+            State::from_request_parts(parts, state).await?;
         let events = events.lock().unwrap();
         Ok(events.clone())
     }

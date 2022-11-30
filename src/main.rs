@@ -195,7 +195,7 @@ async fn serve() -> Result<(), Report> {
             get_service(ServeDir::new(config.public_dir.join("stylesheets")))
                 .handle_error(internal_error),
         )
-        .layer(Extension(events))
+        .with_state(events)
         .layer(Extension(config.clone()));
 
     info!("Listening on {}", config.bind_address);
