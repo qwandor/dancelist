@@ -13,24 +13,16 @@
 // limitations under the License.
 
 use crate::{errors::InternalError, model::events::Events, AppState};
-use axum::{
-    async_trait,
-    extract::{FromRequestParts, State},
-    http::request::Parts,
-};
-use std::sync::{Arc, Mutex};
+use axum::{async_trait, extract::FromRequestParts, http::request::Parts};
 
 #[async_trait]
 impl FromRequestParts<AppState> for Events {
     type Rejection = InternalError;
 
     async fn from_request_parts(
-        parts: &mut Parts,
+        _parts: &mut Parts,
         state: &AppState,
     ) -> Result<Self, Self::Rejection> {
-        let State(events): State<Arc<Mutex<Events>>> =
-            State::from_request_parts(parts, state).await?;
-        let events = events.lock().unwrap();
-        Ok(events.clone())
+        Ok(state.events.lock().unwrap().clone())
     }
 }
