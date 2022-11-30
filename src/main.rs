@@ -29,8 +29,9 @@ use crate::{
     model::events::Events,
 };
 use axum::{
+    extract::FromRef,
     routing::{get, get_service, post},
-    Extension, Router,
+    Router,
 };
 use eyre::Report;
 use log::info;
@@ -171,6 +172,10 @@ async fn serve() -> Result<(), Report> {
     let config = Arc::new(Config::from_file()?);
     let events = Events::load_events(&config.events).await?;
     let events = Arc::new(Mutex::new(events));
+    let state = AppState {
+        config: config.clone(),
+        events,
+    };
 
     let app = Router::new()
         .route("/", get(index::index))
@@ -195,8 +200,7 @@ async fn serve() -> Result<(), Report> {
             get_service(ServeDir::new(config.public_dir.join("stylesheets")))
                 .handle_error(internal_error),
         )
-        .with_state(events)
-        .layer(Extension(config.clone()));
+        .with_state(state);
 
     info!("Listening on {}", config.bind_address);
     axum::Server::bind(&config.bind_address)
@@ -204,6 +208,12 @@ async fn serve() -> Result<(), Report> {
         .await?;
 
     Ok(())
+}
+
+#[derive(Clone, FromRef)]
+struct AppState {
+    config: Arc<Config>,
+    events: Arc<Mutex<Events>>,
 }
 
 /// Returns the JSON schema for events.

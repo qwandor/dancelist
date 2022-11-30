@@ -13,17 +13,14 @@
 // limitations under the License.
 
 use crate::{config::Config, errors::InternalError, model::events::Events};
-use axum::{
-    extract::{Form, State},
-    Extension,
-};
+use axum::extract::{Form, State};
 use log::info;
 use serde::{Deserialize, Serialize};
 use std::sync::{Arc, Mutex};
 
 pub async fn reload(
     State(events): State<Arc<Mutex<Events>>>,
-    Extension(config): Extension<Arc<Config>>,
+    State(config): State<Arc<Config>>,
     Form(request): Form<ReloadRequest>,
 ) -> Result<String, InternalError> {
     if request.reload_token != config.reload_token {

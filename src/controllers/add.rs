@@ -24,7 +24,7 @@ use crate::{
     },
 };
 use askama::Template;
-use axum::{response::Html, Extension};
+use axum::{extract::State, response::Html};
 use axum_extra::extract::Form;
 use chrono::NaiveDate;
 use log::trace;
@@ -38,7 +38,7 @@ pub async fn add(events: Events) -> Result<Html<String>, InternalError> {
 }
 
 pub async fn submit(
-    Extension(config): Extension<Arc<Config>>,
+    State(config): State<Arc<Config>>,
     events: Events,
     Form(form): Form<AddForm>,
 ) -> Result<Html<String>, InternalError> {

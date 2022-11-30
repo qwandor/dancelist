@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use crate::{errors::InternalError, model::events::Events};
+use crate::{errors::InternalError, model::events::Events, AppState};
 use axum::{
     async_trait,
     extract::{FromRequestParts, State},
@@ -21,12 +21,12 @@ use axum::{
 use std::sync::{Arc, Mutex};
 
 #[async_trait]
-impl FromRequestParts<Arc<Mutex<Events>>> for Events {
+impl FromRequestParts<AppState> for Events {
     type Rejection = InternalError;
 
     async fn from_request_parts(
         parts: &mut Parts,
-        state: &Arc<Mutex<Events>>,
+        state: &AppState,
     ) -> Result<Self, Self::Rejection> {
         let State(events): State<Arc<Mutex<Events>>> =
             State::from_request_parts(parts, state).await?;
