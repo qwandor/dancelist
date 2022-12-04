@@ -64,7 +64,7 @@ pub struct Event {
     #[serde(default, skip_serializing_if = "Not::not")]
     pub cancelled: bool,
     /// The name of the file in which this event is stored.
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub source: Option<String>,
 }
 
