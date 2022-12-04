@@ -145,7 +145,6 @@
         },
         "source": {
           "description": "The name of the file in which this event is stored.",
-          "default": null,
           "type": [
             "string",
             "null"
