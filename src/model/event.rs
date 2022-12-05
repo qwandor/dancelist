@@ -34,7 +34,6 @@ pub struct Event {
     pub links: Vec<String>,
     #[serde(flatten)]
     pub time: EventTime,
-    // TODO: Should start and end require time or just date? What about timezone?
     pub country: String,
     pub city: String,
     // TODO: What about full address?
@@ -56,7 +55,6 @@ pub struct Event {
     /// The price or price range of the event, if available.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub price: Option<String>,
-    // TODO: Should free events be distinguished from events with unknown price?
     /// The organisation who run the event.
     #[serde(default)]
     pub organisation: Option<String>,
@@ -103,8 +101,18 @@ impl Event {
     pub fn validate(&self) -> Vec<&'static str> {
         let mut problems = vec![];
 
+        if self.name.is_empty() {
+            problems.push("Must have a name.");
+        }
+        if self.country.is_empty() {
+            problems.push("Must specify a country.");
+        }
+        if self.city.is_empty() {
+            problems.push("Must specify a city.");
+        }
+
         if !self.workshop && !self.social {
-            problems.push("Must have at least a workshop or a social.")
+            problems.push("Must have at least a workshop or a social.");
         }
 
         match self.time {
@@ -124,7 +132,7 @@ impl Event {
         }
 
         if self.styles.is_empty() {
-            problems.push("Must include at least one style of dance.")
+            problems.push("Must include at least one style of dance.");
         }
 
         problems
@@ -332,7 +340,7 @@ fn merge_strings(a: &Option<String>, b: &Option<String>) -> Option<String> {
                 Some(a.clone())
             } else {
                 // Can't merge different strings.
-                return None;
+                None
             }
         }
     }

@@ -16,18 +16,20 @@ mod config;
 mod controllers;
 mod errors;
 mod extractors;
+mod github;
 mod icalendar;
 mod importers;
 mod model;
 
 use crate::{
     config::Config,
-    controllers::{bands, callers, cities, index, organisations, reload},
+    controllers::{add, bands, callers, cities, index, organisations, reload},
     errors::internal_error,
     importers::{balfolknl, folkbalbende, webfeet},
     model::events::Events,
 };
 use axum::{
+    extract::FromRef,
     routing::{get, get_service, post},
     Router,
 };
@@ -167,9 +169,13 @@ async fn find_duplicates() -> Result<(), Report> {
 }
 
 async fn serve() -> Result<(), Report> {
-    let config = Config::from_file()?;
+    let config = Arc::new(Config::from_file()?);
     let events = Events::load_events(&config.events).await?;
     let events = Arc::new(Mutex::new(events));
+    let state = AppState {
+        config: config.clone(),
+        events,
+    };
 
     let app = Router::new()
         .route("/", get(index::index))
@@ -177,17 +183,24 @@ async fn serve() -> Result<(), Report> {
         .route("/index.json", get(index::index_json))
         .route("/index.toml", get(index::index_toml))
         .route("/index.yaml", get(index::index_yaml))
+        .route("/add", get(add::add))
+        .route("/add", post(add::submit))
         .route("/bands", get(bands::bands))
         .route("/callers", get(callers::callers))
         .route("/cities", get(cities::cities))
         .route("/organisations", get(organisations::organisations))
         .route("/reload", post(reload::reload))
         .nest_service(
+            "/scripts",
+            get_service(ServeDir::new(config.public_dir.join("scripts")))
+                .handle_error(internal_error),
+        )
+        .nest_service(
             "/stylesheets",
             get_service(ServeDir::new(config.public_dir.join("stylesheets")))
                 .handle_error(internal_error),
         )
-        .with_state(events);
+        .with_state(state);
 
     info!("Listening on {}", config.bind_address);
     axum::Server::bind(&config.bind_address)
@@ -195,6 +208,12 @@ async fn serve() -> Result<(), Report> {
         .await?;
 
     Ok(())
+}
+
+#[derive(Clone, FromRef)]
+struct AppState {
+    config: Arc<Config>,
+    events: Arc<Mutex<Events>>,
 }
 
 /// Returns the JSON schema for events.

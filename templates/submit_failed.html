@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Submission failed</title>
+	<link rel="stylesheet" type="text/css" href="/stylesheets/main.css" />
+</head>
+
+<body>
+	<h1>Failed to submit event</h1>
+
+  {% if merged == existing_event %}
+  <p class="error">The event you submitted appears to be a duplicate of an existing event.</p>
+  {% else %}
+  <p class="error">The event you submitted appears to be a duplicate of an existing event with more details.</p>
+  {% endif %}
+
+  <h2>Your event</h2>
+  <table>
+    {% include "shared/event.html" %}
+  </table>
+
+  <h2>Existing event</h2>
+  {% let event = existing_event %}
+  <table>
+    {% include "shared/event.html" %}
+  </table>
+
+  {% if merged != existing_event %}
+  <h2>Merged</h2>
+  {% let event = merged %}
+  <table>
+    {% include "shared/event.html" %}
+  </table>
+  {% endif %}
+
+  <p>This has not been submitted. Please <a href="https://github.com/qwandor/dancelist-data">submit the change manually</a>.</p>
+
+  <p><a href="/add">Add another event</a></p>
+  <p><a href="/">Return to main page</a></p>
+</body>
+
+</html>

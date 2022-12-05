@@ -12,12 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+use enum_iterator::{all, Sequence};
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 use std::fmt::{self, Display, Formatter};
 
 #[derive(
-    Copy, Clone, Debug, Deserialize, Eq, JsonSchema, Ord, PartialEq, PartialOrd, Serialize,
+    Copy, Clone, Debug, Deserialize, Eq, JsonSchema, Ord, PartialEq, PartialOrd, Sequence, Serialize,
 )]
 pub enum DanceStyle {
     #[serde(rename = "balfolk")]
@@ -47,6 +48,10 @@ pub enum DanceStyle {
 }
 
 impl DanceStyle {
+    pub fn values() -> impl Iterator<Item = Self> {
+        all::<Self>()
+    }
+
     pub fn tag(self) -> &'static str {
         match self {
             Self::Balfolk => "balfolk",

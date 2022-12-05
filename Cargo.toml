@@ -11,14 +11,17 @@ categories = ["web-programming"]
 
 [dependencies]
 askama = "0.11.1"
-axum = { version = "0.6.1", features = ["headers"] }
+axum = { version = "0.6.1", features = ["headers", "macros"] }
+axum-extra = { version = "0.4.1", features = ["form"] }
 chrono = { version = "0.4.23", features = ["serde"] }
 chrono-tz = { version = "0.8.1", features = ["serde"] }
 color-backtrace = "0.5.1"
 enum-iterator = "1.2.0"
 eyre = "0.6.8"
 icalendar = { version = "0.14.0", features = ["parser"] }
+jsonwebtoken = "8.1.1"
 log = "0.4.17"
+octocrab = "0.17.0"
 pretty_env_logger = "0.4.0"
 quick-xml = { version = "0.26.0", features = ["serialize"] }
 reqwest = "0.11.13"
@@ -41,6 +44,11 @@ assets = [
 		"target/release/dancelist",
 		"usr/bin/",
 		"755",
+	],
+	[
+		"public/scripts/*",
+		"/usr/share/dancelist/scripts/",
+		"644",
 	],
 	[
 		"public/stylesheets/*",

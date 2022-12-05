@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Submitted event</title>
+	<link rel="stylesheet" type="text/css" href="/stylesheets/main.css" />
+</head>
+
+<body>
+	<h1>Submitted event</h1>
+
+  {% match pr %}
+  {% when Some with (pr) %}
+	<p>Your new event has been <a href="{{ pr }}">submitted for review</a>.</p>
+  {% when None %}
+  <p>Your new event is valid, but submission failed.</p>
+  {% endmatch %}
+
+  <table>
+    {% include "shared/event.html" %}
+  </table>
+
+  <p><a href="/add">Add another event</a></p>
+  <p><a href="/">Return to main page</a></p>
+</body>
+
+</html>

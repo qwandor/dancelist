@@ -219,3 +219,62 @@ a:hover:not([class]) {
 .nav ul.unpadded li {
   margin-right: 0;
 }
+
+/*--- Add event form layout ---*/
+
+form > ul {
+  list-style: none;
+  padding: 0;
+  margin-block-start: 0;
+  margin-block-end: 0;
+}
+
+form > ul > li {
+  display: grid;
+  grid-template-columns: 10em max-content 1fr;
+  grid-template-areas:
+    'label input -'
+    'explanation explanation explanation';
+  margin-bottom: 5px;
+}
+
+form > ul > li > label {
+  grid-area: label;
+}
+form > ul > li > input, form > ul > li > textarea, form > ul > li > fieldset {
+  grid-area: input;
+}
+form > ul > li > p {
+  grid-area: explanation;
+  margin-top: 0.1em;
+  font-style: italic;
+}
+textarea {
+  width: 30em;
+  overflow: auto;
+}
+
+fieldset {
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+fieldset.styles > ul {
+  list-style: none;
+  padding: 0;
+  margin-block-start: 0;
+  margin-block-end: 0;
+  display: grid;
+  grid-template-columns: repeat(2, max-content);
+}
+
+/*--- Add event form theme ---*/
+label.required {
+  font-weight: bold;
+}
+input:not([type=submit]):invalid, textarea:invalid {
+  background-color: #ffeeee;
+}
+.error {
+  color: #bb0000;
+}

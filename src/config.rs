@@ -35,6 +35,19 @@ pub struct Config {
     pub bind_address: SocketAddr,
     #[serde(default)]
     pub reload_token: String,
+    #[serde(default)]
+    pub github: Option<GitHubConfig>,
+}
+
+#[derive(Clone, Debug, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct GitHubConfig {
+    pub owner: String,
+    pub repository: String,
+    #[serde(default = "default_main_branch")]
+    pub main_branch: String,
+    pub app_id: u64,
+    pub private_key: PathBuf,
 }
 
 impl Config {
@@ -67,6 +80,10 @@ fn default_events() -> String {
 
 fn default_bind_address() -> SocketAddr {
     "0.0.0.0:3002".parse().unwrap()
+}
+
+fn default_main_branch() -> String {
+    "main".to_string()
 }
 
 #[cfg(test)]
