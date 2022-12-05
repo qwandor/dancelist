@@ -18,8 +18,7 @@ use serde::{
 };
 
 pub fn serialize<S: Serializer>(value: &bool, serializer: S) -> Result<S::Ok, S::Error> {
-    let integer = if *value { 1 } else { 0 };
-    serializer.serialize_u32(integer)
+    serializer.serialize_u32((*value).into())
 }
 
 pub fn deserialize<'de, D: Deserializer<'de>>(deserializer: D) -> Result<bool, D::Error> {

@@ -192,8 +192,8 @@ impl TryFrom<AddForm> for Event {
 
     fn try_from(form: AddForm) -> Result<Self, Self::Error> {
         let time = EventTime::DateOnly {
-            start_date: form.start_date.ok_or(vec!["Missing start date"])?,
-            end_date: form.end_date.ok_or(vec!["Missing end date"])?,
+            start_date: form.start_date.ok_or_else(|| vec!["Missing start date"])?,
+            end_date: form.end_date.ok_or_else(|| vec!["Missing end date"])?,
         };
         let event = Self {
             name: form.name,

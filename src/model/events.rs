@@ -74,7 +74,7 @@ impl Events {
     pub fn load_file(filename: &Path) -> Result<Self, Report> {
         trace!("Reading events from {:?}", filename);
         let contents =
-            read_to_string(&filename).wrap_err_with(|| format!("Reading {:?}", filename))?;
+            read_to_string(filename).wrap_err_with(|| format!("Reading {:?}", filename))?;
         let mut events =
             Self::load_str(&contents).wrap_err_with(|| format!("Reading {:?}", filename))?;
 
