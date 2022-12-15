@@ -105,6 +105,7 @@ pub enum WebsiteType {
     Facebook,
     #[serde(rename = "last.fm")]
     LastFm,
+    Mail,
     MySpace,
     ReverbNation,
     SoundCloud,
@@ -173,6 +174,7 @@ pub struct Band {
     pub tags: Vec<String>,
     pub musicians: Vec<Musician>,
     pub image: Option<String>,
+    pub duplicate_of: Option<String>,
 }
 
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
