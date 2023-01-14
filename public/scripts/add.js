@@ -22,7 +22,7 @@ function update_inputs() {
       last_input.name,
       last_input.type,
       last_input.id,
-      last_input.list.id
+      last_input.list?.id
     );
     last_input.id = null;
   } else if (second_to_last_input != null && second_to_last_input.value == "") {
