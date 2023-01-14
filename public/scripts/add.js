@@ -32,10 +32,26 @@ function update_inputs() {
   }
 }
 
+function update_datetimes() {
+  let with_time = document.getElementById("with_time").checked;
+
+  Array.from(document.getElementsByClassName("times")).forEach((element) => {
+    element.style.display = with_time ? "grid" : "none";
+    element.getElementsByTagName("input")[0].required = with_time;
+  });
+  Array.from(document.getElementsByClassName("dates")).forEach((element) => {
+    element.style.display = with_time ? "none" : "grid";
+    element.getElementsByTagName("input")[0].required = !with_time;
+  });
+}
+
 function initialise() {
   document.getElementById("links_list").oninput = update_inputs;
   document.getElementById("bands_list").oninput = update_inputs;
   document.getElementById("callers_list").oninput = update_inputs;
+  document.getElementById("with_time").onchange = update_datetimes;
+
+  update_datetimes();
 }
 
 window.onload = initialise;
