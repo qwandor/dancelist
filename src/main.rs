@@ -20,6 +20,7 @@ mod github;
 mod icalendar;
 mod importers;
 mod model;
+mod util;
 
 use crate::{
     config::Config,

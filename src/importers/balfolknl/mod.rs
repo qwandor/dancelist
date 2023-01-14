@@ -12,11 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use super::to_fixed_offset;
-use crate::model::{
-    dancestyle::DanceStyle,
-    event::{self, EventTime},
-    events::Events,
+use crate::{
+    model::{
+        dancestyle::DanceStyle,
+        event::{self, EventTime},
+        events::Events,
+    },
+    util::to_fixed_offset,
 };
 use chrono::TimeZone;
 use chrono_tz::Europe::Amsterdam;

@@ -15,11 +15,13 @@
 pub mod types;
 
 use self::types::{Event, EventType};
-use super::to_fixed_offset;
-use crate::model::{
-    dancestyle::DanceStyle,
-    event::{self, EventTime},
-    events::Events,
+use crate::{
+    model::{
+        dancestyle::DanceStyle,
+        event::{self, EventTime},
+        events::Events,
+    },
+    util::to_fixed_offset,
 };
 use chrono::{NaiveDate, NaiveTime, TimeZone};
 use chrono_tz::Europe::Brussels;

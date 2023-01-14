@@ -16,13 +16,13 @@ use crate::{
     config::Config,
     errors::InternalError,
     github::{add_event_to_file, to_safe_filename},
-    importers::to_fixed_offset,
     model::{
         dancestyle::DanceStyle,
         event::{Event, EventTime},
         events::{Band, Caller, Country, Events, Organisation},
         filters::Filters,
     },
+    util::to_fixed_offset,
 };
 use askama::Template;
 use axum::{extract::State, response::Html};
