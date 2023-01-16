@@ -37,11 +37,15 @@ function update_datetimes() {
 
   Array.from(document.getElementsByClassName("times")).forEach((element) => {
     element.style.display = with_time ? "grid" : "none";
-    element.getElementsByTagName("input")[0].required = with_time;
+    Array.from(element.getElementsByTagName("input")).forEach((input) => {
+      input.required = with_time;
+    });
   });
   Array.from(document.getElementsByClassName("dates")).forEach((element) => {
     element.style.display = with_time ? "none" : "grid";
-    element.getElementsByTagName("input")[0].required = !with_time;
+    Array.from(element.getElementsByTagName("input")).forEach((input) => {
+      input.required = !with_time;
+    });
   });
 }
 

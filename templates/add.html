@@ -61,6 +61,18 @@
 				<label for="end" class="required">End time</label>
 				<input name="end" id="end" type="datetime-local" required="required" value="{{ form.end_string() }}"/>
 			</li>
+			<li class="times">
+				<label for="timezone" class="required">Timezone</label>
+				<select name="timezone" id="timezone" required="required">
+					{% for timezone in chrono_tz::TZ_VARIANTS %}
+					{% if Some(timezone.clone()) == form.timezone %}
+					<option value="{{ timezone }}" selected="selected">{{ timezone }}</option>
+					{% else %}
+					<option value="{{ timezone }}">{{ timezone }}</option>
+					{% endif %}
+					{% endfor %}
+				</select>
+			</li>
 			<li class="dates">
 				<label for="start_date" class="required">Start date</label>
 				<input name="start_date" id="start_date" type="date" required="required" value="{{ form.start_date_string() }}"/>

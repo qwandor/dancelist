@@ -27,8 +27,8 @@ use crate::{
 use askama::Template;
 use axum::{extract::State, response::Html};
 use axum_extra::extract::Form;
-use chrono::{NaiveDate, NaiveDateTime, TimeZone};
-use chrono_tz::Europe;
+use chrono::{DateTime, FixedOffset, NaiveDate, NaiveDateTime, TimeZone};
+use chrono_tz::Tz;
 use log::trace;
 use reqwest::Url;
 use serde::{de::IntoDeserializer, Deserialize, Deserializer};
@@ -149,6 +149,7 @@ pub struct AddForm {
     start: Option<NaiveDateTime>,
     #[serde(deserialize_with = "datetime_or_none")]
     end: Option<NaiveDateTime>,
+    timezone: Option<Tz>,
     #[serde(deserialize_with = "trim")]
     country: String,
     #[serde(deserialize_with = "trim")]
@@ -220,19 +221,16 @@ impl TryFrom<AddForm> for Event {
 
     fn try_from(form: AddForm) -> Result<Self, Self::Error> {
         let time = if form.with_time {
+            let timezone = form.timezone.ok_or_else(|| vec!["Missing timezone"])?;
             EventTime::DateTime {
-                start: to_fixed_offset(
-                    Europe::London
-                        .from_local_datetime(&form.start.ok_or_else(|| vec!["Missing start time"])?)
-                        .single()
-                        .ok_or_else(|| vec!["Invalid time for timezone"])?,
-                ),
-                end: to_fixed_offset(
-                    Europe::London
-                        .from_local_datetime(&form.end.ok_or_else(|| vec!["Missing start time"])?)
-                        .single()
-                        .ok_or_else(|| vec!["Invalid time for timezone"])?,
-                ),
+                start: local_datetime_to_fixed_offset(
+                    &form.start.ok_or_else(|| vec!["Missing start time"])?,
+                    timezone,
+                )?,
+                end: local_datetime_to_fixed_offset(
+                    &form.end.ok_or_else(|| vec!["Missing end time"])?,
+                    timezone,
+                )?,
             }
         } else {
             EventTime::DateOnly {
@@ -272,6 +270,18 @@ impl TryFrom<AddForm> for Event {
             Err(problems)
         }
     }
+}
+
+fn local_datetime_to_fixed_offset(
+    local: &NaiveDateTime,
+    timezone: Tz,
+) -> Result<DateTime<FixedOffset>, Vec<&'static str>> {
+    Ok(to_fixed_offset(
+        timezone
+            .from_local_datetime(local)
+            .single()
+            .ok_or_else(|| vec!["Invalid time for timezone"])?,
+    ))
 }
 
 #[derive(Template)]
