@@ -22,11 +22,13 @@ use crate::{
         events::{Band, Caller, Country, Events, Organisation},
         filters::Filters,
     },
+    util::local_datetime_to_fixed_offset,
 };
 use askama::Template;
 use axum::{extract::State, response::Html};
 use axum_extra::extract::Form;
-use chrono::NaiveDate;
+use chrono::{NaiveDate, NaiveDateTime};
+use chrono_tz::Tz;
 use log::trace;
 use reqwest::Url;
 use serde::{de::IntoDeserializer, Deserialize, Deserializer};
@@ -137,10 +139,17 @@ pub struct AddForm {
     details: Option<String>,
     #[serde(deserialize_with = "trim_non_empty_vec")]
     links: Vec<String>,
+    #[serde(default)]
+    with_time: bool,
     #[serde(deserialize_with = "date_or_none")]
     start_date: Option<NaiveDate>,
     #[serde(deserialize_with = "date_or_none")]
     end_date: Option<NaiveDate>,
+    #[serde(deserialize_with = "datetime_or_none")]
+    start: Option<NaiveDateTime>,
+    #[serde(deserialize_with = "datetime_or_none")]
+    end: Option<NaiveDateTime>,
+    timezone: Option<Tz>,
     #[serde(deserialize_with = "trim")]
     country: String,
     #[serde(deserialize_with = "trim")]
@@ -170,6 +179,10 @@ impl AddForm {
         self.social
     }
 
+    fn with_time(&self) -> bool {
+        self.with_time
+    }
+
     fn start_date_string(&self) -> String {
         if let Some(start_date) = self.start_date {
             start_date.to_string()
@@ -185,15 +198,47 @@ impl AddForm {
             String::default()
         }
     }
+
+    fn start_string(&self) -> String {
+        if let Some(start) = self.start {
+            start.to_string()
+        } else {
+            String::default()
+        }
+    }
+
+    fn end_string(&self) -> String {
+        if let Some(end) = self.end {
+            end.to_string()
+        } else {
+            String::default()
+        }
+    }
 }
 
 impl TryFrom<AddForm> for Event {
     type Error = Vec<&'static str>;
 
     fn try_from(form: AddForm) -> Result<Self, Self::Error> {
-        let time = EventTime::DateOnly {
-            start_date: form.start_date.ok_or_else(|| vec!["Missing start date"])?,
-            end_date: form.end_date.ok_or_else(|| vec!["Missing end date"])?,
+        let time = if form.with_time {
+            let timezone = form.timezone.ok_or_else(|| vec!["Missing timezone"])?;
+            EventTime::DateTime {
+                start: local_datetime_to_fixed_offset(
+                    &form.start.ok_or_else(|| vec!["Missing start time"])?,
+                    timezone,
+                )
+                .ok_or_else(|| vec!["Invalid time for timezone"])?,
+                end: local_datetime_to_fixed_offset(
+                    &form.end.ok_or_else(|| vec!["Missing end time"])?,
+                    timezone,
+                )
+                .ok_or_else(|| vec!["Invalid time for timezone"])?,
+            }
+        } else {
+            EventTime::DateOnly {
+                start_date: form.start_date.ok_or_else(|| vec!["Missing start date"])?,
+                end_date: form.end_date.ok_or_else(|| vec!["Missing end date"])?,
+            }
         };
         let event = Self {
             name: form.name,
@@ -273,6 +318,22 @@ fn date_or_none<'de, D: Deserializer<'de>>(deserializer: D) -> Result<Option<Nai
             Ok(None)
         } else {
             Ok(Some(NaiveDate::deserialize(str.into_deserializer())?))
+        }
+    } else {
+        Ok(None)
+    }
+}
+
+fn datetime_or_none<'de, D: Deserializer<'de>>(
+    deserializer: D,
+) -> Result<Option<NaiveDateTime>, D::Error> {
+    if let Some(str) = Option::<String>::deserialize(deserializer)? {
+        if str.is_empty() {
+            Ok(None)
+        } else {
+            Ok(Some(NaiveDateTime::deserialize(
+                format!("{}:00", str).into_deserializer(),
+            )?))
         }
     } else {
         Ok(None)

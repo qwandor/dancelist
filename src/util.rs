@@ -1,4 +1,4 @@
-// Copyright 2022 the dancelist authors.
+// Copyright 2023 the dancelist authors.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,6 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub mod balfolknl;
-pub mod folkbalbende;
-pub mod webfeet;
+use chrono::{DateTime, FixedOffset, NaiveDateTime, Offset, TimeZone};
+use chrono_tz::Tz;
+
+fn to_fixed_offset(date_time: DateTime<Tz>) -> DateTime<FixedOffset> {
+    let fixed_offset = date_time.offset().fix();
+    date_time.with_timezone(&fixed_offset)
+}
+
+pub fn local_datetime_to_fixed_offset(
+    local: &NaiveDateTime,
+    timezone: Tz,
+) -> Option<DateTime<FixedOffset>> {
+    Some(to_fixed_offset(
+        timezone.from_local_datetime(local).single()?,
+    ))
+}
