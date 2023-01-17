@@ -21,9 +21,9 @@ use crate::{
         event::{self, EventTime},
         events::Events,
     },
-    util::to_fixed_offset,
+    util::local_datetime_to_fixed_offset,
 };
-use chrono::{NaiveDate, NaiveTime, TimeZone};
+use chrono::{NaiveDate, NaiveTime};
 use chrono_tz::Europe::Brussels;
 use eyre::Report;
 
@@ -231,17 +231,10 @@ fn make_time(
 ) -> EventTime {
     if let (Some(start_time), Some(end_time)) = (start_time, end_time) {
         if let (Some(start), Some(end)) = (
-            Brussels
-                .from_local_datetime(&date.and_time(start_time))
-                .single(),
-            Brussels
-                .from_local_datetime(&date.and_time(end_time))
-                .single(),
+            local_datetime_to_fixed_offset(&date.and_time(start_time), Brussels),
+            local_datetime_to_fixed_offset(&date.and_time(end_time), Brussels),
         ) {
-            return EventTime::DateTime {
-                start: to_fixed_offset(start),
-                end: to_fixed_offset(end),
-            };
+            return EventTime::DateTime { start, end };
         }
     }
 

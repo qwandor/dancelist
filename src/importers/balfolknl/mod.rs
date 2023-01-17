@@ -18,9 +18,8 @@ use crate::{
         event::{self, EventTime},
         events::Events,
     },
-    util::to_fixed_offset,
+    util::local_datetime_to_fixed_offset,
 };
-use chrono::TimeZone;
 use chrono_tz::Europe::Amsterdam;
 use eyre::{bail, eyre, Report};
 use icalendar::{
@@ -247,18 +246,10 @@ fn get_time(event: &Event) -> Result<EventTime, Report> {
                 bail!("Unexpected end timezone {}.", end_tzid)
             }
             EventTime::DateTime {
-                start: to_fixed_offset(
-                    Amsterdam
-                        .from_local_datetime(&start)
-                        .single()
-                        .ok_or_else(|| eyre!("Ambiguous datetime for event {:?}", event))?,
-                ),
-                end: to_fixed_offset(
-                    Amsterdam
-                        .from_local_datetime(&end)
-                        .single()
-                        .ok_or_else(|| eyre!("Ambiguous datetime for event {:?}", event))?,
-                ),
+                start: local_datetime_to_fixed_offset(&start, Amsterdam)
+                    .ok_or_else(|| eyre!("Ambiguous datetime for event {:?}", event))?,
+                end: local_datetime_to_fixed_offset(&end, Amsterdam)
+                    .ok_or_else(|| eyre!("Ambiguous datetime for event {:?}", event))?,
             }
         }
         _ => bail!("Mismatched start and end times."),
@@ -269,7 +260,7 @@ fn get_time(event: &Event) -> Result<EventTime, Report> {
 mod tests {
     use super::*;
 
-    use chrono::FixedOffset;
+    use chrono::{FixedOffset, TimeZone};
     use icalendar::Property;
 
     #[test]

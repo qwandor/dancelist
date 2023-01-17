@@ -22,12 +22,12 @@ use crate::{
         events::{Band, Caller, Country, Events, Organisation},
         filters::Filters,
     },
-    util::to_fixed_offset,
+    util::local_datetime_to_fixed_offset,
 };
 use askama::Template;
 use axum::{extract::State, response::Html};
 use axum_extra::extract::Form;
-use chrono::{DateTime, FixedOffset, NaiveDate, NaiveDateTime, TimeZone};
+use chrono::{NaiveDate, NaiveDateTime};
 use chrono_tz::Tz;
 use log::trace;
 use reqwest::Url;
@@ -226,11 +226,13 @@ impl TryFrom<AddForm> for Event {
                 start: local_datetime_to_fixed_offset(
                     &form.start.ok_or_else(|| vec!["Missing start time"])?,
                     timezone,
-                )?,
+                )
+                .ok_or_else(|| vec!["Invalid time for timezone"])?,
                 end: local_datetime_to_fixed_offset(
                     &form.end.ok_or_else(|| vec!["Missing end time"])?,
                     timezone,
-                )?,
+                )
+                .ok_or_else(|| vec!["Invalid time for timezone"])?,
             }
         } else {
             EventTime::DateOnly {
@@ -270,18 +272,6 @@ impl TryFrom<AddForm> for Event {
             Err(problems)
         }
     }
-}
-
-fn local_datetime_to_fixed_offset(
-    local: &NaiveDateTime,
-    timezone: Tz,
-) -> Result<DateTime<FixedOffset>, Vec<&'static str>> {
-    Ok(to_fixed_offset(
-        timezone
-            .from_local_datetime(local)
-            .single()
-            .ok_or_else(|| vec!["Invalid time for timezone"])?,
-    ))
 }
 
 #[derive(Template)]

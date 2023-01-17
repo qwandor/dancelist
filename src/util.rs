@@ -12,10 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use chrono::{DateTime, FixedOffset, Offset};
+use chrono::{DateTime, FixedOffset, NaiveDateTime, Offset, TimeZone};
 use chrono_tz::Tz;
 
-pub fn to_fixed_offset(date_time: DateTime<Tz>) -> DateTime<FixedOffset> {
+fn to_fixed_offset(date_time: DateTime<Tz>) -> DateTime<FixedOffset> {
     let fixed_offset = date_time.offset().fix();
     date_time.with_timezone(&fixed_offset)
+}
+
+pub fn local_datetime_to_fixed_offset(
+    local: &NaiveDateTime,
+    timezone: Tz,
+) -> Option<DateTime<FixedOffset>> {
+    Some(to_fixed_offset(
+        timezone.from_local_datetime(local).single()?,
+    ))
 }
