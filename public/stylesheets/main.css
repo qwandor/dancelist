@@ -172,6 +172,14 @@ h2 {
   color: var(--color-secondary);
 }
 
+th {
+  text-align: left;
+  padding: 0.5em 0;
+  font-size: 2em;
+  font-family: var(--font-cursive);
+  color: var(--color-secondary);
+}
+
 a {
   color: var(--color-link);
   text-decoration: none;

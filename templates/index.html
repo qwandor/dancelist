@@ -116,14 +116,16 @@
 		</ul>
 	</div>
 
-	{% for month in months %}
-	<h2>{{ month.name() }}</h2>
 	<table>
+		{% for month in months %}
+		<tr>
+			<th colspan="7">{{ month.name() }}</th>
+		</tr>
 		{% for event in month.events %}
 		{% include "shared/event.html" %}
 		{% endfor %}
+		{% endfor %}
 	</table>
-	{% endfor %}
 
 	<p>
 		<a href="/bands">All bands</a> |
