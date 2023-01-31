@@ -32,7 +32,7 @@ serde_urlencoded = "0.7.1"
 serde_yaml = "0.8.26"
 stable-eyre = "0.2.2"
 tokio = { version = "1.25.0", features = ["macros", "rt-multi-thread"] }
-toml = "0.7.0"
+toml = "0.7.1"
 tower-http = { version = "0.3.5", features = ["fs"] }
 
 [package.metadata.deb]
