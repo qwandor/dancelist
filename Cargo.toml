@@ -18,7 +18,7 @@ chrono-tz = { version = "0.8.1", features = ["serde"] }
 color-backtrace = "0.5.1"
 enum-iterator = "1.2.0"
 eyre = "0.6.8"
-icalendar = { version = "0.15.1", features = ["parser"] }
+icalendar = { version = "0.15.2", features = ["parser"] }
 jsonwebtoken = "8.2.0"
 log = "0.4.17"
 octocrab = "0.18.1"
