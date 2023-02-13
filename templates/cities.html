@@ -11,11 +11,21 @@
 
 	{% for country in countries %}
 	<h2><a href="/?country={{ country.name|urlencode }}">{{ country.name }}</a></h2>
+	{% if !country.cities.is_empty() %}
 	<ul>
 		{% for city in country.cities %}
 		<li><a href="/?country={{ country.name|urlencode }}&city={{ city|urlencode }}">{{ city }}</a></li>
 		{% endfor %}
 	</ul>
+	{% endif %}
+	{% for state in country.states %}
+	<h3><a href="/?country={{ country.name|urlencode }}&state={{ state.name|urlencode }}">{{ state.name }}</a></h3>
+	<ul>
+		{% for city in state.cities %}
+		<li><a href="/?country={{ country.name|urlencode }}&state={{ state.name|urlencode }}&city={{ city|urlencode }}">{{ city }}</a></li>
+		{% endfor %}
+	</ul>
+	{% endfor %}
 	{% endfor %}
 
 	<p><a href="/">Return to main page</a></p>
