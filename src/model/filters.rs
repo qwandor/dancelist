@@ -27,6 +27,7 @@ pub struct Filters {
     #[serde(default, skip_serializing_if = "is_default")]
     pub date: DateFilter,
     pub country: Option<String>,
+    pub state: Option<String>,
     pub city: Option<String>,
     pub style: Option<DanceStyle>,
     pub multiday: Option<bool>,
@@ -82,6 +83,7 @@ impl Filters {
 
     pub fn has_some(&self) -> bool {
         self.country.is_some()
+            || self.state.is_some()
             || self.city.is_some()
             || self.style.is_some()
             || self.multiday.is_some()
@@ -117,6 +119,11 @@ impl Filters {
 
         if let Some(country) = &self.country {
             if &event.country != country {
+                return false;
+            }
+        }
+        if let Some(state) = &self.state {
+            if event.state.as_deref().unwrap_or_default() != state {
                 return false;
             }
         }
@@ -177,17 +184,27 @@ impl Filters {
             "Folk dance".to_string()
         };
 
-        match (&self.country, &self.city) {
-            (None, None) => format!("{} events", style),
-            (Some(country), None) => {
+        match (&self.country, &self.state, &self.city) {
+            (None, None, None) => format!("{} events", style),
+            (Some(country), None, None) => {
                 if country == "UK" || country == "USA" {
                     format!("{} events in the {}", style, country)
                 } else {
                     format!("{} events in {}", style, country)
                 }
             }
-            (None, Some(city)) => format!("{} events in {}", style, city),
-            (Some(country), Some(city)) => format!("{} events in {}, {}", style, city, country),
+            (None, None, Some(city)) => format!("{} events in {}", style, city),
+            (None, Some(state), None) => format!("{} events in {}", style, state),
+            (None, Some(state), Some(city)) => format!("{} events in {}, {}", style, city, state),
+            (Some(country), None, Some(city)) => {
+                format!("{} events in {}, {}", style, city, country)
+            }
+            (Some(country), Some(state), None) => {
+                format!("{} events in {}, {}", style, state, country)
+            }
+            (Some(country), Some(state), Some(city)) => {
+                format!("{} events in {}, {}, {}", style, city, state, country)
+            }
         }
     }
 

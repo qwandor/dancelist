@@ -152,6 +152,8 @@ pub struct AddForm {
     timezone: Option<Tz>,
     #[serde(deserialize_with = "trim")]
     country: String,
+    #[serde(deserialize_with = "trim_non_empty")]
+    state: Option<String>,
     #[serde(deserialize_with = "trim")]
     city: String,
     #[serde(default)]
@@ -246,6 +248,7 @@ impl TryFrom<AddForm> for Event {
             links: form.links,
             time,
             country: form.country,
+            state: form.state,
             city: form.city,
             styles: form.styles,
             workshop: form.workshop,
