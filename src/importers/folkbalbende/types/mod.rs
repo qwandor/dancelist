@@ -113,6 +113,8 @@ pub enum WebsiteType {
     #[serde(rename = "Vi.be")]
     ViBe,
     Website,
+    #[serde(rename = "websites")]
+    Websites,
     Wikipedia,
     Youtube,
 }
