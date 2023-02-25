@@ -208,10 +208,21 @@ impl Filters {
         }
     }
 
-    /// Makes a new set of filters like this one but with the given country filter and no city filter.
+    /// Makes a new set of filters like this one but with the given country filter and no state or
+    /// city filter.
     pub fn with_country(&self, country: Option<&str>) -> Self {
         Self {
             country: owned(country),
+            state: None,
+            city: None,
+            ..self.clone()
+        }
+    }
+
+    /// Makes a new set of filters like this one but with the given state filter and no city filter.
+    pub fn with_state(&self, state: Option<&str>) -> Self {
+        Self {
+            state: owned(state),
             city: None,
             ..self.clone()
         }

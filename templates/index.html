@@ -62,6 +62,21 @@
 			{% endif %}
 		</ul>
 
+		{% if states.len() > 1 %}
+		<ul>
+			{% for state in states %}
+			{% if filters.state.as_ref() == Some(state) %}
+			<li><strong>{{ state }}</strong></li>
+			{% else %}
+			<li><a href="?{{ filters.with_state(Some(state)).to_query_string().unwrap()|safe }}">{{ state }}</a></li>
+			{% endif %}
+			{% endfor %}
+			{% if filters.state.is_some() %}
+			<li><a href="?{{ filters.with_state(None).to_query_string().unwrap()|safe }}">all states</a></li>
+			{% endif %}
+		</ul>
+		{% endif %}
+
 		{% if cities.len() > 1 %}
 		<ul>
 			{% for city in cities %}
