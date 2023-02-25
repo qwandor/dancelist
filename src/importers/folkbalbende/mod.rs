@@ -210,6 +210,7 @@ fn convert(event: &Event) -> Vec<event::Event> {
             links: links.clone(),
             time: make_time(date, start_time, end_time),
             country: "Belgium".to_string(),
+            state: None,
             city: city.to_owned(),
             styles: vec![DanceStyle::Balfolk],
             workshop,

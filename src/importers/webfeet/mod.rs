@@ -175,6 +175,7 @@ fn convert(event: &EventRecord) -> Option<Event> {
             links,
             time: parse_date(&event.canonical_date.isoformat),
             country: "UK".to_string(),
+            state: None,
             city,
             styles,
             workshop: false,

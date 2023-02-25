@@ -99,6 +99,15 @@
 				</datalist>
 			</li>
 			<li>
+				<label for="state">State</label>
+				<input name="state" id="state" type="text" list="states" value="{{ form.organisation.as_deref().unwrap_or_default() }}"/>
+				<datalist id="states">
+					{% for country in countries %} {% for state in country.states %}
+					<option>{{ state.name }}</option>
+					{% endfor %} {% endfor %}
+				</datalist>
+			</li>
+			<li>
 				<label for="city" class="required">City</label>
 				<p>
 					The city or town in which (or near which) the event will take place.

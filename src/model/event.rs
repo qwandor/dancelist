@@ -35,6 +35,8 @@ pub struct Event {
     #[serde(flatten)]
     pub time: EventTime,
     pub country: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub state: Option<String>,
     pub city: String,
     // TODO: What about full address?
     /// The dance styles included in the event.
@@ -140,7 +142,11 @@ impl Event {
 
     /// Merge this event and the other into a combined one, if they are similar enough.
     pub fn merge(&self, other: &Event) -> Option<Event> {
-        if self.time == other.time && self.country == other.country && self.city == other.city {
+        if self.time == other.time
+            && self.country == other.country
+            && self.state == other.state
+            && self.city == other.city
+        {
             let mut links = self.links.clone();
             links.extend(other.links.clone());
             links.dedup();
@@ -190,6 +196,7 @@ impl Event {
                 links,
                 time: self.time.clone(),
                 country: self.country.clone(),
+                state: self.state.clone(),
                 city: self.city.clone(),
                 styles,
                 workshop: self.workshop || other.workshop,
@@ -378,6 +385,7 @@ mod tests {
                     .unwrap(),
             },
             country: "Country".to_string(),
+            state: None,
             city: "City".to_string(),
             styles: vec![],
             workshop: false,

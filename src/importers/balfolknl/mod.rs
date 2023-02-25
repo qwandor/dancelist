@@ -191,6 +191,7 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
         links: vec![url],
         time,
         country: "Netherlands".to_string(),
+        state: None,
         city,
         styles: vec![DanceStyle::Balfolk],
         workshop,

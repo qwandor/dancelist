@@ -20,6 +20,11 @@
   </td>
   <td class="event-location">
     <a href="?country={{ event.country|urlencode }}&city={{ event.city|urlencode }}">{{ event.city }}</a>,
+    {% match event.state %}
+    {% when Some with (state) %}
+    <a href="?country={{ event.country|urlencode }}&state={{ state|urlencode }}">{{ state }}</a>,
+    {% when None %}
+    {% endmatch %}
     <a href="?country={{ event.country|urlencode }}">{{ event.country }}</a>
   </td>
   <td class="event-type">

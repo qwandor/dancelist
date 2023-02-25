@@ -151,32 +151,68 @@ impl Events {
         organisations
     }
 
-    /// Gets all cities which have dance events matching the given filters, grouped by country, in
-    /// alphabetical order.
+    /// Gets all cities which have dance events matching the given filters, grouped by country and
+    /// possibly state, in alphabetical order.
     pub fn countries(&self, filters: &Filters) -> Vec<Country> {
         let now = Utc::now();
         let mut countries = HashMap::new();
         for event in &self.events {
             if filters.matches(event, now) {
-                countries
+                let (cities, states) = countries
                     .entry(event.country.to_owned())
-                    .or_insert_with(Vec::new)
-                    .push(event.city.to_owned());
+                    .or_insert_with(|| (Vec::new(), HashMap::<String, Vec<String>>::new()));
+                if let Some(state) = &event.state {
+                    states
+                        .entry(state.to_owned())
+                        .or_default()
+                        .push(event.city.to_owned());
+                } else {
+                    cities.push(event.city.to_owned());
+                }
             }
         }
         let mut countries: Vec<_> = countries
             .into_iter()
-            .map(|(country, mut cities)| {
+            .map(|(country, (mut cities, states_map))| {
                 cities.sort();
                 cities.dedup();
+                let mut states: Vec<_> = states_map
+                    .into_iter()
+                    .map(|(state, mut cities)| {
+                        cities.sort();
+                        cities.dedup();
+                        State {
+                            name: state,
+                            cities,
+                        }
+                    })
+                    .collect();
+                states.sort();
                 Country {
                     name: country,
+                    states,
                     cities,
                 }
             })
             .collect();
         countries.sort();
         countries
+    }
+
+    /// Gets all states which have dance events matching the given filters, in alphabetical order.
+    pub fn states(&self, filters: &Filters) -> Vec<String> {
+        let now = Utc::now();
+        let mut states = vec![];
+        for event in &self.events {
+            if filters.matches(event, now) {
+                if let Some(state) = event.state.as_ref() {
+                    states.push(state.to_owned());
+                }
+            }
+        }
+        states.sort();
+        states.dedup();
+        states
     }
 
     /// Gets all cities which have dance events matching the given filters, in alphabetical order.
@@ -210,6 +246,13 @@ impl Events {
 
 #[derive(Clone, Debug, Eq, Ord, PartialEq, PartialOrd)]
 pub struct Country {
+    pub name: String,
+    pub states: Vec<State>,
+    pub cities: Vec<String>,
+}
+
+#[derive(Clone, Debug, Default, Eq, Ord, PartialEq, PartialOrd)]
+pub struct State {
     pub name: String,
     pub cities: Vec<String>,
 }
@@ -259,6 +302,7 @@ mod tests {
             details: None,
             links: vec![],
             country: "UK".to_string(),
+            state: None,
             city: "London".to_string(),
             styles: vec![DanceStyle::Playford],
             workshop: true,
@@ -279,6 +323,7 @@ mod tests {
             details: None,
             links: vec![],
             country: "UK".to_string(),
+            state: None,
             city: "London".to_string(),
             styles: vec![DanceStyle::Playford],
             workshop: true,
@@ -299,6 +344,7 @@ mod tests {
             details: None,
             links: vec![],
             country: "UK".to_string(),
+            state: None,
             city: "Oxford".to_string(),
             styles: vec![DanceStyle::Playford],
             workshop: true,
@@ -319,8 +365,30 @@ mod tests {
             details: None,
             links: vec![],
             country: "Netherlands".to_string(),
+            state: None,
             city: "Amsterdam".to_string(),
             styles: vec![DanceStyle::Playford],
+            workshop: true,
+            social: false,
+            bands: vec![],
+            callers: vec![],
+            price: None,
+            organisation: None,
+            cancelled: false,
+            source: None,
+        };
+        let berkeley_event = Event {
+            name: "Name".to_string(),
+            time: EventTime::DateOnly {
+                start_date: NaiveDate::from_ymd_opt(2022, 1, 1).unwrap(),
+                end_date: NaiveDate::from_ymd_opt(2022, 1, 1).unwrap(),
+            },
+            details: None,
+            links: vec![],
+            country: "USA".to_string(),
+            state: Some("CA".to_string()),
+            city: "Berkeley".to_string(),
+            styles: vec![DanceStyle::Contra],
             workshop: true,
             social: false,
             bands: vec![],
@@ -336,6 +404,7 @@ mod tests {
                 london_event_1,
                 amsterdam_event,
                 london_event_2,
+                berkeley_event,
             ],
         };
         assert_eq!(
@@ -343,13 +412,118 @@ mod tests {
             vec![
                 Country {
                     name: "Netherlands".to_string(),
+                    states: vec![],
                     cities: vec!["Amsterdam".to_string()]
                 },
                 Country {
                     name: "UK".to_string(),
+                    states: vec![],
                     cities: vec!["London".to_string(), "Oxford".to_string()]
+                },
+                Country {
+                    name: "USA".to_string(),
+                    states: vec![State {
+                        name: "CA".to_string(),
+                        cities: vec!["Berkeley".to_string()]
+                    }],
+                    cities: vec![],
                 }
             ]
+        );
+    }
+
+    #[test]
+    fn states() {
+        let oxford_event = Event {
+            name: "Name".to_string(),
+            time: EventTime::DateOnly {
+                start_date: NaiveDate::from_ymd_opt(2022, 1, 1).unwrap(),
+                end_date: NaiveDate::from_ymd_opt(2022, 1, 1).unwrap(),
+            },
+            details: None,
+            links: vec![],
+            country: "UK".to_string(),
+            state: None,
+            city: "Oxford".to_string(),
+            styles: vec![DanceStyle::Playford],
+            workshop: true,
+            social: false,
+            bands: vec![],
+            callers: vec![],
+            price: None,
+            organisation: None,
+            cancelled: false,
+            source: None,
+        };
+        let berkeley_event = Event {
+            name: "Name".to_string(),
+            time: EventTime::DateOnly {
+                start_date: NaiveDate::from_ymd_opt(2022, 1, 1).unwrap(),
+                end_date: NaiveDate::from_ymd_opt(2022, 1, 1).unwrap(),
+            },
+            details: None,
+            links: vec![],
+            country: "USA".to_string(),
+            state: Some("CA".to_string()),
+            city: "Berkeley".to_string(),
+            styles: vec![DanceStyle::Contra],
+            workshop: true,
+            social: false,
+            bands: vec![],
+            callers: vec![],
+            price: None,
+            organisation: None,
+            cancelled: false,
+            source: None,
+        };
+        let sf_event = Event {
+            name: "Name".to_string(),
+            time: EventTime::DateOnly {
+                start_date: NaiveDate::from_ymd_opt(2022, 1, 1).unwrap(),
+                end_date: NaiveDate::from_ymd_opt(2022, 1, 1).unwrap(),
+            },
+            details: None,
+            links: vec![],
+            country: "USA".to_string(),
+            state: Some("CA".to_string()),
+            city: "San Francisco".to_string(),
+            styles: vec![DanceStyle::Contra],
+            workshop: true,
+            social: false,
+            bands: vec![],
+            callers: vec![],
+            price: None,
+            organisation: None,
+            cancelled: false,
+            source: None,
+        };
+        let boston_event = Event {
+            name: "Name".to_string(),
+            time: EventTime::DateOnly {
+                start_date: NaiveDate::from_ymd_opt(2022, 1, 1).unwrap(),
+                end_date: NaiveDate::from_ymd_opt(2022, 1, 1).unwrap(),
+            },
+            details: None,
+            links: vec![],
+            country: "USA".to_string(),
+            state: Some("MA".to_string()),
+            city: "Boston".to_string(),
+            styles: vec![DanceStyle::Contra],
+            workshop: true,
+            social: false,
+            bands: vec![],
+            callers: vec![],
+            price: None,
+            organisation: None,
+            cancelled: false,
+            source: None,
+        };
+        let events = Events {
+            events: vec![oxford_event, berkeley_event, sf_event, boston_event],
+        };
+        assert_eq!(
+            events.states(&Filters::all()),
+            vec!["CA".to_string(), "MA".to_string()]
         );
     }
 
@@ -364,6 +538,7 @@ mod tests {
             details: None,
             links: vec![],
             country: "Test".to_string(),
+            state: None,
             city: "Test".to_string(),
             styles: vec![DanceStyle::Playford],
             workshop: true,
@@ -384,6 +559,7 @@ mod tests {
             details: None,
             links: vec![],
             country: "Test".to_string(),
+            state: None,
             city: "Test".to_string(),
             styles: vec![DanceStyle::Playford],
             workshop: true,
