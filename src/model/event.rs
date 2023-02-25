@@ -35,6 +35,7 @@ pub struct Event {
     #[serde(flatten)]
     pub time: EventTime,
     pub country: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub state: Option<String>,
     pub city: String,
     // TODO: What about full address?
