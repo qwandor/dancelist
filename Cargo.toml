@@ -31,7 +31,7 @@ serde_json = "1.0.93"
 serde_urlencoded = "0.7.1"
 serde_yaml = "0.8.26"
 stable-eyre = "0.2.2"
-tokio = { version = "1.25.0", features = ["macros", "rt-multi-thread"] }
+tokio = { version = "1.26.0", features = ["macros", "rt-multi-thread"] }
 toml = "0.7.2"
 tower-http = { version = "0.4.0", features = ["fs"] }
 
