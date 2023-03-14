@@ -170,6 +170,7 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
         || name == "Balfolk café Nijmegen"
         || name == "DenneFeest"
         || name == "Folkbal Wilhelmina"
+        || name == "Dansavond"
         || description.contains("Bal deel");
 
     let bands = if social {
