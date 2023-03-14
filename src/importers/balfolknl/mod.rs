@@ -121,17 +121,19 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
 
     let time = get_time(event)?;
 
-    let location = event
-        .get_location()
-        .ok_or_else(|| eyre!("Event {:?} missing location.", event))?;
-    let location_parts = location.split("\\, ").collect::<Vec<_>>();
-    let city = match location_parts.len() {
-        8 => location_parts[3].to_string(),
-        4.. => location_parts[2].to_string(),
-        _ => {
-            warn!("Invalid location \"{}\" for {}", location, url);
-            "".to_string()
+    let city = if let Some(location) = event.get_location() {
+        let location_parts = location.split("\\, ").collect::<Vec<_>>();
+        match location_parts.len() {
+            8 => location_parts[3].to_string(),
+            4.. => location_parts[2].to_string(),
+            _ => {
+                warn!("Invalid location \"{}\" for {}", location, url);
+                "".to_string()
+            }
         }
+    } else {
+        warn!("Event {:?} missing location.", event);
+        "Unknown city".to_string()
     };
 
     let workshop = name.contains("Fundamentals")
