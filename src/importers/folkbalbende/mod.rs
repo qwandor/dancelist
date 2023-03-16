@@ -160,6 +160,13 @@ fn convert(event: &Event) -> Vec<event::Event> {
         Some(organisation.name.to_owned())
     } else if links.iter().any(|link| link.contains("eledanse.be")) {
         Some("EléDanse ASBL".to_owned())
+    } else if links
+        .iter()
+        .any(|link| link.contains("folknammusiquetrad.be"))
+    {
+        Some("Folknam Musique Trad".to_owned())
+    } else if links.iter().any(|link| link.contains("tey.be")) {
+        Some("Muziekclub 't Ey".to_owned())
     } else {
         None
     };
