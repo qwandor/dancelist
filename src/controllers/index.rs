@@ -100,8 +100,13 @@ pub async fn index_yaml(
 
 pub async fn index_ics(
     events: Events,
-    Query(filters): Query<Filters>,
+    Query(mut filters): Query<Filters>,
 ) -> Result<Ics, InternalError> {
+    // Default to hiding cancelled events unless the filter explicitly asks for them.
+    if filters.cancelled.is_none() {
+        filters.cancelled = Some(false);
+    }
+
     let mut events = events.matching(&filters);
     events.sort_by_key(|event| event.time.start_time_sort_key());
     let calendar = events_to_calendar(&events, &filters.make_title());
