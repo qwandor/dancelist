@@ -212,7 +212,7 @@ fn convert_style(style: Style) -> Option<DanceStyle> {
         Style::DanceEurobal | Style::DanceEuropean | Style::DanceFrenchBreton | Style::DanceBal => {
             Some(DanceStyle::Balfolk)
         }
-        Style::DanceCountryDance => Some(DanceStyle::Playford),
+        Style::DanceCountryDance => Some(DanceStyle::EnglishCountryDance),
         Style::DanceEnglishCeilidh | Style::DanceCeilidh | Style::DanceCeildh => {
             Some(DanceStyle::EnglishCeilidh)
         }

@@ -33,8 +33,8 @@ pub enum DanceStyle {
     IrishSet,
     #[serde(rename = "italian")]
     Italian,
-    #[serde(rename = "playford")]
-    Playford,
+    #[serde(rename = "ecd")]
+    EnglishCountryDance,
     #[serde(rename = "polish")]
     Polish,
     #[serde(rename = "reeling")]
@@ -60,7 +60,7 @@ impl DanceStyle {
             Self::IrishCeili => "ceili",
             Self::IrishSet => "irish-set",
             Self::Italian => "italian",
-            Self::Playford => "playford",
+            Self::EnglishCountryDance => "ecd",
             Self::Polish => "polish",
             Self::Reeling => "reeling",
             Self::ScottishCeilidh => "s-ceilidh",
@@ -77,7 +77,7 @@ impl DanceStyle {
             Self::IrishCeili => "Irish céilí",
             Self::IrishSet => "Irish set",
             Self::Italian => "Italian",
-            Self::Playford => "Playford",
+            Self::EnglishCountryDance => "ECD",
             Self::Polish => "Polish",
             Self::Reeling => "Scottish reeling",
             Self::ScottishCeilidh => "Scottish cèilidh",
