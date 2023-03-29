@@ -43,9 +43,17 @@
 				<fieldset>
 					<ul id="links_list">
 						{% for link in form.links %}
+						{% if loop.first %}
+						<li><input name="links" type="url" value="{{ link }}" required="required"/></li>
+						{% else %}
 						<li><input name="links" type="url" value="{{ link }}"/></li>
+						{% endif %}
 						{% endfor %}
+						{% if form.links.is_empty() %}
+						<li><input name="links" id="links" type="url" required="required"/></li>
+						{% else %}
 						<li><input name="links" id="links" type="url"/></li>
+						{% endif %}
 					</ul>
 				</fieldset>
 			</li>
