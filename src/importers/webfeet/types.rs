@@ -40,7 +40,7 @@ pub struct EventRecord {
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
 #[serde(deny_unknown_fields)]
 pub struct Id {
-    #[serde(rename = "Type")]
+    #[serde(rename = "@Type")]
     pub id_type: String,
     #[serde(rename = "$value")]
     pub value: String,
@@ -49,7 +49,9 @@ pub struct Id {
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
 #[serde(deny_unknown_fields, rename_all = "PascalCase")]
 pub struct CanonicalDate {
+    #[serde(rename = "@Isoformat")]
     pub isoformat: String,
+    #[serde(rename = "@Uncertainty")]
     pub uncertainty: Option<u32>,
     #[serde(rename = "$value")]
     pub value: String,
@@ -58,7 +60,9 @@ pub struct CanonicalDate {
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
 #[serde(deny_unknown_fields, rename_all = "PascalCase")]
 pub struct TextDate {
+    #[serde(rename = "@Isoformat")]
     pub isoformat: String,
+    #[serde(rename = "@Status")]
     pub status: String,
     #[serde(rename = "$value")]
     pub value: String,
@@ -73,6 +77,7 @@ pub struct EventCollection {
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
 #[serde(deny_unknown_fields, rename_all = "PascalCase")]
 pub struct Event {
+    #[serde(rename = "@Style")]
     pub style: Option<Style>,
     #[serde(rename = "$value")]
     pub value: String,
@@ -87,8 +92,9 @@ pub struct BandCollection {
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
 #[serde(deny_unknown_fields, rename_all = "PascalCase")]
 pub struct Band {
-    #[serde(default)]
+    #[serde(default, rename = "@Status")]
     pub status: Status,
+    #[serde(rename = "@Style")]
     pub style: Option<Style>,
     #[serde(rename = "$value")]
     pub value: String,
@@ -103,8 +109,9 @@ pub struct CallerCollection {
 #[derive(Clone, Debug, Default, Deserialize, Eq, PartialEq, Serialize)]
 #[serde(deny_unknown_fields, rename_all = "PascalCase")]
 pub struct Caller {
-    #[serde(default)]
+    #[serde(default, rename = "@Status")]
     pub status: Status,
+    #[serde(rename = "@Style")]
     pub style: Option<Style>,
     #[serde(rename = "$value")]
     pub value: String,
@@ -119,8 +126,11 @@ pub struct LocationCollection {
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
 #[serde(deny_unknown_fields, rename_all = "PascalCase")]
 pub struct Location {
+    #[serde(rename = "@Status")]
     pub status: Option<String>,
+    #[serde(rename = "@Area")]
     pub area: Option<String>,
+    #[serde(rename = "@Mapref")]
     pub mapref: Option<String>,
     #[serde(rename = "$value")]
     pub value: String,
@@ -180,7 +190,9 @@ pub struct Reference {
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
 #[serde(deny_unknown_fields, rename_all = "PascalCase")]
 pub struct SourceData {
+    #[serde(rename = "@Localcopy")]
     pub localcopy: String,
+    #[serde(rename = "@SourceFormat")]
     pub source_format: SourceFormat,
     #[serde(rename = "$value")]
     pub value: String,
