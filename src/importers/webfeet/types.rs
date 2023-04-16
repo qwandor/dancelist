@@ -155,13 +155,15 @@ pub enum Style {
     DanceAmericanAmericanContra,
     #[serde(rename = "Dance.Bal")]
     DanceBal,
+    #[serde(rename = "Dance.Cajun/Zydeco Irish Set French/Breton mix")]
+    DanceCajunZydecoIrishSetFrenchBretonMix,
     #[serde(rename = "Dance.Eurobal")]
     DanceEurobal,
     #[serde(rename = "Dance.European")]
     DanceEuropean,
     #[serde(rename = "Dance.French/Breton")]
     DanceFrenchBreton,
-    #[serde(rename = "Dance.Barn Dance")]
+    #[serde(rename = "Dance.Barn Dance  ")]
     DanceBarnDance,
     #[serde(rename = "Dance.Contra")]
     DanceContra,
@@ -175,6 +177,10 @@ pub enum Style {
     DanceEnglishCeilidh,
     #[serde(rename = "Dance.English Folk")]
     DanceEnglishFolk,
+    #[serde(rename = "Dance.Irish Set")]
+    DanceIrishSet,
+    #[serde(rename = "Dance.Playford")]
+    DancePlayford,
     #[serde(rename = "Dance.Swedish")]
     DanceSwedish,
 }
