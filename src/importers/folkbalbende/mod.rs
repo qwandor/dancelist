@@ -167,6 +167,8 @@ fn convert(event: &Event) -> Vec<event::Event> {
         Some("Muziekclub 't Ey".to_owned())
     } else if links.iter().any(|link| link.contains("frissefolk.be")) {
         Some("Frisse Folk Vzw/asbl".to_owned())
+    } else if links.iter().any(|link| link.contains("tsmiske")) {
+        Some("'t Smiske".to_owned())
     } else {
         None
     };
@@ -203,6 +205,7 @@ fn convert(event: &Event) -> Vec<event::Event> {
         "Ixelles" => "Brussels",
         "Jette" => "Brussels",
         "Saint-Gilles" => "Brussels",
+        "Schoten" => "Antwerp",
         "Wijgmaal" => "Leuven",
         "Wilsele" => "Leuven",
         other => other,
