@@ -161,8 +161,16 @@ async fn find_duplicates() -> Result<(), Report> {
                 "Found possible duplicate, {:?} in {}, {}:",
                 a.time, a.country, a.city
             );
-            println!("  {}", a.name);
-            println!("  {}", b.name);
+            println!(
+                "  {} (from {})",
+                a.name,
+                a.source.as_deref().unwrap_or("unknown file")
+            );
+            println!(
+                "  {} (from {})",
+                b.name,
+                b.source.as_deref().unwrap_or("unknown file")
+            );
         }
     }
 
