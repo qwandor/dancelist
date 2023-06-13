@@ -234,6 +234,19 @@
 					{% endfor %}
 				</datalist>
 			</li>
+			<li>
+				<label for="email">Submitter email</label>
+				<p>
+					Your email address, for credit and any clarifications about adding the event. This will
+					not be included on the website.
+				</p>
+				<input
+					name="email"
+					id="email"
+					type="email"
+					value="{{ form.email.as_deref().unwrap_or_default() }}"
+				/>
+			</li>
 		</ul>
 		<input type="submit" value="Add"/>
 	</form>

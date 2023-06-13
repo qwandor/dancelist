@@ -7,7 +7,10 @@ use eyre::eyre;
 use jsonwebtoken::EncodingKey;
 use log::{trace, warn};
 use octocrab::{
-    models::repos::Object, params::repos::Reference, pulls::PullRequestHandler, repos::RepoHandler,
+    models::repos::{GitUser, Object},
+    params::repos::Reference,
+    pulls::PullRequestHandler,
+    repos::RepoHandler,
     Octocrab, OctocrabBuilder,
 };
 use reqwest::{StatusCode, Url};
@@ -96,6 +99,7 @@ async fn create_branch(
 pub async fn add_event_to_file(
     event: Event,
     filename: String,
+    email: Option<&str>,
     config: &GitHubConfig,
 ) -> Result<Url, InternalError> {
     let octocrab = build_octocrab(config).await?;
@@ -141,11 +145,16 @@ pub async fn add_event_to_file(
             "# yaml-language-server: $schema=../../events_schema.json",
             1,
         );
-        let create = repo
+        let mut create = repo
             .create_file(&filename, &commit_message, content)
-            .branch(&pr_branch)
-            .send()
-            .await?;
+            .branch(&pr_branch);
+        if let Some(email) = email {
+            create = create.author(GitUser {
+                name: "Add form user".to_string(),
+                email: email.to_string(),
+            });
+        }
+        let create = create.send().await?;
         trace!("Create: {:?}", create);
     }
 
