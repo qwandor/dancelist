@@ -108,7 +108,7 @@
 			</li>
 			<li>
 				<label for="state">State</label>
-				<input name="state" id="state" type="text" list="states" value="{{ form.organisation.as_deref().unwrap_or_default() }}"/>
+				<input name="state" id="state" type="text" list="states" value="{{ form.state.as_deref().unwrap_or_default() }}"/>
 				<datalist id="states">
 					{% for country in countries %} {% for state in country.states %}
 					<option>{{ state.name }}</option>
