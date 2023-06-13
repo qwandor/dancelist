@@ -23,7 +23,7 @@ jsonwebtoken = "8.3.0"
 log = "0.4.19"
 octocrab = "0.19.0"
 pretty_env_logger = "0.5.0"
-quick-xml = { version = "0.28.2", features = ["serialize"] }
+quick-xml = { version = "0.29.0", features = ["serialize"] }
 reqwest = "0.11.18"
 schemars = { version = "0.8", features = ["chrono"] }
 serde = { version = "1.0.164", features = ["derive"] }
