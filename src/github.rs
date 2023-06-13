@@ -98,7 +98,7 @@ async fn create_branch(
 /// Returns the URL of the new PR.
 pub async fn add_event_to_file(
     event: Event,
-    filename: String,
+    filename: &str,
     email: Option<&str>,
     config: &GitHubConfig,
 ) -> Result<Url, InternalError> {
@@ -117,7 +117,7 @@ pub async fn add_event_to_file(
     let commit_message = format!("Add {} in {}", event.name, event.city);
     if let Ok(contents) = repo
         .get_content()
-        .path(&filename)
+        .path(filename)
         .r#ref(&pr_branch)
         .send()
         .await
@@ -133,7 +133,7 @@ pub async fn add_event_to_file(
         trace!("Got existing file, sha {}", existing_file.sha);
         // Update the file
         let update = repo
-            .update_file(&filename, &commit_message, new_content, &existing_file.sha)
+            .update_file(filename, &commit_message, new_content, &existing_file.sha)
             .branch(&pr_branch)
             .send()
             .await?;
@@ -146,7 +146,7 @@ pub async fn add_event_to_file(
             1,
         );
         let mut create = repo
-            .create_file(&filename, &commit_message, content)
+            .create_file(filename, &commit_message, content)
             .branch(&pr_branch);
         if let Some(email) = email {
             create = create.author(GitUser {

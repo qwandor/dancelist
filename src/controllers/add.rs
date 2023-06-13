@@ -84,7 +84,10 @@ pub async fn submit(
             };
 
             let pr = if let Some(github) = &config.github {
-                Some(add_event_to_file(event.clone(), chosen_file.clone(), form.email.as_deref(), github).await?)
+                Some(
+                    add_event_to_file(event.clone(), &chosen_file, form.email.as_deref(), github)
+                        .await?,
+                )
             } else {
                 None
             };
