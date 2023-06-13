@@ -84,7 +84,10 @@ pub async fn submit(
             };
 
             let pr = if let Some(github) = &config.github {
-                Some(add_event_to_file(event.clone(), chosen_file.clone(), github).await?)
+                Some(
+                    add_event_to_file(event.clone(), &chosen_file, form.email.as_deref(), github)
+                        .await?,
+                )
             } else {
                 None
             };
@@ -170,6 +173,8 @@ pub struct AddForm {
     price: Option<String>,
     #[serde(deserialize_with = "trim_non_empty")]
     organisation: Option<String>,
+    #[serde(deserialize_with = "trim_non_empty")]
+    email: Option<String>,
 }
 
 impl AddForm {

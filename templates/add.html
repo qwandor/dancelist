@@ -108,7 +108,7 @@
 			</li>
 			<li>
 				<label for="state">State</label>
-				<input name="state" id="state" type="text" list="states" value="{{ form.organisation.as_deref().unwrap_or_default() }}"/>
+				<input name="state" id="state" type="text" list="states" value="{{ form.state.as_deref().unwrap_or_default() }}"/>
 				<datalist id="states">
 					{% for country in countries %} {% for state in country.states %}
 					<option>{{ state.name }}</option>
@@ -233,6 +233,19 @@
 					<option>{{ organisation.name }}</option>
 					{% endfor %}
 				</datalist>
+			</li>
+			<li>
+				<label for="email">Submitter email</label>
+				<p>
+					Your email address, for credit and any clarifications about adding the event. This will
+					not be included on the website.
+				</p>
+				<input
+					name="email"
+					id="email"
+					type="email"
+					value="{{ form.email.as_deref().unwrap_or_default() }}"
+				/>
 			</li>
 		</ul>
 		<input type="submit" value="Add"/>
