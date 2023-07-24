@@ -649,8 +649,10 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c05aeb6a22b8f62540c194aac980f2115af067bfe15a0734d7277a768d396b31"
 dependencies = [
  "cfg-if",
+ "js-sys",
  "libc",
  "wasi 0.11.0+wasi-snapshot-preview1",
+ "wasm-bindgen",
 ]
 
 [[package]]
@@ -854,9 +856,9 @@ dependencies = [
 
 [[package]]
 name = "icalendar"
-version = "0.15.4"
+version = "0.15.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4f730bf0dc0a06f7e19c4ca6b731427d741384338b60128e5d0d00aeb0b5f071"
+checksum = "f8ff1325f611351fcf1d9add6b66761ce98bff4bd95a737aa2d2ae204a8e3971"
 dependencies = [
  "chrono",
  "iso8601",
@@ -2134,6 +2136,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "feb41e78f93363bb2df8b0e86a2ca30eed7806ea16ea0c790d757cf93f79be83"
 dependencies = [
  "getrandom",
+ "wasm-bindgen",
 ]
 
 [[package]]
