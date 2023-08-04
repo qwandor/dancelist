@@ -26,7 +26,7 @@ pretty_env_logger = "0.5.0"
 quick-xml = { version = "0.30.0", features = ["serialize"] }
 reqwest = "0.11.18"
 schemars = { version = "0.8", features = ["chrono"] }
-serde = { version = "1.0.180", features = ["derive"] }
+serde = { version = "1.0.181", features = ["derive"] }
 serde_json = "1.0.104"
 serde_urlencoded = "0.7.1"
 serde_yaml = "0.8.26"
