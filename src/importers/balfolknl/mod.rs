@@ -167,6 +167,7 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
         || name.starts_with("Verjaardagsbal")
         || name.starts_with("Balfolk Utrecht Bal")
         || name.starts_with("Verjaardagsbal")
+        || name.starts_with("Vrijdagavondbal")
         || name == "Balfolk café Nijmegen"
         || name == "DenneFeest"
         || name == "Folkbal Wilhelmina"
