@@ -178,7 +178,7 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
         BANDS
             .iter()
             .filter_map(|band| {
-                if description.contains(band) {
+                if description.contains(band) || name.contains(band) {
                     Some(band.to_string())
                 } else {
                     None
