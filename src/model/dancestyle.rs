@@ -18,7 +18,18 @@ use serde::{Deserialize, Serialize};
 use std::fmt::{self, Display, Formatter};
 
 #[derive(
-    Copy, Clone, Debug, Deserialize, Eq, JsonSchema, Ord, PartialEq, PartialOrd, Sequence, Serialize,
+    Copy,
+    Clone,
+    Debug,
+    Deserialize,
+    Eq,
+    Hash,
+    JsonSchema,
+    Ord,
+    PartialEq,
+    PartialOrd,
+    Sequence,
+    Serialize,
 )]
 pub enum DanceStyle {
     #[serde(rename = "balfolk")]
@@ -66,6 +77,24 @@ impl DanceStyle {
             Self::ScottishCeilidh => "s-ceilidh",
             Self::ScottishCountryDance => "scd",
             Self::Scandinavian => "scandi",
+        }
+    }
+
+    pub fn from_tag(tag: &str) -> Option<Self> {
+        match tag {
+            "balfolk" => Some(Self::Balfolk),
+            "contra" => Some(Self::Contra),
+            "e-ceilidh" => Some(Self::EnglishCeilidh),
+            "ceili" => Some(Self::IrishCeili),
+            "irish-set" => Some(Self::IrishSet),
+            "italian" => Some(Self::Italian),
+            "ecd" => Some(Self::EnglishCountryDance),
+            "polish" => Some(Self::Polish),
+            "reeling" => Some(Self::Reeling),
+            "s-ceilidh" => Some(Self::ScottishCeilidh),
+            "scd" => Some(Self::ScottishCountryDance),
+            "scandi" => Some(Self::Scandinavian),
+            _ => None,
         }
     }
 

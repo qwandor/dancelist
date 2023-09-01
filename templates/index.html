@@ -94,7 +94,7 @@
 
 		<ul class="unpadded">
 			{% for style in styles %}
-			{% if filters.style.as_ref() == Some(style) %}
+			{% if filters.styles.contains(style) %}
 			<li><strong class="dance-style {{ style.tag() }}">{{ style }}</strong></li>
 			{% else %}
 			<li><a class="dance-style {{ style.tag() }}"
@@ -102,7 +102,7 @@
 					}}</a></li>
 			{% endif %}
 			{% endfor %}
-			{% if filters.style.is_some() %}
+			{% if !filters.styles.is_empty() %}
 			<li><a href="https://folkdance.page/?{{ filters.with_style(None).to_query_string().unwrap()|safe }}">all
 					styles</a></li>
 			{% endif %}
