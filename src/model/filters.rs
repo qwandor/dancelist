@@ -401,4 +401,22 @@ mod tests {
             "styles=balfolk%2Ccontra%2Ce-ceilidh"
         );
     }
+
+    #[test]
+    fn deserialize_styles_filters() {
+        let query_string = "styles=balfolk%2Ccontra%2Ce-ceilidh";
+        assert_eq!(
+            serde_urlencoded::from_str::<Filters>(query_string).unwrap(),
+            Filters {
+                styles: [
+                    DanceStyle::Balfolk,
+                    DanceStyle::Contra,
+                    DanceStyle::EnglishCeilidh,
+                ]
+                .into_iter()
+                .collect(),
+                ..Default::default()
+            }
+        );
+    }
 }
