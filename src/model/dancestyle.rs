@@ -80,24 +80,6 @@ impl DanceStyle {
         }
     }
 
-    pub fn from_tag(tag: &str) -> Option<Self> {
-        match tag {
-            "balfolk" => Some(Self::Balfolk),
-            "contra" => Some(Self::Contra),
-            "e-ceilidh" => Some(Self::EnglishCeilidh),
-            "ceili" => Some(Self::IrishCeili),
-            "irish-set" => Some(Self::IrishSet),
-            "italian" => Some(Self::Italian),
-            "ecd" => Some(Self::EnglishCountryDance),
-            "polish" => Some(Self::Polish),
-            "reeling" => Some(Self::Reeling),
-            "s-ceilidh" => Some(Self::ScottishCeilidh),
-            "scd" => Some(Self::ScottishCountryDance),
-            "scandi" => Some(Self::Scandinavian),
-            _ => None,
-        }
-    }
-
     pub fn name(self) -> &'static str {
         match self {
             Self::Balfolk => "balfolk",

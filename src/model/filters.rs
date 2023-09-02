@@ -19,7 +19,7 @@ use super::{
 use chrono::{DateTime, Utc};
 use enum_iterator::{all, Sequence};
 use eyre::Report;
-use serde::{de::Error as _, Deserialize, Deserializer, Serialize, Serializer};
+use serde::{de::IntoDeserializer, Deserialize, Deserializer, Serialize, Serializer};
 use std::{
     collections::HashSet,
     fmt::{self, Display, Formatter},
@@ -63,10 +63,7 @@ fn styles_de<'de, D: Deserializer<'de>>(deserializer: D) -> Result<HashSet<Dance
     let string = String::deserialize(deserializer)?;
     string
         .split(',')
-        .map(|style_tag| {
-            DanceStyle::from_tag(style_tag)
-                .ok_or_else(|| D::Error::custom(format!("Invalid dance style tag {}", style_tag)))
-        })
+        .map(|style_tag| DanceStyle::deserialize(style_tag.into_deserializer()))
         .collect()
 }
 
