@@ -160,10 +160,9 @@ impl Filters {
                 return false;
             }
         }
-        if !self.styles.is_empty() {
-            if !event.styles.iter().any(|style| self.styles.contains(style)) {
-                return false;
-            }
+        if !self.styles.is_empty() && !event.styles.iter().any(|style| self.styles.contains(style))
+        {
+            return false;
         }
         if let Some(multiday) = self.multiday {
             if event.multiday() != multiday {
