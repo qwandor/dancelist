@@ -19,8 +19,11 @@ use super::{
 use chrono::{DateTime, Utc};
 use enum_iterator::{all, Sequence};
 use eyre::Report;
-use serde::{Deserialize, Serialize};
-use std::fmt::{self, Display, Formatter};
+use serde::{de::IntoDeserializer, Deserialize, Deserializer, Serialize, Serializer};
+use std::{
+    collections::HashSet,
+    fmt::{self, Display, Formatter},
+};
 
 #[derive(Clone, Debug, Default, Deserialize, Eq, PartialEq, Serialize)]
 pub struct Filters {
@@ -29,7 +32,14 @@ pub struct Filters {
     pub country: Option<String>,
     pub state: Option<String>,
     pub city: Option<String>,
-    pub style: Option<DanceStyle>,
+    #[serde(
+        alias = "style", // For backwards compatibility with old URLs.
+        default,
+        skip_serializing_if = "is_default",
+        serialize_with = "styles_ser",
+        deserialize_with = "styles_de"
+    )]
+    pub styles: HashSet<DanceStyle>,
     pub multiday: Option<bool>,
     pub workshop: Option<bool>,
     pub social: Option<bool>,
@@ -37,6 +47,24 @@ pub struct Filters {
     pub caller: Option<String>,
     pub organisation: Option<String>,
     pub cancelled: Option<bool>,
+}
+
+fn styles_ser<S: Serializer>(
+    styles: &HashSet<DanceStyle>,
+    serializer: S,
+) -> Result<S::Ok, S::Error> {
+    let mut style_tags: Vec<_> = styles.iter().map(|style| style.tag()).collect();
+    // Sort so as to maintain a consistent serialisation.
+    style_tags.sort();
+    serializer.serialize_str(&style_tags.join(","))
+}
+
+fn styles_de<'de, D: Deserializer<'de>>(deserializer: D) -> Result<HashSet<DanceStyle>, D::Error> {
+    let string = String::deserialize(deserializer)?;
+    string
+        .split(',')
+        .map(|style_tag| DanceStyle::deserialize(style_tag.into_deserializer()))
+        .collect()
 }
 
 #[derive(Copy, Clone, Debug, Deserialize, Eq, PartialEq, Sequence, Serialize)]
@@ -85,7 +113,7 @@ impl Filters {
         self.country.is_some()
             || self.state.is_some()
             || self.city.is_some()
-            || self.style.is_some()
+            || !self.styles.is_empty()
             || self.multiday.is_some()
             || self.workshop.is_some()
             || self.social.is_some()
@@ -132,8 +160,8 @@ impl Filters {
                 return false;
             }
         }
-        if let Some(style) = &self.style {
-            if !event.styles.contains(style) {
+        if !self.styles.is_empty() {
+            if !event.styles.iter().any(|style| self.styles.contains(style)) {
                 return false;
             }
         }
@@ -178,10 +206,22 @@ impl Filters {
 
     /// Make a page title for this set of filters.
     pub fn make_title(&self) -> String {
-        let style = if let Some(style) = self.style {
-            uppercase_first_letter(style.name())
-        } else {
+        let style = if self.styles.is_empty() {
             "Folk dance".to_string()
+        } else {
+            let mut style_string = String::new();
+            let mut styles: Vec<_> = self.styles.iter().collect();
+            // Sort to ensure a consistent title.
+            styles.sort();
+            for (i, style) in styles.iter().enumerate() {
+                style_string += &uppercase_first_letter(style.name());
+                if i + 2 == self.styles.len() {
+                    style_string += " and ";
+                } else if i + 2 < self.styles.len() {
+                    style_string += " , ";
+                }
+            }
+            style_string
         };
 
         match (&self.country, &self.state, &self.city) {
@@ -239,7 +279,7 @@ impl Filters {
     /// Makes a new set of filters like this one but with the given dance style filter.
     pub fn with_style(&self, style: Option<DanceStyle>) -> Self {
         Self {
-            style,
+            styles: style.into_iter().collect(),
             ..self.clone()
         }
     }
@@ -293,4 +333,87 @@ fn owned<T: ToOwned + ?Sized>(option_ref: Option<&T>) -> Option<T::Owned> {
 
 fn is_default<T: Default + PartialEq>(value: &T) -> bool {
     value == &T::default()
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn empty_filters_title() {
+        let filters = Filters::default();
+        assert_eq!(filters.make_title(), "Folk dance events");
+    }
+
+    #[test]
+    fn one_style_country_title() {
+        let filters = Filters {
+            styles: [DanceStyle::EnglishCountryDance].into_iter().collect(),
+            country: Some("New Zealand".to_string()),
+            ..Default::default()
+        };
+        assert_eq!(filters.make_title(), "ECD events in New Zealand");
+    }
+
+    #[test]
+    fn two_style_title() {
+        let filters = Filters {
+            styles: [DanceStyle::Balfolk, DanceStyle::Contra]
+                .into_iter()
+                .collect(),
+            ..Default::default()
+        };
+        assert_eq!(filters.make_title(), "Balfolk and Contra events");
+    }
+
+    #[test]
+    fn empty_filters_query_string() {
+        let filters = Filters::default();
+        assert_eq!(filters.to_query_string().unwrap(), "");
+    }
+
+    #[test]
+    fn style_filters_query_string() {
+        let filters = Filters {
+            styles: [DanceStyle::EnglishCountryDance].into_iter().collect(),
+            ..Default::default()
+        };
+        assert_eq!(filters.to_query_string().unwrap(), "styles=ecd");
+    }
+
+    #[test]
+    fn styles_filters_query_string() {
+        let filters = Filters {
+            styles: [
+                DanceStyle::Balfolk,
+                DanceStyle::Contra,
+                DanceStyle::EnglishCeilidh,
+            ]
+            .into_iter()
+            .collect(),
+            ..Default::default()
+        };
+        assert_eq!(
+            filters.to_query_string().unwrap(),
+            "styles=balfolk%2Ccontra%2Ce-ceilidh"
+        );
+    }
+
+    #[test]
+    fn deserialize_styles_filters() {
+        let query_string = "styles=balfolk%2Ccontra%2Ce-ceilidh";
+        assert_eq!(
+            serde_urlencoded::from_str::<Filters>(query_string).unwrap(),
+            Filters {
+                styles: [
+                    DanceStyle::Balfolk,
+                    DanceStyle::Contra,
+                    DanceStyle::EnglishCeilidh,
+                ]
+                .into_iter()
+                .collect(),
+                ..Default::default()
+            }
+        );
+    }
 }

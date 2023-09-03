@@ -37,9 +37,9 @@ pub async fn index(
 ) -> Result<Html<String>, InternalError> {
     let has_filters = filters.has_some();
 
-    if host.hostname().contains("balfolk.org") && filters.style.is_none() {
+    if host.hostname().contains("balfolk.org") && filters.styles.is_empty() {
         // Default to only showing Balfolk events.
-        filters.style = Some(DanceStyle::Balfolk);
+        filters.styles = [DanceStyle::Balfolk].into_iter().collect();
     }
 
     let countries = events.countries(&filters.with_country(None));

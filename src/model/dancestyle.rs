@@ -18,7 +18,18 @@ use serde::{Deserialize, Serialize};
 use std::fmt::{self, Display, Formatter};
 
 #[derive(
-    Copy, Clone, Debug, Deserialize, Eq, JsonSchema, Ord, PartialEq, PartialOrd, Sequence, Serialize,
+    Copy,
+    Clone,
+    Debug,
+    Deserialize,
+    Eq,
+    Hash,
+    JsonSchema,
+    Ord,
+    PartialEq,
+    PartialOrd,
+    Sequence,
+    Serialize,
 )]
 pub enum DanceStyle {
     #[serde(rename = "balfolk")]
