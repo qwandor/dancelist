@@ -27,7 +27,7 @@ use icalendar::{
 };
 use log::{info, warn};
 
-const BANDS: [&str; 40] = [
+const BANDS: [&str; 43] = [
     "Achterband",
     "Airboxes",
     "Androneda",
@@ -40,10 +40,12 @@ const BANDS: [&str; 40] = [
     "BmB",
     "Celts without Borders",
     "Duo Absynthe",
+    "Duo Baftig",
     "Duo Gielen-Buscan",
     "Duo Mackie/Hendrix",
     "Duo Roblin-Thebaut",
     "Emelie Waldken",
+    "Emily & The Simons",
     "Fahrenheit",
     "Fyndus",
     "Geronimo",
@@ -64,6 +66,7 @@ const BANDS: [&str; 40] = [
     "PFM",
     "QuiVive",
     "Swinco",
+    "Trio Loubelya",
     "Triple-X",
     "Wilma",
     "Wouter en de Draak",
