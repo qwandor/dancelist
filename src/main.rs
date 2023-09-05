@@ -34,7 +34,7 @@ use crate::{
             balfolknl::BalfolkNl, boulder::Boulder, cdss::Cdss, ceilidhclub::CeilidhClub,
             import_events, lancastercontra::LancasterContra, spreefolk::Spreefolk,
         },
-        trycontra, webfeet,
+        plugevents, trycontra, webfeet,
     },
     model::events::Events,
 };
@@ -114,6 +114,8 @@ enum ImportSource {
     Trycontra,
     /// Imports events from webfeet.org.
     Webfeet,
+    /// Imports events from plug.events.
+    PlugEvents,
 }
 
 #[tokio::main]
@@ -200,6 +202,7 @@ async fn import(source: ImportSource, filename: &Path) -> Result<(), Report> {
         ImportSource::LancasterContra => import_events::<LancasterContra>(old_events).await?,
         ImportSource::Trycontra => trycontra::import_events().await?,
         ImportSource::Webfeet => webfeet::import_events().await?,
+        ImportSource::PlugEvents => plugevents::import_events().await?,
     };
     write(filename, events.to_yaml_string()?)?;
     Ok(())

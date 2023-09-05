@@ -14,6 +14,7 @@
 
 pub mod folkbalbende;
 pub mod icalendar;
+pub mod plugevents;
 pub mod trycontra;
 pub mod webfeet;
 
