@@ -155,6 +155,8 @@ pub enum Style {
     DanceAmericanAmericanContra,
     #[serde(rename = "Dance.Bal")]
     DanceBal,
+    #[serde(rename = "Dance.Balfolk")]
+    DanceBalfolk,
     #[serde(rename = "Dance.Cajun/Zydeco Irish Set French/Breton mix")]
     DanceCajunZydecoIrishSetFrenchBretonMix,
     #[serde(rename = "Dance.Eurobal")]
