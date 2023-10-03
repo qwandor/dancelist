@@ -103,6 +103,7 @@ pub struct Website {
 #[derive(Copy, Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
 pub enum WebsiteType {
     Facebook,
+    Instagram,
     #[serde(rename = "last.fm")]
     LastFm,
     Mail,
