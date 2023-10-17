@@ -27,8 +27,9 @@ use icalendar::{
 };
 use log::{info, warn};
 
-const BANDS: [&str; 43] = [
+const BANDS: [&str; 44] = [
     "Achterband",
+    "Aérokorda",
     "Airboxes",
     "Androneda",
     "Artisjok",
