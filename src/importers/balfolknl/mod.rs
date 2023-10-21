@@ -12,19 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use crate::{
-    model::{
-        dancestyle::DanceStyle,
-        event::{self, EventTime},
-        events::Events,
-    },
-    util::local_datetime_to_fixed_offset,
-};
-use chrono_tz::Europe::Amsterdam;
-use eyre::{bail, eyre, Report};
-use icalendar::{
-    Calendar, CalendarComponent, CalendarDateTime, Component, DatePerhapsTime, Event, EventLike,
-};
+use super::icalendar_utils::{get_time, unescape};
+use crate::model::{dancestyle::DanceStyle, event, events::Events};
+use eyre::{eyre, Report};
+use icalendar::{Calendar, CalendarComponent, Component, Event, EventLike};
 use log::{info, warn};
 
 const BANDS: [&str; 44] = [
@@ -222,62 +213,11 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
     }))
 }
 
-fn unescape(s: &str) -> String {
-    s.replace("\\,", ",")
-        .replace("\\;", ";")
-        .replace("\\n", "\n")
-        .replace("&amp;", "&")
-        .replace("&gt;", ">")
-        .replace("&lt;", "<")
-        .replace("&nbsp;", " ")
-}
-
-fn get_time(event: &Event) -> Result<EventTime, Report> {
-    let start = event
-        .get_start()
-        .ok_or_else(|| eyre!("Event {:?} missing start time.", event))?;
-    let end = event
-        .get_end()
-        .ok_or_else(|| eyre!("Event {:?} missing end time.", event))?;
-    Ok(match (start, end) {
-        (DatePerhapsTime::Date(start_date), DatePerhapsTime::Date(end_date)) => {
-            EventTime::DateOnly {
-                start_date,
-                // iCalendar DTEND is non-inclusive, so subtract one day.
-                end_date: end_date.pred_opt().unwrap(),
-            }
-        }
-        (
-            DatePerhapsTime::DateTime(CalendarDateTime::WithTimezone {
-                date_time: start,
-                tzid: start_tzid,
-            }),
-            DatePerhapsTime::DateTime(CalendarDateTime::WithTimezone {
-                date_time: end,
-                tzid: end_tzid,
-            }),
-        ) => {
-            if start_tzid != "Europe/Amsterdam" {
-                bail!("Unexpected start timezone {}.", start_tzid)
-            }
-            if end_tzid != "Europe/Amsterdam" {
-                bail!("Unexpected end timezone {}.", end_tzid)
-            }
-            EventTime::DateTime {
-                start: local_datetime_to_fixed_offset(&start, Amsterdam)
-                    .ok_or_else(|| eyre!("Ambiguous datetime for event {:?}", event))?,
-                end: local_datetime_to_fixed_offset(&end, Amsterdam)
-                    .ok_or_else(|| eyre!("Ambiguous datetime for event {:?}", event))?,
-            }
-        }
-        _ => bail!("Mismatched start and end times."),
-    })
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
 
+    use crate::model::event::EventTime;
     use chrono::{FixedOffset, TimeZone};
     use icalendar::Property;
 
