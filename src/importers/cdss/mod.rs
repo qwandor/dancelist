@@ -84,10 +84,16 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
     let mut styles = Vec::new();
     if categories.contains(&"Online Event") {
         return Ok(None);
-    } else if categories.contains(&"Contra Dance") {
+    }
+    if categories.contains(&"Contra Dance") {
         styles.push(DanceStyle::Contra);
-    } else if categories.contains(&"English Country Dance") {
+    }
+    if categories.contains(&"English Country Dance") {
         styles.push(DanceStyle::EnglishCountryDance);
+    }
+    let summary_lowercase = summary.to_lowercase();
+    if summary_lowercase.contains("bal folk") || summary_lowercase.contains("balfolk") {
+        styles.push(DanceStyle::Balfolk);
     }
 
     let location = event
