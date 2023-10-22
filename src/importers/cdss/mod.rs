@@ -163,6 +163,10 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
         })
         .collect();
 
+    let description_lower = description.to_lowercase();
+    let workshop =
+        description_lower.contains("lesson") || description_lower.contains("skills session");
+
     let details = if description.is_empty() {
         None
     } else {
@@ -178,7 +182,7 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
         state,
         city,
         styles,
-        workshop: false,
+        workshop,
         social: true,
         bands,
         callers,
