@@ -45,6 +45,7 @@ use axum::{
 };
 use clap::{Parser, Subcommand, ValueEnum};
 use eyre::Report;
+use importers::write_by_country;
 use log::info;
 use schemars::schema_for;
 use std::{
@@ -217,7 +218,7 @@ async fn import(source: ImportSource, filename: &Path) -> Result<(), Report> {
 
 async fn import_plug_events(token: &str, filename: &Path) -> Result<(), Report> {
     let events = plugevents::import_events(token).await?;
-    write(filename, events.to_yaml_string()?)?;
+    write_by_country(events, filename)?;
     Ok(())
 }
 

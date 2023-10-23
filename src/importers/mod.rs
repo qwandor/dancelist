@@ -18,7 +18,15 @@ pub mod plugevents;
 pub mod trycontra;
 pub mod webfeet;
 
-use crate::model::events::Events;
+use std::{
+    collections::HashMap,
+    fs::{create_dir_all, write},
+    path::{Path, PathBuf},
+};
+
+use crate::{github::to_safe_filename, model::events::Events};
+use eyre::Report;
+use log::info;
 
 /// Adds any old events older than the oldest new event, and returns the combination.
 ///
@@ -44,6 +52,41 @@ fn combine_events(old_events: Events, new_events: Events) -> Events {
     events.sort();
     events.events.dedup();
     events
+}
+
+/// Given a set of events, splits them by country then writes one file for each country.
+///
+/// If the file already exists for that country then applies the logic from [`combine_events`] to
+/// preserve old events in it.
+pub fn write_by_country(events: Events, filename: &Path) -> Result<(), Report> {
+    let mut events_by_country: HashMap<String, Events> = HashMap::new();
+    for event in events.events {
+        events_by_country
+            .entry(event.country.clone())
+            .or_default()
+            .events
+            .push(event);
+    }
+    for (country, mut country_events) in events_by_country {
+        let mut country_filename = PathBuf::new();
+        country_filename.push("events");
+        country_filename.push(to_safe_filename(&country));
+        country_filename.push(filename);
+        info!(
+            "Writing {} events to {:?}",
+            country_events.events.len(),
+            country_filename
+        );
+        if country_filename.exists() {
+            // Load without validating, as imports may be invalid.
+            let old_events = Events::load_file_without_validation(filename)?;
+            country_events = combine_events(old_events, country_events);
+        } else {
+            create_dir_all(country_filename.parent().unwrap())?;
+        }
+        write(country_filename, country_events.to_yaml_string()?)?;
+    }
+    Ok(())
 }
 
 const BANDS: [&str; 212] = [
