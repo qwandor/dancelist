@@ -15,7 +15,7 @@ axum = { version = "0.6.20", features = ["headers", "macros"] }
 axum-extra = { version = "0.8.0", features = ["form"] }
 chrono = { version = "0.4.31", features = ["serde"] }
 chrono-tz = { version = "0.8.3", features = ["serde"] }
-color-backtrace = "0.6.0"
+color-backtrace = "0.6.1"
 enum-iterator = "1.4.1"
 eyre = "0.6.8"
 icalendar = { version = "0.15.7", features = ["parser"] }
