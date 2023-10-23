@@ -26,7 +26,7 @@ use crate::{
     config::Config,
     controllers::{add, bands, callers, cities, index, organisations, reload},
     errors::internal_error,
-    importers::{balfolknl, cdss, folkbalbende, webfeet},
+    importers::{add_all, balfolknl, cdss, folkbalbende, webfeet},
     model::events::Events,
 };
 use axum::{
@@ -71,6 +71,8 @@ async fn main() -> Result<(), Report> {
         import_webfeet().await
     } else if args.len() == 2 && args[1] == "balfolknl" {
         import_balfolknl().await
+    } else if args.len() == 3 && args[1] == "merge" {
+        merge(&args[2]).await
     } else if args.len() == 2 && args[1] == "dups" {
         find_duplicates().await
     } else {
@@ -100,6 +102,13 @@ async fn validate(path: Option<&str>) -> Result<(), Report> {
 async fn concatenate(path: Option<&str>) -> Result<(), Report> {
     let events = load_events(path).await?;
     print!("{}", serde_yaml::to_string(&events)?);
+    Ok(())
+}
+
+async fn merge(path: &str) -> Result<(), Report> {
+    let existing_events = load_events(None).await?;
+    let new_events = load_events(Some(path)).await?;
+    add_all(&existing_events, &new_events)?;
     Ok(())
 }
 

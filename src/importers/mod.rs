@@ -17,3 +17,18 @@ pub mod cdss;
 pub mod folkbalbende;
 mod icalendar_utils;
 pub mod webfeet;
+
+use crate::{github::choose_file_for_event, model::events::Events};
+use eyre::Report;
+
+/// Attempts to add all the given events from an import to existing files.
+pub fn add_all(existing_events: &Events, new_events: &Events) -> Result<(), Report> {
+    for event in &new_events.events {
+        println!("Trying to merge {}", event.name);
+        match choose_file_for_event(existing_events, event) {
+            Ok(chosen_file) => println!("  {}", chosen_file),
+            Err(_) => println!("  Duplicate"),
+        }
+    }
+    Ok(())
+}
