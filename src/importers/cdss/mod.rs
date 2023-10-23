@@ -104,9 +104,17 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
     let mut country = location_parts[location_parts.len() - 1].to_owned();
     if country == "United States" {
         country = "USA".to_owned();
+    } else if country == "United Kingdom" {
+        country = "UK".to_owned();
     }
-    let state = Some(location_parts[location_parts.len() - 3].to_owned());
-    let city = location_parts[location_parts.len() - 4].to_owned();
+    let (state, city) = if ["Canada", "USA"].contains(&country.as_str()) {
+        (
+            Some(location_parts[location_parts.len() - 3].to_owned()),
+            location_parts[location_parts.len() - 4].to_owned(),
+        )
+    } else {
+        (None, location_parts[location_parts.len() - 3].to_owned())
+    };
 
     let organisation = Some(
         if let Some(organiser) = event.properties().get("ORGANIZER") {
