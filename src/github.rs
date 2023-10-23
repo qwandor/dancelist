@@ -14,7 +14,7 @@ use octocrab::{
     Octocrab, OctocrabBuilder,
 };
 use reqwest::{StatusCode, Url};
-use std::fs;
+use std::{collections::HashSet, fs};
 
 /// The higher suffix number to add to a branch name.
 const MAX_SUFFIX: u32 = 9;
@@ -193,11 +193,58 @@ async fn sha_for_branch(
 /// with underscores, and removing special characters.
 ///
 /// The returned string will only contain ASCII alphanumeric characters, underscores and hyphens.
-pub fn to_safe_filename(s: &str) -> String {
+fn to_safe_filename(s: &str) -> String {
     let mut filename = s.to_lowercase().replace(' ', "_");
     filename.retain(|c| c.is_ascii_alphanumeric() || c == '_' || c == '-');
     filename.truncate(30);
     filename
+}
+
+/// Value returned by [`choose_file_for_event`] when the event is a duplicate of an existing one.
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct DuplicateEvent {
+    pub existing: Event,
+    pub merged: Event,
+}
+
+/// Checks whether the given event is a duplicate of any event we already know about, or what file
+/// it might belong in.
+pub fn choose_file_for_event(events: &Events, event: &Event) -> Result<String, DuplicateEvent> {
+    let mut organisation_files = HashSet::new();
+    let mut city_files = HashSet::new();
+    for existing_event in &events.events {
+        if let Some(merged) = existing_event.merge(&event) {
+            return Err(DuplicateEvent {
+                existing: existing_event.to_owned(),
+                merged,
+            });
+        } else if let Some(source) = &existing_event.source {
+            if event.organisation.is_some() && event.organisation == existing_event.organisation {
+                organisation_files.insert(source.to_owned());
+            }
+            if event.country == existing_event.country && event.city == existing_event.city {
+                city_files.insert(source.to_owned());
+            }
+        }
+    }
+
+    let chosen_file = if !organisation_files.is_empty() {
+        organisation_files.iter().next().unwrap().to_owned()
+    } else if city_files.len() == 1 {
+        city_files.iter().next().unwrap().to_owned()
+    } else {
+        format!(
+            "events/{}/{}.yaml",
+            to_safe_filename(&event.country),
+            to_safe_filename(&event.city),
+        )
+    };
+
+    trace!("Possible files for organisation: {:?}", organisation_files);
+    trace!("Possible files for city: {:?}", city_files);
+    trace!("Chosen file: {}", chosen_file);
+
+    Ok(chosen_file)
 }
 
 #[cfg(test)]

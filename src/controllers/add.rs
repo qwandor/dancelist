@@ -15,7 +15,7 @@
 use crate::{
     config::Config,
     errors::InternalError,
-    github::{add_event_to_file, to_safe_filename},
+    github::{add_event_to_file, choose_file_for_event},
     model::{
         dancestyle::DanceStyle,
         event::{Event, EventTime},
@@ -29,10 +29,9 @@ use axum::{extract::State, response::Html};
 use axum_extra::extract::Form;
 use chrono::{NaiveDate, NaiveDateTime};
 use chrono_tz::Tz;
-use log::trace;
 use reqwest::Url;
 use serde::{de::IntoDeserializer, Deserialize, Deserializer};
-use std::{collections::HashSet, sync::Arc};
+use std::sync::Arc;
 
 pub async fn add(events: Events) -> Result<Html<String>, InternalError> {
     let template = AddTemplate::new(&events, AddForm::default(), vec![]);
@@ -45,60 +44,34 @@ pub async fn submit(
     Form(form): Form<AddForm>,
 ) -> Result<Html<String>, InternalError> {
     match Event::try_from(form.clone()) {
-        Ok(event) => {
-            // Check whether it is a duplicate of any event we already know about, or what file it
-            // might belong in.
-            let mut organisation_files = HashSet::new();
-            let mut city_files = HashSet::new();
-            for existing_event in &events.events {
-                if let Some(merged) = existing_event.merge(&event) {
-                    let template = SubmitFailedTemplate {
-                        event: &event,
-                        existing_event,
-                        merged: &merged,
-                    };
-                    return Ok(Html(template.render()?));
-                } else if let Some(source) = &existing_event.source {
-                    if event.organisation.is_some()
-                        && event.organisation == existing_event.organisation
-                    {
-                        organisation_files.insert(source.to_owned());
-                    }
-                    if event.country == existing_event.country && event.city == existing_event.city
-                    {
-                        city_files.insert(source.to_owned());
-                    }
-                }
-            }
-
-            let chosen_file = if !organisation_files.is_empty() {
-                organisation_files.iter().next().unwrap().to_owned()
-            } else if city_files.len() == 1 {
-                city_files.iter().next().unwrap().to_owned()
-            } else {
-                format!(
-                    "events/{}/{}.yaml",
-                    to_safe_filename(&event.country),
-                    to_safe_filename(&event.city),
-                )
-            };
-
-            let pr = if let Some(github) = &config.github {
-                Some(
-                    add_event_to_file(event.clone(), &chosen_file, form.email.as_deref(), github)
+        Ok(event) => match choose_file_for_event(&events, &event) {
+            Ok(chosen_file) => {
+                let pr = if let Some(github) = &config.github {
+                    Some(
+                        add_event_to_file(
+                            event.clone(),
+                            &chosen_file,
+                            form.email.as_deref(),
+                            github,
+                        )
                         .await?,
-                )
-            } else {
-                None
-            };
+                    )
+                } else {
+                    None
+                };
 
-            trace!("Possible files for organisation: {:?}", organisation_files);
-            trace!("Possible files for city: {:?}", city_files);
-            trace!("Chosen file: {}", chosen_file);
-
-            let template = SubmitTemplate { pr, event };
-            Ok(Html(template.render()?))
-        }
+                let template = SubmitTemplate { pr, event };
+                Ok(Html(template.render()?))
+            }
+            Err(duplicate) => {
+                let template = SubmitFailedTemplate {
+                    event: &event,
+                    existing_event: &duplicate.existing,
+                    merged: &duplicate.merged,
+                };
+                return Ok(Html(template.render()?));
+            }
+        },
         Err(errors) => {
             let template = AddTemplate::new(&events, form, errors);
             Ok(Html(template.render()?))
