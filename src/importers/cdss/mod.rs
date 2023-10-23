@@ -81,8 +81,10 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
         .ok_or_else(|| eyre!("Event {:?} missing categories.", event))?
         .split(",")
         .collect::<Vec<_>>();
+
     let mut styles = Vec::new();
-    if categories.contains(&"Online Event") {
+    let summary_lowercase = summary.to_lowercase();
+    if categories.contains(&"Online Event") || summary_lowercase.contains("online") {
         return Ok(None);
     }
     if categories.contains(&"Contra Dance") {
@@ -91,7 +93,6 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
     if categories.contains(&"English Country Dance") {
         styles.push(DanceStyle::EnglishCountryDance);
     }
-    let summary_lowercase = summary.to_lowercase();
     if summary_lowercase.contains("bal folk") || summary_lowercase.contains("balfolk") {
         styles.push(DanceStyle::Balfolk);
     }
