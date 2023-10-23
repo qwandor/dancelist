@@ -45,11 +45,15 @@ use axum::{
 };
 use clap::{Parser, Subcommand, ValueEnum};
 use eyre::Report;
+use github::choose_file_for_event;
 use log::info;
 use schemars::schema_for;
 use std::{
+    collections::HashMap,
+    env,
     fs::write,
     path::{Path, PathBuf},
+    process::exit,
     sync::{Arc, Mutex},
 };
 use tokio::net::TcpListener;
@@ -207,6 +211,24 @@ async fn import(source: ImportSource, filename: &Path) -> Result<(), Report> {
 
 fn print_events(events: &Events) -> Result<(), Report> {
     print!("{}", events.to_yaml_string()?);
+    Ok(())
+}
+
+fn write_events_to_files(events: Events) -> Result<(), Report> {
+    let empty_events = Events::default();
+    let mut events_by_file: HashMap<String, Events> = HashMap::new();
+    for event in events.events {
+        let chosen_file = choose_file_for_event(&empty_events, &event).unwrap();
+        events_by_file
+            .entry(chosen_file)
+            .or_default()
+            .events
+            .push(event);
+    }
+    for (filename, events) in events_by_file {
+        info!("Writing {} events to {}", events.events.len(), filename);
+        write(filename, events.to_yaml_string()?)?;
+    }
     Ok(())
 }
 
