@@ -26,7 +26,7 @@ const BANDS: [&str; 5] = [
     "Stomp Rocket",
     "Supertrad",
 ];
-const CALLERS: [&str; 11] = [
+const CALLERS: [&str; 12] = [
     "Alan Rosenthal",
     "Alice Raybourn",
     "Cathy Campbell",
@@ -36,6 +36,7 @@ const CALLERS: [&str; 11] = [
     "Janine Smith",
     "Lisa Greenleaf",
     "Michael Karchar",
+    "Steph West",
     "Steve Zakon-Anderson",
     "Walter Zagorski",
 ];
