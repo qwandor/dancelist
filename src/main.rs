@@ -35,10 +35,13 @@ use axum::{
     Router,
 };
 use eyre::Report;
+use github::choose_file_for_event;
 use log::info;
 use schemars::schema_for;
 use std::{
+    collections::HashMap,
     env,
+    fs::write,
     process::exit,
     sync::{Arc, Mutex},
 };
@@ -120,32 +123,44 @@ async fn sort(path: &str) -> Result<(), Report> {
 
 async fn import_balbende() -> Result<(), Report> {
     let events = folkbalbende::import_events().await?;
-    print_events(&events)
+    write_events_to_files(events)
 }
 
 async fn import_cdss() -> Result<(), Report> {
     let events = cdss::import_events().await?;
-    print_events(&events)
+    write_events_to_files(events)
 }
 
 async fn import_webfeet() -> Result<(), Report> {
     let events = webfeet::import_events().await?;
-    print_events(&events)
+    write_events_to_files(events)
 }
 
 async fn import_balfolknl() -> Result<(), Report> {
     let events = balfolknl::import_events().await?;
-    print_events(&events)
+    write_events_to_files(events)
 }
 
 fn print_events(events: &Events) -> Result<(), Report> {
-    let yaml = serde_yaml::to_string(events)?;
-    let yaml = yaml.replacen(
-        "---",
-        "# yaml-language-server: $schema=../../events_schema.json",
-        1,
-    );
-    print!("{}", yaml);
+    print!("{}", events.as_yaml()?);
+    Ok(())
+}
+
+fn write_events_to_files(events: Events) -> Result<(), Report> {
+    let empty_events = Events::default();
+    let mut events_by_file: HashMap<String, Events> = HashMap::new();
+    for event in events.events {
+        let chosen_file = choose_file_for_event(&empty_events, &event).unwrap();
+        events_by_file
+            .entry(chosen_file)
+            .or_default()
+            .events
+            .push(event);
+    }
+    for (filename, events) in events_by_file {
+        info!("Writing {} events to {}", events.events.len(), filename);
+        write(filename, events.as_yaml()?)?;
+    }
     Ok(())
 }
 
