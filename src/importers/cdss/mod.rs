@@ -165,8 +165,9 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
         .collect();
 
     let description_lower = description.to_lowercase();
-    let workshop =
-        description_lower.contains("lesson") || description_lower.contains("skills session");
+    let workshop = description_lower.contains("lesson")
+        || description_lower.contains("skills session")
+        || description_lower.contains("workshops");
 
     let details = if description.is_empty() {
         None
