@@ -19,18 +19,20 @@ use icalendar::{Calendar, CalendarComponent, Component, Event, EventLike};
 use regex::Regex;
 use std::cmp::{max, min};
 
-const BANDS: [&str; 5] = [
+const BANDS: [&str; 6] = [
     "Bunny Bread Bandits",
     "Eloise & Co.",
     "SpringTide",
+    "Starling",
     "Stomp Rocket",
     "Supertrad",
 ];
-const CALLERS: [&str; 12] = [
+const CALLERS: [&str; 14] = [
     "Alan Rosenthal",
     "Alice Raybourn",
     "Cathy Campbell",
     "Dave Berman",
+    "Don Heinold",
     "Gaye Fifer",
     "George Marshall",
     "Janine Smith",
@@ -39,6 +41,7 @@ const CALLERS: [&str; 12] = [
     "Steph West",
     "Steve Zakon-Anderson",
     "Walter Zagorski",
+    "Will Mentor",
 ];
 
 pub async fn import_events() -> Result<Events, Report> {
