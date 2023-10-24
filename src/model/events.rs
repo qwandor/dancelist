@@ -25,7 +25,7 @@ use std::{
     path::Path,
 };
 
-#[derive(Clone, Debug, Deserialize, Eq, JsonSchema, PartialEq, Serialize)]
+#[derive(Clone, Debug, Default, Deserialize, Eq, JsonSchema, PartialEq, Serialize)]
 #[serde(deny_unknown_fields)]
 pub struct Events {
     pub events: Vec<Event>,
@@ -104,6 +104,16 @@ impl Events {
             }
         }
         Ok(events)
+    }
+
+    /// Converts the events to a YAML string suitable for writing to a file.
+    pub fn as_yaml(&self) -> Result<String, Report> {
+        let yaml = serde_yaml::to_string(self)?;
+        Ok(yaml.replacen(
+            "---",
+            "# yaml-language-server: $schema=../../events_schema.json",
+            1,
+        ))
     }
 
     /// Get all events matching the given filters.
