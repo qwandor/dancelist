@@ -179,28 +179,7 @@ fn convert(event: &Event) -> Vec<event::Event> {
         None
     };
 
-    // Find the earliest start time and latest finish time, if any.
-    let mut start_times: Vec<NaiveTime> = event.courses.iter().map(|course| course.start).collect();
-    let mut end_times: Vec<NaiveTime> = event.courses.iter().map(|course| course.end).collect();
-    if let Some(ball) = &event.ball {
-        start_times.extend(ball.initiation_start);
-        end_times.extend(ball.initiation_end);
-        start_times.extend(
-            ball.performances
-                .iter()
-                .flat_map(|performance| performance.start),
-        );
-        end_times.extend(
-            ball.performances
-                .iter()
-                .flat_map(|performance| performance.end),
-        );
-    }
-    let mut start_time = start_times.into_iter().min();
-    if start_time == Some(NaiveTime::from_hms_opt(0, 0, 0).unwrap()) {
-        start_time = None;
-    }
-    let end_time = end_times.into_iter().max();
+    let (start_time, end_time) = find_start_end_time(event);
 
     let city = match event.location.address.city.as_str() {
         "Brugge" => "Bruges",
@@ -245,6 +224,32 @@ fn convert(event: &Event) -> Vec<event::Event> {
             source: None,
         })
         .collect()
+}
+
+fn find_start_end_time(event: &Event) -> (Option<NaiveTime>, Option<NaiveTime>) {
+    // Find the earliest start time and latest finish time, if any.
+    let mut start_times: Vec<NaiveTime> = event.courses.iter().map(|course| course.start).collect();
+    let mut end_times: Vec<NaiveTime> = event.courses.iter().map(|course| course.end).collect();
+    if let Some(ball) = &event.ball {
+        start_times.extend(ball.initiation_start);
+        end_times.extend(ball.initiation_end);
+        start_times.extend(
+            ball.performances
+                .iter()
+                .flat_map(|performance| performance.start),
+        );
+        end_times.extend(
+            ball.performances
+                .iter()
+                .flat_map(|performance| performance.end),
+        );
+    }
+    let mut start_time = start_times.into_iter().min();
+    if start_time == Some(NaiveTime::from_hms_opt(0, 0, 0).unwrap()) {
+        start_time = None;
+    }
+    let end_time = end_times.into_iter().max();
+    (start_time, end_time)
 }
 
 fn make_time(
