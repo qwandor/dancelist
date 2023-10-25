@@ -271,3 +271,42 @@ fn make_time(
         end_date: date,
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::types::{Ball, Course, Performance};
+    use super::*;
+
+    #[test]
+    fn start_end_time() {
+        let event = Event {
+            checked: true,
+            dates: vec![],
+            courses: vec![Course {
+                start: NaiveTime::from_hms_opt(19, 0, 0).unwrap(),
+                end: NaiveTime::from_hms_opt(20, 0, 0).unwrap(),
+                ..Default::default()
+            }],
+            ball: Some(Ball {
+                performances: vec![
+                    Performance {
+                        start: NaiveTime::from_hms_opt(20, 0, 0),
+                        end: NaiveTime::from_hms_opt(21, 0, 0),
+                        band: Default::default(),
+                    },
+                    Performance {
+                        start: NaiveTime::from_hms_opt(21, 0, 0),
+                        end: NaiveTime::from_hms_opt(23, 0, 0),
+                        band: Default::default(),
+                    },
+                ],
+                ..Default::default()
+            }),
+            ..Default::default()
+        };
+
+        let (start_time, end_time) = find_start_end_time(&event);
+        assert_eq!(start_time, NaiveTime::from_hms_opt(19, 0, 0));
+        assert_eq!(end_time, NaiveTime::from_hms_opt(23, 0, 0));
+    }
+}
