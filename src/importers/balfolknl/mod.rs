@@ -18,7 +18,7 @@ use eyre::{eyre, Report};
 use icalendar::{Calendar, CalendarComponent, Component, Event, EventLike};
 use log::{info, warn};
 
-const BANDS: [&str; 45] = [
+const BANDS: [&str; 46] = [
     "Achterband",
     "Aérokorda",
     "Airboxes",
@@ -58,6 +58,7 @@ const BANDS: [&str; 45] = [
     "Paracetamol",
     "PFM",
     "QuiVive",
+    "Sparv",
     "Swinco",
     "Trio Loubelya",
     "Triple-X",
@@ -164,6 +165,7 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
         || name.contains("Bal in")
         || name.contains("Balfolk Bal")
         || name.contains("Vuurbal")
+        || name.contains("dansfeest")
         || name.starts_with("Balfolk Wilhelmina")
         || name.starts_with("Fest Noz")
         || name.starts_with("Folkwoods")
