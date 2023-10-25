@@ -23,9 +23,14 @@ use crate::{
     },
     util::local_datetime_to_fixed_offset,
 };
-use chrono::{NaiveDate, NaiveTime};
+use chrono::{DateTime, Days, FixedOffset, NaiveDate, NaiveTime};
 use chrono_tz::Europe::Brussels;
 use eyre::Report;
+use std::cmp::Ordering;
+
+/// Times earlier than this will be assumed to be the next day.
+#[allow(deprecated)]
+const MORNING: NaiveTime = NaiveTime::from_hms(8, 0, 0);
 
 pub async fn events() -> Result<Vec<Event>, Report> {
     let json = reqwest::get("https://folkbalbende.be/interface/events.php?start=2022-02-01&end=3000-01-01&type=ball,course,festal&image=0").await?.text().await?;
@@ -244,12 +249,25 @@ fn find_start_end_time(event: &Event) -> (Option<NaiveTime>, Option<NaiveTime>) 
                 .flat_map(|performance| performance.end),
         );
     }
-    let mut start_time = start_times.into_iter().min();
+    println!("Start times: {:?}", start_times);
+    println!("End times: {:?}", end_times);
+    let mut start_time = start_times.into_iter().min_by(compare_times);
     if start_time == Some(NaiveTime::from_hms_opt(0, 0, 0).unwrap()) {
         start_time = None;
     }
-    let end_time = end_times.into_iter().max();
+    let end_time = end_times.into_iter().max_by(compare_times);
     (start_time, end_time)
+}
+
+/// Compares two times, assuming that times before `MORNING` are the next day.
+fn compare_times(a: &NaiveTime, b: &NaiveTime) -> Ordering {
+    if a < &MORNING && b >= &MORNING {
+        Ordering::Greater
+    } else if b < &MORNING && a >= &MORNING {
+        Ordering::Less
+    } else {
+        a.cmp(b)
+    }
 }
 
 fn make_time(
@@ -259,8 +277,8 @@ fn make_time(
 ) -> EventTime {
     if let (Some(start_time), Some(end_time)) = (start_time, end_time) {
         if let (Some(start), Some(end)) = (
-            local_datetime_to_fixed_offset(&date.and_time(start_time), Brussels),
-            local_datetime_to_fixed_offset(&date.and_time(end_time), Brussels),
+            combine_date_time(date, start_time),
+            combine_date_time(date, end_time),
         ) {
             return EventTime::DateTime { start, end };
         }
@@ -272,10 +290,63 @@ fn make_time(
     }
 }
 
+fn combine_date_time(mut date: NaiveDate, time: NaiveTime) -> Option<DateTime<FixedOffset>> {
+    if time < MORNING {
+        date = date + Days::new(1);
+    }
+    local_datetime_to_fixed_offset(&date.and_time(time), Brussels)
+}
+
 #[cfg(test)]
 mod tests {
     use super::types::{Ball, Course, Performance};
     use super::*;
+
+    #[test]
+    fn compare_morning() {
+        assert_eq!(
+            compare_times(
+                &NaiveTime::from_hms_opt(10, 0, 0).unwrap(),
+                &NaiveTime::from_hms_opt(6, 0, 0).unwrap()
+            ),
+            Ordering::Less
+        );
+        assert_eq!(
+            compare_times(
+                &NaiveTime::from_hms_opt(6, 0, 0).unwrap(),
+                &NaiveTime::from_hms_opt(10, 0, 0).unwrap()
+            ),
+            Ordering::Greater
+        );
+        assert_eq!(
+            compare_times(
+                &NaiveTime::from_hms_opt(10, 0, 0).unwrap(),
+                &NaiveTime::from_hms_opt(12, 0, 0).unwrap()
+            ),
+            Ordering::Less
+        );
+        assert_eq!(
+            compare_times(
+                &NaiveTime::from_hms_opt(12, 0, 0).unwrap(),
+                &NaiveTime::from_hms_opt(10, 0, 0).unwrap()
+            ),
+            Ordering::Greater
+        );
+        assert_eq!(
+            compare_times(
+                &NaiveTime::from_hms_opt(23, 0, 0).unwrap(),
+                &NaiveTime::from_hms_opt(1, 0, 0).unwrap()
+            ),
+            Ordering::Less
+        );
+        assert_eq!(
+            compare_times(
+                &NaiveTime::from_hms_opt(1, 0, 0).unwrap(),
+                &NaiveTime::from_hms_opt(23, 0, 0).unwrap()
+            ),
+            Ordering::Greater
+        );
+    }
 
     #[test]
     fn start_end_time() {
@@ -308,5 +379,38 @@ mod tests {
         let (start_time, end_time) = find_start_end_time(&event);
         assert_eq!(start_time, NaiveTime::from_hms_opt(19, 0, 0));
         assert_eq!(end_time, NaiveTime::from_hms_opt(23, 0, 0));
+    }
+
+    #[test]
+    fn start_end_time_after_midnight() {
+        let event = Event {
+            checked: true,
+            dates: vec![],
+            courses: vec![Course {
+                start: NaiveTime::from_hms_opt(10, 0, 0).unwrap(),
+                end: NaiveTime::from_hms_opt(18, 0, 0).unwrap(),
+                ..Default::default()
+            }],
+            ball: Some(Ball {
+                performances: vec![
+                    Performance {
+                        start: NaiveTime::from_hms_opt(22, 0, 0),
+                        end: NaiveTime::from_hms_opt(1, 0, 0),
+                        band: Default::default(),
+                    },
+                    Performance {
+                        start: NaiveTime::from_hms_opt(2, 0, 0),
+                        end: NaiveTime::from_hms_opt(6, 0, 0),
+                        band: Default::default(),
+                    },
+                ],
+                ..Default::default()
+            }),
+            ..Default::default()
+        };
+
+        let (start_time, end_time) = find_start_end_time(&event);
+        assert_eq!(start_time, NaiveTime::from_hms_opt(10, 0, 0));
+        assert_eq!(end_time, NaiveTime::from_hms_opt(6, 0, 0));
     }
 }
