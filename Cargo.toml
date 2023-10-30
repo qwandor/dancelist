@@ -14,7 +14,7 @@ askama = "0.12.1"
 axum = { version = "0.6.20", features = ["headers", "macros"] }
 axum-extra = { version = "0.8.0", features = ["form"] }
 chrono = { version = "0.4.31", features = ["serde"] }
-chrono-tz = { version = "0.8.3", features = ["serde"] }
+chrono-tz = { version = "0.8.4", features = ["serde"] }
 color-backtrace = "0.6.1"
 enum-iterator = "1.4.1"
 eyre = "0.6.8"
