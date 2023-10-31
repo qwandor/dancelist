@@ -249,8 +249,6 @@ fn find_start_end_time(event: &Event) -> (Option<NaiveTime>, Option<NaiveTime>) 
                 .flat_map(|performance| performance.end),
         );
     }
-    println!("Start times: {:?}", start_times);
-    println!("End times: {:?}", end_times);
     let mut start_time = start_times.into_iter().min_by(compare_times);
     if start_time == Some(NaiveTime::from_hms_opt(0, 0, 0).unwrap()) {
         start_time = None;
