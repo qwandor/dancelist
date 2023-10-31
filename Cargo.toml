@@ -28,7 +28,7 @@ regex = "1.10.2"
 reqwest = "0.11.22"
 schemars = { version = "0.8", features = ["chrono"] }
 serde = { version = "1.0.190", features = ["derive"] }
-serde_json = "1.0.107"
+serde_json = "1.0.108"
 serde_urlencoded = "0.7.1"
 serde_yaml = "0.8.26"
 stable-eyre = "0.2.2"
