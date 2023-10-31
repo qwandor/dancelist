@@ -102,6 +102,9 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
     if summary_lowercase.contains("bal folk") || summary_lowercase.contains("balfolk") {
         styles.push(DanceStyle::Balfolk);
     }
+    if styles.is_empty() {
+        return Ok(None);
+    }
 
     let location = event
         .get_location()
