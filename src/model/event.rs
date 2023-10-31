@@ -21,6 +21,7 @@ use std::ops::Not;
 /// The prefix which Facebook event URLs start with.
 const FACEBOOK_EVENT_PREFIX: &str = "https://www.facebook.com/events/";
 const FBB_EVENT_PREFIX: &str = "https://folkbalbende.be/event/";
+const CDSS_EVENT_PREFIX: &str = "https://cdss.org/event/";
 
 #[derive(Clone, Debug, Deserialize, Eq, JsonSchema, PartialEq, Serialize)]
 pub struct Event {
@@ -216,7 +217,9 @@ impl Event {
     /// Get the event's first non-Facebook non-FBB link.
     pub fn main_link(&self) -> Option<&String> {
         self.links.iter().find(|link| {
-            !link.starts_with(FACEBOOK_EVENT_PREFIX) && !link.starts_with(FBB_EVENT_PREFIX)
+            !link.starts_with(FACEBOOK_EVENT_PREFIX)
+                && !link.starts_with(FBB_EVENT_PREFIX)
+                && !link.starts_with(CDSS_EVENT_PREFIX)
         })
     }
 
@@ -224,6 +227,7 @@ impl Event {
     pub fn further_links(&self) -> Vec<Link> {
         let mut facebook_links = vec![];
         let mut fbb_links = vec![];
+        let mut cdss_links = vec![];
         let mut other_links = vec![];
         let mut first_gone = false;
         for link in &self.links {
@@ -235,6 +239,11 @@ impl Event {
             } else if link.starts_with(FBB_EVENT_PREFIX) {
                 fbb_links.push(Link {
                     short_name: "FBB".to_string(),
+                    url: link.to_owned(),
+                })
+            } else if link.starts_with(CDSS_EVENT_PREFIX) {
+                cdss_links.push(Link {
+                    short_name: "CDSS".to_string(),
                     url: link.to_owned(),
                 })
             } else if first_gone {
@@ -249,6 +258,7 @@ impl Event {
 
         let mut links = facebook_links;
         links.extend(fbb_links);
+        links.extend(cdss_links);
         links.extend(other_links);
         links
     }
