@@ -211,7 +211,7 @@ fn convert(event: &Event) -> Vec<event::Event> {
     dates
         .iter()
         .map(|&date| event::Event {
-            name: event.name.clone(),
+            name: event.name.trim().to_owned(),
             details: Some(details.clone()),
             links: links.clone(),
             time: make_time(date, start_time, end_time),
