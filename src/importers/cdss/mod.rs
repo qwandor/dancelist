@@ -92,9 +92,11 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
         .get_url()
         .ok_or_else(|| eyre!("Event {:?} missing url.", event))?
         .to_owned();
-    let summary = event
-        .get_summary()
-        .ok_or_else(|| eyre!("Event {:?} missing summary.", event))?;
+    let summary = unescape(
+        event
+            .get_summary()
+            .ok_or_else(|| eyre!("Event {:?} missing summary.", event))?,
+    );
     let description = unescape(
         event
             .get_description()
