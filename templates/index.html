@@ -103,7 +103,7 @@
 			{% endif %}
 			{% endfor %}
 			{% if !filters.styles.is_empty() %}
-			<li><a href="https://folkdance.page/?{{ filters.with_style(None).to_query_string().unwrap()|safe }}">all
+			<li><a href="?{{ filters.with_style(None).to_query_string().unwrap()|safe }}">all
 					styles</a></li>
 			{% endif %}
 		</ul>
