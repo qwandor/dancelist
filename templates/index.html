@@ -129,6 +129,15 @@
 			</li>
 			{% endif %}
 		</ul>
+		<ul>
+			{% if calendar %}
+			<li><a href="/?{{ filters.to_query_string().unwrap()|safe }}">List</a></li>
+			<li><strong>Calendar</strong></li>
+			{% else %}
+			<li><strong>List</strong></li>
+			<li><a href="/calendar?{{ filters.to_query_string().unwrap()|safe }}">Calendar</a></li>
+			{% endif %}
+		</ul>
 	</div>
 
 	<table>
