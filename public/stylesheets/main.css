@@ -82,8 +82,11 @@ table {
   border-collapse: collapse;
   width: 100%;
 }
-tr.event {
+tr.event, div.event {
   border-top: 1px solid gainsboro;
+}
+.calendar td {
+  border: 1px solid gainsboro;
 }
 td {
   padding: 0.25em;
@@ -112,6 +115,27 @@ tr.details td {
 }
 .event-styles {
   grid-area: styles;
+}
+
+.calendar td {
+  vertical-align: top;
+}
+
+.calendar {
+  .event {
+    display: grid;
+    grid:
+      "dates dates"
+      "name name"
+      "links location"
+      "styles type"
+      / auto auto;
+  }
+  .event-price,
+  .event-type,
+  .event-location {
+    justify-self: end;
+  }
 }
 
 /*-- Responsive queries --*/
@@ -178,6 +202,9 @@ th {
   font-size: 2em;
   font-family: var(--font-cursive);
   color: var(--color-secondary);
+}
+.calendar th {
+  font-size: 1.6em;
 }
 
 a {

@@ -96,6 +96,17 @@ impl EventTime {
             EventTime::DateTime { start, end: _ } => start.with_timezone(&Utc),
         }
     }
+
+    /// Gets the start date for the purposes of arranging in a calendar.
+    pub fn start_date(&self) -> NaiveDate {
+        match self {
+            EventTime::DateOnly {
+                start_date,
+                end_date: _,
+            } => *start_date,
+            EventTime::DateTime { start, end: _ } => start.naive_local().date(),
+        }
+    }
 }
 
 impl Event {
@@ -299,8 +310,8 @@ impl Event {
         }
     }
 
-    /// Formats the event start date/time, and end date/time if it is different,
-    /// assuming that the start year and month is already known.
+    /// Formats the event start date/time, and end date/time if it is different, assuming that the
+    /// start year and month is already known.
     pub fn short_time(&self) -> String {
         match self.time {
             EventTime::DateOnly {
@@ -340,6 +351,42 @@ impl Event {
                     format!(
                         "{}–{}",
                         start.format("%a %e %l:%M %P"),
+                        end.format("%a %e %B %l:%M %P")
+                    )
+                }
+            }
+        }
+    }
+
+    /// Formats the event start time, and end date/time if it is different, assuming that the start
+    /// date is already known.
+    pub fn time_no_date(&self) -> String {
+        match self.time {
+            EventTime::DateOnly {
+                start_date,
+                end_date,
+            } => {
+                if !self.multiday() {
+                    "".to_string()
+                } else if start_date.month() == end_date.month() {
+                    format!("–{}", end_date.format("%a %e"))
+                } else {
+                    format!("–{}", end_date.format("%a %e %B"))
+                }
+            }
+            EventTime::DateTime { start, end } => {
+                if !self.multiday() {
+                    format!("{}–{}", start.format("%l:%M %P"), end.format("%l:%M %P"))
+                } else if start.month() == end.month() {
+                    format!(
+                        "{}–{}",
+                        start.format("%l:%M %P"),
+                        end.format("%a %e %l:%M %P")
+                    )
+                } else {
+                    format!(
+                        "{}–{}",
+                        start.format("%l:%M %P"),
                         end.format("%a %e %B %l:%M %P")
                     )
                 }

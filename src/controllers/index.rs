@@ -28,12 +28,29 @@ use axum::{
     headers::Host,
     response::Html,
 };
-use chrono::{Datelike, NaiveDate};
+use chrono::{Datelike, Months, NaiveDate};
 
 pub async fn index(
     events: Events,
-    Query(mut filters): Query<Filters>,
+    Query(filters): Query<Filters>,
     TypedHeader(host): TypedHeader<Host>,
+) -> Result<Html<String>, InternalError> {
+    index_html(events, filters, host, false).await
+}
+
+pub async fn calendar(
+    events: Events,
+    Query(filters): Query<Filters>,
+    TypedHeader(host): TypedHeader<Host>,
+) -> Result<Html<String>, InternalError> {
+    index_html(events, filters, host, true).await
+}
+
+pub async fn index_html(
+    events: Events,
+    mut filters: Filters,
+    host: Host,
+    calendar: bool,
 ) -> Result<Html<String>, InternalError> {
     let has_filters = filters.has_some();
 
@@ -64,6 +81,7 @@ pub async fn index(
         states,
         cities,
         styles,
+        calendar,
     };
     Ok(Html(template.render()?))
 }
@@ -123,6 +141,7 @@ struct IndexTemplate {
     states: Vec<String>,
     cities: Vec<String>,
     styles: Vec<DanceStyle>,
+    calendar: bool,
 }
 
 struct Month {
@@ -135,6 +154,30 @@ impl Month {
     pub fn name(&self) -> String {
         self.start.format("%B %Y").to_string()
     }
+
+    pub fn calendar(&self) -> Vec<Vec<Day>> {
+        // Start with some empty days before the month to start on the right weekday.
+        let mut days = vec![Day::default(); self.start.weekday().num_days_from_monday() as usize];
+        let end = self.start + Months::new(1);
+        for day in self.start.iter_days().take_while(|day| day < &end) {
+            days.push(Day {
+                day_of_month: Some(day.day()),
+                events: self
+                    .events
+                    .iter()
+                    .filter(|event| event.time.start_date() == day)
+                    .cloned()
+                    .collect(),
+            });
+        }
+        days.chunks(7).map(ToOwned::to_owned).collect()
+    }
+}
+
+#[derive(Clone, Debug, Default, Eq, PartialEq)]
+struct Day {
+    day_of_month: Option<u32>,
+    events: Vec<Event>,
 }
 
 /// Given a list of events in arbitrary order, sort them in ascending order of start date, then group them by starting month.

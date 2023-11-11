@@ -103,7 +103,7 @@
 			{% endif %}
 			{% endfor %}
 			{% if !filters.styles.is_empty() %}
-			<li><a href="https://folkdance.page/?{{ filters.with_style(None).to_query_string().unwrap()|safe }}">all
+			<li><a href="?{{ filters.with_style(None).to_query_string().unwrap()|safe }}">all
 					styles</a></li>
 			{% endif %}
 		</ul>
@@ -129,6 +129,15 @@
 			</li>
 			{% endif %}
 		</ul>
+		<ul>
+			{% if calendar %}
+			<li><a href="/?{{ filters.to_query_string().unwrap()|safe }}">List</a></li>
+			<li><strong>Calendar</strong></li>
+			{% else %}
+			<li><strong>List</strong></li>
+			<li><a href="/calendar?{{ filters.to_query_string().unwrap()|safe }}">Calendar</a></li>
+			{% endif %}
+		</ul>
 	</div>
 
 	<table>
@@ -136,9 +145,13 @@
 		<tr>
 			<th colspan="7">{{ month.name() }}</th>
 		</tr>
+		{% if calendar %}
+		{% include "shared/calendar.html" %}
+		{% else %}
 		{% for event in month.events %}
 		{% include "shared/event.html" %}
 		{% endfor %}
+		{% endif %}
 		{% endfor %}
 	</table>
 

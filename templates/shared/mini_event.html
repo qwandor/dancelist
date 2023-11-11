@@ -1,0 +1,40 @@
+<div class="event{% if event.multiday() %} multiday{% endif %}{% if event.cancelled %} cancelled{% endif %}">
+  <div class="event-dates">
+    {{ event.time_no_date() }}
+  </div>
+  <div class="event-name" title="{{ event.details.as_deref().unwrap_or_default() }}">
+    {% match event.main_link() %}
+    {% when Some with (link) %}
+    <a href="{{ link }}">{{ event.name }}</a>
+    {% when None %}
+    {{ event.name }}
+    {% endmatch %}
+  </div>
+  <div class="event-links">
+    {% for link in event.further_links() %}
+    <a href="{{ link.url }}">({{ link.short_name }})</a>
+    {% endfor %}
+  </div>
+  <div class="event-location">
+    <a href="?country={{ event.country|urlencode }}&city={{ event.city|urlencode }}">{{ event.city }}</a>,
+    {% match event.state %}
+    {% when Some with (state) %}
+    <a href="?country={{ event.country|urlencode }}&state={{ state|urlencode }}">{{ state }}</a>,
+    {% when None %}
+    {% endmatch %}
+    <a href="?country={{ event.country|urlencode }}">{{ event.country }}</a>
+  </div>
+  <div class="event-type">
+    {% if event.social %}
+    <a href="?social=true" class="social" title="Social">S</a>
+    {% endif %}
+    {% if event.workshop %}
+    <a href="?workshop=true" class="workshop" title="Workshop">W</a>
+    {% endif %}
+  </div>
+  <div class="event-styles">
+    {% for style in event.styles %}
+    <a class="dance-style {{ style.tag() }}" href="?style={{ style.tag() }}">{{ style }}</a>
+    {% endfor %}
+  </div>
+</div>
