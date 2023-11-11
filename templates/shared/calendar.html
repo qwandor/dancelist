@@ -1,0 +1,25 @@
+<tr class="calendar">
+    <th>Monday</th>
+    <th>Tuesday</th>
+    <th>Wednesday</th>
+    <th>Thursday</th>
+    <th>Friday</th>
+    <th>Saturday</th>
+    <th>Sunday</th>
+</tr>
+{% for week in month.calendar() %}
+<tr class="calendar">
+    {% for day in week %}
+    <td>
+        {% match day.day_of_month %}
+        {% when Some with (day_of_month) %}
+        <strong>{{ day_of_month }}</strong>
+        {% when None %}
+        {% endmatch %}
+        {% for event in day.events %}
+        {% include "shared/mini_event.html" %}
+        {% endfor %}
+    </td>
+    {% endfor %}
+</tr>
+{% endfor %}

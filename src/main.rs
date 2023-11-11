@@ -199,6 +199,7 @@ async fn serve() -> Result<(), Report> {
         .route("/index.json", get(index::index_json))
         .route("/index.toml", get(index::index_toml))
         .route("/index.yaml", get(index::index_yaml))
+        .route("/calendar", get(index::calendar))
         .route("/add", get(add::add))
         .route("/add", post(add::submit))
         .route("/bands", get(bands::bands))

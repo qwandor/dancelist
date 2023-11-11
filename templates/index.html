@@ -136,9 +136,13 @@
 		<tr>
 			<th colspan="7">{{ month.name() }}</th>
 		</tr>
+		{% if calendar %}
+		{% include "shared/calendar.html" %}
+		{% else %}
 		{% for event in month.events %}
 		{% include "shared/event.html" %}
 		{% endfor %}
+		{% endif %}
 		{% endfor %}
 	</table>
 
