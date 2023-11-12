@@ -65,12 +65,12 @@ async fn main() -> Result<(), Report> {
         sort(&args[2]).await
     } else if args.len() == 2 && args[1] == "balbende" {
         import_balbende().await
+    } else if args.len() == 2 && args[1] == "balfolknl" {
+        import_balfolknl().await
     } else if args.len() == 2 && args[1] == "cdss" {
         import_cdss().await
     } else if args.len() == 2 && args[1] == "webfeet" {
         import_webfeet().await
-    } else if args.len() == 2 && args[1] == "balfolknl" {
-        import_balfolknl().await
     } else if args.len() == 2 && args[1] == "dups" {
         find_duplicates().await
     } else {
@@ -123,6 +123,11 @@ async fn import_balbende() -> Result<(), Report> {
     print_events(&events)
 }
 
+async fn import_balfolknl() -> Result<(), Report> {
+    let events = balfolknl::import_events().await?;
+    print_events(&events)
+}
+
 async fn import_cdss() -> Result<(), Report> {
     let events = cdss::import_events().await?;
     print_events(&events)
@@ -130,11 +135,6 @@ async fn import_cdss() -> Result<(), Report> {
 
 async fn import_webfeet() -> Result<(), Report> {
     let events = webfeet::import_events().await?;
-    print_events(&events)
-}
-
-async fn import_balfolknl() -> Result<(), Report> {
-    let events = balfolknl::import_events().await?;
     print_events(&events)
 }
 
