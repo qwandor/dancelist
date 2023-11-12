@@ -116,6 +116,11 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
         .split(",")
         .collect::<Vec<_>>();
 
+    let name = summary
+        .trim_start_matches("Portland Country Dance Community ")
+        .trim_end_matches(" - Asheville NC")
+        .to_owned();
+
     let mut styles = Vec::new();
     let summary_lowercase = summary.to_lowercase();
     if categories.contains(&"Online Event") || summary_lowercase.contains("online") {
@@ -222,7 +227,7 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
     };
 
     Ok(Some(event::Event {
-        name: summary.to_owned(),
+        name,
         details,
         links: vec![url],
         time,
