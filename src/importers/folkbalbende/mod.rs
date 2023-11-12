@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub mod types;
+mod types;
 
 use self::types::{Event, EventType};
 use crate::{
@@ -32,7 +32,7 @@ use std::cmp::Ordering;
 #[allow(deprecated)]
 const MORNING: NaiveTime = NaiveTime::from_hms(8, 0, 0);
 
-pub async fn events() -> Result<Vec<Event>, Report> {
+async fn events() -> Result<Vec<Event>, Report> {
     let json = reqwest::get("https://folkbalbende.be/interface/events.php?start=2022-02-01&end=3000-01-01&type=ball,course,festal&image=0").await?.text().await?;
     let mut events: Vec<Event> = serde_json::from_str(&json)?;
     // Sort by ID to give a stable order.
