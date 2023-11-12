@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub mod types;
+mod types;
 
 use self::types::{EventRecord, Eventlist, Style};
 use crate::model::{
@@ -23,7 +23,7 @@ use crate::model::{
 use chrono::NaiveDate;
 use eyre::Report;
 
-pub async fn events() -> Result<Vec<EventRecord>, Report> {
+async fn events() -> Result<Vec<EventRecord>, Report> {
     let xml = reqwest::get("https://www.webfeet.org/dance.xml")
         .await?
         .text()
