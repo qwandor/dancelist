@@ -118,6 +118,7 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
 
     let name = summary
         .trim_start_matches("Portland Country Dance Community ")
+        .trim_start_matches("Contra Dance with ")
         .trim_end_matches(" - Asheville NC")
         .to_owned();
 
