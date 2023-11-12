@@ -1,4 +1,4 @@
-// Copyright 2022 the dancelist authors.
+// Copyright 2023 the dancelist authors.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,9 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub mod balfolknl;
-pub mod cdss;
-pub mod folkbalbende;
-mod icalendar_utils;
-pub mod trycontra;
-pub mod webfeet;
+use serde::Deserialize;
+
+#[derive(Clone, Debug, Default, Deserialize, PartialEq)]
+#[serde(deny_unknown_fields)]
+pub struct Event {
+    pub typical_month: String,
+    pub name: String,
+    pub callers: Vec<String>,
+    pub bands: Vec<String>,
+    pub roles: String,
+    pub date: String,
+    pub date_end: Option<String>,
+    pub location: String,
+    pub url: String,
+    pub year: u32,
+    pub latlng: Option<Vec<f64>>,
+}
