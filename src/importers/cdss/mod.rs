@@ -120,6 +120,10 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
         .trim_start_matches("Portland Country Dance Community ")
         .trim_start_matches("Contra Dance with ")
         .trim_end_matches(" - Asheville NC")
+        .trim_end_matches(" (Masks Optional)")
+        .replace("Berkeley, CA", "Berkeley")
+        .replace("Richmond VA", "Richmond")
+        .replace("Hayward CA", "Hayward")
         .to_owned();
 
     let mut styles = Vec::new();
