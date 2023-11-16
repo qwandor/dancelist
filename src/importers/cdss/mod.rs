@@ -19,7 +19,7 @@ use icalendar::{Calendar, CalendarComponent, Component, Event, EventLike};
 use regex::Regex;
 use std::cmp::{max, min};
 
-const BANDS: [&str; 19] = [
+const BANDS: [&str; 20] = [
     "Aubergine",
     "Bare Necessities",
     "Ben Bolker and Susanne Maziarz",
@@ -34,13 +34,15 @@ const BANDS: [&str; 19] = [
     "Lone Star Pirates",
     "Mevilish Merry",
     "Playing with Fyre",
+    "River Road",
     "SpringTide",
     "Starling",
     "Stomp Rocket",
     "Supertrad",
     "Take a Dance",
 ];
-const CALLERS: [&str; 31] = [
+const CALLERS: [&str; 32] = [
+    "Adina Gordon",
     "Alan Rosenthal",
     "Alice Raybourn",
     "Ben Sachs-Hamilton",
