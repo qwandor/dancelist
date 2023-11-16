@@ -99,11 +99,13 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
         end_date: NaiveDate::parse_from_str(date_end, DATE_FORMAT)?,
     };
 
+    let initial_the = Regex::new(r"^the ").unwrap();
     let bands = event
         .bands
         .iter()
         .map(|band| {
-            band.replace("the", "The")
+            initial_the
+                .replace(band, "The ")
                 .replace("The Engine Room", "Engine Room")
         })
         .collect();
