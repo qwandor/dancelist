@@ -99,6 +99,15 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
         end_date: NaiveDate::parse_from_str(date_end, DATE_FORMAT)?,
     };
 
+    let bands = event
+        .bands
+        .iter()
+        .map(|band| {
+            band.replace("the", "The")
+                .replace("The Engine Room", "Engine Room")
+        })
+        .collect();
+
     Ok(Some(event::Event {
         name,
         details: None,
@@ -110,7 +119,7 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
         styles: vec![DanceStyle::Contra],
         workshop: true,
         social: true,
-        bands: event.bands.to_owned(),
+        bands,
         callers: event.callers.to_owned(),
         price: None,
         organisation: Some("TryContra".to_string()),
