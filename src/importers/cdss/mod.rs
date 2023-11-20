@@ -125,10 +125,12 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
         .trim_start_matches("Contra Dance with ")
         .trim_end_matches(" - Asheville NC")
         .trim_end_matches(" (Masks Optional)")
+        .trim_end_matches(" of Macon County, NC")
         .replace("Berkeley, CA", "Berkeley")
         .replace("Richmond VA", "Richmond")
         .replace("Rochester, NY", "Rochester")
         .replace("Hayward CA", "Hayward")
+        .replace("Hayward, CA", "Hayward")
         .to_owned();
 
     let mut styles = Vec::new();
