@@ -27,7 +27,7 @@ quick-xml = { version = "0.31.0", features = ["serialize"] }
 regex = "1.10.2"
 reqwest = "0.11.22"
 schemars = { version = "0.8", features = ["chrono"] }
-serde = { version = "1.0.192", features = ["derive"] }
+serde = { version = "1.0.193", features = ["derive"] }
 serde_json = "1.0.108"
 serde_urlencoded = "0.7.1"
 serde_yaml = "0.8.26"
