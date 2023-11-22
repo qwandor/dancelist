@@ -26,7 +26,7 @@ use crate::{
     config::Config,
     controllers::{add, bands, callers, cities, index, organisations, reload},
     errors::internal_error,
-    importers::{balfolknl, cdss, folkbalbende, trycontra, webfeet},
+    importers::{balfolknl, cdss, folkbalbende, plugevents, trycontra, webfeet},
     model::events::Events,
 };
 use axum::{
@@ -69,6 +69,8 @@ async fn main() -> Result<(), Report> {
         import_balfolknl().await
     } else if args.len() == 2 && args[1] == "cdss" {
         import_cdss().await
+    } else if args.len() == 2 && args[1] == "plugevents" {
+        import_plugevents().await
     } else if args.len() == 2 && args[1] == "trycontra" {
         import_trycontra().await
     } else if args.len() == 2 && args[1] == "webfeet" {
@@ -142,6 +144,11 @@ async fn import_trycontra() -> Result<(), Report> {
 
 async fn import_webfeet() -> Result<(), Report> {
     let events = webfeet::import_events().await?;
+    print_events(&events)
+}
+
+async fn import_plugevents() -> Result<(), Report> {
+    let events = plugevents::import_events().await?;
     print_events(&events)
 }
 
