@@ -43,9 +43,21 @@ pub async fn import_events() -> Result<Events, Report> {
 
 fn convert(event: &Event, style: DanceStyle) -> Result<Option<event::Event>, Report> {
     let Some(venue_locale) = &event.venue_locale else {
+        eprintln!("Event \"{}\" has no venueLocale, skipping.", event.name);
         return Ok(None);
     };
     let locale_parts: Vec<_> = venue_locale.split(", ").collect();
+    let country = locale_parts
+        .last()
+        .ok_or_else(|| eyre!("venueLocale only has one part: \"{}\"", venue_locale))?
+        .to_string();
+
+    let city = if locale_parts.len() > 3 {
+        locale_parts[1]
+    } else {
+        locale_parts[0]
+    }
+    .to_string();
 
     let (workshop, social) = match event.event_format {
         EventFormat::Class => (true, false),
@@ -67,15 +79,9 @@ fn convert(event: &Event, style: DanceStyle) -> Result<Option<event::Event>, Rep
                 .with_timezone(&event.timezone)
                 .fixed_offset(),
         },
-        country: locale_parts
-            .last()
-            .ok_or_else(|| eyre!("venueLocale only has one part: \"{}\"", venue_locale))?
-            .to_string(),
+        country,
         state: None,
-        city: locale_parts
-            .first()
-            .ok_or_else(|| eyre!("venueLocale only has one part: \"{}\"", venue_locale))?
-            .to_string(),
+        city,
         styles: vec![style],
         workshop,
         social,
