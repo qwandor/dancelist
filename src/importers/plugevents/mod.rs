@@ -42,7 +42,10 @@ pub async fn import_events() -> Result<Events, Report> {
 }
 
 fn convert(event: &Event, style: DanceStyle) -> Result<Option<event::Event>, Report> {
-    let locale_parts: Vec<_> = event.venue_locale.split(", ").collect();
+    let Some(venue_locale) = &event.venue_locale else {
+        return Ok(None);
+    };
+    let locale_parts: Vec<_> = venue_locale.split(", ").collect();
 
     Ok(Some(event::Event {
         name: event.name.clone(),
@@ -60,12 +63,12 @@ fn convert(event: &Event, style: DanceStyle) -> Result<Option<event::Event>, Rep
         },
         country: locale_parts
             .last()
-            .ok_or_else(|| eyre!("venueLocale only has one part: \"{}\"", event.venue_locale))?
+            .ok_or_else(|| eyre!("venueLocale only has one part: \"{}\"", venue_locale))?
             .to_string(),
         state: None,
         city: locale_parts
             .first()
-            .ok_or_else(|| eyre!("venueLocale only has one part: \"{}\"", event.venue_locale))?
+            .ok_or_else(|| eyre!("venueLocale only has one part: \"{}\"", venue_locale))?
             .to_string(),
         styles: vec![style],
         workshop: false,
