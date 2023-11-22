@@ -14,7 +14,7 @@
 
 mod types;
 
-use self::types::{Event, EventList};
+use self::types::{Event, EventFormat, EventList};
 use crate::model::{
     dancestyle::DanceStyle,
     event::{self, EventTime},
@@ -47,6 +47,12 @@ fn convert(event: &Event, style: DanceStyle) -> Result<Option<event::Event>, Rep
     };
     let locale_parts: Vec<_> = venue_locale.split(", ").collect();
 
+    let (workshop, social) = match event.event_format {
+        EventFormat::Class => (true, false),
+        EventFormat::Fest => (true, true),
+        EventFormat::Party => (false, true),
+    };
+
     Ok(Some(event::Event {
         name: event.name.clone(),
         details: Some(event.description.clone()),
@@ -71,8 +77,8 @@ fn convert(event: &Event, style: DanceStyle) -> Result<Option<event::Event>, Rep
             .ok_or_else(|| eyre!("venueLocale only has one part: \"{}\"", venue_locale))?
             .to_string(),
         styles: vec![style],
-        workshop: false,
-        social: false,
+        workshop,
+        social,
         bands: vec![],
         callers: vec![],
         price: format_price(event),
