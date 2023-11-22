@@ -101,9 +101,7 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
         .replace("\\,", ",");
     // Remove city from end of summary and use em dash where appropriate.
     let raw_name = summary.rsplitn(2, ',').last().unwrap();
-    let name = raw_name
-        .trim_end_matches(" (Rotterdam)")
-        .replace(" - ", " — ");
+    let name = raw_name.replace(" (Rotterdam)", "").replace(" - ", " — ");
 
     // Try to skip music workshops.
     if name.starts_with("Muziekstage") {
