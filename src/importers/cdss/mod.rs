@@ -115,8 +115,12 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
     let time = get_time(event)?;
 
     let categories = event
-        .property_value("CATEGORIES")
-        .ok_or_else(|| eyre!("Event {:?} missing categories.", event))?
+        .multi_properties()
+        .get("CATEGORIES")
+        .ok_or_else(|| eyre!("Event {:#?} missing categories.", event))?
+        .first()
+        .ok_or_else(|| eyre!("Event {:#?} has empty categories.", event))?
+        .value()
         .split(",")
         .collect::<Vec<_>>();
 
