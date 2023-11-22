@@ -29,6 +29,9 @@ pub struct EventList {
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct Event {
     pub slug: String,
+    pub status: u8,
+    pub created_at_iso: DateTime<Utc>,
+    pub modified_at_iso: DateTime<Utc>,
     pub published_by_name: Option<String>,
     pub published_by_org_slug: Option<String>,
     pub start_date_time_iso: DateTime<Utc>,
@@ -42,11 +45,21 @@ pub struct Event {
     pub description: String,
     pub venue_name: Option<String>,
     pub venue_address: Option<String>,
-    pub venue_locale: String,
+    pub venue_locale: Option<String>,
     pub low_price: Option<u32>,
     pub high_price: Option<u32>,
     pub currency: Option<String>,
     pub is_free: bool,
     pub price_display: Option<String>,
     pub is_expanded: bool,
+    pub event_format: EventFormat,
+    pub event_format_display: String,
+}
+
+#[derive(Clone, Debug, Deserialize, Eq, PartialEq)]
+#[serde(rename_all = "UPPERCASE")]
+pub enum EventFormat {
+    Class,
+    Fest,
+    Party,
 }
