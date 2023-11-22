@@ -82,7 +82,7 @@ fn convert(event: &Event, style: DanceStyle) -> Result<Option<event::Event>, Rep
         bands: vec![],
         callers: vec![],
         price: format_price(event),
-        organisation: None,
+        organisation: event.published_by_name.clone(),
         cancelled: false,
         source: None,
     }))
