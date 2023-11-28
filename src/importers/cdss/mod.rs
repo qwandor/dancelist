@@ -43,7 +43,7 @@ const BANDS: [&str; 22] = [
     "Take a Dance",
     "Warleggan Village Band",
 ];
-const CALLERS: [&str; 34] = [
+const CALLERS: [&str; 35] = [
     "Adina Gordon",
     "Alan Rosenthal",
     "Alice Raybourn",
@@ -70,6 +70,7 @@ const CALLERS: [&str; 34] = [
     "Marc Airhart",
     "Michael Karchar",
     "Nils Fredland",
+    "Orly Krasner",
     "Rich MacMath",
     "Rick Szumski",
     "Steph West",
