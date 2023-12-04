@@ -19,7 +19,7 @@ use icalendar::{Calendar, CalendarComponent, Component, Event, EventLike};
 use regex::Regex;
 use std::cmp::{max, min};
 
-const BANDS: [&str; 22] = [
+const BANDS: [&str; 23] = [
     "Aubergine",
     "Bare Necessities",
     "Ben Bolker and Susanne Maziarz",
@@ -33,6 +33,7 @@ const BANDS: [&str; 22] = [
     "Eloise & Co.",
     "The Free Raisins",
     "Lone Star Pirates",
+    "Long Forgotten String Band",
     "Mevilish Merry",
     "Playing with Fyre",
     "River Road",
@@ -43,7 +44,7 @@ const BANDS: [&str; 22] = [
     "Take a Dance",
     "Warleggan Village Band",
 ];
-const CALLERS: [&str; 35] = [
+const CALLERS: [&str; 37] = [
     "Adina Gordon",
     "Alan Rosenthal",
     "Alice Raybourn",
@@ -57,6 +58,7 @@ const CALLERS: [&str; 35] = [
     "Cindy Harris",
     "Dan Blim",
     "Dave Berman",
+    "Dave Smukler",
     "Don Heinold",
     "Don Veino",
     "Gaye Fifer",
@@ -76,6 +78,7 @@ const CALLERS: [&str; 35] = [
     "Steph West",
     "Steve Zakon-Anderson",
     "Tara Bolker",
+    "Tom Greene",
     "Vicki Morrison",
     "Walter Zagorski",
     "Will Mentor",
@@ -136,6 +139,7 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
         .trim_end_matches(" (Masks Optional)")
         .trim_end_matches(" of Macon County, NC")
         .replace("Berkeley, CA", "Berkeley")
+        .replace("Dover NH", "Dover")
         .replace("Richmond VA", "Richmond")
         .replace("Rochester, NY", "Rochester")
         .replace("Hayward CA", "Hayward")
@@ -236,10 +240,12 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
         .collect();
 
     let description_lower = description.to_lowercase();
-    let workshop = description_lower.contains("lesson")
+    let workshop = (description_lower.contains("lesson")
+        && !description_lower.contains("no lesson"))
         || description_lower.contains("skills session")
         || description_lower.contains("workshops")
-        || description_lower.contains("beginners workshop");
+        || description_lower.contains("beginners workshop")
+        || description_lower.contains("introductory session");
 
     let details = if description.is_empty() {
         None
