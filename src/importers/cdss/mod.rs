@@ -19,7 +19,7 @@ use icalendar::{Calendar, CalendarComponent, Component, Event, EventLike};
 use regex::Regex;
 use std::cmp::{max, min};
 
-const BANDS: [&str; 23] = [
+const BANDS: [&str; 26] = [
     "Aubergine",
     "Bare Necessities",
     "Ben Bolker and Susanne Maziarz",
@@ -31,20 +31,23 @@ const BANDS: [&str; 23] = [
     "Dead Sea Squirrels",
     "Elixir",
     "Eloise & Co.",
-    "The Free Raisins",
+    "Good Intentions",
+    "Lackawanna Longnecks",
     "Lone Star Pirates",
     "Long Forgotten String Band",
     "Mevilish Merry",
     "Playing with Fyre",
+    "Red Case Band",
     "River Road",
     "SpringTide",
     "Starling",
     "Stomp Rocket",
     "Supertrad",
     "Take a Dance",
+    "The Free Raisins",
     "Warleggan Village Band",
 ];
-const CALLERS: [&str; 37] = [
+const CALLERS: [&str; 39] = [
     "Adina Gordon",
     "Alan Rosenthal",
     "Alice Raybourn",
@@ -70,11 +73,13 @@ const CALLERS: [&str; 37] = [
     "Lisa Greenleaf",
     "Liz Nelson",
     "Marc Airhart",
+    "Mary Wesley",
     "Michael Karchar",
     "Nils Fredland",
     "Orly Krasner",
     "Rich MacMath",
     "Rick Szumski",
+    "River Abel",
     "Steph West",
     "Steve Zakon-Anderson",
     "Tara Bolker",
@@ -144,6 +149,7 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
         .replace("Rochester, NY", "Rochester")
         .replace("Hayward CA", "Hayward")
         .replace("Hayward, CA", "Hayward")
+        .replace("Williamsburg (VA)", "Williamsburg")
         .to_owned();
 
     let mut styles = Vec::new();
