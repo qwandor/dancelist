@@ -18,7 +18,7 @@ use eyre::{eyre, Report};
 use icalendar::{Calendar, CalendarComponent, Component, Event, EventLike};
 use log::{info, warn};
 
-const BANDS: [&str; 47] = [
+const BANDS: [&str; 49] = [
     "Achterband",
     "Aérokorda",
     "Airboxes",
@@ -59,6 +59,8 @@ const BANDS: [&str; 47] = [
     "Paracetamol",
     "PFM!",
     "QuiVive",
+    "Rokkende Vrouwen",
+    "Simone Bottasso",
     "Sparv",
     "Swinco",
     "Trio Loubelya",
