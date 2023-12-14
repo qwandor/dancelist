@@ -19,7 +19,7 @@ use icalendar::{Calendar, CalendarComponent, Component, Event, EventLike};
 use regex::Regex;
 use std::cmp::{max, min};
 
-const BANDS: [&str; 26] = [
+const BANDS: [&str; 27] = [
     "Aubergine",
     "Bare Necessities",
     "Ben Bolker and Susanne Maziarz",
@@ -31,6 +31,7 @@ const BANDS: [&str; 26] = [
     "Dead Sea Squirrels",
     "Elixir",
     "Eloise & Co.",
+    "First Time Stringband",
     "Good Intentions",
     "Lackawanna Longnecks",
     "Lone Star Pirates",
@@ -47,7 +48,7 @@ const BANDS: [&str; 26] = [
     "The Free Raisins",
     "Warleggan Village Band",
 ];
-const CALLERS: [&str; 39] = [
+const CALLERS: [&str; 40] = [
     "Adina Gordon",
     "Alan Rosenthal",
     "Alice Raybourn",
@@ -77,6 +78,7 @@ const CALLERS: [&str; 39] = [
     "Michael Karchar",
     "Nils Fredland",
     "Orly Krasner",
+    "Paul Wilde",
     "Rich MacMath",
     "Rick Szumski",
     "River Abel",
@@ -251,7 +253,8 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
         || description_lower.contains("skills session")
         || description_lower.contains("workshops")
         || description_lower.contains("beginners workshop")
-        || description_lower.contains("introductory session");
+        || description_lower.contains("introductory session")
+        || description_lower.contains("intro session");
 
     let details = if description.is_empty() {
         None
