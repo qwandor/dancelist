@@ -18,8 +18,9 @@ use eyre::{eyre, Report};
 use icalendar::{Calendar, CalendarComponent, Component, Event, EventLike};
 use log::{info, warn};
 
-const BANDS: [&str; 52] = [
+const BANDS: [&str; 59] = [
     "Achterband",
+    "AdHoc Orkest",
     "Aérokorda",
     "Airboxes",
     "Androneda",
@@ -30,7 +31,10 @@ const BANDS: [&str; 52] = [
     "Beat Bouet Trio",
     "Berkenwerk",
     "BmB",
+    "Carin Greve",
     "Celts without Borders",
+    "De Houtzagerij",
+    "De Trekvogels",
     "Duo Absynthe",
     "Duo Baftig",
     "Duo Bottasso",
@@ -38,13 +42,16 @@ const BANDS: [&str; 52] = [
     "Duo Gielen-Buscan",
     "Duo Mackie/Hendrix",
     "Duo Roblin-Thebaut",
+    "Duo Torv",
     "Emelie Waldken",
     "Emily & The Simons",
     "Fahrenheit",
     "Fyndus",
     "Geronimo",
+    "Gott Folk!",
     "Hartwin Dhoore",
     "Hartwin Dhoore Trio",
+    "Kikker & Findus",
     "KV Express",
     "La Sauterelle",
     "Laouen",
