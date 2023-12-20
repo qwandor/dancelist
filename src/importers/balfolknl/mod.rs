@@ -202,7 +202,10 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
         BANDS
             .iter()
             .filter_map(|band| {
-                if description.contains(band) || name.contains(band) {
+                let band_lower = band.to_lowercase();
+                if description.to_lowercase().contains(&band_lower)
+                    || name.to_lowercase().contains(&band_lower)
+                {
                     Some(band.to_string())
                 } else {
                     None
