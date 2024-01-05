@@ -186,6 +186,7 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
         || name.starts_with("Balfolk met ")
         || name.starts_with("Balfolk op de")
         || name.starts_with("Dansavond")
+        || name.starts_with("Drakenbal")
         || name.starts_with("Fest Noz")
         || name.starts_with("Folkwoods")
         || name.starts_with("Folkbal")
