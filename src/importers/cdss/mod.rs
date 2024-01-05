@@ -278,7 +278,7 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
         Some(description)
     };
 
-    Ok(Some(event::Event {
+    let mut event = event::Event {
         name,
         details,
         links: vec![url],
@@ -295,5 +295,60 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
         organisation,
         cancelled: false,
         source: None,
-    }))
+    };
+    apply_fixes(&mut event);
+    Ok(Some(event))
+}
+
+/// Apply fixes for specific event series.
+fn apply_fixes(event: &mut event::Event) {
+    match event.name.as_str() {
+        "Denver Contra Dance" => {
+            event.links.insert(0, "https://www.cfootmad.org/");
+        }
+        "Friday Night Contra & Square Dance" => {
+            event
+                .links
+                .insert(0, "https://fsgw.org/Friday-contra-square-dance".to_string());
+        }
+        "Goshen Community Contra Dance" => {
+            event.links.insert(0, "http://godancing.org/".to_string());
+            if event.price.as_deref() == Some("$3-$18") {
+                event.price = Some("$3-$8".to_string());
+            }
+        }
+        "Montpelier Contra Dance" => {
+            event.links.insert(
+                0,
+                "https://capitalcitygrange.org/dancing/contradancing/".to_string(),
+            );
+        }
+        "Ottawa Contra Dance" => {
+            event
+                .links
+                .insert(0, "https://ottawacontra.ca/".to_string());
+        }
+        "Quiet Corner Contra Dance" => {
+            event
+                .links
+                .insert(0, "http://www.hcdance.org/quiet-corner-contra/".to_string());
+        }
+        "Richmond Wednesday English Country Dance" => {
+            event.links.insert(
+                0,
+                "https://colonialdanceclubofrichmond.com/english-dance-calendar".to_string(),
+            );
+        }
+        "TECDA Friday Evening Dance" | "TECDA Tuesday Evening English Country Dance" => {
+            event
+                .links
+                .insert(0, "https://www.tecda.ca/weekly_dances.html".to_string());
+        }
+        "Williamsburg Tuesday Night English Dance" => {
+            event
+                .links
+                .insert(0, "https://williamsburgheritagedancers.org/".to_string());
+        }
+        _ => {}
+    }
 }
