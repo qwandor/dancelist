@@ -304,7 +304,9 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
 fn apply_fixes(event: &mut event::Event) {
     match event.name.as_str() {
         "Denver Contra Dance" => {
-            event.links.insert(0, "https://www.cfootmad.org/");
+            event
+                .links
+                .insert(0, "https://www.cfootmad.org/".to_string());
         }
         "Friday Night Contra & Square Dance" => {
             event
