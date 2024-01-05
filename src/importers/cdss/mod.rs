@@ -19,7 +19,7 @@ use icalendar::{Calendar, CalendarComponent, Component, Event, EventLike};
 use regex::Regex;
 use std::cmp::{max, min};
 
-const BANDS: [&str; 33] = [
+const BANDS: [&str; 35] = [
     "Aubergine",
     "Bare Necessities",
     "Ben Bolker and Susanne Maziarz",
@@ -49,12 +49,14 @@ const BANDS: [&str; 33] = [
     "Supertrad",
     "Swingology",
     "Take a Dance",
+    "The Fiddling Thomsons",
     "The Free Raisins",
+    "The Turning Stile",
     "Warleggan Village Band",
     "Wee Merry Banshees",
     "Wheels of the World",
 ];
-const CALLERS: [&str; 44] = [
+const CALLERS: [&str; 45] = [
     "Adina Gordon",
     "Alan Rosenthal",
     "Alice Raybourn",
@@ -79,6 +81,7 @@ const CALLERS: [&str; 44] = [
     "Jen Jasenski",
     "Joanna Reiner Wilkinson",
     "John Krumm",
+    "Jordan Kammeyer",
     "Kalia Kliban",
     "Lindsey Dono",
     "Lisa Greenleaf",
@@ -155,6 +158,8 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
         .trim_end_matches(" - Asheville NC")
         .trim_end_matches(" (Masks Optional)")
         .trim_end_matches(" of Macon County, NC")
+        .trim_end_matches(" in Peterborough, NH")
+        .trim_end_matches(" in Nelson, NH")
         .replace("Berkeley, CA", "Berkeley")
         .replace("Dover NH", "Dover")
         .replace("Richmond VA", "Richmond")
@@ -264,6 +269,7 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
         || description_lower.contains("workshops")
         || description_lower.contains("beginners workshop")
         || description_lower.contains("introductory session")
+        || description_lower.contains("introductory workshop")
         || description_lower.contains("intro session");
 
     let details = if description.is_empty() {
