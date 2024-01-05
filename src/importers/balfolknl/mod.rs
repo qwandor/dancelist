@@ -204,23 +204,19 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
         || name == "Dansavond"
         || description.contains("Bal deel");
 
-    let bands = if social {
-        BANDS
-            .iter()
-            .filter_map(|band| {
-                let band_lower = band.to_lowercase();
-                if description.to_lowercase().contains(&band_lower)
-                    || name.to_lowercase().contains(&band_lower)
-                {
-                    Some(band.to_string())
-                } else {
-                    None
-                }
-            })
-            .collect()
-    } else {
-        vec![]
-    };
+    let bands = BANDS
+        .iter()
+        .filter_map(|band| {
+            let band_lower = band.to_lowercase();
+            if description.to_lowercase().contains(&band_lower)
+                || name.to_lowercase().contains(&band_lower)
+            {
+                Some(band.to_string())
+            } else {
+                None
+            }
+        })
+        .collect();
 
     Ok(Some(event::Event {
         name,
