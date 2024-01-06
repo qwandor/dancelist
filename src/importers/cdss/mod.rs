@@ -16,6 +16,7 @@ use super::icalendar_utils::{get_time, unescape};
 use crate::model::{dancestyle::DanceStyle, event, events::Events};
 use eyre::{eyre, Report, WrapErr};
 use icalendar::{Calendar, CalendarComponent, Component, Event, EventLike};
+use log::error;
 use regex::Regex;
 use std::cmp::{max, min};
 
@@ -191,6 +192,10 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
         .get_location()
         .ok_or_else(|| eyre!("Event {:?} missing location.", event))?;
     let location_parts = location.split("\\, ").collect::<Vec<_>>();
+    if location_parts.len() < 3 {
+        error!("Invalid location {:?} for {}", location_parts, url);
+        return Ok(None);
+    }
     let mut country = location_parts[location_parts.len() - 1].to_owned();
     if country == "United States" {
         country = "USA".to_owned();
