@@ -34,7 +34,14 @@ use serde::{de::IntoDeserializer, Deserialize, Deserializer};
 use std::sync::Arc;
 
 pub async fn add(events: Events) -> Result<Html<String>, InternalError> {
-    let template = AddTemplate::new(&events, AddForm::default(), vec![]);
+    let template = AddTemplate::new(
+        &events,
+        AddForm {
+            with_time: true,
+            ..Default::default()
+        },
+        vec![],
+    );
     Ok(Html(template.render()?))
 }
 
