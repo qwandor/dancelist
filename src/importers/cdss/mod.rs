@@ -324,6 +324,11 @@ fn apply_fixes(event: &mut event::Event) {
                 event.price = Some("$3-$8".to_string());
             }
         }
+        "Hayward Contra Dance" => {
+            event
+                .links
+                .insert(0, "https://sfbaycontra.org/".to_string());
+        }
         "Montpelier Contra Dance" => {
             event.links.insert(
                 0,
