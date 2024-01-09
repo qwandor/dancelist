@@ -244,16 +244,12 @@ impl Events {
         styles
     }
 
-    /// Gets a table mapping (country, state, city) to timezone.
-    pub fn city_timezones(&self) -> HashMap<(String, Option<String>, String), Tz> {
+    /// Gets a table mapping (country, state) to timezone.
+    pub fn city_timezones(&self) -> HashMap<(String, Option<String>), Tz> {
         let mut timezones = HashMap::new();
         for event in &self.events {
             if let Some(timezone) = event.time.guess_timezone() {
-                match timezones.entry((
-                    event.country.clone(),
-                    event.state.clone(),
-                    event.city.clone(),
-                )) {
+                match timezones.entry((event.country.clone(), event.state.clone())) {
                     Entry::Vacant(entry) => {
                         entry.insert(timezone);
                     }

@@ -197,14 +197,8 @@ async fn find_duplicates() -> Result<(), Report> {
 async fn dump_timezones() -> Result<(), Report> {
     let events = load_events(None).await?;
 
-    for ((country, state, city), timezone) in events.city_timezones() {
-        println!(
-            "{}, {}, {} => {}",
-            country,
-            state.unwrap_or_default(),
-            city,
-            timezone
-        );
+    for ((country, state), timezone) in events.city_timezones() {
+        println!("{}, {} => {}", country, state.unwrap_or_default(), timezone);
     }
 
     Ok(())
