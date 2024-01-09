@@ -15,7 +15,7 @@
 use chrono::{DateTime, FixedOffset, NaiveDateTime, Offset, TimeZone};
 use chrono_tz::Tz;
 
-fn to_fixed_offset(date_time: DateTime<Tz>) -> DateTime<FixedOffset> {
+pub fn to_fixed_offset(date_time: DateTime<Tz>) -> DateTime<FixedOffset> {
     let fixed_offset = date_time.offset().fix();
     date_time.with_timezone(&fixed_offset)
 }

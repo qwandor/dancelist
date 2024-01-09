@@ -14,12 +14,13 @@
 
 use super::{dancestyle::DanceStyle, event::Event, filters::Filters};
 use chrono::Utc;
+use chrono_tz::Tz;
 use eyre::{bail, Report, WrapErr};
 use log::trace;
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 use std::{
-    collections::HashMap,
+    collections::{hash_map::Entry, HashMap},
     ffi::OsStr,
     fs::{read_dir, read_to_string},
     path::Path,
@@ -241,6 +242,30 @@ impl Events {
         styles.sort();
         styles.dedup();
         styles
+    }
+
+    /// Gets a table mapping (country, state, city) to timezone.
+    pub fn city_timezones(&self) -> HashMap<(String, Option<String>, String), Tz> {
+        let mut timezones = HashMap::new();
+        for event in &self.events {
+            if let Some(timezone) = event.time.guess_timezone() {
+                match timezones.entry((
+                    event.country.clone(),
+                    event.state.clone(),
+                    event.city.clone(),
+                )) {
+                    Entry::Vacant(entry) => {
+                        entry.insert(timezone);
+                    }
+                    Entry::Occupied(entry) => {
+                        if *entry.get() != timezone {
+                            entry.remove();
+                        }
+                    }
+                }
+            }
+        }
+        timezones
     }
 }
 

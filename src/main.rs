@@ -76,6 +76,8 @@ async fn main() -> Result<(), Report> {
         import_webfeet().await
     } else if args.len() == 2 && args[1] == "dups" {
         find_duplicates().await
+    } else if args.len() == 2 && args[1] == "timezones" {
+        dump_timezones().await
     } else {
         eprintln!("Invalid command.");
         exit(1);
@@ -187,6 +189,22 @@ async fn find_duplicates() -> Result<(), Report> {
                 b.source.as_deref().unwrap_or("unknown file")
             );
         }
+    }
+
+    Ok(())
+}
+
+async fn dump_timezones() -> Result<(), Report> {
+    let events = load_events(None).await?;
+
+    for ((country, state, city), timezone) in events.city_timezones() {
+        println!(
+            "{}, {}, {} => {}",
+            country,
+            state.unwrap_or_default(),
+            city,
+            timezone
+        );
     }
 
     Ok(())

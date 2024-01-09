@@ -13,7 +13,9 @@
 // limitations under the License.
 
 use super::dancestyle::DanceStyle;
+use crate::util::to_fixed_offset;
 use chrono::{DateTime, Datelike, Duration, FixedOffset, NaiveDate, TimeZone, Utc};
+use chrono_tz::{Tz, TZ_VARIANTS};
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 use std::ops::Not;
@@ -105,6 +107,29 @@ impl EventTime {
                 end_date: _,
             } => *start_date,
             EventTime::DateTime { start, end: _ } => start.naive_local().date(),
+        }
+    }
+
+    /// Returns the best matching timezone for this event, if any.
+    pub fn guess_timezone(&self) -> Option<Tz> {
+        match self {
+            Self::DateOnly { .. } => None,
+            Self::DateTime { start, end } => {
+                let start_utc = start.naive_utc();
+                let end_utc = end.naive_utc();
+                let start_offset = start.timezone();
+                let end_offset = end.timezone();
+                for timezone in TZ_VARIANTS {
+                    if to_fixed_offset(timezone.from_utc_datetime(&start_utc)).timezone()
+                        == start_offset
+                        && to_fixed_offset(timezone.from_utc_datetime(&end_utc)).timezone()
+                            == end_offset
+                    {
+                        return Some(timezone);
+                    }
+                }
+                None
+            }
         }
     }
 }
