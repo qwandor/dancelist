@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use crate::{model::event::EventTime, util::local_datetime_to_fixed_offset};
+use crate::model::event::EventTime;
 use eyre::{bail, eyre, Report};
 use icalendar::{CalendarDateTime, Component, DatePerhapsTime, Event};
 
@@ -41,17 +41,20 @@ pub fn get_time(event: &Event) -> Result<EventTime, Report> {
                 tzid: end_tzid,
             }),
         ) => {
-            let start_timezone = start_tzid
-                .parse()
-                .map_err(|e| eyre!("Invalid timezone: {}", e))?;
-            let end_timezone = end_tzid
+            if start_tzid != end_tzid {
+                bail!(
+                    "Start timezone {} doesn't match end timezone {}.",
+                    start_tzid,
+                    end_tzid
+                );
+            }
+            let timezone = start_tzid
                 .parse()
                 .map_err(|e| eyre!("Invalid timezone: {}", e))?;
             EventTime::DateTime {
-                start: local_datetime_to_fixed_offset(&start, start_timezone)
-                    .ok_or_else(|| eyre!("Ambiguous datetime for event {:?}", event))?,
-                end: local_datetime_to_fixed_offset(&end, end_timezone)
-                    .ok_or_else(|| eyre!("Ambiguous datetime for event {:?}", event))?,
+                start,
+                end,
+                timezone,
             }
         }
         _ => bail!("Mismatched start and end times."),

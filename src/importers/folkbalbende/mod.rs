@@ -15,15 +15,12 @@
 mod types;
 
 use self::types::{Event, EventType};
-use crate::{
-    model::{
-        dancestyle::DanceStyle,
-        event::{self, EventTime},
-        events::Events,
-    },
-    util::local_datetime_to_fixed_offset,
+use crate::model::{
+    dancestyle::DanceStyle,
+    event::{self, EventTime},
+    events::Events,
 };
-use chrono::{DateTime, Days, FixedOffset, NaiveDate, NaiveTime};
+use chrono::{Days, NaiveDate, NaiveDateTime, NaiveTime};
 use chrono_tz::Europe::Brussels;
 use eyre::Report;
 use std::cmp::Ordering;
@@ -276,12 +273,11 @@ fn make_time(
     end_time: Option<NaiveTime>,
 ) -> EventTime {
     if let (Some(start_time), Some(end_time)) = (start_time, end_time) {
-        if let (Some(start), Some(end)) = (
-            combine_date_time(date, start_time),
-            combine_date_time(date, end_time),
-        ) {
-            return EventTime::DateTime { start, end };
-        }
+        return EventTime::DateTime {
+            start: combine_date_time(date, start_time),
+            end: combine_date_time(date, end_time),
+            timezone: Brussels,
+        };
     }
 
     EventTime::DateOnly {
@@ -290,11 +286,11 @@ fn make_time(
     }
 }
 
-fn combine_date_time(mut date: NaiveDate, time: NaiveTime) -> Option<DateTime<FixedOffset>> {
+fn combine_date_time(mut date: NaiveDate, time: NaiveTime) -> NaiveDateTime {
     if time < MORNING {
         date = date + Days::new(1);
     }
-    local_datetime_to_fixed_offset(&date.and_time(time), Brussels)
+    date.and_time(time)
 }
 
 #[cfg(test)]

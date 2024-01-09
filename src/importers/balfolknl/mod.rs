@@ -249,7 +249,8 @@ mod tests {
     use super::*;
 
     use crate::model::event::EventTime;
-    use chrono::{FixedOffset, TimeZone};
+    use chrono::NaiveDate;
+    use chrono_tz::Tz;
     use icalendar::Property;
 
     #[test]
@@ -268,16 +269,15 @@ mod tests {
         assert_eq!(
             get_time(&event).unwrap(),
             EventTime::DateTime {
-                start: FixedOffset::east_opt(7200)
+                start: NaiveDate::from_ymd_opt(2022, 4, 1)
                     .unwrap()
-                    .with_ymd_and_hms(2022, 4, 1, 19, 0, 0)
-                    .single()
+                    .and_hms_opt(19, 0, 0)
                     .unwrap(),
-                end: FixedOffset::east_opt(7200)
+                end: NaiveDate::from_ymd_opt(2022, 4, 1)
                     .unwrap()
-                    .with_ymd_and_hms(2022, 4, 1, 19, 0, 0)
-                    .single()
+                    .and_hms_opt(19, 0, 0)
                     .unwrap(),
+                timezone: Tz::Europe__Amsterdam
             }
         );
     }

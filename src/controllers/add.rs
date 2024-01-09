@@ -22,7 +22,6 @@ use crate::{
         events::{Band, Caller, Country, Events, Organisation},
         filters::Filters,
     },
-    util::local_datetime_to_fixed_offset,
 };
 use askama::Template;
 use axum::{extract::State, response::Html};
@@ -210,16 +209,9 @@ impl TryFrom<AddForm> for Event {
         let time = if form.with_time {
             let timezone = form.timezone.ok_or_else(|| vec!["Missing timezone"])?;
             EventTime::DateTime {
-                start: local_datetime_to_fixed_offset(
-                    &form.start.ok_or_else(|| vec!["Missing start time"])?,
-                    timezone,
-                )
-                .ok_or_else(|| vec!["Invalid time for timezone"])?,
-                end: local_datetime_to_fixed_offset(
-                    &form.end.ok_or_else(|| vec!["Missing end time"])?,
-                    timezone,
-                )
-                .ok_or_else(|| vec!["Invalid time for timezone"])?,
+                start: form.start.ok_or_else(|| vec!["Missing start time"])?,
+                end: form.end.ok_or_else(|| vec!["Missing end time"])?,
+                timezone,
             }
         } else {
             EventTime::DateOnly {

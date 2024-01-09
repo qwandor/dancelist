@@ -13,7 +13,8 @@
 // limitations under the License.
 
 use super::dancestyle::DanceStyle;
-use chrono::{DateTime, Datelike, Duration, FixedOffset, NaiveDate, TimeZone, Utc};
+use chrono::{DateTime, Datelike, Duration, NaiveDate, NaiveDateTime, TimeZone, Utc};
+use chrono_tz::Tz;
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 use std::ops::Not;
@@ -80,8 +81,9 @@ pub enum EventTime {
         end_date: NaiveDate,
     },
     DateTime {
-        start: DateTime<FixedOffset>,
-        end: DateTime<FixedOffset>,
+        start: NaiveDateTime,
+        end: NaiveDateTime,
+        timezone: Tz,
     },
 }
 
@@ -93,7 +95,13 @@ impl EventTime {
                 start_date,
                 end_date: _,
             } => Utc.from_utc_datetime(&start_date.and_hms_opt(0, 0, 0).unwrap()),
-            EventTime::DateTime { start, end: _ } => start.with_timezone(&Utc),
+            EventTime::DateTime {
+                start, timezone, ..
+            } => timezone
+                .from_local_datetime(start)
+                .single() // TODO: What to do about ambiguous times?
+                .unwrap()
+                .with_timezone(&Utc),
         }
     }
 
@@ -104,7 +112,16 @@ impl EventTime {
                 start_date,
                 end_date: _,
             } => *start_date,
-            EventTime::DateTime { start, end: _ } => start.naive_local().date(),
+            EventTime::DateTime { start, .. } => start.date(),
+        }
+    }
+
+    pub fn start_datetime(&self) -> Option<DateTime<Tz>> {
+        match self {
+            Self::DateOnly { .. } => None,
+            Self::DateTime {
+                start, timezone, ..
+            } => Some(timezone.from_local_datetime(start).single().unwrap()),
         }
     }
 }
@@ -138,7 +155,7 @@ impl Event {
                     problems.push("Start date must be before or equal to end date.");
                 }
             }
-            EventTime::DateTime { start, end } => {
+            EventTime::DateTime { start, end, .. } => {
                 if start > end {
                     problems.push("Start must be before or equal to end.");
                 }
@@ -282,8 +299,8 @@ impl Event {
                 end_date,
             } => start_date != end_date,
             // Subtract a few hours from the end time in case it finishes after midnight.
-            EventTime::DateTime { start, end } => {
-                start.date_naive() < (end - Duration::hours(5)).date_naive()
+            EventTime::DateTime { start, end, .. } => {
+                start.date() < (end - Duration::hours(5)).date()
             }
         }
     }
@@ -295,7 +312,7 @@ impl Event {
                 start_date,
                 end_date: _,
             } => start_date.year(),
-            EventTime::DateTime { start, end: _ } => start.year(),
+            EventTime::DateTime { start, .. } => start.year(),
         }
     }
 
@@ -306,7 +323,7 @@ impl Event {
                 start_date,
                 end_date: _,
             } => start_date.month(),
-            EventTime::DateTime { start, end: _ } => start.month(),
+            EventTime::DateTime { start, .. } => start.month(),
         }
     }
 
@@ -334,7 +351,7 @@ impl Event {
                     )
                 }
             }
-            EventTime::DateTime { start, end } => {
+            EventTime::DateTime { start, end, .. } => {
                 if !self.multiday() {
                     format!(
                         "{}–{}",
@@ -374,7 +391,7 @@ impl Event {
                     format!("–{}", end_date.format("%a %e %B"))
                 }
             }
-            EventTime::DateTime { start, end } => {
+            EventTime::DateTime { start, end, .. } => {
                 if !self.multiday() {
                     format!("{}–{}", start.format("%l:%M %P"), end.format("%l:%M %P"))
                 } else if start.month() == end.month() {
@@ -419,7 +436,6 @@ pub struct Link {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use chrono::TimeZone;
 
     #[test]
     fn multiday() {
@@ -430,16 +446,15 @@ mod tests {
             details: None,
             links: vec![],
             time: EventTime::DateTime {
-                start: FixedOffset::east_opt(0)
+                start: NaiveDate::from_ymd_opt(2020, 1, 2)
                     .unwrap()
-                    .with_ymd_and_hms(2020, 1, 2, 19, 0, 0)
-                    .single()
+                    .and_hms_opt(19, 0, 0)
                     .unwrap(),
-                end: FixedOffset::east_opt(0)
+                end: NaiveDate::from_ymd_opt(2020, 1, 3)
                     .unwrap()
-                    .with_ymd_and_hms(2020, 1, 3, 4, 0, 0)
-                    .single()
+                    .and_hms_opt(4, 0, 0)
                     .unwrap(),
+                timezone: Tz::Europe__London,
             },
             country: "Country".to_string(),
             state: None,
@@ -458,46 +473,43 @@ mod tests {
 
         // Even if it starts in the morning it still shouldn't count as multi-day.
         event.time = EventTime::DateTime {
-            start: FixedOffset::east_opt(0)
+            start: NaiveDate::from_ymd_opt(2020, 1, 2)
                 .unwrap()
-                .with_ymd_and_hms(2020, 1, 2, 9, 0, 0)
-                .single()
+                .and_hms_opt(9, 0, 0)
                 .unwrap(),
-            end: FixedOffset::east_opt(0)
+            end: NaiveDate::from_ymd_opt(2020, 1, 3)
                 .unwrap()
-                .with_ymd_and_hms(2020, 1, 3, 4, 0, 0)
-                .single()
+                .and_hms_opt(4, 0, 0)
                 .unwrap(),
+            timezone: Tz::Europe__London,
         };
         assert!(!event.multiday());
 
         // But if it starts a day earlier, it should.
         event.time = EventTime::DateTime {
-            start: FixedOffset::east_opt(0)
+            start: NaiveDate::from_ymd_opt(2020, 1, 1)
                 .unwrap()
-                .with_ymd_and_hms(2020, 1, 1, 19, 0, 0)
-                .single()
+                .and_hms_opt(19, 0, 0)
                 .unwrap(),
-            end: FixedOffset::east_opt(0)
+            end: NaiveDate::from_ymd_opt(2020, 1, 3)
                 .unwrap()
-                .with_ymd_and_hms(2020, 1, 3, 4, 0, 0)
-                .single()
+                .and_hms_opt(4, 0, 0)
                 .unwrap(),
+            timezone: Tz::Europe__London,
         };
         assert!(event.multiday());
 
         // An event that starts in the evening and continues on into the next afternoon is multi-day.
         event.time = EventTime::DateTime {
-            start: FixedOffset::east_opt(0)
+            start: NaiveDate::from_ymd_opt(2020, 1, 2)
                 .unwrap()
-                .with_ymd_and_hms(2020, 1, 2, 21, 0, 0)
-                .single()
+                .and_hms_opt(21, 0, 0)
                 .unwrap(),
-            end: FixedOffset::east_opt(0)
+            end: NaiveDate::from_ymd_opt(2020, 1, 3)
                 .unwrap()
-                .with_ymd_and_hms(2020, 1, 3, 16, 0, 0)
-                .single()
+                .and_hms_opt(16, 0, 0)
                 .unwrap(),
+            timezone: Tz::Europe__London,
         };
         assert!(event.multiday());
     }

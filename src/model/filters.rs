@@ -16,7 +16,7 @@ use super::{
     dancestyle::DanceStyle,
     event::{Event, EventTime},
 };
-use chrono::{DateTime, Utc};
+use chrono::{DateTime, TimeZone, Utc};
 use enum_iterator::{all, Sequence};
 use eyre::Report;
 use serde::{de::IntoDeserializer, Deserialize, Deserializer, Serialize, Serializer};
@@ -138,9 +138,21 @@ impl Filters {
                 DateFilter::Past if start_date >= today => return false,
                 _ => {}
             },
-            EventTime::DateTime { start, end } => match self.date {
-                DateFilter::Future if end < now => return false,
-                DateFilter::Past if start >= now => return false,
+            EventTime::DateTime {
+                start,
+                end,
+                timezone,
+            } => match self.date {
+                DateFilter::Future
+                    if timezone.from_local_datetime(&end).single().unwrap() < now =>
+                {
+                    return false
+                }
+                DateFilter::Past
+                    if timezone.from_local_datetime(&start).single().unwrap() >= now =>
+                {
+                    return false
+                }
                 _ => {}
             },
         }
