@@ -36,7 +36,6 @@ use axum::{
 };
 use eyre::Report;
 use log::info;
-use schemars::schema_for;
 use std::{
     env,
     process::exit,
@@ -54,10 +53,6 @@ async fn main() -> Result<(), Report> {
     let args: Vec<String> = env::args().collect();
     if args.len() == 1 {
         serve().await
-    } else if args.len() == 2 && args[1] == "schema" {
-        // Output JSON schema for events.
-        print!("{}", event_schema()?);
-        Ok(())
     } else if args.len() >= 2 && args.len() <= 3 && args[1] == "validate" {
         validate(args.get(2).map(String::as_str)).await
     } else if args.len() >= 2 && args.len() <= 3 && args[1] == "cat" {
@@ -238,24 +233,4 @@ async fn serve() -> Result<(), Report> {
 struct AppState {
     config: Arc<Config>,
     events: Arc<Mutex<Events>>,
-}
-
-/// Returns the JSON schema for events.
-fn event_schema() -> Result<String, Report> {
-    let schema = schema_for!(Events);
-    Ok(serde_json::to_string_pretty(&schema)?)
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-    use std::fs::read_to_string;
-
-    #[test]
-    fn json_schema_matches() {
-        assert_eq!(
-            event_schema().unwrap(),
-            read_to_string("events_schema.json").unwrap()
-        );
-    }
 }

@@ -16,7 +16,6 @@ use super::{dancestyle::DanceStyle, event::Event, filters::Filters};
 use chrono::Utc;
 use eyre::{bail, Report, WrapErr};
 use log::trace;
-use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 use std::{
     collections::HashMap,
@@ -25,7 +24,7 @@ use std::{
     path::Path,
 };
 
-#[derive(Clone, Debug, Deserialize, Eq, JsonSchema, PartialEq, Serialize)]
+#[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
 #[serde(deny_unknown_fields)]
 pub struct Events {
     pub events: Vec<Event>,

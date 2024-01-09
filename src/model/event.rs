@@ -15,7 +15,6 @@
 use super::dancestyle::DanceStyle;
 use chrono::{DateTime, Datelike, Duration, NaiveDate, NaiveDateTime, TimeZone, Utc};
 use chrono_tz::Tz;
-use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 use std::ops::Not;
 
@@ -24,7 +23,7 @@ const FACEBOOK_EVENT_PREFIX: &str = "https://www.facebook.com/events/";
 const FBB_EVENT_PREFIX: &str = "https://folkbalbende.be/event/";
 const CDSS_EVENT_PREFIX: &str = "https://cdss.org/event/";
 
-#[derive(Clone, Debug, Deserialize, Eq, JsonSchema, PartialEq, Serialize)]
+#[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
 pub struct Event {
     /// The name of the event.
     pub name: String,
@@ -70,7 +69,7 @@ pub struct Event {
     pub source: Option<String>,
 }
 
-#[derive(Clone, Debug, Deserialize, Eq, JsonSchema, PartialEq, Serialize)]
+#[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
 #[serde(untagged, deny_unknown_fields)]
 pub enum EventTime {
     DateOnly {
