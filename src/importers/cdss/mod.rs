@@ -321,6 +321,9 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
 /// Apply fixes for specific event series.
 fn apply_fixes(event: &mut event::Event) {
     match event.name.as_str() {
+        "Contra Dance" if event.city == "Carrollton" && event.state.as_deref() == Some("TX") => {
+            event.links.insert(0, "https://www.nttds.org/".to_string());
+        }
         "Denver Contra Dance" => {
             event
                 .links
@@ -342,16 +345,32 @@ fn apply_fixes(event: &mut event::Event) {
                 .links
                 .insert(0, "https://sfbaycontra.org/".to_string());
         }
+        "Lancaster Contra Dance" => {
+            event
+                .links
+                .insert(0, "https://lancastercontra.org/".to_string());
+        }
         "Montpelier Contra Dance" => {
             event.links.insert(
                 0,
                 "https://capitalcitygrange.org/dancing/contradancing/".to_string(),
             );
         }
+        "Orlando Contra Dance" => {
+            event.links.insert(
+                0,
+                "https://orlandocontra.org/dances-and-events/".to_string(),
+            );
+        }
         "Ottawa Contra Dance" => {
             event
                 .links
                 .insert(0, "https://ottawacontra.ca/".to_string());
+        }
+        "Pittsburgh Contra Dance" => {
+            event
+                .links
+                .insert(0, "https://pittsburghcontra.org/".to_string());
         }
         "Quiet Corner Contra Dance" => {
             event
@@ -368,6 +387,12 @@ fn apply_fixes(event: &mut event::Event) {
             event
                 .links
                 .insert(0, "https://www.tecda.ca/weekly_dances.html".to_string());
+        }
+        "Third Sunday English Regency Dancing" => {
+            event.links.insert(
+                0,
+                "https://www.valleyareaenglishregencysociety.org/".to_string(),
+            );
         }
         "Williamsburg Tuesday Night English Dance" => {
             event
