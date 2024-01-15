@@ -23,11 +23,8 @@ use crate::{
     },
 };
 use askama::Template;
-use axum::{
-    extract::{Query, TypedHeader},
-    headers::Host,
-    response::Html,
-};
+use axum::{extract::Query, response::Html};
+use axum_extra::{headers::Host, TypedHeader};
 use chrono::{Datelike, Months, NaiveDate};
 
 pub async fn index(
