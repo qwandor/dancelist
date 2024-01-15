@@ -42,6 +42,7 @@ use std::{
     process::exit,
     sync::{Arc, Mutex},
 };
+use tokio::net::TcpListener;
 use tower_http::services::ServeDir;
 
 #[tokio::main]
@@ -227,9 +228,8 @@ async fn serve() -> Result<(), Report> {
         .with_state(state);
 
     info!("Listening on {}", config.bind_address);
-    axum::Server::bind(&config.bind_address)
-        .serve(app.into_make_service())
-        .await?;
+    let listener = TcpListener::bind(&config.bind_address).await?;
+    axum::serve(listener, app.into_make_service()).await?;
 
     Ok(())
 }

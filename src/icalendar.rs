@@ -1,6 +1,6 @@
 use crate::model::event::{Event, EventTime};
 use axum::{
-    body::{boxed, Full},
+    body::Body,
     http::{header, HeaderValue},
     response::{IntoResponse, Response},
 };
@@ -102,7 +102,7 @@ pub struct Ics(pub Calendar);
 
 impl IntoResponse for Ics {
     fn into_response(self) -> Response {
-        let mut res = Response::new(boxed(Full::from(self.0.to_string())));
+        let mut res = Response::new(Body::from(self.0.to_string()));
         res.headers_mut().insert(
             header::CONTENT_TYPE,
             HeaderValue::from_static("text/calendar"),
