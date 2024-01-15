@@ -108,6 +108,9 @@
 			</li>
 			<li>
 				<label for="state">State</label>
+				<p>
+					Leave blank if the country does not have states.
+				</p>
 				<input name="state" id="state" type="text" list="states" value="{{ form.state.as_deref().unwrap_or_default() }}"/>
 				<datalist id="states">
 					{% for country in countries %} {% for state in country.states %}
