@@ -1,15 +1,6 @@
 /** The first timezone in the list, which will be the default value. */
 const FIRST_TIMEZONE = "Africa/Abidjan";
 
-/** Timezones to set automatically based on the country and state. */
-const DEFAULT_TIMEZONES = new Map([
-  ["Austria/", "Europe/Vienna"],
-  ["Belgium/", "Europe/Brussels"],
-  ["New Zealand/", "Pacific/Auckland"],
-  ["UK/", "Europe/London"],
-  ["USA/AZ", "US/Mountain"],
-]);
-
 function add_input(list, name, type, id, datalist) {
   var input = document.createElement("input");
   input.setAttribute("type", type);

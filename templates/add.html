@@ -4,6 +4,14 @@
 <head>
 	<title>Add event</title>
 	<link rel="stylesheet" type="text/css" href="/stylesheets/main.css" />
+	<script type="text/javascript">
+		/** Timezones to set automatically based on the country and state. */
+		const DEFAULT_TIMEZONES = new Map([
+			{% for tz in crate::util::DEFAULT_TIMEZONES %}
+			["{{ tz.0.0 }}/{{ tz.0.1.unwrap_or_default() }}", "{{ tz.1 }}"],
+			{% endfor %}
+		]);
+	</script>
 	<script type="text/javascript" src="/scripts/add.js"></script>
 </head>
 

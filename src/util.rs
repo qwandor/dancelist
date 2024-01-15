@@ -15,6 +15,14 @@
 use chrono::{DateTime, FixedOffset, NaiveDateTime, Offset, TimeZone};
 use chrono_tz::Tz;
 
+pub const DEFAULT_TIMEZONES: [((&str, Option<&str>), Tz); 5] = [
+    (("Austria", None), Tz::Europe__Vienna),
+    (("Belgium", None), Tz::Europe__Brussels),
+    (("New Zealand", None), Tz::Pacific__Auckland),
+    (("UK", None), Tz::Europe__London),
+    (("USA", Some("AZ")), Tz::US__Mountain),
+];
+
 fn to_fixed_offset(date_time: DateTime<Tz>) -> DateTime<FixedOffset> {
     let fixed_offset = date_time.offset().fix();
     date_time.with_timezone(&fixed_offset)
