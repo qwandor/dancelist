@@ -1,3 +1,6 @@
+/** The first timezone in the list, which will be the default value. */
+const FIRST_TIMEZONE = "Africa/Abidjan";
+
 function add_input(list, name, type, id, datalist) {
   var input = document.createElement("input");
   input.setAttribute("type", type);
@@ -49,13 +52,30 @@ function update_datetimes() {
   });
 }
 
+function update_timezone() {
+  let country = document.getElementById("country").value;
+  let state = document.getElementById("state").value;
+  let country_state = country + "/" + state;
+  let timezone_field = document.getElementById("timezone");
+
+  if (
+    timezone.value == FIRST_TIMEZONE &&
+    DEFAULT_TIMEZONES.has(country_state)
+  ) {
+    timezone_field.value = DEFAULT_TIMEZONES.get(country_state);
+  }
+}
+
 function initialise() {
   document.getElementById("links_list").oninput = update_inputs;
   document.getElementById("bands_list").oninput = update_inputs;
   document.getElementById("callers_list").oninput = update_inputs;
   document.getElementById("with_time").onchange = update_datetimes;
+  document.getElementById("country").onchange = update_timezone;
+  document.getElementById("state").onchange = update_timezone;
 
   update_datetimes();
+  update_timezone();
 }
 
 window.onload = initialise;

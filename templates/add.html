@@ -4,6 +4,14 @@
 <head>
 	<title>Add event</title>
 	<link rel="stylesheet" type="text/css" href="/stylesheets/main.css" />
+	<script type="text/javascript">
+		/** Timezones to set automatically based on the country and state. */
+		const DEFAULT_TIMEZONES = new Map([
+			{% for tz in crate::util::DEFAULT_TIMEZONES %}
+			["{{ tz.0.0 }}/{{ tz.0.1.unwrap_or_default() }}", "{{ tz.1 }}"],
+			{% endfor %}
+		]);
+	</script>
 	<script type="text/javascript" src="/scripts/add.js"></script>
 </head>
 
@@ -58,6 +66,57 @@
 				</fieldset>
 			</li>
 			<li>
+				<label for="country" class="required">Country</label>
+				<p>The country in which the event will take place.</p>
+				<input
+					name="country"
+					id="country"
+					type="text"
+					required="required"
+					list="countries"
+					value="{{ form.country }}"
+				/>
+				<datalist id="countries">
+					{% for country in countries %}
+					<option>{{ country.name }}</option>
+					{% endfor %}
+				</datalist>
+			</li>
+			<li>
+				<label for="state">State</label>
+				<p>
+					Leave blank if the country does not have states.
+				</p>
+				<input name="state" id="state" type="text" list="states" value="{{ form.state.as_deref().unwrap_or_default() }}"/>
+				<datalist id="states">
+					{% for country in countries %} {% for state in country.states %}
+					<option>{{ state.name }}</option>
+					{% endfor %} {% endfor %}
+				</datalist>
+			</li>
+			<li>
+				<label for="city" class="required">City</label>
+				<p>
+					The city or town in which (or near which) the event will take place.
+					If it's in the suburbs surrounding a large city then prefer the name
+					of that city rather than the suburb.
+				</p>
+
+				<input
+					name="city"
+					id="city"
+					type="text"
+					required="required"
+					list="cities"
+					value="{{ form.city }}"
+				/>
+				<datalist id="cities">
+					{% for country in countries %} {% for city in country.cities %}
+					<option>{{ city }}</option>
+					{% endfor %} {% endfor %}
+				</datalist>
+			</li>
+			<li>
 				<label for="with_time">Include time</label>
 				<input name="with_time" id="with_time" type="checkbox" value="true" {{ form.with_time()|checked_if_true }}/>
 			</li>
@@ -90,55 +149,7 @@
 				<input name="end_date" id="end_date" type="date" required="required" value="{{ form.end_date_string() }}"/>
 			</li>
 			<li>
-				<label for="country" class="required">Country</label>
-				<p>The country in which the event will take place.</p>
-				<input
-					name="country"
-					id="country"
-					type="text"
-					required="required"
-					list="countries"
-					value="{{ form.country }}"
-				/>
-				<datalist id="countries">
-					{% for country in countries %}
-					<option>{{ country.name }}</option>
-					{% endfor %}
-				</datalist>
-			</li>
-			<li>
-				<label for="state">State</label>
-				<input name="state" id="state" type="text" list="states" value="{{ form.state.as_deref().unwrap_or_default() }}"/>
-				<datalist id="states">
-					{% for country in countries %} {% for state in country.states %}
-					<option>{{ state.name }}</option>
-					{% endfor %} {% endfor %}
-				</datalist>
-			</li>
-			<li>
-				<label for="city" class="required">City</label>
-				<p>
-					The city or town in which (or near which) the event will take place.
-					If it's in the suburbs surrounding a large city then prefer the name
-					of that city rather than the suburb.
-				</p>
-
-				<input
-					name="city"
-					id="city"
-					type="text"
-					required="required"
-					list="cities"
-					value="{{ form.city }}"
-				/>
-				<datalist id="cities">
-					{% for country in countries %} {% for city in country.cities %}
-					<option>{{ city }}</option>
-					{% endfor %} {% endfor %}
-				</datalist>
-			</li>
-			<li>
-				<label for="styles" class="required">Dance styles</label>
+				<label class="required">Dance styles</label>
 				<fieldset class="styles">
 					<ul>
 						{% for style in crate::model::dancestyle::DanceStyle::values() %}
