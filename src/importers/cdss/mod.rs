@@ -173,13 +173,16 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
         .trim_end_matches(" (Masks Optional)")
         .trim_end_matches(" of Macon County, NC")
         .trim_end_matches(" in Peterborough, NH")
+        .trim_end_matches(" in Carrollton, TX")
         .trim_end_matches(" in Nelson, NH")
+        .trim_end_matches(" in Van Nuys")
         .replace("Berkeley, CA", "Berkeley")
         .replace("Dover NH", "Dover")
         .replace("Richmond VA", "Richmond")
         .replace("Rochester, NY", "Rochester")
         .replace("Hayward CA", "Hayward")
         .replace("Hayward, CA", "Hayward")
+        .replace("Lancaster, PA", "Lancaster")
         .replace("Williamsburg (VA)", "Williamsburg")
         .to_owned();
 
