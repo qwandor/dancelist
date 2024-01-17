@@ -36,6 +36,7 @@ use axum::{
 };
 use eyre::Report;
 use log::info;
+use model::event::Event;
 use schemars::schema_for;
 use std::{
     env,
@@ -110,13 +111,7 @@ async fn concatenate(path: Option<&str>) -> Result<(), Report> {
 async fn sort(path: &str) -> Result<(), Report> {
     let mut events = load_events(Some(path)).await?;
     // Sort by date then location.
-    events.events.sort_by_key(|event| {
-        (
-            event.time.start_time_sort_key(),
-            event.country.clone(),
-            event.city.clone(),
-        )
-    });
+    events.events.sort_by_key(Event::date_location_sort_key);
     print_events(&events)?;
     Ok(())
 }
@@ -155,13 +150,7 @@ async fn find_duplicates() -> Result<(), Report> {
     let mut events = load_events(None).await?.events;
 
     // Sort by date then location, so that possible duplicates are next to each other.
-    events.sort_by_key(|event| {
-        (
-            event.time.start_time_sort_key(),
-            event.country.clone(),
-            event.city.clone(),
-        )
-    });
+    events.sort_by_key(Event::date_location_sort_key);
     for i in 1..events.len() {
         let a = &events[i - 1];
         let b = &events[i];

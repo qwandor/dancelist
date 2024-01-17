@@ -393,6 +393,15 @@ impl Event {
             }
         }
     }
+
+    /// Returns a key for sorting events by start time then location.
+    pub fn date_location_sort_key(&self) -> (DateTime<Utc>, String, String) {
+        (
+            self.time.start_time_sort_key(),
+            self.country.clone(),
+            self.city.clone(),
+        )
+    }
 }
 
 fn merge_strings(a: &Option<String>, b: &Option<String>) -> Option<String> {
