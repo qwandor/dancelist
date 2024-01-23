@@ -72,3 +72,104 @@ fn find_diff(mut events_a: Vec<Event>, mut events_b: Vec<Event>) -> DiffResult {
 
     DiffResult { different, same }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::model::{dancestyle::DanceStyle, event::EventTime};
+    use chrono::NaiveDate;
+
+    fn test_event(name: &str, date: NaiveDate) -> Event {
+        Event {
+            name: name.to_string(),
+            details: None,
+            links: vec![],
+            time: EventTime::DateOnly {
+                start_date: date,
+                end_date: date,
+            },
+            country: "Country".to_string(),
+            state: None,
+            city: "City".to_string(),
+            styles: vec![DanceStyle::Contra],
+            workshop: false,
+            social: true,
+            bands: vec![],
+            callers: vec![],
+            price: None,
+            organisation: None,
+            cancelled: false,
+            source: None,
+        }
+    }
+
+    #[test]
+    fn diff_all_same() {
+        let event_1 = test_event("Event 1", NaiveDate::from_ymd_opt(2024, 1, 1).unwrap());
+        let event_2 = test_event("Event 2", NaiveDate::from_ymd_opt(2024, 1, 2).unwrap());
+        let diff = find_diff(
+            vec![event_1.clone(), event_2.clone()],
+            vec![event_2.clone(), event_1.clone()],
+        );
+        assert_eq!(
+            diff,
+            DiffResult {
+                different: vec![],
+                same: 2,
+            }
+        );
+    }
+
+    #[test]
+    fn diff_all_new() {
+        let event_1 = test_event("Event 1", NaiveDate::from_ymd_opt(2024, 1, 1).unwrap());
+        let event_2 = test_event("Event 2", NaiveDate::from_ymd_opt(2024, 1, 2).unwrap());
+        let diff = find_diff(vec![], vec![event_2.clone(), event_1.clone()]);
+        assert_eq!(
+            diff,
+            DiffResult {
+                different: vec![(event_1, true), (event_2, true)],
+                same: 0,
+            }
+        );
+    }
+
+    #[test]
+    fn diff_all_old() {
+        let event_1 = test_event("Event 1", NaiveDate::from_ymd_opt(2024, 1, 1).unwrap());
+        let event_2 = test_event("Event 2", NaiveDate::from_ymd_opt(2024, 1, 2).unwrap());
+        let diff = find_diff(vec![event_2.clone(), event_1.clone()], vec![]);
+        assert_eq!(
+            diff,
+            DiffResult {
+                different: vec![(event_1, false), (event_2, false)],
+                same: 0
+            }
+        );
+    }
+
+    #[test]
+    fn diff_mixed() {
+        let event_1 = test_event("Event 1", NaiveDate::from_ymd_opt(2024, 1, 1).unwrap());
+        let event_2 = test_event("Event 2", NaiveDate::from_ymd_opt(2024, 1, 2).unwrap());
+        let event_3 = test_event("Event 3", NaiveDate::from_ymd_opt(2024, 1, 3).unwrap());
+        let event_4 = test_event("Event 4", NaiveDate::from_ymd_opt(2024, 1, 4).unwrap());
+        let event_5 = test_event("Event 5", NaiveDate::from_ymd_opt(2024, 1, 5).unwrap());
+        let diff = find_diff(
+            vec![event_3.clone(), event_5.clone(), event_1.clone()],
+            vec![event_2.clone(), event_3.clone(), event_4.clone()],
+        );
+        assert_eq!(
+            diff,
+            DiffResult {
+                different: vec![
+                    (event_1, false),
+                    (event_2, true),
+                    (event_4, true),
+                    (event_5, false)
+                ],
+                same: 1
+            }
+        );
+    }
+}
