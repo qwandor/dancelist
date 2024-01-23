@@ -209,6 +209,7 @@ pub struct DuplicateEvent {
 
 /// Checks whether the given event is a duplicate of any event we already know about, or what file
 /// it might belong in.
+#[allow(clippy::result_large_err)]
 pub fn choose_file_for_event(events: &Events, event: &Event) -> Result<String, DuplicateEvent> {
     let mut organisation_files = HashSet::new();
     let mut city_files = HashSet::new();
