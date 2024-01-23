@@ -121,7 +121,10 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
         .replace("\\,", ",");
     // Remove city from end of summary and use em dash where appropriate.
     let raw_name = summary.rsplitn(2, ',').last().unwrap();
-    let name = raw_name.replace(" (Rotterdam)", "").replace(" - ", " — ");
+    let name = raw_name
+        .replace(" (Rotterdam)", "")
+        .replace(" - ", " — ")
+        .replace(" met Musac", "");
 
     // Try to skip music workshops.
     if name.starts_with("Muziekstage") {
@@ -216,7 +219,7 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
         .filter_map(|band| {
             let band_lower = band.to_lowercase();
             if description.to_lowercase().contains(&band_lower)
-                || name.to_lowercase().contains(&band_lower)
+                || raw_name.to_lowercase().contains(&band_lower)
             {
                 Some(band.to_string())
             } else {
