@@ -193,7 +193,7 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
         || name.contains("en BalFolk")
         || name.contains("Nieuwjaarsbal")
         || name.starts_with("Balfolk Wilhelmina")
-        || name.starts_with("Balfolk met ")
+        || raw_name.starts_with("Balfolk met ")
         || name.starts_with("Balfolk op de")
         || name.starts_with("BresBal")
         || name.starts_with("Dansavond")
