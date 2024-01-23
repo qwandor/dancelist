@@ -213,7 +213,7 @@ pub fn choose_file_for_event(events: &Events, event: &Event) -> Result<String, D
     let mut organisation_files = HashSet::new();
     let mut city_files = HashSet::new();
     for existing_event in &events.events {
-        if let Some(merged) = existing_event.merge(&event) {
+        if let Some(merged) = existing_event.merge(event) {
             return Err(DuplicateEvent {
                 existing: existing_event.to_owned(),
                 merged,

@@ -215,7 +215,8 @@ pub enum SourceFormat {
     DL,
     #[serde(rename = "JSON-LD")]
     JsonLd,
-    PBR,
+    #[serde(rename = "PBR")]
+    Pbr,
     Table,
     UL,
 }
