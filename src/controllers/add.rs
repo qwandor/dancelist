@@ -76,7 +76,7 @@ pub async fn submit(
                     existing_event: &duplicate.existing,
                     merged: &duplicate.merged,
                 };
-                return Ok(Html(template.render()?));
+                Ok(Html(template.render()?))
             }
         },
         Err(errors) => {

@@ -169,7 +169,7 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
         .first()
         .ok_or_else(|| eyre!("Event {:#?} has empty categories.", event))?
         .value()
-        .split(",")
+        .split(',')
         .collect::<Vec<_>>();
 
     let name = summary

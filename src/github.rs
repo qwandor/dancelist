@@ -209,11 +209,12 @@ pub struct DuplicateEvent {
 
 /// Checks whether the given event is a duplicate of any event we already know about, or what file
 /// it might belong in.
+#[allow(clippy::result_large_err)]
 pub fn choose_file_for_event(events: &Events, event: &Event) -> Result<String, DuplicateEvent> {
     let mut organisation_files = HashSet::new();
     let mut city_files = HashSet::new();
     for existing_event in &events.events {
-        if let Some(merged) = existing_event.merge(&event) {
+        if let Some(merged) = existing_event.merge(event) {
             return Err(DuplicateEvent {
                 existing: existing_event.to_owned(),
                 merged,
