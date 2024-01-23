@@ -185,6 +185,7 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
         .replace("Berkeley, CA", "Berkeley")
         .replace("Dover NH", "Dover")
         .replace("Richmond VA", "Richmond")
+        .replace("Richmond, VA", "Richmond")
         .replace("Rochester, NY", "Rochester")
         .replace("Hayward CA", "Hayward")
         .replace("Hayward, CA", "Hayward")
@@ -330,6 +331,12 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
 /// Apply fixes for specific event series.
 fn apply_fixes(event: &mut event::Event) {
     match event.name.as_str() {
+        "Anaheim Contra Dance" => {
+            event.links.insert(
+                0,
+                "https://www.thelivingtradition.org/tltbodydance.html".to_string(),
+            );
+        }
         "Contra Dance" if event.city == "Carrollton" && event.state.as_deref() == Some("TX") => {
             event.links.insert(0, "https://www.nttds.org/".to_string());
         }
@@ -337,6 +344,13 @@ fn apply_fixes(event: &mut event::Event) {
             event
                 .links
                 .insert(0, "https://www.cfootmad.org/".to_string());
+        }
+        "Fourth Friday Experienced Contra at Guiding Star Grange" => {
+            event.name = "Experienced Contra at Guiding Star Grange".to_string();
+            event.links.insert(
+                0,
+                "https://www.guidingstargrange.org/events.html".to_string(),
+            );
         }
         "Friday Night Contra & Square Dance" => {
             event
@@ -365,6 +379,9 @@ fn apply_fixes(event: &mut event::Event) {
                 "https://capitalcitygrange.org/dancing/contradancing/".to_string(),
             );
         }
+        "North Alabama Country Dance Society - Contra Dance" => {
+            event.name = "North Alabama Country Dance Society".to_string();
+        }
         "Orlando Contra Dance" => {
             event.links.insert(
                 0,
@@ -390,6 +407,13 @@ fn apply_fixes(event: &mut event::Event) {
             event.links.insert(
                 0,
                 "https://colonialdanceclubofrichmond.com/english-dance-calendar".to_string(),
+            );
+        }
+        "Second/Fourth Wednesday English Country Dance at Guiding Star Grange" => {
+            event.name = "English Country Dance at Guiding Star Grange".to_string();
+            event.links.insert(
+                0,
+                "https://www.guidingstargrange.org/events.html".to_string(),
             );
         }
         "TECDA Friday Evening Dance" | "TECDA Tuesday Evening English Country Dance" => {
