@@ -434,4 +434,9 @@ fn apply_fixes(event: &mut event::Event) {
         }
         _ => {}
     }
+
+    if event.city == "401 Chapman St" && event.state.as_deref() == Some("Greenfield") {
+        event.city = "Greenfield".to_string();
+        event.state = Some("MA".to_string());
+    }
 }
