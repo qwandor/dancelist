@@ -15,11 +15,34 @@
 use crate::model::event::Event;
 
 /// Prints out a diff between the two sets of events.
-pub fn print_diff(mut events_a: Vec<Event>, mut events_b: Vec<Event>) {
+pub fn print_diff(events_a: Vec<Event>, events_b: Vec<Event>) {
+    let diff = find_diff(events_a, events_b);
+
+    for (event, added) in &diff.different {
+        if *added {
+            println!("Added: {:?}", event);
+        } else {
+            println!("Removed: {:?}", event);
+        }
+    }
+    println!("{} events the same.", diff.same);
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+struct DiffResult {
+    /// The boolean is false if the event is only in the first list, true if it is only in the
+    /// second.
+    different: Vec<(Event, bool)>,
+    /// The number of events exactly the same in both lists.
+    same: usize,
+}
+
+fn find_diff(mut events_a: Vec<Event>, mut events_b: Vec<Event>) -> DiffResult {
     // Sort both by date then location, for a consistent comparison.
     events_a.sort_by_key(Event::date_location_sort_key);
     events_b.sort_by_key(Event::date_location_sort_key);
 
+    let mut different = Vec::new();
     let mut same = 0;
     let mut a = 0;
     let mut b = 0;
@@ -31,20 +54,21 @@ pub fn print_diff(mut events_a: Vec<Event>, mut events_b: Vec<Event>) {
             b += 1;
             same += 1;
         } else if event_a.is_none() {
-            println!("Added: {:?}", event_b);
+            different.push((event_b.unwrap().to_owned(), true));
             b += 1;
         } else if event_b.is_none() {
-            println!("Removed: {:?}", event_a);
+            different.push((event_a.unwrap().to_owned(), false));
             a += 1;
         } else if event_a.unwrap().date_location_sort_key()
             < event_b.unwrap().date_location_sort_key()
         {
-            println!("Removed: {:?}", event_a);
+            different.push((event_a.unwrap().to_owned(), false));
             a += 1;
         } else {
-            println!("Added: {:?}", event_b);
+            different.push((event_b.unwrap().to_owned(), true));
             b += 1;
         }
     }
-    println!("{} events the same.", same);
+
+    DiffResult { different, same }
 }
