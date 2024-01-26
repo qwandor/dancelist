@@ -179,6 +179,7 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
         .trim_end_matches(" (Masks Optional)")
         .trim_end_matches(" of Macon County, NC")
         .trim_end_matches(" in Peterborough, NH")
+        .trim_end_matches(" in Philadelphia")
         .trim_end_matches(" in Carrollton, TX")
         .trim_end_matches(" in Nelson, NH")
         .trim_end_matches(" in Van Nuys")
@@ -426,6 +427,11 @@ fn apply_fixes(event: &mut event::Event) {
                 0,
                 "https://www.valleyareaenglishregencysociety.org/".to_string(),
             );
+        }
+        "Thursday Contra Dance" if event.city == "Philadelphia" => {
+            event
+                .links
+                .insert(0, "https://thursdaycontra.com/".to_string());
         }
         "Williamsburg Tuesday Night English Dance" => {
             event
