@@ -128,7 +128,8 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
     let name = raw_name
         .replace(" (Rotterdam)", "")
         .replace(" - ", " — ")
-        .replace(" met Musac", "");
+        .replace(" met Musac", "")
+        .replace(" (D) bij Nijmegen", "");
 
     // Try to skip music workshops.
     if name.starts_with("Muziekstage") {
@@ -154,7 +155,7 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
 
     let time = get_time(event)?;
 
-    let city = if let Some(location) = event.get_location() {
+    let mut city = if let Some(location) = event.get_location() {
         let location_parts = location.split("\\, ").collect::<Vec<_>>();
         match location_parts.len() {
             8 => location_parts[3].to_string(),
@@ -168,6 +169,13 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
         warn!("Event {:?} missing location.", event);
         "Unknown city".to_string()
     };
+    let country;
+    if city == "Kleve (D)" {
+        country = "Germany".to_string();
+        city = "Kleve".to_string();
+    } else {
+        country = "Netherlands".to_string();
+    }
 
     let workshop = name.contains("Fundamentals")
         || name.contains("Basis van")
@@ -238,7 +246,7 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
         details,
         links: vec![url],
         time,
-        country: "Netherlands".to_string(),
+        country,
         state: None,
         city,
         styles: vec![DanceStyle::Balfolk],
