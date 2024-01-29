@@ -182,10 +182,10 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
         || name.contains("beginnerslessen")
         || name.contains("danslessen")
         || name.contains("workshop")
+        || name.starts_with("Folkbal Wilhelmina")
         || name.starts_with("Socialles ")
         || name.starts_with("Proefles ")
         || name == "DenneFeest"
-        || name == "Folkbal Wilhelmina"
         || description.contains("Dansworkshop")
         || description.contains("Workshopbeschrijving")
         || description.contains("Workshop ")
@@ -206,7 +206,9 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
         || name.contains("Nieuwjaarsbal")
         || name.starts_with("Balfolk Groningen")
         || name.starts_with("Balfolk Wilhelmina")
+        || raw_name.starts_with("Balfolk in Kleve")
         || raw_name.starts_with("Balfolk met ")
+        || raw_name.starts_with("BalFolk met ")
         || name.starts_with("Balfolk op de")
         || name.starts_with("BresBal")
         || name.starts_with("Dansavond")
@@ -223,7 +225,6 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
         || name.starts_with("Vrijdagavondbal")
         || name.starts_with("Balfolk café Nijmegen")
         || name == "DenneFeest"
-        || name == "Folkbal Wilhelmina"
         || name == "Dansavond"
         || description.contains("Bal deel");
 
