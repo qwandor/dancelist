@@ -20,7 +20,7 @@ use log::error;
 use regex::Regex;
 use std::cmp::{max, min};
 
-const BANDS: [&str; 45] = [
+const BANDS: [&str; 48] = [
     "AlleMonOh Stringband",
     "Aubergine",
     "Bare Necessities",
@@ -38,9 +38,11 @@ const BANDS: [&str; 45] = [
     "First Time Stringband",
     "Good Intentions",
     "GrayScale",
+    "Headwaters",
     "Kingfisher",
     "Lackawanna Longnecks",
     "Lake Effect",
+    "Larks in the Attic",
     "Lone Star Pirates",
     "Long Forgotten String Band",
     "Mevilish Merry",
@@ -66,6 +68,7 @@ const BANDS: [&str; 45] = [
     "Warleggan Village Band",
     "Wee Merry Banshees",
     "Wheels of the World",
+    "Wild Asparagus",
 ];
 const CALLERS: [&str; 54] = [
     "Adina Gordon",
