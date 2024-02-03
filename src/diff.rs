@@ -56,11 +56,8 @@ fn find_diff(mut events_a: Vec<Event>, mut events_b: Vec<Event>) -> DiffResult {
         } else if event_a.is_none() {
             different.push((event_b.unwrap().to_owned(), true));
             b += 1;
-        } else if event_b.is_none() {
-            different.push((event_a.unwrap().to_owned(), false));
-            a += 1;
-        } else if event_a.unwrap().date_location_sort_key()
-            < event_b.unwrap().date_location_sort_key()
+        } else if event_b.is_none()
+            || event_a.unwrap().date_location_sort_key() < event_b.unwrap().date_location_sort_key()
         {
             different.push((event_a.unwrap().to_owned(), false));
             a += 1;
