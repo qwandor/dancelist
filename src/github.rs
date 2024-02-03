@@ -140,12 +140,9 @@ pub async fn add_event_to_file(
         let new_events = Events {
             events: vec![event.clone()],
         };
-        let yaml = serde_yaml::to_string(&new_events)?;
-        let content = yaml.replacen(
-            "---",
-            "# yaml-language-server: $schema=../../events_schema.json",
-            1,
-        );
+        let content = new_events
+            .to_yaml_string()
+            .map_err(InternalError::Internal)?;
         let mut create = repo
             .create_file(filename, &commit_message, content)
             .branch(&pr_branch);
