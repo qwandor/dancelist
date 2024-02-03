@@ -116,6 +116,11 @@ impl Events {
         ))
     }
 
+    /// Sorts events by start time then location.
+    pub fn sort(&mut self) {
+        self.events.sort_by_key(Event::date_location_sort_key);
+    }
+
     /// Get all events matching the given filters.
     pub fn matching(&self, filters: &Filters) -> Vec<&Event> {
         let now = Utc::now();
