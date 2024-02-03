@@ -123,8 +123,9 @@ pub async fn add_event_to_file(
         let existing_content = existing_file.decoded_content().unwrap();
         let mut events = serde_yaml::from_str::<Events>(&existing_content)?;
 
-        // Append event to it.
+        // Append event to it and sort.
         events.events.push(event);
+        events.sort();
         let new_content = events.to_yaml_string().map_err(InternalError::Internal)?;
 
         // Update the file
