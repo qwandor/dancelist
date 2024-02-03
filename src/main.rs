@@ -110,13 +110,7 @@ async fn concatenate(path: Option<&str>) -> Result<(), Report> {
 async fn sort(path: &str) -> Result<(), Report> {
     let mut events = load_events(Some(path)).await?;
     // Sort by date then location.
-    events.events.sort_by_key(|event| {
-        (
-            event.time.start_time_sort_key(),
-            event.country.clone(),
-            event.city.clone(),
-        )
-    });
+    events.sort();
     print_events(&events)?;
     Ok(())
 }
@@ -147,30 +141,18 @@ async fn import_webfeet() -> Result<(), Report> {
 }
 
 fn print_events(events: &Events) -> Result<(), Report> {
-    let yaml = serde_yaml::to_string(events)?;
-    let yaml = yaml.replacen(
-        "---",
-        "# yaml-language-server: $schema=../../events_schema.json",
-        1,
-    );
-    print!("{}", yaml);
+    print!("{}", events.to_yaml_string()?);
     Ok(())
 }
 
 async fn find_duplicates() -> Result<(), Report> {
-    let mut events = load_events(None).await?.events;
+    let mut events = load_events(None).await?;
 
     // Sort by date then location, so that possible duplicates are next to each other.
-    events.sort_by_key(|event| {
-        (
-            event.time.start_time_sort_key(),
-            event.country.clone(),
-            event.city.clone(),
-        )
-    });
-    for i in 1..events.len() {
-        let a = &events[i - 1];
-        let b = &events[i];
+    events.sort();
+    for i in 1..events.events.len() {
+        let a = &events.events[i - 1];
+        let b = &events.events[i];
         if a.merge(b).is_some() {
             println!(
                 "Found possible duplicate, {:?} in {}, {}:",

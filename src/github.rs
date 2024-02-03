@@ -105,13 +105,13 @@ pub async fn add_event_to_file(
     let octocrab = build_octocrab(config).await?;
     let (repo, pulls) = get_repo_pulls(&octocrab, config)?;
 
-    let new_events = Events {
-        events: vec![event.clone()],
-    };
-    let yaml = serde_yaml::to_string(&new_events)?;
-
     let head_sha = sha_for_branch(&repo, &config.main_branch).await?;
     let pr_branch = create_branch(&repo, &event, &head_sha).await?;
+
+    let author = email.map(|email| GitUser {
+        name: "Add form user".to_string(),
+        email: email.to_string(),
+    });
 
     // Create a commit to add or modify the file.
     let commit_message = format!("Add {} in {}", event.name, event.city);
@@ -124,35 +124,37 @@ pub async fn add_event_to_file(
     {
         // File already exists, add to it.
         let existing_file = &contents.items[0];
-        let existing_content = existing_file.decoded_content().unwrap();
-
-        // Append event to it.
-        let formatted_event = yaml.trim_start_matches("---\nevents:\n");
-        let new_content = format!("{}\n{}", existing_content, formatted_event);
-
         trace!("Got existing file, sha {}", existing_file.sha);
+        let existing_content = existing_file.decoded_content().unwrap();
+        let mut events = serde_yaml::from_str::<Events>(&existing_content)?;
+
+        // Append event to it and sort.
+        events.events.push(event);
+        events.sort();
+        let new_content = events.to_yaml_string().map_err(InternalError::Internal)?;
+
         // Update the file
-        let update = repo
+        let mut update = repo
             .update_file(filename, &commit_message, new_content, &existing_file.sha)
-            .branch(&pr_branch)
-            .send()
-            .await?;
+            .branch(&pr_branch);
+        if let Some(author) = author {
+            update = update.author(author);
+        }
+        let update = update.send().await?;
         trace!("Update: {:?}", update);
     } else {
         // File doesn't exist, create it.
-        let content = yaml.replacen(
-            "---",
-            "# yaml-language-server: $schema=../../events_schema.json",
-            1,
-        );
+        let new_events = Events {
+            events: vec![event.clone()],
+        };
+        let content = new_events
+            .to_yaml_string()
+            .map_err(InternalError::Internal)?;
         let mut create = repo
             .create_file(filename, &commit_message, content)
             .branch(&pr_branch);
-        if let Some(email) = email {
-            create = create.author(GitUser {
-                name: "Add form user".to_string(),
-                email: email.to_string(),
-            });
+        if let Some(author) = author {
+            create = create.author(author);
         }
         let create = create.send().await?;
         trace!("Create: {:?}", create);

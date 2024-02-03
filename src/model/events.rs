@@ -106,6 +106,21 @@ impl Events {
         Ok(events)
     }
 
+    /// Converts the events to a YAML string.
+    pub fn to_yaml_string(&self) -> Result<String, Report> {
+        let yaml = serde_yaml::to_string(self)?;
+        Ok(yaml.replacen(
+            "---",
+            "# yaml-language-server: $schema=../../events_schema.json",
+            1,
+        ))
+    }
+
+    /// Sorts events by start time then location.
+    pub fn sort(&mut self) {
+        self.events.sort_by_key(Event::date_location_sort_key);
+    }
+
     /// Get all events matching the given filters.
     pub fn matching(&self, filters: &Filters) -> Vec<&Event> {
         let now = Utc::now();
