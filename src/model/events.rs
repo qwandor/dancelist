@@ -78,10 +78,12 @@ impl Events {
         let mut events =
             Self::load_str(&contents).wrap_err_with(|| format!("Reading {:?}", filename))?;
 
-        // Fill in the source with the filename.
+        // Fill in the source with the filename, if the event doesn't already have one.
         if let Some(source) = filename.to_str() {
             for event in &mut events.events {
-                event.source = Some(source.to_owned());
+                if event.source.is_none() {
+                    event.source = Some(source.to_owned());
+                }
             }
         }
 
