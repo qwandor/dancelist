@@ -105,11 +105,6 @@ pub async fn add_event_to_file(
     let octocrab = build_octocrab(config).await?;
     let (repo, pulls) = get_repo_pulls(&octocrab, config)?;
 
-    let new_events = Events {
-        events: vec![event.clone()],
-    };
-    let yaml = serde_yaml::to_string(&new_events)?;
-
     let head_sha = sha_for_branch(&repo, &config.main_branch).await?;
     let pr_branch = create_branch(&repo, &event, &head_sha).await?;
 
@@ -124,13 +119,14 @@ pub async fn add_event_to_file(
     {
         // File already exists, add to it.
         let existing_file = &contents.items[0];
+        trace!("Got existing file, sha {}", existing_file.sha);
         let existing_content = existing_file.decoded_content().unwrap();
+        let mut events = serde_yaml::from_str::<Events>(&existing_content)?;
 
         // Append event to it.
-        let formatted_event = yaml.trim_start_matches("---\nevents:\n");
-        let new_content = format!("{}\n{}", existing_content, formatted_event);
+        events.events.push(event);
+        let new_content = events.to_yaml_string().map_err(InternalError::Internal)?;
 
-        trace!("Got existing file, sha {}", existing_file.sha);
         // Update the file
         let update = repo
             .update_file(filename, &commit_message, new_content, &existing_file.sha)
@@ -140,6 +136,10 @@ pub async fn add_event_to_file(
         trace!("Update: {:?}", update);
     } else {
         // File doesn't exist, create it.
+        let new_events = Events {
+            events: vec![event.clone()],
+        };
+        let yaml = serde_yaml::to_string(&new_events)?;
         let content = yaml.replacen(
             "---",
             "# yaml-language-server: $schema=../../events_schema.json",
