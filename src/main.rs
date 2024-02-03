@@ -14,6 +14,7 @@
 
 mod config;
 mod controllers;
+mod diff;
 mod errors;
 mod extractors;
 mod github;
@@ -25,6 +26,7 @@ mod util;
 use crate::{
     config::Config,
     controllers::{add, bands, callers, cities, index, organisations, reload},
+    diff::print_diff,
     errors::internal_error,
     importers::{balfolknl, cdss, folkbalbende, trycontra, webfeet},
     model::events::Events,
@@ -64,6 +66,8 @@ async fn main() -> Result<(), Report> {
         concatenate(args.get(2).map(String::as_str)).await
     } else if args.len() == 3 && args[1] == "sort" {
         sort(&args[2]).await
+    } else if args.len() == 4 && args[1] == "diff" {
+        diff(&args[2], &args[3]).await
     } else if args.len() == 2 && args[1] == "balbende" {
         import_balbende().await
     } else if args.len() == 2 && args[1] == "balfolknl" {
@@ -112,6 +116,16 @@ async fn sort(path: &str) -> Result<(), Report> {
     // Sort by date then location.
     events.sort();
     print_events(&events)?;
+    Ok(())
+}
+
+/// Loads the given two files of events, and outputs a diff between them.
+async fn diff(path_a: &str, path_b: &str) -> Result<(), Report> {
+    let events_a = load_events(Some(path_a)).await?.events;
+    let events_b = load_events(Some(path_b)).await?.events;
+
+    print_diff(events_a, events_b);
+
     Ok(())
 }
 
