@@ -108,6 +108,11 @@ pub async fn add_event_to_file(
     let head_sha = sha_for_branch(&repo, &config.main_branch).await?;
     let pr_branch = create_branch(&repo, &event, &head_sha).await?;
 
+    let author = email.map(|email| GitUser {
+        name: "Add form user".to_string(),
+        email: email.to_string(),
+    });
+
     // Create a commit to add or modify the file.
     let commit_message = format!("Add {} in {}", event.name, event.city);
     if let Ok(contents) = repo
@@ -129,11 +134,13 @@ pub async fn add_event_to_file(
         let new_content = events.to_yaml_string().map_err(InternalError::Internal)?;
 
         // Update the file
-        let update = repo
+        let mut update = repo
             .update_file(filename, &commit_message, new_content, &existing_file.sha)
-            .branch(&pr_branch)
-            .send()
-            .await?;
+            .branch(&pr_branch);
+        if let Some(author) = author {
+            update = update.author(author);
+        }
+        let update = update.send().await?;
         trace!("Update: {:?}", update);
     } else {
         // File doesn't exist, create it.
@@ -146,11 +153,8 @@ pub async fn add_event_to_file(
         let mut create = repo
             .create_file(filename, &commit_message, content)
             .branch(&pr_branch);
-        if let Some(email) = email {
-            create = create.author(GitUser {
-                name: "Add form user".to_string(),
-                email: email.to_string(),
-            });
+        if let Some(author) = author {
+            create = create.author(author);
         }
         let create = create.send().await?;
         trace!("Create: {:?}", create);
