@@ -13,19 +13,16 @@
 // limitations under the License.
 
 use crate::model::event::Event;
+use askama::Template;
+use eyre::Report;
 
-/// Prints out a diff between the two sets of events.
-pub fn print_diff(events_a: Vec<Event>, events_b: Vec<Event>) {
+/// Returns a Markdown diff between the two sets of events.
+pub fn diff_markdown(events_a: Vec<Event>, events_b: Vec<Event>) -> Result<String, Report> {
     let diff = find_diff(events_a, events_b);
 
-    for (event, added) in &diff.different {
-        if *added {
-            println!("Added: {:?}", event);
-        } else {
-            println!("Removed: {:?}", event);
-        }
-    }
-    println!("{} events the same.", diff.same);
+    let template = DiffTemplate { diff };
+    let html = template.render()?;
+    Ok(html)
 }
 
 #[derive(Clone, Debug, Eq, PartialEq)]
@@ -68,6 +65,12 @@ fn find_diff(mut events_a: Vec<Event>, mut events_b: Vec<Event>) -> DiffResult {
     }
 
     DiffResult { different, same }
+}
+
+#[derive(Template)]
+#[template(path = "diff.md")]
+struct DiffTemplate {
+    diff: DiffResult,
 }
 
 #[cfg(test)]

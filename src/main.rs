@@ -26,7 +26,7 @@ mod util;
 use crate::{
     config::Config,
     controllers::{add, bands, callers, cities, index, organisations, reload},
-    diff::print_diff,
+    diff::diff_markdown,
     errors::internal_error,
     importers::{balfolknl, cdss, folkbalbende, trycontra, webfeet},
     model::events::Events,
@@ -119,12 +119,13 @@ async fn sort(path: &str) -> Result<(), Report> {
     Ok(())
 }
 
-/// Loads the given two files of events, and outputs a diff between them.
+/// Loads the given two files of events, and outputs a diff between them in Markdown format.
 async fn diff(path_a: &str, path_b: &str) -> Result<(), Report> {
     let events_a = load_events(Some(path_a)).await?.events;
     let events_b = load_events(Some(path_b)).await?.events;
 
-    print_diff(events_a, events_b);
+    let markdown = diff_markdown(events_a, events_b)?;
+    println!("{}", markdown);
 
     Ok(())
 }
