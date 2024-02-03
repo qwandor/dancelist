@@ -15,7 +15,7 @@
 use super::dancestyle::DanceStyle;
 use chrono::{DateTime, Datelike, Duration, FixedOffset, NaiveDate, TimeZone, Utc};
 use schemars::JsonSchema;
-use serde::{Deserialize, Serialize};
+use serde::{Deserialize, Serialize, Serializer};
 use std::ops::Not;
 
 /// The prefix which Facebook event URLs start with.
@@ -80,9 +80,18 @@ pub enum EventTime {
         end_date: NaiveDate,
     },
     DateTime {
+        #[serde(serialize_with = "serialize_time")]
         start: DateTime<FixedOffset>,
+        #[serde(serialize_with = "serialize_time")]
         end: DateTime<FixedOffset>,
     },
+}
+
+fn serialize_time<S: Serializer>(
+    time: &DateTime<FixedOffset>,
+    serializer: S,
+) -> Result<S::Ok, S::Error> {
+    time.to_rfc3339().serialize(serializer)
 }
 
 impl EventTime {
@@ -509,5 +518,26 @@ mod tests {
                 .unwrap(),
         };
         assert!(event.multiday());
+    }
+
+    #[test]
+    fn serialize_event_time() {
+        assert_eq!(
+            serde_yaml::to_string(&EventTime::DateTime {
+                start: FixedOffset::east_opt(0)
+                    .unwrap()
+                    .with_ymd_and_hms(2024, 1, 2, 9, 0, 0)
+                    .unwrap(),
+                end: FixedOffset::east_opt(0)
+                    .unwrap()
+                    .with_ymd_and_hms(2024, 1, 2, 13, 0, 0)
+                    .unwrap(),
+            })
+            .unwrap(),
+            r#"---
+start: "2024-01-02T09:00:00+00:00"
+end: "2024-01-02T13:00:00+00:00"
+"#
+        );
     }
 }
