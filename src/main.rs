@@ -46,32 +46,42 @@ use tower_http::services::ServeDir;
 
 #[derive(Clone, Debug, Parser)]
 struct Args {
+    /// If no command is specified, loads events according to the config file and serves the
+    /// website.
     #[command(subcommand)]
     command: Option<Command>,
 }
 
 #[derive(Clone, Debug, Subcommand)]
 enum Command {
+    /// Prints out a JSON schema for events.
     Schema,
-    Validate {
-        events: Option<String>,
-    },
+    /// Validates events from the given file, directory or URL.
+    ///
+    /// If no path or URL is specified, uses the one configured in the config file.
+    Validate { events: Option<String> },
+    /// Loads all events from the given file, directory or URL, and prints them as a single file.
+    ///
+    /// If no path or URL is specified, uses the one configured in the config file.
     #[command(name = "cat")]
-    Concatenate {
-        events: Option<String>,
-    },
-    Sort {
-        events: String,
-    },
-    Diff {
-        old: String,
-        new: String,
-    },
+    Concatenate { events: Option<String> },
+    /// Loads all events from the given file, directory or URL, and prints them sorted by start
+    /// time, country then city.
+    Sort { events: String },
+    /// Loads the given two files (or directories or URLs) of events, and outputs a diff between
+    /// them in Markdown format.
+    Diff { old: String, new: String },
+    /// Imports events from folkbalbende.be.
     Balbende,
+    /// Imports events from balfolk.nl.
     Balfolknl,
+    /// Imports events from cdss.org.
     Cdss,
+    /// Imports longer events from trycontra.com.
     Trycontra,
+    /// Imports events from webfeet.org.
     Webfeet,
+    /// Loads events as configured in the config file and tries to find duplicates.
     #[command(name = "dups")]
     Duplicates,
 }
