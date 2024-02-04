@@ -36,16 +36,55 @@ use axum::{
     routing::{get, get_service, post},
     Router,
 };
+use clap::{Parser, Subcommand};
 use eyre::Report;
 use log::info;
 use schemars::schema_for;
-use std::{
-    env,
-    process::exit,
-    sync::{Arc, Mutex},
-};
+use std::sync::{Arc, Mutex};
 use tokio::net::TcpListener;
 use tower_http::services::ServeDir;
+
+#[derive(Clone, Debug, Parser)]
+struct Args {
+    /// If no command is specified, loads events according to the config file and serves the
+    /// website.
+    #[command(subcommand)]
+    command: Option<Command>,
+}
+
+#[derive(Clone, Debug, Subcommand)]
+enum Command {
+    /// Prints out a JSON schema for events.
+    Schema,
+    /// Validates events from the given file, directory or URL.
+    ///
+    /// If no path or URL is specified, uses the one configured in the config file.
+    Validate { events: Option<String> },
+    /// Loads all events from the given file, directory or URL, and prints them as a single file.
+    ///
+    /// If no path or URL is specified, uses the one configured in the config file.
+    #[command(name = "cat")]
+    Concatenate { events: Option<String> },
+    /// Loads all events from the given file, directory or URL, and prints them sorted by start
+    /// time, country then city.
+    Sort { events: String },
+    /// Loads the given two files (or directories or URLs) of events, and outputs a diff between
+    /// them in Markdown format.
+    Diff { old: String, new: String },
+    /// Imports events from folkbalbende.be.
+    Balbende,
+    /// Imports events from balfolk.nl.
+    Balfolknl,
+    /// Imports events from cdss.org.
+    Cdss,
+    /// Imports longer events from trycontra.com.
+    Trycontra,
+    /// Imports events from webfeet.org.
+    Webfeet,
+    /// Loads events as configured in the config file and tries to find duplicates.
+    #[command(name = "dups")]
+    Duplicates,
+}
 
 #[tokio::main]
 async fn main() -> Result<(), Report> {
@@ -53,36 +92,24 @@ async fn main() -> Result<(), Report> {
     pretty_env_logger::init();
     color_backtrace::install();
 
-    let args: Vec<String> = env::args().collect();
-    if args.len() == 1 {
-        serve().await
-    } else if args.len() == 2 && args[1] == "schema" {
-        // Output JSON schema for events.
-        print!("{}", event_schema()?);
-        Ok(())
-    } else if args.len() >= 2 && args.len() <= 3 && args[1] == "validate" {
-        validate(args.get(2).map(String::as_str)).await
-    } else if args.len() >= 2 && args.len() <= 3 && args[1] == "cat" {
-        concatenate(args.get(2).map(String::as_str)).await
-    } else if args.len() == 3 && args[1] == "sort" {
-        sort(&args[2]).await
-    } else if args.len() == 4 && args[1] == "diff" {
-        diff(&args[2], &args[3]).await
-    } else if args.len() == 2 && args[1] == "balbende" {
-        import_balbende().await
-    } else if args.len() == 2 && args[1] == "balfolknl" {
-        import_balfolknl().await
-    } else if args.len() == 2 && args[1] == "cdss" {
-        import_cdss().await
-    } else if args.len() == 2 && args[1] == "trycontra" {
-        import_trycontra().await
-    } else if args.len() == 2 && args[1] == "webfeet" {
-        import_webfeet().await
-    } else if args.len() == 2 && args[1] == "dups" {
-        find_duplicates().await
-    } else {
-        eprintln!("Invalid command.");
-        exit(1);
+    let args = Args::parse();
+    match &args.command {
+        None => serve().await,
+        Some(Command::Schema) => {
+            // Output JSON schema for events.
+            print!("{}", event_schema()?);
+            Ok(())
+        }
+        Some(Command::Validate { events }) => validate(events.as_deref()).await,
+        Some(Command::Concatenate { events }) => concatenate(events.as_deref()).await,
+        Some(Command::Sort { events }) => sort(&events).await,
+        Some(Command::Duplicates) => find_duplicates().await,
+        Some(Command::Diff { old, new }) => diff(&old, &new).await,
+        Some(Command::Balbende) => import_balbende().await,
+        Some(Command::Balfolknl) => import_balfolknl().await,
+        Some(Command::Cdss) => import_cdss().await,
+        Some(Command::Trycontra) => import_trycontra().await,
+        Some(Command::Webfeet) => import_webfeet().await,
     }
 }
 
@@ -112,7 +139,7 @@ async fn concatenate(path: Option<&str>) -> Result<(), Report> {
 
 /// Load the given file of events, and output them again sorted by start time, country then city.
 async fn sort(path: &str) -> Result<(), Report> {
-    let mut events = load_events(Some(path)).await?;
+    let mut events = Events::load_events(path).await?;
     // Sort by date then location.
     events.sort();
     print_events(&events)?;
@@ -121,8 +148,8 @@ async fn sort(path: &str) -> Result<(), Report> {
 
 /// Loads the given two files of events, and outputs a diff between them in Markdown format.
 async fn diff(path_a: &str, path_b: &str) -> Result<(), Report> {
-    let events_a = load_events(Some(path_a)).await?.events;
-    let events_b = load_events(Some(path_b)).await?.events;
+    let events_a = Events::load_events(path_a).await?.events;
+    let events_b = Events::load_events(path_b).await?.events;
 
     let markdown = diff_markdown(events_a, events_b)?;
     println!("{}", markdown);
