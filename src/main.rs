@@ -36,16 +36,45 @@ use axum::{
     routing::{get, get_service, post},
     Router,
 };
+use clap::{Parser, Subcommand};
 use eyre::Report;
 use log::info;
 use schemars::schema_for;
-use std::{
-    env,
-    process::exit,
-    sync::{Arc, Mutex},
-};
+use std::sync::{Arc, Mutex};
 use tokio::net::TcpListener;
 use tower_http::services::ServeDir;
+
+#[derive(Clone, Debug, Parser)]
+struct Args {
+    #[command(subcommand)]
+    command: Option<Command>,
+}
+
+#[derive(Clone, Debug, Subcommand)]
+enum Command {
+    Schema,
+    Validate {
+        events: Option<String>,
+    },
+    #[command(name = "cat")]
+    Concatenate {
+        events: Option<String>,
+    },
+    Sort {
+        events: String,
+    },
+    Diff {
+        old: String,
+        new: String,
+    },
+    Balbende,
+    Balfolknl,
+    Cdss,
+    Trycontra,
+    Webfeet,
+    #[command(name = "dups")]
+    Duplicates,
+}
 
 #[tokio::main]
 async fn main() -> Result<(), Report> {
@@ -53,36 +82,24 @@ async fn main() -> Result<(), Report> {
     pretty_env_logger::init();
     color_backtrace::install();
 
-    let args: Vec<String> = env::args().collect();
-    if args.len() == 1 {
-        serve().await
-    } else if args.len() == 2 && args[1] == "schema" {
-        // Output JSON schema for events.
-        print!("{}", event_schema()?);
-        Ok(())
-    } else if args.len() >= 2 && args.len() <= 3 && args[1] == "validate" {
-        validate(args.get(2).map(String::as_str)).await
-    } else if args.len() >= 2 && args.len() <= 3 && args[1] == "cat" {
-        concatenate(args.get(2).map(String::as_str)).await
-    } else if args.len() == 3 && args[1] == "sort" {
-        sort(&args[2]).await
-    } else if args.len() == 4 && args[1] == "diff" {
-        diff(&args[2], &args[3]).await
-    } else if args.len() == 2 && args[1] == "balbende" {
-        import_balbende().await
-    } else if args.len() == 2 && args[1] == "balfolknl" {
-        import_balfolknl().await
-    } else if args.len() == 2 && args[1] == "cdss" {
-        import_cdss().await
-    } else if args.len() == 2 && args[1] == "trycontra" {
-        import_trycontra().await
-    } else if args.len() == 2 && args[1] == "webfeet" {
-        import_webfeet().await
-    } else if args.len() == 2 && args[1] == "dups" {
-        find_duplicates().await
-    } else {
-        eprintln!("Invalid command.");
-        exit(1);
+    let args = Args::parse();
+    match &args.command {
+        None => serve().await,
+        Some(Command::Schema) => {
+            // Output JSON schema for events.
+            print!("{}", event_schema()?);
+            Ok(())
+        }
+        Some(Command::Validate { events }) => validate(events.as_deref()).await,
+        Some(Command::Concatenate { events }) => concatenate(events.as_deref()).await,
+        Some(Command::Sort { events }) => sort(&events).await,
+        Some(Command::Duplicates) => find_duplicates().await,
+        Some(Command::Diff { old, new }) => diff(&old, &new).await,
+        Some(Command::Balbende) => import_balbende().await,
+        Some(Command::Balfolknl) => import_balfolknl().await,
+        Some(Command::Cdss) => import_cdss().await,
+        Some(Command::Trycontra) => import_trycontra().await,
+        Some(Command::Webfeet) => import_webfeet().await,
     }
 }
 
