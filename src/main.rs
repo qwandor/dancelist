@@ -139,7 +139,7 @@ async fn concatenate(path: Option<&str>) -> Result<(), Report> {
 
 /// Load the given file of events, and output them again sorted by start time, country then city.
 async fn sort(path: &str) -> Result<(), Report> {
-    let mut events = load_events(Some(path)).await?;
+    let mut events = Events::load_events(path).await?;
     // Sort by date then location.
     events.sort();
     print_events(&events)?;
@@ -148,8 +148,8 @@ async fn sort(path: &str) -> Result<(), Report> {
 
 /// Loads the given two files of events, and outputs a diff between them in Markdown format.
 async fn diff(path_a: &str, path_b: &str) -> Result<(), Report> {
-    let events_a = load_events(Some(path_a)).await?.events;
-    let events_b = load_events(Some(path_b)).await?.events;
+    let events_a = Events::load_events(path_a).await?.events;
+    let events_b = Events::load_events(path_b).await?.events;
 
     let markdown = diff_markdown(events_a, events_b)?;
     println!("{}", markdown);
