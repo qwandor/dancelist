@@ -20,7 +20,7 @@ use log::error;
 use regex::Regex;
 use std::cmp::{max, min};
 
-const BANDS: [&str; 48] = [
+const BANDS: [&str; 51] = [
     "AlleMonOh Stringband",
     "Aubergine",
     "Bare Necessities",
@@ -39,6 +39,7 @@ const BANDS: [&str; 48] = [
     "Good Intentions",
     "GrayScale",
     "Headwaters",
+    "Joyance",
     "Kingfisher",
     "Lackawanna Longnecks",
     "Lake Effect",
@@ -60,7 +61,9 @@ const BANDS: [&str; 48] = [
     "Supertrad",
     "Swingology",
     "Take a Dance",
+    "The Dam Beavers",
     "The Fiddling Thomsons",
+    "The Flying Elbows",
     "The Free Raisins",
     "The Gaslight Tinkers",
     "The Turning Stile",
@@ -70,7 +73,7 @@ const BANDS: [&str; 48] = [
     "Wheels of the World",
     "Wild Asparagus",
 ];
-const CALLERS: [&str; 54] = [
+const CALLERS: [&str; 55] = [
     "Adina Gordon",
     "Alan Rosenthal",
     "Alice Raybourn",
@@ -83,6 +86,7 @@ const CALLERS: [&str; 54] = [
     "Bridget Whitehead",
     "Bronwyn Chelette",
     "Cathy Campbell",
+    "Christine Merryman",
     "Cindy Harris",
     "Dan Blim",
     "Dave Berman",
