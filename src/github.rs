@@ -13,8 +13,8 @@ use octocrab::{
     repos::RepoHandler,
     Octocrab, OctocrabBuilder,
 };
-use reqwest::Url;
 use std::{collections::HashSet, fs};
+use url::Url;
 
 /// The higher suffix number to add to a branch name.
 const MAX_SUFFIX: u32 = 9;
