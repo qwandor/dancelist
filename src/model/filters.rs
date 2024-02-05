@@ -21,6 +21,7 @@ use enum_iterator::{all, Sequence};
 use eyre::Report;
 use serde::{de::IntoDeserializer, Deserialize, Deserializer, Serialize, Serializer};
 use std::{
+    cmp::Ordering,
     collections::HashSet,
     fmt::{self, Display, Formatter},
 };
@@ -214,10 +215,14 @@ impl Filters {
             styles.sort();
             for (i, style) in styles.iter().enumerate() {
                 style_string += &uppercase_first_letter(style.name());
-                if i + 2 == self.styles.len() {
-                    style_string += " and ";
-                } else if i + 2 < self.styles.len() {
-                    style_string += " , ";
+                match self.styles.len().cmp(&(i + 2)) {
+                    Ordering::Greater => {
+                        style_string += " , ";
+                    }
+                    Ordering::Equal => {
+                        style_string += " and ";
+                    }
+                    Ordering::Less => {}
                 }
             }
             style_string

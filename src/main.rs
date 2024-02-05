@@ -102,9 +102,9 @@ async fn main() -> Result<(), Report> {
         }
         Some(Command::Validate { events }) => validate(events.as_deref()).await,
         Some(Command::Concatenate { events }) => concatenate(events.as_deref()).await,
-        Some(Command::Sort { events }) => sort(&events).await,
+        Some(Command::Sort { events }) => sort(events).await,
         Some(Command::Duplicates) => find_duplicates().await,
-        Some(Command::Diff { old, new }) => diff(&old, &new).await,
+        Some(Command::Diff { old, new }) => diff(old, new).await,
         Some(Command::Balbende) => import_balbende().await,
         Some(Command::Balfolknl) => import_balfolknl().await,
         Some(Command::Cdss) => import_cdss().await,
