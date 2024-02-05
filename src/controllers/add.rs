@@ -29,9 +29,9 @@ use axum::{extract::State, response::Html};
 use axum_extra::extract::Form;
 use chrono::{NaiveDate, NaiveDateTime};
 use chrono_tz::Tz;
-use reqwest::Url;
 use serde::{de::IntoDeserializer, Deserialize, Deserializer};
 use std::sync::Arc;
+use url::Url;
 
 pub async fn add(events: Events) -> Result<Html<String>, InternalError> {
     let template = AddTemplate::new(

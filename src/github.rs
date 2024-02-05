@@ -7,14 +7,14 @@ use eyre::eyre;
 use jsonwebtoken::EncodingKey;
 use log::{trace, warn};
 use octocrab::{
-    models::repos::{GitUser, Object},
+    models::repos::{CommitAuthor, Object},
     params::repos::Reference,
     pulls::PullRequestHandler,
     repos::RepoHandler,
     Octocrab, OctocrabBuilder,
 };
-use reqwest::{StatusCode, Url};
 use std::{collections::HashSet, fs};
+use url::Url;
 
 /// The higher suffix number to add to a branch name.
 const MAX_SUFFIX: u32 = 9;
@@ -72,8 +72,7 @@ async fn create_branch(
             .create_ref(&Reference::Branch(branch_name.clone()), head_sha)
             .await
         {
-            if matches!(&e, octocrab::Error::Http {source, .. }
-        if source.status() == Some(StatusCode::UNPROCESSABLE_ENTITY))
+            if matches!(&e, octocrab::Error::GitHub {source, .. } if source.message == "Reference already exists")
             {
                 // Probably the branch already exists, let the loop try a different suffix.
                 last_error = e.into();
@@ -108,7 +107,7 @@ pub async fn add_event_to_file(
     let head_sha = sha_for_branch(&repo, &config.main_branch).await?;
     let pr_branch = create_branch(&repo, &event, &head_sha).await?;
 
-    let author = email.map(|email| GitUser {
+    let author = email.map(|email| CommitAuthor {
         name: "Add form user".to_string(),
         email: email.to_string(),
     });
