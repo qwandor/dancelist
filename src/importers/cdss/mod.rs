@@ -20,11 +20,13 @@ use log::error;
 use regex::Regex;
 use std::cmp::{max, min};
 
-const BANDS: [&str; 51] = [
+const BANDS: [&str; 56] = [
     "AlleMonOh Stringband",
     "Aubergine",
     "Bare Necessities",
     "Ben Bolker and Susanne Maziarz",
+    "Big Fun",
+    "Brook Farm String Band",
     "Bunny Bread Bandits",
     "Calico",
     "Chimney Swift",
@@ -44,6 +46,7 @@ const BANDS: [&str; 51] = [
     "Lackawanna Longnecks",
     "Lake Effect",
     "Larks in the Attic",
+    "Liberty String Band",
     "Lone Star Pirates",
     "Long Forgotten String Band",
     "Mevilish Merry",
@@ -52,7 +55,9 @@ const BANDS: [&str; 51] = [
     "Pont Ondulé",
     "Red Case Band",
     "River Road",
+    "River Music",
     "Serendipity",
+    "Smith, Campeau & Nelson",
     "Snappin' Bug Stringband",
     "Spintuition",
     "SpringTide",
@@ -73,7 +78,7 @@ const BANDS: [&str; 51] = [
     "Wheels of the World",
     "Wild Asparagus",
 ];
-const CALLERS: [&str; 55] = [
+const CALLERS: [&str; 59] = [
     "Adina Gordon",
     "Alan Rosenthal",
     "Alice Raybourn",
@@ -89,6 +94,7 @@ const CALLERS: [&str; 55] = [
     "Christine Merryman",
     "Cindy Harris",
     "Dan Blim",
+    "Darlene Underwood",
     "Dave Berman",
     "Dave Smukler",
     "Don Heinold",
@@ -104,11 +110,14 @@ const CALLERS: [&str; 55] = [
     "Jordan Kammeyer",
     "Kalia Kliban",
     "Katy Heine",
+    "Ken Gall",
     "Laura Beraha",
     "Lindsey Dono",
     "Lisa Greenleaf",
     "Liz Nelson",
+    "Maeve Devlin",
     "Marc Airhart",
+    "Marlin Whitaker",
     "Martha Kent",
     "Mary Wesley",
     "Michael Karchar",
