@@ -362,6 +362,11 @@ fn apply_fixes(event: &mut event::Event) {
                 "https://www.danceflurry.org/series/capital-english-country-dancers/".to_string(),
             );
         }
+        "CDK Contra Dance" => {
+            event
+                .links
+                .insert(0, "https://www.countrydancinginkalamazoo.com/".to_string());
+        }
         "Contra Dance" if event.city == "Carrollton" && event.state.as_deref() == Some("TX") => {
             event.links.insert(0, "https://www.nttds.org/".to_string());
         }
