@@ -194,6 +194,7 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
         .trim_end_matches(" - Asheville NC")
         .trim_end_matches(" (Masks Optional)")
         .trim_end_matches(" of Macon County, NC")
+        .trim_end_matches(" in Dallas")
         .trim_end_matches(" in Peterborough, NH")
         .trim_end_matches(" in Philadelphia")
         .trim_end_matches(" in Carrollton, TX")
