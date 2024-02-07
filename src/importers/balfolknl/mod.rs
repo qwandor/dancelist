@@ -49,29 +49,7 @@ fn convert(event: &Event, parts: EventParts) -> Result<Option<event::Event>, Rep
         Some(details)
     };
 
-    let mut city = if let Some(location_parts) = parts.location_parts {
-        match location_parts.len() {
-            8 => location_parts[3].to_string(),
-            4.. => location_parts[2].to_string(),
-            _ => {
-                warn!(
-                    "Invalid location \"{:?}\" for {}",
-                    location_parts, parts.url
-                );
-                "".to_string()
-            }
-        }
-    } else {
-        warn!("Event {:?} missing location.", event);
-        "Unknown city".to_string()
-    };
-    let country;
-    if city == "Kleve (D)" {
-        country = "Germany".to_string();
-        city = "Kleve".to_string();
-    } else {
-        country = "Netherlands".to_string();
-    }
+    let (country, city) = parse_location(&parts.location_parts, &parts.url);
 
     let workshop = name.contains("Fundamentals")
         || name.contains("Basis van")
@@ -158,4 +136,66 @@ fn shorten_name(raw_name: &str) -> String {
         .replace(" - ", " — ")
         .replace(" met Musac", "")
         .replace(" (D) bij Nijmegen", "")
+}
+
+/// Converts location parts to (country, city).
+fn parse_location(location_parts: &Option<Vec<String>>, url: &str) -> (String, String) {
+    let mut city = if let Some(location_parts) = location_parts {
+        match location_parts.len() {
+            8 => location_parts[3].to_string(),
+            4.. => location_parts[2].to_string(),
+            _ => {
+                warn!("Invalid location \"{:?}\" for {}", location_parts, url);
+                "".to_string()
+            }
+        }
+    } else {
+        warn!("Event {:?} missing location.", url);
+        "Unknown city".to_string()
+    };
+    let country;
+    if city == "Kleve (D)" {
+        country = "Germany".to_string();
+        city = "Kleve".to_string();
+    } else {
+        country = "Netherlands".to_string();
+    }
+    (country, city)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_parse_location() {
+        assert_eq!(
+            parse_location(&None, "http://url"),
+            ("Netherlands".to_string(), "Unknown city".to_string())
+        );
+        assert_eq!(
+            parse_location(
+                &Some(vec![
+                    "City".to_string(),
+                    "postcode".to_string(),
+                    "Nederland".to_string(),
+                ]),
+                "http://url"
+            ),
+            ("Netherlands".to_string(), "".to_string())
+        );
+        assert_eq!(
+            parse_location(
+                &Some(vec![
+                    "Balfolk Zeist".to_string(),
+                    "Thorbeckelaan 5".to_string(),
+                    "Zeist".to_string(),
+                    "3705 KJ".to_string(),
+                    "Nederland".to_string(),
+                ]),
+                "http://url"
+            ),
+            ("Netherlands".to_string(), "Zeist".to_string())
+        );
+    }
 }

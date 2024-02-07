@@ -52,23 +52,9 @@ fn convert(event: &Event, parts: EventParts) -> Result<Option<event::Event>, Rep
     let location_parts = parts
         .location_parts
         .ok_or_else(|| eyre!("Event {:?} missing location.", event))?;
-    if location_parts.len() < 3 {
+    let Some((country, state, city)) = parse_location(&location_parts) else {
         error!("Invalid location {:?} for {}", location_parts, parts.url);
         return Ok(None);
-    }
-    let mut country = location_parts[location_parts.len() - 1].to_owned();
-    if country == "United States" {
-        country = "USA".to_owned();
-    } else if country == "United Kingdom" {
-        country = "UK".to_owned();
-    }
-    let (state, city) = if ["Canada", "USA"].contains(&country.as_str()) {
-        (
-            Some(location_parts[location_parts.len() - 3].to_owned()),
-            location_parts[location_parts.len() - 4].to_owned(),
-        )
-    } else {
-        (None, location_parts[location_parts.len() - 3].to_owned())
     };
 
     let organisation = Some(parts.organiser.unwrap_or_else(|| "CDSS".to_owned()));
@@ -116,6 +102,28 @@ fn convert(event: &Event, parts: EventParts) -> Result<Option<event::Event>, Rep
     };
     apply_fixes(&mut event);
     Ok(Some(event))
+}
+
+/// Converts location parts to (country, state, city)
+fn parse_location(location_parts: &[String]) -> Option<(String, Option<String>, String)> {
+    if location_parts.len() < 3 {
+        return None;
+    }
+    let mut country = location_parts[location_parts.len() - 1].to_owned();
+    if country == "United States" {
+        country = "USA".to_owned();
+    } else if country == "United Kingdom" {
+        country = "UK".to_owned();
+    }
+    let (state, city) = if ["Canada", "USA"].contains(&country.as_str()) {
+        (
+            Some(location_parts[location_parts.len() - 3].to_owned()),
+            location_parts[location_parts.len() - 4].to_owned(),
+        )
+    } else {
+        (None, location_parts[location_parts.len() - 3].to_owned())
+    };
+    Some((country, state, city))
 }
 
 fn shorten_name(summary: &str) -> String {
@@ -313,5 +321,75 @@ fn apply_fixes(event: &mut event::Event) {
     if event.city == "401 Chapman St" && event.state.as_deref() == Some("Greenfield") {
         event.city = "Greenfield".to_string();
         event.state = Some("MA".to_string());
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_parse_location() {
+        assert_eq!(parse_location(&[]), None);
+        assert_eq!(parse_location(&["USA".to_string()]), None);
+        assert_eq!(parse_location(&["CA".to_string(), "USA".to_string()]), None);
+        assert_eq!(
+            parse_location(&[
+                "123 Some Street".to_string(),
+                "Hayward".to_string(),
+                "CA".to_string(),
+                "94541".to_string(),
+                "USA".to_string(),
+            ]),
+            Some((
+                "USA".to_string(),
+                Some("CA".to_string()),
+                "Hayward".to_string(),
+            ))
+        );
+        assert_eq!(
+            parse_location(&[
+                "Pittsburgh".to_string(),
+                "PA".to_string(),
+                "1234".to_string(),
+                "USA".to_string(),
+            ]),
+            Some((
+                "USA".to_string(),
+                Some("PA".to_string()),
+                "Pittsburgh".to_string(),
+            ))
+        );
+        assert_eq!(
+            parse_location(&[
+                "Toronto".to_string(),
+                "Ontario".to_string(),
+                "1234".to_string(),
+                "Canada".to_string(),
+            ]),
+            Some((
+                "Canada".to_string(),
+                Some("Ontario".to_string()),
+                "Toronto".to_string(),
+            ))
+        );
+        assert_eq!(
+            parse_location(&[
+                "London".to_string(),
+                "N10AB".to_string(),
+                "United Kingdom".to_string()
+            ]),
+            Some(("UK".to_string(), None, "London".to_string()))
+        );
+        assert_eq!(
+            parse_location(&[
+                "Venue Name".to_string(),
+                "Address".to_string(),
+                "London".to_string(),
+                "N10AB".to_string(),
+                "United Kingdom".to_string()
+            ]),
+            Some(("UK".to_string(), None, "London".to_string()))
+        );
     }
 }
