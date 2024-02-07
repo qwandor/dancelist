@@ -13,7 +13,7 @@
 // limitations under the License.
 
 use super::{
-    icalendar_utils::{get_time, unescape},
+    icalendar::{get_time, unescape},
     BANDS,
 };
 use crate::model::{dancestyle::DanceStyle, event, events::Events};

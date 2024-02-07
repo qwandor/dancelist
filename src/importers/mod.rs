@@ -15,7 +15,7 @@
 pub mod balfolknl;
 pub mod cdss;
 pub mod folkbalbende;
-mod icalendar_utils;
+mod icalendar;
 pub mod trycontra;
 pub mod webfeet;
 
