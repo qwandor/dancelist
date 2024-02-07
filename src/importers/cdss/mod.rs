@@ -18,30 +18,13 @@ use super::{
 };
 use crate::model::{dancestyle::DanceStyle, event, events::Events};
 use eyre::{eyre, Report, WrapErr};
-use icalendar::{Calendar, CalendarComponent, Component, Event, EventLike};
+use icalendar::{Component, Event, EventLike};
 use log::error;
 use regex::Regex;
 use std::cmp::{max, min};
 
 pub async fn import_events() -> Result<Events, Report> {
-    let calendar = reqwest::get("https://cdss.org/events/list/?ical=1")
-        .await?
-        .text()
-        .await?
-        .parse::<Calendar>()
-        .map_err(|e| eyre!("Error parsing iCalendar file: {}", e))?;
-    Ok(Events {
-        events: calendar
-            .iter()
-            .filter_map(|component| {
-                if let CalendarComponent::Event(event) = component {
-                    convert(event).transpose()
-                } else {
-                    None
-                }
-            })
-            .collect::<Result<_, _>>()?,
-    })
+    super::icalendar::import_events("https://cdss.org/events/list/?ical=1", convert).await
 }
 
 fn convert(event: &Event) -> Result<Option<event::Event>, Report> {

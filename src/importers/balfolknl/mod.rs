@@ -18,29 +18,11 @@ use super::{
 };
 use crate::model::{dancestyle::DanceStyle, event, events::Events};
 use eyre::{eyre, Report};
-use icalendar::{Calendar, CalendarComponent, Component, Event, EventLike};
+use icalendar::{Component, Event, EventLike};
 use log::{info, warn};
 
 pub async fn import_events() -> Result<Events, Report> {
-    let calendar = reqwest::get("https://www.balfolk.nl/events.ics")
-        .await?
-        .text()
-        .await?
-        .parse::<Calendar>()
-        .map_err(|e| eyre!("Error parsing iCalendar file: {}", e))?;
-
-    Ok(Events {
-        events: calendar
-            .iter()
-            .filter_map(|component| {
-                if let CalendarComponent::Event(event) = component {
-                    convert(event).transpose()
-                } else {
-                    None
-                }
-            })
-            .collect::<Result<_, _>>()?,
-    })
+    super::icalendar::import_events("https://www.balfolk.nl/events.ics", convert).await
 }
 
 fn convert(event: &Event) -> Result<Option<event::Event>, Report> {

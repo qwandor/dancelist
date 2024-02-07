@@ -12,9 +12,41 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use crate::{model::event::EventTime, util::local_datetime_to_fixed_offset};
+use crate::{
+    model::{
+        event::{self, EventTime},
+        events::Events,
+    },
+    util::local_datetime_to_fixed_offset,
+};
 use eyre::{bail, eyre, Report};
-use icalendar::{CalendarDateTime, Component, DatePerhapsTime, Event};
+use icalendar::{Calendar, CalendarComponent, CalendarDateTime, Component, DatePerhapsTime, Event};
+
+/// Fetches the iCalendar file from the given URL, then converts events from it using the given
+/// `convert` function.
+pub async fn import_events(
+    url: &str,
+    convert: impl Fn(&Event) -> Result<Option<event::Event>, Report>,
+) -> Result<Events, Report> {
+    let calendar = reqwest::get(url)
+        .await?
+        .text()
+        .await?
+        .parse::<Calendar>()
+        .map_err(|e| eyre!("Error parsing iCalendar file: {}", e))?;
+    Ok(Events {
+        events: calendar
+            .iter()
+            .filter_map(|component| {
+                if let CalendarComponent::Event(event) = component {
+                    convert(event).transpose()
+                } else {
+                    None
+                }
+            })
+            .collect::<Result<_, _>>()?,
+    })
+}
 
 pub fn get_time(event: &Event) -> Result<EventTime, Report> {
     let start = event
