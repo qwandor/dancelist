@@ -38,29 +38,7 @@ fn convert(event: &Event, parts: EventParts) -> Result<Option<event::Event>, Rep
         .split(',')
         .collect::<Vec<_>>();
 
-    let name = parts
-        .summary
-        .trim_start_matches("Portland Country Dance Community ")
-        .trim_start_matches("Contra Dance with ")
-        .trim_end_matches(" - Asheville NC")
-        .trim_end_matches(" (Masks Optional)")
-        .trim_end_matches(" of Macon County, NC")
-        .trim_end_matches(" in Dallas")
-        .trim_end_matches(" in Peterborough, NH")
-        .trim_end_matches(" in Philadelphia")
-        .trim_end_matches(" in Carrollton, TX")
-        .trim_end_matches(" in Nelson, NH")
-        .trim_end_matches(" in Van Nuys")
-        .replace("Berkeley, CA", "Berkeley")
-        .replace("Dover NH", "Dover")
-        .replace("Richmond VA", "Richmond")
-        .replace("Richmond, VA", "Richmond")
-        .replace("Rochester, NY", "Rochester")
-        .replace("Hayward CA", "Hayward")
-        .replace("Hayward, CA", "Hayward")
-        .replace("Lancaster, PA", "Lancaster")
-        .replace("Williamsburg (VA)", "Williamsburg")
-        .to_owned();
+    let name = shorten_name(&parts.summary);
 
     let summary_lowercase = parts.summary.to_lowercase();
     let styles = get_styles(&categories, &parts.summary);
@@ -138,6 +116,31 @@ fn convert(event: &Event, parts: EventParts) -> Result<Option<event::Event>, Rep
     };
     apply_fixes(&mut event);
     Ok(Some(event))
+}
+
+fn shorten_name(summary: &str) -> String {
+    summary
+        .trim_start_matches("Portland Country Dance Community ")
+        .trim_start_matches("Contra Dance with ")
+        .trim_end_matches(" - Asheville NC")
+        .trim_end_matches(" (Masks Optional)")
+        .trim_end_matches(" of Macon County, NC")
+        .trim_end_matches(" in Dallas")
+        .trim_end_matches(" in Peterborough, NH")
+        .trim_end_matches(" in Philadelphia")
+        .trim_end_matches(" in Carrollton, TX")
+        .trim_end_matches(" in Nelson, NH")
+        .trim_end_matches(" in Van Nuys")
+        .replace("Berkeley, CA", "Berkeley")
+        .replace("Dover NH", "Dover")
+        .replace("Richmond VA", "Richmond")
+        .replace("Richmond, VA", "Richmond")
+        .replace("Rochester, NY", "Rochester")
+        .replace("Hayward CA", "Hayward")
+        .replace("Hayward, CA", "Hayward")
+        .replace("Lancaster, PA", "Lancaster")
+        .replace("Williamsburg (VA)", "Williamsburg")
+        .to_owned()
 }
 
 fn get_styles(categories: &[&str], summary: &str) -> Vec<DanceStyle> {

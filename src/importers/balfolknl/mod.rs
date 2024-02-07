@@ -29,11 +29,7 @@ fn convert(event: &Event, parts: EventParts) -> Result<Option<event::Event>, Rep
     let summary = parts.summary.replace("\\,", ",");
     // Remove city from end of summary and use em dash where appropriate.
     let raw_name = summary.rsplitn(2, ',').last().unwrap();
-    let name = raw_name
-        .replace(" (Rotterdam)", "")
-        .replace(" - ", " — ")
-        .replace(" met Musac", "")
-        .replace(" (D) bij Nijmegen", "");
+    let name = shorten_name(raw_name);
 
     // Try to skip music workshops.
     if name.starts_with("Muziekstage") {
@@ -154,4 +150,12 @@ fn convert(event: &Event, parts: EventParts) -> Result<Option<event::Event>, Rep
         cancelled: false,
         source: None,
     }))
+}
+
+fn shorten_name(raw_name: &str) -> String {
+    raw_name
+        .replace(" (Rotterdam)", "")
+        .replace(" - ", " — ")
+        .replace(" met Musac", "")
+        .replace(" (D) bij Nijmegen", "")
 }
