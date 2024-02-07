@@ -20,13 +20,15 @@ use crate::{
     util::local_datetime_to_fixed_offset,
 };
 use eyre::{bail, eyre, Report};
-use icalendar::{Calendar, CalendarComponent, CalendarDateTime, Component, DatePerhapsTime, Event};
+use icalendar::{
+    Calendar, CalendarComponent, CalendarDateTime, Component, DatePerhapsTime, Event, EventLike,
+};
 
 /// Fetches the iCalendar file from the given URL, then converts events from it using the given
 /// `convert` function.
 pub async fn import_events(
     url: &str,
-    convert: impl Fn(&Event) -> Result<Option<event::Event>, Report>,
+    convert: impl Fn(&Event, EventParts) -> Result<Option<event::Event>, Report>,
 ) -> Result<Events, Report> {
     let calendar = reqwest::get(url)
         .await?
@@ -39,13 +41,83 @@ pub async fn import_events(
             .iter()
             .filter_map(|component| {
                 if let CalendarComponent::Event(event) = component {
-                    convert(event).transpose()
+                    match get_parts(event) {
+                        Ok(parts) => convert(event, parts).transpose(),
+                        Err(e) => Some(Err(e)),
+                    }
                 } else {
                     None
                 }
             })
             .collect::<Result<_, _>>()?,
     })
+}
+
+fn get_parts(event: &Event) -> Result<EventParts, Report> {
+    let url = event
+        .get_url()
+        .ok_or_else(|| eyre!("Event {:?} missing url.", event))?
+        .to_owned();
+    let summary = unescape(
+        event
+            .get_summary()
+            .ok_or_else(|| eyre!("Event {:?} missing summary.", event))?,
+    );
+    let description = unescape(
+        event
+            .get_description()
+            .ok_or_else(|| eyre!("Event {:?} missing description.", event))?,
+    );
+    let time = get_time(event)?;
+    let location_parts = event.get_location().map(|location| {
+        location
+            .split("\\, ")
+            .map(ToOwned::to_owned)
+            .collect::<Vec<_>>()
+    });
+    let organiser = if let Some(organiser) = event.properties().get("ORGANIZER") {
+        let organiser_name = organiser
+            .params()
+            .get("CN")
+            .ok_or_else(|| eyre!("Event {:?} missing organiser name", event))?
+            .value();
+        Some(organiser_name[1..organiser_name.len() - 1].to_owned())
+    } else {
+        None
+    };
+    Ok(EventParts {
+        url,
+        summary,
+        description,
+        time,
+        location_parts,
+        organiser,
+    })
+}
+
+/// Returns strings from the slice which are contained in one of the two lowercase strings passed.
+pub fn lowercase_matches(needles: &[&str], a: &str, b: &str) -> Vec<String> {
+    needles
+        .iter()
+        .filter_map(|needle| {
+            let needle_lower = needle.to_lowercase();
+            if a.contains(&needle_lower) || b.contains(&needle_lower) {
+                Some(needle.to_string())
+            } else {
+                None
+            }
+        })
+        .collect()
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct EventParts {
+    pub url: String,
+    pub summary: String,
+    pub description: String,
+    pub time: EventTime,
+    pub location_parts: Option<Vec<String>>,
+    pub organiser: Option<String>,
 }
 
 pub fn get_time(event: &Event) -> Result<EventTime, Report> {

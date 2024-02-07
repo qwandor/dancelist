@@ -13,28 +13,20 @@
 // limitations under the License.
 
 use super::{
-    icalendar::{get_time, unescape},
+    icalendar::{lowercase_matches, EventParts},
     BANDS,
 };
 use crate::model::{dancestyle::DanceStyle, event, events::Events};
-use eyre::{eyre, Report};
-use icalendar::{Component, Event, EventLike};
+use eyre::Report;
+use icalendar::Event;
 use log::{info, warn};
 
 pub async fn import_events() -> Result<Events, Report> {
     super::icalendar::import_events("https://www.balfolk.nl/events.ics", convert).await
 }
 
-fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
-    let url = event
-        .get_url()
-        .ok_or_else(|| eyre!("Event {:?} missing url.", event))?
-        .to_owned();
-
-    let summary = event
-        .get_summary()
-        .ok_or_else(|| eyre!("Event {:?} missing summary.", event))?
-        .replace("\\,", ",");
+fn convert(event: &Event, parts: EventParts) -> Result<Option<event::Event>, Report> {
+    let summary = parts.summary.replace("\\,", ",");
     // Remove city from end of summary and use em dash where appropriate.
     let raw_name = summary.rsplitn(2, ',').last().unwrap();
     let name = raw_name
@@ -45,17 +37,13 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
 
     // Try to skip music workshops.
     if name.starts_with("Muziekstage") {
-        info!("Skipping \"{}\" {}", name, url);
+        info!("Skipping \"{}\" {}", name, parts.url);
         return Ok(None);
     }
 
-    let description = unescape(
-        event
-            .get_description()
-            .ok_or_else(|| eyre!("Event {:?} missing description.", event))?,
-    );
     // Remove name from start of description
-    let details = description
+    let details = parts
+        .description
         .trim_start_matches(&format!("{}, ", raw_name))
         .trim()
         .to_owned();
@@ -65,15 +53,15 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
         Some(details)
     };
 
-    let time = get_time(event)?;
-
-    let mut city = if let Some(location) = event.get_location() {
-        let location_parts = location.split("\\, ").collect::<Vec<_>>();
+    let mut city = if let Some(location_parts) = parts.location_parts {
         match location_parts.len() {
             8 => location_parts[3].to_string(),
             4.. => location_parts[2].to_string(),
             _ => {
-                warn!("Invalid location \"{}\" for {}", location, url);
+                warn!(
+                    "Invalid location \"{:?}\" for {}",
+                    location_parts, parts.url
+                );
                 "".to_string()
             }
         }
@@ -98,14 +86,14 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
         || name.starts_with("Socialles ")
         || name.starts_with("Proefles ")
         || name == "DenneFeest"
-        || description.contains("Dansworkshop")
-        || description.contains("Workshopbeschrijving")
-        || description.contains("Workshop ")
-        || description.contains("dans uitleg")
-        || description.contains("dansuitleg")
-        || description.contains(" leren ")
-        || description.contains("Vooraf dansuitleg")
-        || description.contains("de Docent");
+        || parts.description.contains("Dansworkshop")
+        || parts.description.contains("Workshopbeschrijving")
+        || parts.description.contains("Workshop ")
+        || parts.description.contains("dans uitleg")
+        || parts.description.contains("dansuitleg")
+        || parts.description.contains(" leren ")
+        || parts.description.contains("Vooraf dansuitleg")
+        || parts.description.contains("de Docent");
     let social = name.contains("Social dance")
         || name.contains("Balfolkbal")
         || name.contains("Avondbal")
@@ -138,27 +126,21 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
         || name.starts_with("Balfolk café Nijmegen")
         || name == "DenneFeest"
         || name == "Dansavond"
-        || description.contains("Bal deel");
+        || parts.description.contains("Bal deel");
 
-    let bands = BANDS
-        .iter()
-        .filter_map(|band| {
-            let band_lower = band.to_lowercase();
-            if description.to_lowercase().contains(&band_lower)
-                || raw_name.to_lowercase().contains(&band_lower)
-            {
-                Some(band.to_string())
-            } else {
-                None
-            }
-        })
-        .collect();
+    let bands = lowercase_matches(
+        &BANDS,
+        &parts.description.to_lowercase(),
+        &raw_name.to_lowercase(),
+    );
+
+    let organisation = Some(parts.organiser.unwrap_or_else(|| "balfolk.nl".to_owned()));
 
     Ok(Some(event::Event {
         name,
         details,
-        links: vec![url],
-        time,
+        links: vec![parts.url],
+        time: parts.time,
         country,
         state: None,
         city,
@@ -168,7 +150,7 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
         bands,
         callers: vec![],
         price: None,
-        organisation: Some("balfolk.nl".to_string()),
+        organisation,
         cancelled: false,
         source: None,
     }))

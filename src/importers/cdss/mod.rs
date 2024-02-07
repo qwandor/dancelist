@@ -13,12 +13,12 @@
 // limitations under the License.
 
 use super::{
-    icalendar::{get_time, unescape},
+    icalendar::{lowercase_matches, EventParts},
     BANDS, CALLERS,
 };
 use crate::model::{dancestyle::DanceStyle, event, events::Events};
 use eyre::{eyre, Report, WrapErr};
-use icalendar::{Component, Event, EventLike};
+use icalendar::{Component, Event};
 use log::error;
 use regex::Regex;
 use std::cmp::{max, min};
@@ -27,23 +27,7 @@ pub async fn import_events() -> Result<Events, Report> {
     super::icalendar::import_events("https://cdss.org/events/list/?ical=1", convert).await
 }
 
-fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
-    let url = event
-        .get_url()
-        .ok_or_else(|| eyre!("Event {:?} missing url.", event))?
-        .to_owned();
-    let summary = unescape(
-        event
-            .get_summary()
-            .ok_or_else(|| eyre!("Event {:?} missing summary.", event))?,
-    );
-    let description = unescape(
-        event
-            .get_description()
-            .ok_or_else(|| eyre!("Event {:?} missing description.", event))?,
-    );
-    let time = get_time(event)?;
-
+fn convert(event: &Event, parts: EventParts) -> Result<Option<event::Event>, Report> {
     let categories = event
         .multi_properties()
         .get("CATEGORIES")
@@ -54,7 +38,8 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
         .split(',')
         .collect::<Vec<_>>();
 
-    let name = summary
+    let name = parts
+        .summary
         .trim_start_matches("Portland Country Dance Community ")
         .trim_start_matches("Contra Dance with ")
         .trim_end_matches(" - Asheville NC")
@@ -78,7 +63,7 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
         .to_owned();
 
     let mut styles = Vec::new();
-    let summary_lowercase = summary.to_lowercase();
+    let summary_lowercase = parts.summary.to_lowercase();
     if categories.contains(&"Online Event") || summary_lowercase.contains("online") {
         return Ok(None);
     }
@@ -95,12 +80,11 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
         return Ok(None);
     }
 
-    let location = event
-        .get_location()
+    let location_parts = parts
+        .location_parts
         .ok_or_else(|| eyre!("Event {:?} missing location.", event))?;
-    let location_parts = location.split("\\, ").collect::<Vec<_>>();
     if location_parts.len() < 3 {
-        error!("Invalid location {:?} for {}", location_parts, url);
+        error!("Invalid location {:?} for {}", location_parts, parts.url);
         return Ok(None);
     }
     let mut country = location_parts[location_parts.len() - 1].to_owned();
@@ -118,24 +102,13 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
         (None, location_parts[location_parts.len() - 3].to_owned())
     };
 
-    let organisation = Some(
-        if let Some(organiser) = event.properties().get("ORGANIZER") {
-            let organiser_name = organiser
-                .params()
-                .get("CN")
-                .ok_or_else(|| eyre!("Event {:?} missing organiser name", event))?
-                .value();
-            organiser_name[1..organiser_name.len() - 1].to_owned()
-        } else {
-            "CDSS".to_owned()
-        },
-    );
+    let organisation = Some(parts.organiser.unwrap_or_else(|| "CDSS".to_owned()));
 
     // Figure out price from description.
     let price_regex = Regex::new(r"\$([0-9]+)").unwrap();
     let mut min_price = u32::MAX;
     let mut max_price = u32::MIN;
-    for capture in price_regex.captures_iter(&description) {
+    for capture in price_regex.captures_iter(&parts.description) {
         let price: u32 = capture
             .get(1)
             .unwrap()
@@ -153,28 +126,11 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
         Some(format!("${}-${}", min_price, max_price))
     };
 
-    let bands = BANDS
-        .iter()
-        .filter_map(|band| {
-            if description.contains(band) || summary.contains(band) {
-                Some(band.to_string())
-            } else {
-                None
-            }
-        })
-        .collect();
-    let callers = CALLERS
-        .iter()
-        .filter_map(|caller| {
-            if description.contains(caller) || summary.contains(caller) {
-                Some(caller.to_string())
-            } else {
-                None
-            }
-        })
-        .collect();
+    let description_lower = parts.description.to_lowercase();
+    let summary_lower = parts.summary.to_lowercase();
+    let bands = lowercase_matches(&BANDS, &description_lower, &summary_lower);
+    let callers = lowercase_matches(&CALLERS, &description_lower, &summary_lower);
 
-    let description_lower = description.to_lowercase();
     let workshop = (description_lower.contains("lesson")
         && !description_lower.contains("no lesson"))
         || description_lower.contains("skills session")
@@ -185,17 +141,17 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
         || description_lower.contains("introductory workshop")
         || description_lower.contains("intro session");
 
-    let details = if description.is_empty() {
+    let details = if parts.description.is_empty() {
         None
     } else {
-        Some(description)
+        Some(parts.description)
     };
 
     let mut event = event::Event {
         name,
         details,
-        links: vec![url],
-        time,
+        links: vec![parts.url],
+        time: parts.time,
         country,
         state,
         city,
