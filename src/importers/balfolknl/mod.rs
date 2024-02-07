@@ -12,84 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use super::icalendar_utils::{get_time, unescape};
+use super::{
+    icalendar_utils::{get_time, unescape},
+    BANDS,
+};
 use crate::model::{dancestyle::DanceStyle, event, events::Events};
 use eyre::{eyre, Report};
 use icalendar::{Calendar, CalendarComponent, Component, Event, EventLike};
 use log::{info, warn};
-
-const BANDS: [&str; 70] = [
-    "Achterband",
-    "AdHoc Orkest",
-    "Aérokorda",
-    "Airboxes",
-    "Androneda",
-    "Artisjok",
-    "Aurélien Claranbaux",
-    "Ball Noir",
-    "Bamako Express",
-    "Bart Praet",
-    "Beat Bouet Trio",
-    "Berkenwerk",
-    "Bouton",
-    "BmB",
-    "Carin Greve",
-    "Cecilia",
-    "De Houtzagerij",
-    "De Trekvogels",
-    "Duo Absynthe",
-    "Duo Baftig",
-    "Duo Bottasso",
-    "Duo Clercx",
-    "Duo Gielen-Buscan",
-    "Duo Mackie/Hendrix",
-    "Duo Roblin-Thebaut",
-    "Duo Torv",
-    "Emelie Waldken",
-    "Emily & The Simons",
-    "Exqueezit",
-    "Fahrenheit",
-    "Folie du Nord",
-    "Fyndus",
-    "Geronimo",
-    "Gott Folk!",
-    "Hartwin Dhoore",
-    "Hartwin Dhoore Trio",
-    "Kelten zonder Grenzen",
-    "Kikker & Findus",
-    "KV Express",
-    "L'air Inconnu",
-    "La Sauterelle",
-    "Laouen",
-    "Les Bottines Artistiques",
-    "Les Kickeuses",
-    "Les Zéoles",
-    "Madlot",
-    "Mieneke",
-    "Momiro",
-    "Mook",
-    "Musac",
-    "Naragonia",
-    "Nebel",
-    "Noiranomis",
-    "Nubia",
-    "Paracetamol",
-    "PFM!",
-    "QuiVive",
-    "Rémi Geffroy",
-    "Rokkende Vrouwen",
-    "Simone Bottasso",
-    "Sparv",
-    "Swinco",
-    "Tref",
-    "Trio Loubelya",
-    "Triple-X",
-    "Two Hats",
-    "Wilma",
-    "Wim te Groen",
-    "Wouter en de Draak",
-    "Wouter Kuyper",
-];
 
 pub async fn import_events() -> Result<Events, Report> {
     let calendar = reqwest::get("https://www.balfolk.nl/events.ics")
