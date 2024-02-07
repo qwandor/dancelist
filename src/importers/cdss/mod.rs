@@ -62,19 +62,10 @@ fn convert(event: &Event, parts: EventParts) -> Result<Option<event::Event>, Rep
         .replace("Williamsburg (VA)", "Williamsburg")
         .to_owned();
 
-    let mut styles = Vec::new();
     let summary_lowercase = parts.summary.to_lowercase();
+    let styles = get_styles(&categories, &parts.summary);
     if categories.contains(&"Online Event") || summary_lowercase.contains("online") {
         return Ok(None);
-    }
-    if categories.contains(&"Contra Dance") {
-        styles.push(DanceStyle::Contra);
-    }
-    if categories.contains(&"English Country Dance") {
-        styles.push(DanceStyle::EnglishCountryDance);
-    }
-    if summary_lowercase.contains("bal folk") || summary_lowercase.contains("balfolk") {
-        styles.push(DanceStyle::Balfolk);
     }
     if styles.is_empty() {
         return Ok(None);
@@ -104,27 +95,7 @@ fn convert(event: &Event, parts: EventParts) -> Result<Option<event::Event>, Rep
 
     let organisation = Some(parts.organiser.unwrap_or_else(|| "CDSS".to_owned()));
 
-    // Figure out price from description.
-    let price_regex = Regex::new(r"\$([0-9]+)").unwrap();
-    let mut min_price = u32::MAX;
-    let mut max_price = u32::MIN;
-    for capture in price_regex.captures_iter(&parts.description) {
-        let price: u32 = capture
-            .get(1)
-            .unwrap()
-            .as_str()
-            .parse()
-            .wrap_err("Invalid price")?;
-        min_price = min(price, min_price);
-        max_price = max(price, max_price);
-    }
-    let price = if min_price == u32::MAX {
-        None
-    } else if min_price == max_price {
-        Some(format!("${}", min_price))
-    } else {
-        Some(format!("${}-${}", min_price, max_price))
-    };
+    let price = get_price(&parts.description)?;
 
     let description_lower = parts.description.to_lowercase();
     let summary_lower = parts.summary.to_lowercase();
@@ -167,6 +138,45 @@ fn convert(event: &Event, parts: EventParts) -> Result<Option<event::Event>, Rep
     };
     apply_fixes(&mut event);
     Ok(Some(event))
+}
+
+fn get_styles(categories: &[&str], summary: &str) -> Vec<DanceStyle> {
+    let mut styles = Vec::new();
+    let summary_lowercase = summary.to_lowercase();
+    if categories.contains(&"Contra Dance") {
+        styles.push(DanceStyle::Contra);
+    }
+    if categories.contains(&"English Country Dance") {
+        styles.push(DanceStyle::EnglishCountryDance);
+    }
+    if summary_lowercase.contains("bal folk") || summary_lowercase.contains("balfolk") {
+        styles.push(DanceStyle::Balfolk);
+    }
+    styles
+}
+
+/// Figure out price from description.
+fn get_price(description: &str) -> Result<Option<String>, Report> {
+    let price_regex = Regex::new(r"\$([0-9]+)").unwrap();
+    let mut min_price = u32::MAX;
+    let mut max_price = u32::MIN;
+    for capture in price_regex.captures_iter(description) {
+        let price: u32 = capture
+            .get(1)
+            .unwrap()
+            .as_str()
+            .parse()
+            .wrap_err("Invalid price")?;
+        min_price = min(price, min_price);
+        max_price = max(price, max_price);
+    }
+    Ok(if min_price == u32::MAX {
+        None
+    } else if min_price == max_price {
+        Some(format!("${}", min_price))
+    } else {
+        Some(format!("${}-${}", min_price, max_price))
+    })
 }
 
 /// Apply fixes for specific event series.
