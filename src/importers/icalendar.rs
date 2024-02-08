@@ -28,7 +28,7 @@ use icalendar::{
 /// `convert` function.
 pub async fn import_events(
     url: &str,
-    convert: impl Fn(&Event, EventParts) -> Result<Option<event::Event>, Report>,
+    convert: impl Fn(EventParts) -> Result<Option<event::Event>, Report>,
 ) -> Result<Events, Report> {
     let calendar = reqwest::get(url)
         .await?
@@ -42,7 +42,7 @@ pub async fn import_events(
             .filter_map(|component| {
                 if let CalendarComponent::Event(event) = component {
                     match get_parts(event) {
-                        Ok(parts) => convert(event, parts).transpose(),
+                        Ok(parts) => convert(parts).transpose(),
                         Err(e) => Some(Err(e)),
                     }
                 } else {
@@ -85,6 +85,7 @@ fn get_parts(event: &Event) -> Result<EventParts, Report> {
     } else {
         None
     };
+    let categories = get_categories(event);
     Ok(EventParts {
         url,
         summary,
@@ -92,7 +93,21 @@ fn get_parts(event: &Event) -> Result<EventParts, Report> {
         time,
         location_parts,
         organiser,
+        categories,
     })
+}
+
+fn get_categories(event: &Event) -> Option<Vec<String>> {
+    Some(
+        event
+            .multi_properties()
+            .get("CATEGORIES")?
+            .first()?
+            .value()
+            .split(',')
+            .map(ToOwned::to_owned)
+            .collect(),
+    )
 }
 
 /// Returns strings from the slice which are contained in one of the two lowercase strings passed.
@@ -118,6 +133,7 @@ pub struct EventParts {
     pub time: EventTime,
     pub location_parts: Option<Vec<String>>,
     pub organiser: Option<String>,
+    pub categories: Option<Vec<String>>,
 }
 
 pub fn get_time(event: &Event) -> Result<EventTime, Report> {

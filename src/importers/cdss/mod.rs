@@ -16,9 +16,8 @@ use super::{
     icalendar::{lowercase_matches, EventParts},
     BANDS, CALLERS,
 };
-use crate::model::{dancestyle::DanceStyle, event, events::Events};
+use crate::model::{dancestyle::DanceStyle, event::Event, events::Events};
 use eyre::{eyre, Report, WrapErr};
-use icalendar::{Component, Event};
 use log::error;
 use regex::Regex;
 use std::cmp::{max, min};
@@ -27,22 +26,18 @@ pub async fn import_events() -> Result<Events, Report> {
     super::icalendar::import_events("https://cdss.org/events/list/?ical=1", convert).await
 }
 
-fn convert(event: &Event, parts: EventParts) -> Result<Option<event::Event>, Report> {
-    let categories = event
-        .multi_properties()
-        .get("CATEGORIES")
-        .ok_or_else(|| eyre!("Event {:#?} missing categories.", event))?
-        .first()
-        .ok_or_else(|| eyre!("Event {:#?} has empty categories.", event))?
-        .value()
-        .split(',')
-        .collect::<Vec<_>>();
-
+fn convert(parts: EventParts) -> Result<Option<Event>, Report> {
+    let categories = parts
+        .categories
+        .as_ref()
+        .ok_or_else(|| eyre!("Event {:#?} missing categories.", parts))?;
     let name = shorten_name(&parts.summary);
 
     let summary_lowercase = parts.summary.to_lowercase();
     let styles = get_styles(&categories, &parts.summary);
-    if categories.contains(&"Online Event") || summary_lowercase.contains("online") {
+    if categories.iter().any(|category| category == "Online Event")
+        || summary_lowercase.contains("online")
+    {
         return Ok(None);
     }
     if styles.is_empty() {
@@ -51,7 +46,8 @@ fn convert(event: &Event, parts: EventParts) -> Result<Option<event::Event>, Rep
 
     let location_parts = parts
         .location_parts
-        .ok_or_else(|| eyre!("Event {:?} missing location.", event))?;
+        .as_ref()
+        .ok_or_else(|| eyre!("Event {:?} missing location.", parts))?;
     let Some((country, state, city)) = parse_location(&location_parts) else {
         error!("Invalid location {:?} for {}", location_parts, parts.url);
         return Ok(None);
@@ -82,7 +78,7 @@ fn convert(event: &Event, parts: EventParts) -> Result<Option<event::Event>, Rep
         Some(parts.description)
     };
 
-    let mut event = event::Event {
+    let mut event = Event {
         name,
         details,
         links: vec![parts.url],
@@ -151,13 +147,16 @@ fn shorten_name(summary: &str) -> String {
         .to_owned()
 }
 
-fn get_styles(categories: &[&str], summary: &str) -> Vec<DanceStyle> {
+fn get_styles(categories: &[String], summary: &str) -> Vec<DanceStyle> {
     let mut styles = Vec::new();
     let summary_lowercase = summary.to_lowercase();
-    if categories.contains(&"Contra Dance") {
+    if categories.iter().any(|category| category == "Contra Dance") {
         styles.push(DanceStyle::Contra);
     }
-    if categories.contains(&"English Country Dance") {
+    if categories
+        .iter()
+        .any(|category| category == "English Country Dance")
+    {
         styles.push(DanceStyle::EnglishCountryDance);
     }
     if summary_lowercase.contains("bal folk") || summary_lowercase.contains("balfolk") {
@@ -191,7 +190,7 @@ fn get_price(description: &str) -> Result<Option<String>, Report> {
 }
 
 /// Apply fixes for specific event series.
-fn apply_fixes(event: &mut event::Event) {
+fn apply_fixes(event: &mut Event) {
     match event.name.as_str() {
         "Anaheim Contra Dance" => {
             event.links.insert(

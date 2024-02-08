@@ -16,16 +16,15 @@ use super::{
     icalendar::{lowercase_matches, EventParts},
     BANDS,
 };
-use crate::model::{dancestyle::DanceStyle, event, events::Events};
+use crate::model::{dancestyle::DanceStyle, event::Event, events::Events};
 use eyre::Report;
-use icalendar::Event;
 use log::{info, warn};
 
 pub async fn import_events() -> Result<Events, Report> {
     super::icalendar::import_events("https://www.balfolk.nl/events.ics", convert).await
 }
 
-fn convert(event: &Event, parts: EventParts) -> Result<Option<event::Event>, Report> {
+fn convert(parts: EventParts) -> Result<Option<Event>, Report> {
     let summary = parts.summary.replace("\\,", ",");
     // Remove city from end of summary and use em dash where appropriate.
     let raw_name = summary.rsplitn(2, ',').last().unwrap();
@@ -110,7 +109,7 @@ fn convert(event: &Event, parts: EventParts) -> Result<Option<event::Event>, Rep
 
     let organisation = Some(parts.organiser.unwrap_or_else(|| "balfolk.nl".to_owned()));
 
-    Ok(Some(event::Event {
+    Ok(Some(Event {
         name,
         details,
         links: vec![parts.url],
