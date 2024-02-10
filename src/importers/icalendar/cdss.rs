@@ -25,14 +25,11 @@ pub async fn import_events() -> Result<Events, Report> {
 }
 
 fn convert(parts: EventParts) -> Result<Option<Event>, Report> {
-    let categories = parts
-        .categories
-        .as_ref()
-        .ok_or_else(|| eyre!("Event {:#?} missing categories.", parts))?;
+    let categories = parts.categories.as_deref().unwrap_or_default();
     let name = shorten_name(&parts.summary);
 
     let summary_lowercase = parts.summary.to_lowercase();
-    let styles = get_styles(&categories, &parts.summary);
+    let styles = get_styles(categories, &parts.summary);
     if categories.iter().any(|category| category == "Online Event")
         || summary_lowercase.contains("online")
     {
