@@ -40,7 +40,7 @@ async fn import_events(
         .await?
         .parse::<Calendar>()
         .map_err(|e| eyre!("Error parsing iCalendar file: {}", e))?;
-    Ok(Events {
+    let mut events = Events {
         events: calendar
             .iter()
             .filter_map(|component| {
@@ -54,7 +54,9 @@ async fn import_events(
                 }
             })
             .collect::<Result<_, _>>()?,
-    })
+    };
+    events.sort();
+    Ok(events)
 }
 
 fn get_parts(event: &Event) -> Result<EventParts, Report> {
