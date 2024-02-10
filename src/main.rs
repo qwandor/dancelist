@@ -30,7 +30,7 @@ use crate::{
     errors::internal_error,
     importers::{
         folkbalbende,
-        icalendar::{balfolknl, cdss},
+        icalendar::{balfolknl, cdss, spreefolk},
         trycontra, webfeet,
     },
     model::events::Events,
@@ -91,6 +91,8 @@ enum ImportSource {
     Balfolknl,
     /// Imports events from cdss.org.
     Cdss,
+    /// Imports evets from spreefolk.de.
+    Spreefolk,
     /// Imports longer events from trycontra.com.
     Trycontra,
     /// Imports events from webfeet.org.
@@ -168,6 +170,7 @@ async fn import(source: ImportSource) -> Result<(), Report> {
         ImportSource::Balbende => folkbalbende::import_events().await?,
         ImportSource::Balfolknl => balfolknl::import_events().await?,
         ImportSource::Cdss => cdss::import_events().await?,
+        ImportSource::Spreefolk => spreefolk::import_events().await?,
         ImportSource::Trycontra => trycontra::import_events().await?,
         ImportSource::Webfeet => webfeet::import_events().await?,
     };
