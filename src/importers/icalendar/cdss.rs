@@ -157,6 +157,11 @@ fn get_styles(categories: &[String], summary: &str) -> Vec<DanceStyle> {
     if summary_lowercase.contains("bal folk") || summary_lowercase.contains("balfolk") {
         styles.push(DanceStyle::Balfolk);
     }
+    if summary_lowercase.contains("contra") {
+        styles.push(DanceStyle::Contra);
+    }
+    styles.sort();
+    styles.dedup();
     styles
 }
 
