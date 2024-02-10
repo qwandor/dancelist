@@ -28,7 +28,11 @@ use crate::{
     controllers::{add, bands, callers, cities, index, organisations, reload},
     diff::diff_markdown,
     errors::internal_error,
-    importers::{balfolknl, cdss, folkbalbende, trycontra, webfeet},
+    importers::{
+        folkbalbende,
+        icalendar::{balfolknl, cdss},
+        trycontra, webfeet,
+    },
     model::events::Events,
 };
 use axum::{
@@ -71,6 +75,16 @@ enum Command {
     /// Loads the given two files (or directories or URLs) of events, and outputs a diff between
     /// them in Markdown format.
     Diff { old: String, new: String },
+    /// Imports events from another site.
+    #[command(subcommand)]
+    Import(ImportSource),
+    /// Loads events as configured in the config file and tries to find duplicates.
+    #[command(name = "dups")]
+    Duplicates,
+}
+
+#[derive(Copy, Clone, Debug, Subcommand)]
+enum ImportSource {
     /// Imports events from folkbalbende.be.
     Balbende,
     /// Imports events from balfolk.nl.
@@ -81,9 +95,6 @@ enum Command {
     Trycontra,
     /// Imports events from webfeet.org.
     Webfeet,
-    /// Loads events as configured in the config file and tries to find duplicates.
-    #[command(name = "dups")]
-    Duplicates,
 }
 
 #[tokio::main]
@@ -105,11 +116,7 @@ async fn main() -> Result<(), Report> {
         Some(Command::Sort { events }) => sort(events).await,
         Some(Command::Duplicates) => find_duplicates().await,
         Some(Command::Diff { old, new }) => diff(old, new).await,
-        Some(Command::Balbende) => import_balbende().await,
-        Some(Command::Balfolknl) => import_balfolknl().await,
-        Some(Command::Cdss) => import_cdss().await,
-        Some(Command::Trycontra) => import_trycontra().await,
-        Some(Command::Webfeet) => import_webfeet().await,
+        Some(Command::Import(source)) => import(*source).await,
     }
 }
 
@@ -156,29 +163,14 @@ async fn diff(path_a: &str, path_b: &str) -> Result<(), Report> {
 
     Ok(())
 }
-
-async fn import_balbende() -> Result<(), Report> {
-    let events = folkbalbende::import_events().await?;
-    print_events(&events)
-}
-
-async fn import_balfolknl() -> Result<(), Report> {
-    let events = balfolknl::import_events().await?;
-    print_events(&events)
-}
-
-async fn import_cdss() -> Result<(), Report> {
-    let events = cdss::import_events().await?;
-    print_events(&events)
-}
-
-async fn import_trycontra() -> Result<(), Report> {
-    let events = trycontra::import_events().await?;
-    print_events(&events)
-}
-
-async fn import_webfeet() -> Result<(), Report> {
-    let events = webfeet::import_events().await?;
+async fn import(source: ImportSource) -> Result<(), Report> {
+    let events = match source {
+        ImportSource::Balbende => folkbalbende::import_events().await?,
+        ImportSource::Balfolknl => balfolknl::import_events().await?,
+        ImportSource::Cdss => cdss::import_events().await?,
+        ImportSource::Trycontra => trycontra::import_events().await?,
+        ImportSource::Webfeet => webfeet::import_events().await?,
+    };
     print_events(&events)
 }
 
