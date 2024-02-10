@@ -43,7 +43,7 @@ fn convert(parts: EventParts) -> Result<Option<Event>, Report> {
         .location_parts
         .as_ref()
         .ok_or_else(|| eyre!("Event {:?} missing location.", parts))?;
-    let Some((country, state, city)) = parse_location(&location_parts) else {
+    let Some((country, state, city)) = parse_location(location_parts) else {
         error!("Invalid location {:?} for {}", location_parts, parts.url);
         return Ok(None);
     };
