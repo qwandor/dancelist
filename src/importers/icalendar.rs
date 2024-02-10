@@ -14,6 +14,7 @@
 
 pub mod balfolknl;
 pub mod cdss;
+pub mod spreefolk;
 
 use crate::{
     model::{
