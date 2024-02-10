@@ -28,7 +28,11 @@ use crate::{
     controllers::{add, bands, callers, cities, index, organisations, reload},
     diff::diff_markdown,
     errors::internal_error,
-    importers::{balfolknl, cdss, folkbalbende, trycontra, webfeet},
+    importers::{
+        folkbalbende,
+        icalendar::{balfolknl, cdss},
+        trycontra, webfeet,
+    },
     model::events::Events,
 };
 use axum::{

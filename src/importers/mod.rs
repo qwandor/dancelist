@@ -12,10 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub mod balfolknl;
-pub mod cdss;
 pub mod folkbalbende;
-mod icalendar;
+pub mod icalendar;
 pub mod trycontra;
 pub mod webfeet;
 

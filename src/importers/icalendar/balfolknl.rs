@@ -12,16 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use super::{
-    icalendar::{lowercase_matches, EventParts},
-    BANDS,
-};
+use super::super::BANDS;
+use super::{lowercase_matches, EventParts};
 use crate::model::{dancestyle::DanceStyle, event::Event, events::Events};
 use eyre::Report;
 use log::{info, warn};
 
 pub async fn import_events() -> Result<Events, Report> {
-    super::icalendar::import_events("https://www.balfolk.nl/events.ics", convert).await
+    super::import_events("https://www.balfolk.nl/events.ics", convert).await
 }
 
 fn convert(parts: EventParts) -> Result<Option<Event>, Report> {

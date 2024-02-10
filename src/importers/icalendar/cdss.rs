@@ -12,10 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use super::{
-    icalendar::{lowercase_matches, EventParts},
-    BANDS, CALLERS,
-};
+use super::super::{BANDS, CALLERS};
+use super::{lowercase_matches, EventParts};
 use crate::model::{dancestyle::DanceStyle, event::Event, events::Events};
 use eyre::{eyre, Report, WrapErr};
 use log::error;
@@ -23,7 +21,7 @@ use regex::Regex;
 use std::cmp::{max, min};
 
 pub async fn import_events() -> Result<Events, Report> {
-    super::icalendar::import_events("https://cdss.org/events/list/?ical=1", convert).await
+    super::import_events("https://cdss.org/events/list/?ical=1", convert).await
 }
 
 fn convert(parts: EventParts) -> Result<Option<Event>, Report> {

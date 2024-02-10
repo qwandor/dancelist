@@ -12,6 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+pub mod balfolknl;
+pub mod cdss;
+
 use crate::{
     model::{
         event::{self, EventTime},
@@ -26,7 +29,7 @@ use icalendar::{
 
 /// Fetches the iCalendar file from the given URL, then converts events from it using the given
 /// `convert` function.
-pub async fn import_events(
+async fn import_events(
     url: &str,
     convert: impl Fn(EventParts) -> Result<Option<event::Event>, Report>,
 ) -> Result<Events, Report> {
@@ -111,7 +114,7 @@ fn get_categories(event: &Event) -> Option<Vec<String>> {
 }
 
 /// Returns strings from the slice which are contained in one of the two lowercase strings passed.
-pub fn lowercase_matches(needles: &[&str], a: &str, b: &str) -> Vec<String> {
+fn lowercase_matches(needles: &[&str], a: &str, b: &str) -> Vec<String> {
     needles
         .iter()
         .filter_map(|needle| {
@@ -126,7 +129,7 @@ pub fn lowercase_matches(needles: &[&str], a: &str, b: &str) -> Vec<String> {
 }
 
 #[derive(Clone, Debug, Eq, PartialEq)]
-pub struct EventParts {
+struct EventParts {
     pub url: String,
     pub summary: String,
     pub description: String,
@@ -136,7 +139,7 @@ pub struct EventParts {
     pub categories: Option<Vec<String>>,
 }
 
-pub fn get_time(event: &Event) -> Result<EventTime, Report> {
+fn get_time(event: &Event) -> Result<EventTime, Report> {
     let start = event
         .get_start()
         .ok_or_else(|| eyre!("Event {:?} missing start time.", event))?;
@@ -178,7 +181,7 @@ pub fn get_time(event: &Event) -> Result<EventTime, Report> {
     })
 }
 
-pub fn unescape(s: &str) -> String {
+fn unescape(s: &str) -> String {
     s.replace("\\,", ",")
         .replace("\\;", ";")
         .replace("\\n", "\n")
