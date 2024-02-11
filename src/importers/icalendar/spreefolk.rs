@@ -13,7 +13,7 @@
 // limitations under the License.
 
 use super::{EventParts, IcalendarSource};
-use crate::model::dancestyle::DanceStyle;
+use crate::model::{dancestyle::DanceStyle, event::Event};
 use eyre::Report;
 
 pub struct Spreefolk;
@@ -44,16 +44,15 @@ impl IcalendarSource for Spreefolk {
         Ok(Some(("Germany".to_string(), None, "Berlin".to_string())))
     }
 
-    fn fixup(mut event: crate::model::event::Event) -> Option<crate::model::event::Event> {
+    fn fixup(mut event: Event) -> Option<Event> {
         event.name = shorten_name(&event.name);
 
         Some(event)
     }
 }
 
-fn shorten_name(summary: &str) -> String {
-    summary
-        .split(" – ")
+fn shorten_name(name: &str) -> String {
+    name.split(" – ")
         .next()
         .unwrap()
         .split(" mit ")

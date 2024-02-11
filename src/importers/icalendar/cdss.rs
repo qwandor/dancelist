@@ -104,9 +104,8 @@ impl IcalendarSource for Cdss {
     }
 }
 
-fn shorten_name(summary: &str) -> String {
-    summary
-        .trim_start_matches("Portland Country Dance Community ")
+fn shorten_name(name: &str) -> String {
+    name.trim_start_matches("Portland Country Dance Community ")
         .trim_start_matches("Contra Dance with ")
         .trim_end_matches(" - Asheville NC")
         .trim_end_matches(" (Masks Optional)")
