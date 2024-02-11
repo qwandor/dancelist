@@ -12,119 +12,125 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use super::super::BANDS;
-use super::{lowercase_matches, EventParts};
-use crate::model::{dancestyle::DanceStyle, event::Event, events::Events};
+use super::{EventParts, IcalendarSource};
+use crate::model::{dancestyle::DanceStyle, event::Event};
 use eyre::Report;
 use log::{info, warn};
 
-pub async fn import_events() -> Result<Events, Report> {
-    super::import_events("https://www.balfolk.nl/events.ics", convert).await
-}
+pub struct BalfolkNl;
 
-fn convert(parts: EventParts) -> Result<Option<Event>, Report> {
-    let summary = parts.summary.replace("\\,", ",");
-    // Remove city from end of summary and use em dash where appropriate.
-    let raw_name = summary.rsplitn(2, ',').last().unwrap();
-    let name = shorten_name(raw_name);
+impl IcalendarSource for BalfolkNl {
+    const URL: &'static str = "https://www.balfolk.nl/events.ics";
+    const DEFAULT_ORGANISATION: &'static str = "balfolk.nl";
 
-    // Try to skip music workshops.
-    if name.starts_with("Muziekstage") {
-        info!("Skipping \"{}\" {}", name, parts.url);
-        return Ok(None);
+    fn workshop(parts: &EventParts) -> bool {
+        parts.summary.contains("Fundamentals")
+            || parts.summary.contains("Basis van")
+            || parts.summary.contains("beginnerslessen")
+            || parts.summary.contains("danslessen")
+            || parts.summary.contains("workshop")
+            || parts.summary.starts_with("Folkbal Wilhelmina")
+            || parts.summary.starts_with("Socialles ")
+            || parts.summary.starts_with("Proefles ")
+            || parts.summary.starts_with("DenneFeest")
+            || parts.description.contains("Dansworkshop")
+            || parts.description.contains("Workshopbeschrijving")
+            || parts.description.contains("Workshop ")
+            || parts.description.contains("dans uitleg")
+            || parts.description.contains("dansuitleg")
+            || parts.description.contains(" leren ")
+            || parts.description.contains("Vooraf dansuitleg")
+            || parts.description.contains("de Docent")
     }
 
-    // Remove name from start of description
-    let details = parts
-        .description
-        .trim_start_matches(&format!("{}, ", raw_name))
-        .trim()
-        .to_owned();
-    let details = if details.is_empty() {
-        None
-    } else {
-        Some(details)
-    };
+    fn social(parts: &EventParts) -> bool {
+        parts.summary.contains("Social dance")
+            || parts.summary.contains("Balfolkbal")
+            || parts.summary.contains("Avondbal")
+            || parts.summary.contains("Bal in")
+            || parts.summary.contains("Balfolk Bal")
+            || parts.summary.contains("Seizoensafsluiting")
+            || parts.summary.contains("Vuurbal")
+            || parts.summary.contains("dansfeest")
+            || parts.summary.contains("en BalFolk")
+            || parts.summary.contains("Nieuwjaarsbal")
+            || parts.summary.starts_with("Balfolk Groningen")
+            || parts.summary.starts_with("Balfolk Wilhelmina")
+            || parts.summary.starts_with("Balfolk in Kleve")
+            || parts.summary.starts_with("Balfolk met ")
+            || parts.summary.starts_with("BalFolk met ")
+            || parts.summary.starts_with("Balfolk op de")
+            || parts.summary.starts_with("BresBal")
+            || parts.summary.starts_with("Dansavond")
+            || parts.summary.starts_with("Drakenbal")
+            || parts.summary.starts_with("Fest Noz")
+            || parts.summary.starts_with("Folkwoods")
+            || parts.summary.starts_with("Folkbal")
+            || parts.summary.starts_with("Halloweenbal")
+            || parts.summary.starts_with("Socialles ")
+            || parts.summary.starts_with("Superette Bal")
+            || parts.summary.starts_with("Verjaardagsbal")
+            || parts.summary.starts_with("Balfolk Utrecht Bal")
+            || parts.summary.starts_with("Verjaardagsbal")
+            || parts.summary.starts_with("Vrijdagavondbal")
+            || parts.summary.starts_with("Balfolk café Nijmegen")
+            || parts.summary.starts_with("DenneFeest")
+            || parts.summary.starts_with("Dansavond")
+            || parts.description.contains("Bal deel")
+    }
 
-    let (country, city) = parse_location(&parts.location_parts, &parts.url);
+    fn styles(_parts: &EventParts) -> Vec<DanceStyle> {
+        vec![DanceStyle::Balfolk]
+    }
 
-    let workshop = name.contains("Fundamentals")
-        || name.contains("Basis van")
-        || name.contains("beginnerslessen")
-        || name.contains("danslessen")
-        || name.contains("workshop")
-        || name.starts_with("Folkbal Wilhelmina")
-        || name.starts_with("Socialles ")
-        || name.starts_with("Proefles ")
-        || name == "DenneFeest"
-        || parts.description.contains("Dansworkshop")
-        || parts.description.contains("Workshopbeschrijving")
-        || parts.description.contains("Workshop ")
-        || parts.description.contains("dans uitleg")
-        || parts.description.contains("dansuitleg")
-        || parts.description.contains(" leren ")
-        || parts.description.contains("Vooraf dansuitleg")
-        || parts.description.contains("de Docent");
-    let social = name.contains("Social dance")
-        || name.contains("Balfolkbal")
-        || name.contains("Avondbal")
-        || name.contains("Bal in")
-        || name.contains("Balfolk Bal")
-        || name.contains("Seizoensafsluiting")
-        || name.contains("Vuurbal")
-        || name.contains("dansfeest")
-        || name.contains("en BalFolk")
-        || name.contains("Nieuwjaarsbal")
-        || name.starts_with("Balfolk Groningen")
-        || name.starts_with("Balfolk Wilhelmina")
-        || raw_name.starts_with("Balfolk in Kleve")
-        || raw_name.starts_with("Balfolk met ")
-        || raw_name.starts_with("BalFolk met ")
-        || name.starts_with("Balfolk op de")
-        || name.starts_with("BresBal")
-        || name.starts_with("Dansavond")
-        || name.starts_with("Drakenbal")
-        || name.starts_with("Fest Noz")
-        || name.starts_with("Folkwoods")
-        || name.starts_with("Folkbal")
-        || name.starts_with("Halloweenbal")
-        || name.starts_with("Socialles ")
-        || name.starts_with("Superette Bal")
-        || name.starts_with("Verjaardagsbal")
-        || name.starts_with("Balfolk Utrecht Bal")
-        || name.starts_with("Verjaardagsbal")
-        || name.starts_with("Vrijdagavondbal")
-        || name.starts_with("Balfolk café Nijmegen")
-        || name == "DenneFeest"
-        || name == "Dansavond"
-        || parts.description.contains("Bal deel");
+    fn location(
+        location_parts: &Option<Vec<String>>,
+        url: &str,
+    ) -> Result<Option<(String, Option<String>, String)>, Report> {
+        let mut city = if let Some(location_parts) = location_parts {
+            match location_parts.len() {
+                8 => location_parts[3].to_string(),
+                4.. => location_parts[2].to_string(),
+                _ => {
+                    warn!("Invalid location \"{:?}\" for {}", location_parts, url);
+                    "".to_string()
+                }
+            }
+        } else {
+            warn!("Event {:?} missing location.", url);
+            "Unknown city".to_string()
+        };
+        let country;
+        if city == "Kleve (D)" {
+            country = "Germany".to_string();
+            city = "Kleve".to_string();
+        } else {
+            country = "Netherlands".to_string();
+        }
+        Ok(Some((country, None, city)))
+    }
 
-    let bands = lowercase_matches(
-        &BANDS,
-        &parts.description.to_lowercase(),
-        &raw_name.to_lowercase(),
-    );
+    fn fixup(mut event: Event) -> Option<Event> {
+        // Try to skip music workshops.
+        if event.name.starts_with("Muziekstage") {
+            info!("Skipping \"{}\" {}", event.name, event.links[0]);
+            return None;
+        }
 
-    let organisation = Some(parts.organiser.unwrap_or_else(|| "balfolk.nl".to_owned()));
+        // Remove city from end of name.
+        let raw_name = event.name.rsplitn(2, ',').last().unwrap();
+        if let Some(details) = &event.details {
+            // Remove name from start of details.
+            let details = details
+                .trim_start_matches(&format!("{}, ", raw_name))
+                .trim()
+                .to_owned();
+            event.details = Some(details);
+        }
+        event.name = shorten_name(&raw_name);
 
-    Ok(Some(Event {
-        name,
-        details,
-        links: vec![parts.url],
-        time: parts.time,
-        country,
-        state: None,
-        city,
-        styles: vec![DanceStyle::Balfolk],
-        workshop,
-        social,
-        bands,
-        callers: vec![],
-        price: None,
-        organisation,
-        cancelled: false,
-        source: None,
-    }))
+        Some(event)
+    }
 }
 
 fn shorten_name(raw_name: &str) -> String {
@@ -135,31 +141,6 @@ fn shorten_name(raw_name: &str) -> String {
         .replace(" (D) bij Nijmegen", "")
 }
 
-/// Converts location parts to (country, city).
-fn parse_location(location_parts: &Option<Vec<String>>, url: &str) -> (String, String) {
-    let mut city = if let Some(location_parts) = location_parts {
-        match location_parts.len() {
-            8 => location_parts[3].to_string(),
-            4.. => location_parts[2].to_string(),
-            _ => {
-                warn!("Invalid location \"{:?}\" for {}", location_parts, url);
-                "".to_string()
-            }
-        }
-    } else {
-        warn!("Event {:?} missing location.", url);
-        "Unknown city".to_string()
-    };
-    let country;
-    if city == "Kleve (D)" {
-        country = "Germany".to_string();
-        city = "Kleve".to_string();
-    } else {
-        country = "Netherlands".to_string();
-    }
-    (country, city)
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -167,22 +148,23 @@ mod tests {
     #[test]
     fn test_parse_location() {
         assert_eq!(
-            parse_location(&None, "http://url"),
-            ("Netherlands".to_string(), "Unknown city".to_string())
+            BalfolkNl::location(&None, "http://url").unwrap(),
+            Some(("Netherlands".to_string(), None, "Unknown city".to_string()))
         );
         assert_eq!(
-            parse_location(
+            BalfolkNl::location(
                 &Some(vec![
                     "City".to_string(),
                     "postcode".to_string(),
                     "Nederland".to_string(),
                 ]),
-                "http://url"
-            ),
-            ("Netherlands".to_string(), "".to_string())
+                "http://url",
+            )
+            .unwrap(),
+            Some(("Netherlands".to_string(), None, "".to_string()))
         );
         assert_eq!(
-            parse_location(
+            BalfolkNl::location(
                 &Some(vec![
                     "Balfolk Zeist".to_string(),
                     "Thorbeckelaan 5".to_string(),
@@ -190,9 +172,10 @@ mod tests {
                     "3705 KJ".to_string(),
                     "Nederland".to_string(),
                 ]),
-                "http://url"
-            ),
-            ("Netherlands".to_string(), "Zeist".to_string())
+                "http://url",
+            )
+            .unwrap(),
+            Some(("Netherlands".to_string(), None, "Zeist".to_string()))
         );
     }
 }

@@ -30,7 +30,7 @@ use crate::{
     errors::internal_error,
     importers::{
         folkbalbende,
-        icalendar::{balfolknl, cdss, spreefolk},
+        icalendar::{balfolknl::BalfolkNl, cdss::Cdss, import_events, spreefolk::Spreefolk},
         trycontra, webfeet,
     },
     model::events::Events,
@@ -168,9 +168,9 @@ async fn diff(path_a: &str, path_b: &str) -> Result<(), Report> {
 async fn import(source: ImportSource) -> Result<(), Report> {
     let events = match source {
         ImportSource::Balbende => folkbalbende::import_events().await?,
-        ImportSource::Balfolknl => balfolknl::import_events().await?,
-        ImportSource::Cdss => cdss::import_events().await?,
-        ImportSource::Spreefolk => spreefolk::import_events().await?,
+        ImportSource::Balfolknl => import_events::<BalfolkNl>().await?,
+        ImportSource::Cdss => import_events::<Cdss>().await?,
+        ImportSource::Spreefolk => import_events::<Spreefolk>().await?,
         ImportSource::Trycontra => trycontra::import_events().await?,
         ImportSource::Webfeet => webfeet::import_events().await?,
     };

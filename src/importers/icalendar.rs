@@ -16,25 +16,129 @@ pub mod balfolknl;
 pub mod cdss;
 pub mod spreefolk;
 
+use super::{BANDS, CALLERS};
 use crate::{
     model::{
+        dancestyle::DanceStyle,
         event::{self, EventTime},
         events::Events,
     },
     util::local_datetime_to_fixed_offset,
 };
-use eyre::{bail, eyre, Report};
+use eyre::{bail, eyre, Report, WrapErr};
 use icalendar::{
     Calendar, CalendarComponent, CalendarDateTime, Component, DatePerhapsTime, Event, EventLike,
 };
+use log::error;
+use regex::Regex;
+use std::cmp::{max, min};
+
+trait IcalendarSource {
+    const URL: &'static str;
+    const DEFAULT_ORGANISATION: &'static str;
+
+    /// Returns whether the event includes a workshop.
+    fn workshop(parts: &EventParts) -> bool;
+
+    /// Returns whether the event includes a social.
+    fn social(parts: &EventParts) -> bool;
+
+    /// Returns which dance styles the event includes.
+    fn styles(parts: &EventParts) -> Vec<DanceStyle>;
+
+    /// Converts location parts to (country, state, city).
+    fn location(
+        location_parts: &Option<Vec<String>>,
+        url: &str,
+    ) -> Result<Option<(String, Option<String>, String)>, Report>;
+
+    /// Applies any further changes to the event after conversion, or returns `None` to skip it.
+    fn fixup(event: event::Event) -> Option<event::Event>;
+}
+
+fn convert<S: IcalendarSource>(parts: EventParts) -> Result<Option<event::Event>, Report> {
+    let styles = S::styles(&parts);
+    if styles.is_empty() {
+        return Ok(None);
+    }
+
+    let workshop = S::workshop(&parts);
+    let social = S::social(&parts);
+    let Some((country, state, city)) = S::location(&parts.location_parts, &parts.url)? else {
+        error!(
+            "Invalid location {:?} for {}",
+            parts.location_parts, parts.url
+        );
+        return Ok(None);
+    };
+    let price = get_price(&parts.description)?;
+    let description_lower = parts.description.to_lowercase();
+    let summary_lower = parts.summary.to_lowercase();
+    let bands = lowercase_matches(&BANDS, &description_lower, &summary_lower);
+    let callers = lowercase_matches(&CALLERS, &description_lower, &summary_lower);
+
+    let details = parts.description.trim().to_owned();
+    let details = if details.is_empty() {
+        None
+    } else {
+        Some(details)
+    };
+
+    let organisation = Some(
+        parts
+            .organiser
+            .unwrap_or_else(|| S::DEFAULT_ORGANISATION.to_owned()),
+    );
+
+    Ok(S::fixup(event::Event {
+        name: parts.summary,
+        details,
+        links: vec![parts.url],
+        time: parts.time,
+        country,
+        state,
+        city,
+        styles,
+        workshop,
+        social,
+        bands,
+        callers,
+        price,
+        organisation,
+        cancelled: false,
+        source: None,
+    }))
+}
+
+/// Figure out price from description.
+fn get_price(description: &str) -> Result<Option<String>, Report> {
+    let price_regex = Regex::new(r"\$([0-9]+)").unwrap();
+    let mut min_price = u32::MAX;
+    let mut max_price = u32::MIN;
+    for capture in price_regex.captures_iter(description) {
+        let price: u32 = capture
+            .get(1)
+            .unwrap()
+            .as_str()
+            .parse()
+            .wrap_err("Invalid price")?;
+        min_price = min(price, min_price);
+        max_price = max(price, max_price);
+    }
+    Ok(if min_price == u32::MAX {
+        None
+    } else if min_price == max_price {
+        Some(format!("${}", min_price))
+    } else {
+        Some(format!("${}-${}", min_price, max_price))
+    })
+}
 
 /// Fetches the iCalendar file from the given URL, then converts events from it using the given
 /// `convert` function.
-async fn import_events(
-    url: &str,
-    convert: impl Fn(EventParts) -> Result<Option<event::Event>, Report>,
-) -> Result<Events, Report> {
-    let calendar = reqwest::get(url)
+#[allow(private_bounds)]
+pub async fn import_events<S: IcalendarSource>() -> Result<Events, Report> {
+    let calendar = reqwest::get(S::URL)
         .await?
         .text()
         .await?
@@ -46,7 +150,7 @@ async fn import_events(
             .filter_map(|component| {
                 if let CalendarComponent::Event(event) = component {
                     match get_parts(event) {
-                        Ok(parts) => convert(parts).transpose(),
+                        Ok(parts) => convert::<S>(parts).transpose(),
                         Err(e) => Some(Err(e)),
                     }
                 } else {
