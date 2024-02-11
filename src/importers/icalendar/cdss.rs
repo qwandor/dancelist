@@ -12,109 +12,96 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use super::super::{BANDS, CALLERS};
-use super::{lowercase_matches, EventParts};
-use crate::model::{dancestyle::DanceStyle, event::Event, events::Events};
-use eyre::{eyre, Report, WrapErr};
-use log::error;
-use regex::Regex;
-use std::cmp::{max, min};
+use super::{EventParts, IcalendarSource};
+use crate::model::{dancestyle::DanceStyle, event::Event};
+use eyre::{eyre, Report};
 
-pub async fn import_events() -> Result<Events, Report> {
-    super::import_events("https://cdss.org/events/list/?ical=1", convert).await
-}
+pub struct Cdss;
 
-fn convert(parts: EventParts) -> Result<Option<Event>, Report> {
-    let categories = parts.categories.as_deref().unwrap_or_default();
-    let name = shorten_name(&parts.summary);
+impl IcalendarSource for Cdss {
+    const URL: &'static str = "https://cdss.org/events/list/?ical=1";
+    const DEFAULT_ORGANISATION: &'static str = "CDSS";
 
-    let summary_lowercase = parts.summary.to_lowercase();
-    let styles = get_styles(categories, &parts.summary);
-    if categories.iter().any(|category| category == "Online Event")
-        || summary_lowercase.contains("online")
-    {
-        return Ok(None);
-    }
-    if styles.is_empty() {
-        return Ok(None);
+    fn workshop(parts: &EventParts) -> bool {
+        let description_lower = parts.description.to_lowercase();
+        (description_lower.contains("lesson") && !description_lower.contains("no lesson"))
+            || description_lower.contains("skills session")
+            || description_lower.contains("workshops")
+            || description_lower.contains("beginner workshop")
+            || description_lower.contains("beginners workshop")
+            || description_lower.contains("introductory session")
+            || description_lower.contains("introductory workshop")
+            || description_lower.contains("intro session")
     }
 
-    let location_parts = parts
-        .location_parts
-        .as_ref()
-        .ok_or_else(|| eyre!("Event {:?} missing location.", parts))?;
-    let Some((country, state, city)) = parse_location(location_parts) else {
-        error!("Invalid location {:?} for {}", location_parts, parts.url);
-        return Ok(None);
-    };
-
-    let organisation = Some(parts.organiser.unwrap_or_else(|| "CDSS".to_owned()));
-
-    let price = get_price(&parts.description)?;
-
-    let description_lower = parts.description.to_lowercase();
-    let summary_lower = parts.summary.to_lowercase();
-    let bands = lowercase_matches(&BANDS, &description_lower, &summary_lower);
-    let callers = lowercase_matches(&CALLERS, &description_lower, &summary_lower);
-
-    let workshop = (description_lower.contains("lesson")
-        && !description_lower.contains("no lesson"))
-        || description_lower.contains("skills session")
-        || description_lower.contains("workshops")
-        || description_lower.contains("beginner workshop")
-        || description_lower.contains("beginners workshop")
-        || description_lower.contains("introductory session")
-        || description_lower.contains("introductory workshop")
-        || description_lower.contains("intro session");
-
-    let details = if parts.description.is_empty() {
-        None
-    } else {
-        Some(parts.description)
-    };
-
-    let mut event = Event {
-        name,
-        details,
-        links: vec![parts.url],
-        time: parts.time,
-        country,
-        state,
-        city,
-        styles,
-        workshop,
-        social: true,
-        bands,
-        callers,
-        price,
-        organisation,
-        cancelled: false,
-        source: None,
-    };
-    apply_fixes(&mut event);
-    Ok(Some(event))
-}
-
-/// Converts location parts to (country, state, city)
-fn parse_location(location_parts: &[String]) -> Option<(String, Option<String>, String)> {
-    if location_parts.len() < 3 {
-        return None;
+    fn social(_parts: &EventParts) -> bool {
+        true
     }
-    let mut country = location_parts[location_parts.len() - 1].to_owned();
-    if country == "United States" {
-        country = "USA".to_owned();
-    } else if country == "United Kingdom" {
-        country = "UK".to_owned();
+
+    fn styles(parts: &EventParts) -> Vec<DanceStyle> {
+        let categories = parts.categories.as_deref().unwrap_or_default();
+        let summary_lowercase = parts.summary.to_lowercase();
+
+        if categories.iter().any(|category| category == "Online Event")
+            || summary_lowercase.contains("online")
+        {
+            // Ignore online events.
+            return vec![];
+        }
+
+        let mut styles = Vec::new();
+        if categories.iter().any(|category| category == "Contra Dance") {
+            styles.push(DanceStyle::Contra);
+        }
+        if categories
+            .iter()
+            .any(|category| category == "English Country Dance")
+        {
+            styles.push(DanceStyle::EnglishCountryDance);
+        }
+        if summary_lowercase.contains("bal folk") || summary_lowercase.contains("balfolk") {
+            styles.push(DanceStyle::Balfolk);
+        }
+        if summary_lowercase.contains("contra") {
+            styles.push(DanceStyle::Contra);
+        }
+        styles.sort();
+        styles.dedup();
+        styles
     }
-    let (state, city) = if ["Canada", "USA"].contains(&country.as_str()) {
-        (
-            Some(location_parts[location_parts.len() - 3].to_owned()),
-            location_parts[location_parts.len() - 4].to_owned(),
-        )
-    } else {
-        (None, location_parts[location_parts.len() - 3].to_owned())
-    };
-    Some((country, state, city))
+
+    fn location(
+        location_parts: &Option<Vec<String>>,
+        url: &str,
+    ) -> Result<Option<(String, Option<String>, String)>, Report> {
+        let location_parts = location_parts
+            .as_ref()
+            .ok_or_else(|| eyre!("Event {:?} missing location.", url))?;
+        if location_parts.len() < 3 {
+            return Ok(None);
+        }
+        let mut country = location_parts[location_parts.len() - 1].to_owned();
+        if country == "United States" {
+            country = "USA".to_owned();
+        } else if country == "United Kingdom" {
+            country = "UK".to_owned();
+        }
+        let (state, city) = if ["Canada", "USA"].contains(&country.as_str()) {
+            (
+                Some(location_parts[location_parts.len() - 3].to_owned()),
+                location_parts[location_parts.len() - 4].to_owned(),
+            )
+        } else {
+            (None, location_parts[location_parts.len() - 3].to_owned())
+        };
+        Ok(Some((country, state, city)))
+    }
+
+    fn fixup(mut event: Event) -> Option<Event> {
+        event.name = shorten_name(&event.name);
+        apply_fixes(&mut event);
+        Some(event)
+    }
 }
 
 fn shorten_name(summary: &str) -> String {
@@ -140,53 +127,6 @@ fn shorten_name(summary: &str) -> String {
         .replace("Lancaster, PA", "Lancaster")
         .replace("Williamsburg (VA)", "Williamsburg")
         .to_owned()
-}
-
-fn get_styles(categories: &[String], summary: &str) -> Vec<DanceStyle> {
-    let mut styles = Vec::new();
-    let summary_lowercase = summary.to_lowercase();
-    if categories.iter().any(|category| category == "Contra Dance") {
-        styles.push(DanceStyle::Contra);
-    }
-    if categories
-        .iter()
-        .any(|category| category == "English Country Dance")
-    {
-        styles.push(DanceStyle::EnglishCountryDance);
-    }
-    if summary_lowercase.contains("bal folk") || summary_lowercase.contains("balfolk") {
-        styles.push(DanceStyle::Balfolk);
-    }
-    if summary_lowercase.contains("contra") {
-        styles.push(DanceStyle::Contra);
-    }
-    styles.sort();
-    styles.dedup();
-    styles
-}
-
-/// Figure out price from description.
-fn get_price(description: &str) -> Result<Option<String>, Report> {
-    let price_regex = Regex::new(r"\$([0-9]+)").unwrap();
-    let mut min_price = u32::MAX;
-    let mut max_price = u32::MIN;
-    for capture in price_regex.captures_iter(description) {
-        let price: u32 = capture
-            .get(1)
-            .unwrap()
-            .as_str()
-            .parse()
-            .wrap_err("Invalid price")?;
-        min_price = min(price, min_price);
-        max_price = max(price, max_price);
-    }
-    Ok(if min_price == u32::MAX {
-        None
-    } else if min_price == max_price {
-        Some(format!("${}", min_price))
-    } else {
-        Some(format!("${}-${}", min_price, max_price))
-    })
 }
 
 /// Apply fixes for specific event series.
@@ -329,17 +269,31 @@ mod tests {
 
     #[test]
     fn test_parse_location() {
-        assert_eq!(parse_location(&[]), None);
-        assert_eq!(parse_location(&["USA".to_string()]), None);
-        assert_eq!(parse_location(&["CA".to_string(), "USA".to_string()]), None);
+        assert_eq!(Cdss::location(&Some(vec![]), "http://url").unwrap(), None);
         assert_eq!(
-            parse_location(&[
-                "123 Some Street".to_string(),
-                "Hayward".to_string(),
-                "CA".to_string(),
-                "94541".to_string(),
-                "USA".to_string(),
-            ]),
+            Cdss::location(&Some(vec!["USA".to_string()]), "http://url").unwrap(),
+            None
+        );
+        assert_eq!(
+            Cdss::location(
+                &Some(vec!["CA".to_string(), "USA".to_string()]),
+                "http://url",
+            )
+            .unwrap(),
+            None
+        );
+        assert_eq!(
+            Cdss::location(
+                &Some(vec![
+                    "123 Some Street".to_string(),
+                    "Hayward".to_string(),
+                    "CA".to_string(),
+                    "94541".to_string(),
+                    "USA".to_string(),
+                ]),
+                "http://url",
+            )
+            .unwrap(),
             Some((
                 "USA".to_string(),
                 Some("CA".to_string()),
@@ -347,12 +301,16 @@ mod tests {
             ))
         );
         assert_eq!(
-            parse_location(&[
-                "Pittsburgh".to_string(),
-                "PA".to_string(),
-                "1234".to_string(),
-                "USA".to_string(),
-            ]),
+            Cdss::location(
+                &Some(vec![
+                    "Pittsburgh".to_string(),
+                    "PA".to_string(),
+                    "1234".to_string(),
+                    "USA".to_string(),
+                ]),
+                "http://url",
+            )
+            .unwrap(),
             Some((
                 "USA".to_string(),
                 Some("PA".to_string()),
@@ -360,12 +318,16 @@ mod tests {
             ))
         );
         assert_eq!(
-            parse_location(&[
-                "Toronto".to_string(),
-                "Ontario".to_string(),
-                "1234".to_string(),
-                "Canada".to_string(),
-            ]),
+            Cdss::location(
+                &Some(vec![
+                    "Toronto".to_string(),
+                    "Ontario".to_string(),
+                    "1234".to_string(),
+                    "Canada".to_string(),
+                ]),
+                "http://url",
+            )
+            .unwrap(),
             Some((
                 "Canada".to_string(),
                 Some("Ontario".to_string()),
@@ -373,21 +335,29 @@ mod tests {
             ))
         );
         assert_eq!(
-            parse_location(&[
-                "London".to_string(),
-                "N10AB".to_string(),
-                "United Kingdom".to_string()
-            ]),
+            Cdss::location(
+                &Some(vec![
+                    "London".to_string(),
+                    "N10AB".to_string(),
+                    "United Kingdom".to_string()
+                ]),
+                "http://url",
+            )
+            .unwrap(),
             Some(("UK".to_string(), None, "London".to_string()))
         );
         assert_eq!(
-            parse_location(&[
-                "Venue Name".to_string(),
-                "Address".to_string(),
-                "London".to_string(),
-                "N10AB".to_string(),
-                "United Kingdom".to_string()
-            ]),
+            Cdss::location(
+                &Some(vec![
+                    "Venue Name".to_string(),
+                    "Address".to_string(),
+                    "London".to_string(),
+                    "N10AB".to_string(),
+                    "United Kingdom".to_string()
+                ]),
+                "http://url",
+            )
+            .unwrap(),
             Some(("UK".to_string(), None, "London".to_string()))
         );
     }

@@ -12,49 +12,43 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use super::{lowercase_matches, EventParts};
-use crate::{
-    importers::BANDS,
-    model::{dancestyle::DanceStyle, event::Event, events::Events},
-};
+use super::{EventParts, IcalendarSource};
+use crate::model::dancestyle::DanceStyle;
 use eyre::Report;
 
-pub async fn import_events() -> Result<Events, Report> {
-    super::import_events("https://spreefolk.de/?mec-ical-feed=1", convert).await
-}
+pub struct Spreefolk;
 
-fn convert(parts: EventParts) -> Result<Option<Event>, Report> {
-    let name = shorten_name(&parts.summary);
-    let details = parts.description.trim().to_owned();
-    let details = if details.is_empty() {
-        None
-    } else {
-        Some(details)
-    };
-    let summary_lower = parts.summary.to_lowercase();
-    let description_lower = parts.description.to_lowercase();
-    let workshop = description_lower.contains("tanzworkshop") || summary_lower.contains("workshop");
-    let social = !summary_lower.contains("workshop");
-    let bands = lowercase_matches(&BANDS, &description_lower, &summary_lower);
+impl IcalendarSource for Spreefolk {
+    const URL: &'static str = "https://spreefolk.de/?mec-ical-feed=1";
+    const DEFAULT_ORGANISATION: &'static str = "Spreefolk eV";
 
-    Ok(Some(Event {
-        name,
-        details,
-        links: vec![parts.url],
-        time: parts.time,
-        country: "Germany".to_string(),
-        state: None,
-        city: "Berlin".to_string(),
-        styles: vec![DanceStyle::Balfolk],
-        workshop,
-        social,
-        bands,
-        callers: vec![],
-        price: None,
-        organisation: Some("Spreefolk eV".to_string()),
-        cancelled: false,
-        source: None,
-    }))
+    fn workshop(parts: &EventParts) -> bool {
+        let summary_lower = parts.summary.to_lowercase();
+        let description_lower = parts.description.to_lowercase();
+        description_lower.contains("tanzworkshop") || summary_lower.contains("workshop")
+    }
+
+    fn social(parts: &EventParts) -> bool {
+        let summary_lower = parts.summary.to_lowercase();
+        !summary_lower.contains("workshop")
+    }
+
+    fn styles(_parts: &EventParts) -> Vec<DanceStyle> {
+        vec![DanceStyle::Balfolk]
+    }
+
+    fn location(
+        _location_parts: &Option<Vec<String>>,
+        _url: &str,
+    ) -> Result<Option<(String, Option<String>, String)>, Report> {
+        Ok(Some(("Germany".to_string(), None, "Berlin".to_string())))
+    }
+
+    fn fixup(mut event: crate::model::event::Event) -> Option<crate::model::event::Event> {
+        event.name = shorten_name(&event.name);
+
+        Some(event)
+    }
 }
 
 fn shorten_name(summary: &str) -> String {
