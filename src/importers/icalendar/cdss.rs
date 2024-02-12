@@ -132,6 +132,11 @@ fn shorten_name(name: &str) -> String {
 /// Apply fixes for specific event series.
 fn apply_fixes(event: &mut Event) {
     match event.name.as_str() {
+        "3rd Saturday Contra Dance" if event.city == "Philadelphia" => {
+            event
+                .links
+                .insert(0, "https://3rdsaturday.thursdaycontra.com/".to_string());
+        }
         "Anaheim Contra Dance" => {
             event.links.insert(
                 0,
@@ -143,6 +148,12 @@ fn apply_fixes(event: &mut Event) {
                 0,
                 "https://www.danceflurry.org/series/capital-english-country-dancers/".to_string(),
             );
+        }
+        "Carolina English Country Dancers Saturday Dance" => {
+            event.name = "Carolina English Country Dancers".to_string();
+            event
+                .links
+                .insert(0, "https://carolinaenglishcountrydance.com/".to_string());
         }
         "CDK Contra Dance" => {
             event
@@ -157,6 +168,11 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://www.cfootmad.org/".to_string());
         }
+        "ECD Atlanta Regular Dance" => {
+            event
+                .links
+                .insert(0, "https://ecdatlanta.org/schedule.htm".to_string());
+        }
         "English Country Dance" if event.city == "Asheville" => {
             event.links.insert(
                 0,
@@ -170,6 +186,14 @@ fn apply_fixes(event: &mut Event) {
                 "https://www.guidingstargrange.org/events.html".to_string(),
             );
         }
+        "Friday Contra Dance, Nashville TN" => {
+            event.name = "Friday Contra Dance".to_string();
+            event.links.insert(
+                0,
+                "https://www.nashvillecountrydancers.org/contra-dances".to_string(),
+            );
+        }
+
         "Friday Night Contra & Square Dance" => {
             event
                 .links
@@ -202,8 +226,17 @@ fn apply_fixes(event: &mut Event) {
                 "https://capitalcitygrange.org/dancing/contradancing/".to_string(),
             );
         }
+        "Nashville Second Sunday English Country Dances" => {
+            event.links.insert(
+                0,
+                "https://www.nashvillecountrydancers.org/english-country-dances".to_string(),
+            );
+        }
         "North Alabama Country Dance Society - Contra Dance" => {
-            event.name = "North Alabama Country Dance Society".to_string();
+            event.name = "NACDS Contra Dance".to_string();
+        }
+        "North Alabama Country Dance Society - NACDS Contra Dance" => {
+            event.name = "NACDS Contra Dance".to_string();
         }
         "Orlando Contra Dance" => {
             event.links.insert(
@@ -246,6 +279,12 @@ fn apply_fixes(event: &mut Event) {
                 "https://www.guidingstargrange.org/events.html".to_string(),
             );
         }
+        "Space Coast Contra Dance" => {
+            event.links.insert(
+                0,
+                "https://spacecoastcontra.org/calendar-upcoming-contra-dances/".to_string(),
+            );
+        }
         "TECDA Friday Evening Dance" | "TECDA Tuesday Evening English Country Dance" => {
             event
                 .links
@@ -266,6 +305,9 @@ fn apply_fixes(event: &mut Event) {
             event
                 .links
                 .insert(0, "https://williamsburgheritagedancers.org/".to_string());
+        }
+        "York Region English Country Dancers" => {
+            event.links.insert(0, "http://www.yrecd.ca/".to_string());
         }
         _ => {}
     }
