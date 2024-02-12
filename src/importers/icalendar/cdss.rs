@@ -32,6 +32,7 @@ impl IcalendarSource for Cdss {
             || description_lower.contains("introductory session")
             || description_lower.contains("introductory workshop")
             || description_lower.contains("intro session")
+            || description_lower.contains("newcomers workshop")
     }
 
     fn social(_parts: &EventParts) -> bool {
