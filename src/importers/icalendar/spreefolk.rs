@@ -25,7 +25,10 @@ impl IcalendarSource for Spreefolk {
     fn workshop(parts: &EventParts) -> bool {
         let summary_lower = parts.summary.to_lowercase();
         let description_lower = parts.description.to_lowercase();
-        description_lower.contains("tanzworkshop") || summary_lower.contains("workshop")
+        description_lower.contains("tanzworkshop")
+            || description_lower.contains("tanz-workshop")
+            || description_lower.contains("tanzeinführungsworkshop")
+            || summary_lower.contains("workshop")
     }
 
     fn social(parts: &EventParts) -> bool {
@@ -46,6 +49,11 @@ impl IcalendarSource for Spreefolk {
 
     fn fixup(mut event: Event) -> Option<Event> {
         event.name = shorten_name(&event.name);
+
+        event.name = event
+            .name
+            .replace("Folk & Tanz am", "Folk & Dance at")
+            .to_owned();
 
         Some(event)
     }
