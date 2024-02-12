@@ -17,6 +17,34 @@ pub mod icalendar;
 pub mod trycontra;
 pub mod webfeet;
 
+use crate::model::events::Events;
+
+/// Adds any old events older than the oldest new event, and returns the combination.
+///
+/// This is useful to preserve past events for importers for sources which don't include events in the past.
+fn combine_events(old_events: Events, new_events: Events) -> Events {
+    let Some(earliest_finish) = new_events
+        .events
+        .iter()
+        .map(|e| e.time.end_time_sort_key())
+        .min()
+    else {
+        // If there are no new events then keep all the old events.
+        return old_events;
+    };
+
+    let mut events = new_events;
+    events.events.extend(
+        old_events
+            .events
+            .into_iter()
+            .filter(|event| event.time.end_time_sort_key() < earliest_finish),
+    );
+    events.sort();
+    events.events.dedup();
+    events
+}
+
 const BANDS: [&str; 129] = [
     "Achterband",
     "AdHoc Orkest",

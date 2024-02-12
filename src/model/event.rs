@@ -106,6 +106,17 @@ impl EventTime {
         }
     }
 
+    /// Gets the end time in UTC for the purposes of sorting.
+    pub fn end_time_sort_key(&self) -> DateTime<Utc> {
+        match self {
+            EventTime::DateOnly {
+                start_date: _,
+                end_date,
+            } => Utc.from_utc_datetime(&end_date.and_hms_opt(0, 0, 0).unwrap()),
+            EventTime::DateTime { start: _, end } => end.with_timezone(&Utc),
+        }
+    }
+
     /// Gets the start date for the purposes of arranging in a calendar.
     pub fn start_date(&self) -> NaiveDate {
         match self {
