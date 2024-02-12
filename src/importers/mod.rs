@@ -17,7 +17,7 @@ pub mod icalendar;
 pub mod trycontra;
 pub mod webfeet;
 
-const BANDS: [&str; 126] = [
+const BANDS: [&str; 127] = [
     "Achterband",
     "AdHoc Orkest",
     "Aérokorda",
@@ -80,6 +80,7 @@ const BANDS: [&str; 126] = [
     "Kingfisher",
     "KV Express",
     "L'air Inconnu",
+    "La Réveilleuse",
     "La Sauterelle",
     "Lackawanna Longnecks",
     "Lake Effect",
