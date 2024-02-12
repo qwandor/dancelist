@@ -77,6 +77,7 @@ impl Events {
             read_to_string(filename).wrap_err_with(|| format!("Reading {:?}", filename))?;
         let mut events =
             Self::load_str(&contents).wrap_err_with(|| format!("Reading {:?}", filename))?;
+        events.validate()?;
 
         // Fill in the source with the filename, if the event doesn't already have one.
         if let Some(source) = filename.to_str() {
@@ -90,22 +91,38 @@ impl Events {
         Ok(events)
     }
 
-    /// Load events from the given YAML URL.
-    pub async fn load_url(url: &str) -> Result<Self, Report> {
-        let contents = reqwest::get(url).await?.text().await?;
-        Self::load_str(&contents).wrap_err_with(|| format!("Reading {}", url))
+    /// Loads events from the given YAML file, but doesn't validate them or add sources.
+    pub fn load_file_without_validation(filename: &Path) -> Result<Self, Report> {
+        let contents =
+            read_to_string(filename).wrap_err_with(|| format!("Reading {:?}", filename))?;
+        Self::load_str(&contents).wrap_err_with(|| format!("Reading {:?}", filename))
     }
 
-    /// Load and validate events from the given YAML string.
+    /// Loads events from the given YAML URL and validates them.
+    pub async fn load_url(url: &str) -> Result<Self, Report> {
+        let contents = reqwest::get(url).await?.text().await?;
+        let events = Self::load_str(&contents).wrap_err_with(|| format!("Reading {}", url))?;
+        events.validate()?;
+        Ok(events)
+    }
+
+    /// Loads events from the given YAML string.
+    ///
+    /// Doesn't validate the events.
     fn load_str(s: &str) -> Result<Self, Report> {
         let events = serde_yaml::from_str::<Events>(s)?;
-        for event in &events.events {
+        Ok(events)
+    }
+
+    /// Validates all events, returning an error if any of them are invalid.
+    fn validate(&self) -> Result<(), Report> {
+        for event in &self.events {
             let problems = event.validate();
             if !problems.is_empty() {
                 bail!("Problems with event '{}': {:?}", event.name, problems);
             }
         }
-        Ok(events)
+        Ok(())
     }
 
     /// Converts the events to a YAML string.

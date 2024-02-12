@@ -176,7 +176,8 @@ async fn diff(path_a: &str, path_b: &str) -> Result<(), Report> {
 
 async fn import(source: ImportSource, filename: &Path) -> Result<(), Report> {
     let old_events = if filename.exists() {
-        Events::load_file(filename)?
+        // Load without validating, as imports may be invalid.
+        Events::load_file_without_validation(filename)?
     } else {
         Events::default()
     };
