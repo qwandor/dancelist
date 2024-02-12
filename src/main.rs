@@ -40,11 +40,14 @@ use axum::{
     routing::{get, get_service, post},
     Router,
 };
-use clap::{Parser, Subcommand};
+use clap::{Parser, Subcommand, ValueEnum};
 use eyre::Report;
 use log::info;
 use schemars::schema_for;
-use std::sync::{Arc, Mutex};
+use std::{
+    fs::write,
+    sync::{Arc, Mutex},
+};
 use tokio::net::TcpListener;
 use tower_http::services::ServeDir;
 
@@ -76,14 +79,18 @@ enum Command {
     /// them in Markdown format.
     Diff { old: String, new: String },
     /// Imports events from another site.
-    #[command(subcommand)]
-    Import(ImportSource),
+    Import {
+        /// The source from which to import events.
+        source: ImportSource,
+        /// The file to which to write the imported events.
+        filename: String,
+    },
     /// Loads events as configured in the config file and tries to find duplicates.
     #[command(name = "dups")]
     Duplicates,
 }
 
-#[derive(Copy, Clone, Debug, Subcommand)]
+#[derive(Copy, Clone, Debug, ValueEnum)]
 enum ImportSource {
     /// Imports events from folkbalbende.be.
     Balbende,
@@ -118,7 +125,7 @@ async fn main() -> Result<(), Report> {
         Some(Command::Sort { events }) => sort(events).await,
         Some(Command::Duplicates) => find_duplicates().await,
         Some(Command::Diff { old, new }) => diff(old, new).await,
-        Some(Command::Import(source)) => import(*source).await,
+        Some(Command::Import { source, filename }) => import(*source, filename).await,
     }
 }
 
@@ -165,7 +172,8 @@ async fn diff(path_a: &str, path_b: &str) -> Result<(), Report> {
 
     Ok(())
 }
-async fn import(source: ImportSource) -> Result<(), Report> {
+
+async fn import(source: ImportSource, filename: &str) -> Result<(), Report> {
     let events = match source {
         ImportSource::Balbende => folkbalbende::import_events().await?,
         ImportSource::Balfolknl => import_events::<BalfolkNl>().await?,
@@ -174,7 +182,8 @@ async fn import(source: ImportSource) -> Result<(), Report> {
         ImportSource::Trycontra => trycontra::import_events().await?,
         ImportSource::Webfeet => webfeet::import_events().await?,
     };
-    print_events(&events)
+    write(filename, events.to_yaml_string()?)?;
+    Ok(())
 }
 
 fn print_events(events: &Events) -> Result<(), Report> {
