@@ -16,7 +16,7 @@ pub mod balfolknl;
 pub mod cdss;
 pub mod spreefolk;
 
-use super::{BANDS, CALLERS};
+use super::{combine_events, BANDS, CALLERS};
 use crate::{
     model::{
         dancestyle::DanceStyle,
@@ -134,10 +134,16 @@ fn get_price(description: &str) -> Result<Option<String>, Report> {
     })
 }
 
-/// Fetches the iCalendar file from the given URL, then converts events from it using the given
-/// `convert` function.
+/// Imports events from the given source, preserving the given previously imported events if
+/// appropriate.
 #[allow(private_bounds)]
-pub async fn import_events<S: IcalendarSource>() -> Result<Events, Report> {
+pub async fn import_events<S: IcalendarSource>(old_events: Events) -> Result<Events, Report> {
+    let new_events = import_new_events::<S>().await?;
+    Ok(combine_events(old_events, new_events))
+}
+
+/// Fetches the iCalendar file for the given source, then converts events from it.
+async fn import_new_events<S: IcalendarSource>() -> Result<Events, Report> {
     let calendar = reqwest::get(S::URL)
         .await?
         .text()

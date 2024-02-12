@@ -17,6 +17,34 @@ pub mod icalendar;
 pub mod trycontra;
 pub mod webfeet;
 
+use crate::model::events::Events;
+
+/// Adds any old events older than the oldest new event, and returns the combination.
+///
+/// This is useful to preserve past events for importers for sources which don't include events in the past.
+fn combine_events(old_events: Events, new_events: Events) -> Events {
+    let Some(earliest_finish) = new_events
+        .events
+        .iter()
+        .map(|e| e.time.end_time_sort_key())
+        .min()
+    else {
+        // If there are no new events then keep all the old events.
+        return old_events;
+    };
+
+    let mut events = new_events;
+    events.events.extend(
+        old_events
+            .events
+            .into_iter()
+            .filter(|event| event.time.end_time_sort_key() < earliest_finish),
+    );
+    events.sort();
+    events.events.dedup();
+    events
+}
+
 const BANDS: [&str; 129] = [
     "Achterband",
     "AdHoc Orkest",
@@ -209,3 +237,152 @@ const CALLERS: [&str; 59] = [
     "Walter Zagorski",
     "Will Mentor",
 ];
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::model::{
+        dancestyle::DanceStyle,
+        event::{Event, EventTime},
+    };
+    use chrono::NaiveDate;
+
+    fn make_event(name: &str, time: EventTime) -> Event {
+        Event {
+            name: name.to_string(),
+            time,
+            details: None,
+            links: vec![],
+            country: "Test".to_string(),
+            state: None,
+            city: "Test".to_string(),
+            styles: vec![DanceStyle::EnglishCountryDance],
+            workshop: true,
+            social: false,
+            bands: vec![],
+            callers: vec![],
+            price: None,
+            organisation: None,
+            cancelled: false,
+            source: None,
+        }
+    }
+
+    #[test]
+    fn combine_no_old() {
+        let old_events = Events::default();
+        let new_events = Events {
+            events: vec![
+                make_event(
+                    "New 1",
+                    EventTime::DateOnly {
+                        start_date: NaiveDate::from_ymd_opt(1000, 1, 1).unwrap(),
+                        end_date: NaiveDate::from_ymd_opt(1000, 1, 1).unwrap(),
+                    },
+                ),
+                make_event(
+                    "New 2",
+                    EventTime::DateOnly {
+                        start_date: NaiveDate::from_ymd_opt(1000, 1, 2).unwrap(),
+                        end_date: NaiveDate::from_ymd_opt(1000, 1, 2).unwrap(),
+                    },
+                ),
+            ],
+        };
+
+        let combined = combine_events(old_events, new_events.clone());
+        assert_eq!(combined, new_events);
+    }
+
+    #[test]
+    fn combine_no_new() {
+        let old_events = Events {
+            events: vec![
+                make_event(
+                    "Old 1",
+                    EventTime::DateOnly {
+                        start_date: NaiveDate::from_ymd_opt(1000, 1, 1).unwrap(),
+                        end_date: NaiveDate::from_ymd_opt(1000, 1, 1).unwrap(),
+                    },
+                ),
+                make_event(
+                    "Old 2",
+                    EventTime::DateOnly {
+                        start_date: NaiveDate::from_ymd_opt(1000, 1, 2).unwrap(),
+                        end_date: NaiveDate::from_ymd_opt(1000, 1, 2).unwrap(),
+                    },
+                ),
+            ],
+        };
+        let new_events = Events::default();
+
+        let combined = combine_events(old_events.clone(), new_events);
+        assert_eq!(combined, old_events);
+    }
+
+    #[test]
+    fn combine_same() {
+        let events = Events {
+            events: vec![
+                make_event(
+                    "Old 1",
+                    EventTime::DateOnly {
+                        start_date: NaiveDate::from_ymd_opt(1000, 1, 1).unwrap(),
+                        end_date: NaiveDate::from_ymd_opt(1000, 1, 1).unwrap(),
+                    },
+                ),
+                make_event(
+                    "Old 2",
+                    EventTime::DateOnly {
+                        start_date: NaiveDate::from_ymd_opt(1000, 1, 2).unwrap(),
+                        end_date: NaiveDate::from_ymd_opt(1000, 1, 2).unwrap(),
+                    },
+                ),
+            ],
+        };
+
+        let combined = combine_events(events.clone(), events.clone());
+        assert_eq!(combined, events);
+    }
+
+    #[test]
+    fn combine_overlap() {
+        let old1 = make_event(
+            "Old 1",
+            EventTime::DateOnly {
+                start_date: NaiveDate::from_ymd_opt(1000, 1, 1).unwrap(),
+                end_date: NaiveDate::from_ymd_opt(1000, 1, 1).unwrap(),
+            },
+        );
+        let old3 = make_event(
+            "Old 3",
+            EventTime::DateOnly {
+                start_date: NaiveDate::from_ymd_opt(1000, 1, 3).unwrap(),
+                end_date: NaiveDate::from_ymd_opt(1000, 1, 3).unwrap(),
+            },
+        );
+        let old_events = Events {
+            events: vec![old1.clone(), old3.clone()],
+        };
+        let new2 = make_event(
+            "New 2",
+            EventTime::DateOnly {
+                start_date: NaiveDate::from_ymd_opt(1000, 1, 2).unwrap(),
+                end_date: NaiveDate::from_ymd_opt(1000, 1, 2).unwrap(),
+            },
+        );
+        let new4 = make_event(
+            "New 4",
+            EventTime::DateOnly {
+                start_date: NaiveDate::from_ymd_opt(1000, 1, 4).unwrap(),
+                end_date: NaiveDate::from_ymd_opt(1000, 1, 4).unwrap(),
+            },
+        );
+        let new_events = Events {
+            events: vec![new2.clone(), new4.clone()],
+        };
+
+        let combined = combine_events(old_events, new_events);
+        assert_eq!(combined.events, vec![old1, new2, new4]);
+    }
+}

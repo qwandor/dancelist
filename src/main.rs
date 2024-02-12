@@ -46,6 +46,7 @@ use log::info;
 use schemars::schema_for;
 use std::{
     fs::write,
+    path::{Path, PathBuf},
     sync::{Arc, Mutex},
 };
 use tokio::net::TcpListener;
@@ -83,7 +84,7 @@ enum Command {
         /// The source from which to import events.
         source: ImportSource,
         /// The file to which to write the imported events.
-        filename: String,
+        filename: PathBuf,
     },
     /// Loads events as configured in the config file and tries to find duplicates.
     #[command(name = "dups")]
@@ -173,12 +174,17 @@ async fn diff(path_a: &str, path_b: &str) -> Result<(), Report> {
     Ok(())
 }
 
-async fn import(source: ImportSource, filename: &str) -> Result<(), Report> {
+async fn import(source: ImportSource, filename: &Path) -> Result<(), Report> {
+    let old_events = if filename.exists() {
+        Events::load_file(filename)?
+    } else {
+        Events::default()
+    };
     let events = match source {
         ImportSource::Balbende => folkbalbende::import_events().await?,
-        ImportSource::Balfolknl => import_events::<BalfolkNl>().await?,
-        ImportSource::Cdss => import_events::<Cdss>().await?,
-        ImportSource::Spreefolk => import_events::<Spreefolk>().await?,
+        ImportSource::Balfolknl => import_events::<BalfolkNl>(old_events).await?,
+        ImportSource::Cdss => import_events::<Cdss>(old_events).await?,
+        ImportSource::Spreefolk => import_events::<Spreefolk>(old_events).await?,
         ImportSource::Trycontra => trycontra::import_events().await?,
         ImportSource::Webfeet => webfeet::import_events().await?,
     };
