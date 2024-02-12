@@ -54,6 +54,7 @@ impl IcalendarSource for BalfolkNl {
             || parts.summary.contains("dansfeest")
             || parts.summary.contains("en BalFolk")
             || parts.summary.contains("Nieuwjaarsbal")
+            || parts.summary.starts_with("Balfolk Deventer")
             || parts.summary.starts_with("Balfolk Groningen")
             || parts.summary.starts_with("Balfolk Wilhelmina")
             || parts.summary.starts_with("Balfolk in Kleve")
