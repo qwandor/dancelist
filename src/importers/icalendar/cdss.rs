@@ -157,6 +157,12 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://www.cfootmad.org/".to_string());
         }
+        "English Country Dance" if event.city == "Asheville" => {
+            event.links.insert(
+                0,
+                "https://oldfarmersball.com/english-country-dance/".to_string(),
+            );
+        }
         "Fourth Friday Experienced Contra at Guiding Star Grange" => {
             event.name = "Experienced Contra at Guiding Star Grange".to_string();
             event.links.insert(
@@ -224,6 +230,13 @@ fn apply_fixes(event: &mut Event) {
             event.links.insert(
                 0,
                 "https://colonialdanceclubofrichmond.com/english-dance-calendar".to_string(),
+            );
+        }
+        "Second Saturday TopHill Music Contradance Party at Guiding Star Grange" => {
+            event.name = "TopHill Music Contradance Party".to_string();
+            event.links.insert(
+                0,
+                "https://www.guidingstargrange.org/events.html".to_string(),
             );
         }
         "Second/Fourth Wednesday English Country Dance at Guiding Star Grange" => {
