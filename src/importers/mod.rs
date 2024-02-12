@@ -17,7 +17,7 @@ pub mod icalendar;
 pub mod trycontra;
 pub mod webfeet;
 
-const BANDS: [&str; 127] = [
+const BANDS: [&str; 128] = [
     "Achterband",
     "AdHoc Orkest",
     "Aérokorda",
@@ -130,6 +130,7 @@ const BANDS: [&str; 127] = [
     "The Fiddling Thomsons",
     "The Flying Elbows",
     "The Free Raisins",
+    "The French Connection",
     "The Gaslight Tinkers",
     "The Turning Stile",
     "Tref",
