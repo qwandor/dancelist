@@ -17,7 +17,7 @@ pub mod icalendar;
 pub mod trycontra;
 pub mod webfeet;
 
-const BANDS: [&str; 128] = [
+const BANDS: [&str; 129] = [
     "Achterband",
     "AdHoc Orkest",
     "Aérokorda",
@@ -58,6 +58,7 @@ const BANDS: [&str; 128] = [
     "Duo Mackie/Hendrix",
     "Duo Roblin-Thebaut",
     "Duo Torv",
+    "Duo l'Hêtre Heureux",
     "Elixir",
     "Eloise & Co.",
     "Emelie Waldken",
