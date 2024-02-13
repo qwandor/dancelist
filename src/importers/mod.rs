@@ -189,7 +189,7 @@ const BANDS: [&str; 142] = [
     "Wouter en de Draak",
     "Wouter Kuyper",
 ];
-const CALLERS: [&str; 59] = [
+const CALLERS: [&str; 60] = [
     "Adina Gordon",
     "Alan Rosenthal",
     "Alice Raybourn",
@@ -226,6 +226,7 @@ const CALLERS: [&str; 59] = [
     "Lindsey Dono",
     "Lisa Greenleaf",
     "Liz Nelson",
+    "Luke Donforth",
     "Maeve Devlin",
     "Marc Airhart",
     "Marlin Whitaker",
