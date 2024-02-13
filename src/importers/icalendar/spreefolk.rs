@@ -55,6 +55,13 @@ impl IcalendarSource for Spreefolk {
             .name
             .replace("Folk & Tanz am", "Folk & Dance at")
             .to_owned();
+        if let Some(details) = &mut event.details {
+            *details = details
+                .split("\n\n\n\n\n\n\nJavaScript ist in deinem Browser deaktiviert.")
+                .next()
+                .unwrap()
+                .to_owned();
+        }
 
         Some(event)
     }
