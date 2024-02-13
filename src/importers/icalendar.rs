@@ -49,7 +49,6 @@ trait IcalendarSource {
     /// Converts location parts to (country, state, city).
     fn location(
         location_parts: &Option<Vec<String>>,
-        url: &str,
     ) -> Result<Option<(String, Option<String>, String)>, Report>;
 
     /// Applies any further changes to the event after conversion, or returns `None` to skip it.
@@ -64,7 +63,9 @@ fn convert<S: IcalendarSource>(parts: EventParts) -> Result<Option<event::Event>
 
     let workshop = S::workshop(&parts);
     let social = S::social(&parts);
-    let Some((country, state, city)) = S::location(&parts.location_parts, &parts.url)? else {
+    let Some((country, state, city)) =
+        S::location(&parts.location_parts).wrap_err_with(|| format!("For event {:?}", parts))?
+    else {
         error!(
             "Invalid location {:?} for {}",
             parts.location_parts, parts.url

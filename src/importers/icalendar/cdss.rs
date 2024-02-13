@@ -73,11 +73,10 @@ impl IcalendarSource for Cdss {
 
     fn location(
         location_parts: &Option<Vec<String>>,
-        url: &str,
     ) -> Result<Option<(String, Option<String>, String)>, Report> {
         let location_parts = location_parts
             .as_ref()
-            .ok_or_else(|| eyre!("Event {:?} missing location.", url))?;
+            .ok_or_else(|| eyre!("Event missing location."))?;
         if location_parts.len() < 3 {
             return Ok(None);
         }
@@ -324,30 +323,23 @@ mod tests {
 
     #[test]
     fn test_parse_location() {
-        assert_eq!(Cdss::location(&Some(vec![]), "http://url").unwrap(), None);
+        assert_eq!(Cdss::location(&Some(vec![])).unwrap(), None);
         assert_eq!(
-            Cdss::location(&Some(vec!["USA".to_string()]), "http://url").unwrap(),
+            Cdss::location(&Some(vec!["USA".to_string()])).unwrap(),
             None
         );
         assert_eq!(
-            Cdss::location(
-                &Some(vec!["CA".to_string(), "USA".to_string()]),
-                "http://url",
-            )
-            .unwrap(),
+            Cdss::location(&Some(vec!["CA".to_string(), "USA".to_string()])).unwrap(),
             None
         );
         assert_eq!(
-            Cdss::location(
-                &Some(vec![
-                    "123 Some Street".to_string(),
-                    "Hayward".to_string(),
-                    "CA".to_string(),
-                    "94541".to_string(),
-                    "USA".to_string(),
-                ]),
-                "http://url",
-            )
+            Cdss::location(&Some(vec![
+                "123 Some Street".to_string(),
+                "Hayward".to_string(),
+                "CA".to_string(),
+                "94541".to_string(),
+                "USA".to_string(),
+            ]))
             .unwrap(),
             Some((
                 "USA".to_string(),
@@ -356,15 +348,12 @@ mod tests {
             ))
         );
         assert_eq!(
-            Cdss::location(
-                &Some(vec![
-                    "Pittsburgh".to_string(),
-                    "PA".to_string(),
-                    "1234".to_string(),
-                    "USA".to_string(),
-                ]),
-                "http://url",
-            )
+            Cdss::location(&Some(vec![
+                "Pittsburgh".to_string(),
+                "PA".to_string(),
+                "1234".to_string(),
+                "USA".to_string(),
+            ]))
             .unwrap(),
             Some((
                 "USA".to_string(),
@@ -373,15 +362,12 @@ mod tests {
             ))
         );
         assert_eq!(
-            Cdss::location(
-                &Some(vec![
-                    "Toronto".to_string(),
-                    "Ontario".to_string(),
-                    "1234".to_string(),
-                    "Canada".to_string(),
-                ]),
-                "http://url",
-            )
+            Cdss::location(&Some(vec![
+                "Toronto".to_string(),
+                "Ontario".to_string(),
+                "1234".to_string(),
+                "Canada".to_string(),
+            ]))
             .unwrap(),
             Some((
                 "Canada".to_string(),
@@ -390,28 +376,22 @@ mod tests {
             ))
         );
         assert_eq!(
-            Cdss::location(
-                &Some(vec![
-                    "London".to_string(),
-                    "N10AB".to_string(),
-                    "United Kingdom".to_string()
-                ]),
-                "http://url",
-            )
+            Cdss::location(&Some(vec![
+                "London".to_string(),
+                "N10AB".to_string(),
+                "United Kingdom".to_string()
+            ]))
             .unwrap(),
             Some(("UK".to_string(), None, "London".to_string()))
         );
         assert_eq!(
-            Cdss::location(
-                &Some(vec![
-                    "Venue Name".to_string(),
-                    "Address".to_string(),
-                    "London".to_string(),
-                    "N10AB".to_string(),
-                    "United Kingdom".to_string()
-                ]),
-                "http://url",
-            )
+            Cdss::location(&Some(vec![
+                "Venue Name".to_string(),
+                "Address".to_string(),
+                "London".to_string(),
+                "N10AB".to_string(),
+                "United Kingdom".to_string()
+            ]))
             .unwrap(),
             Some(("UK".to_string(), None, "London".to_string()))
         );

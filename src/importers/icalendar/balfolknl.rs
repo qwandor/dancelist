@@ -86,19 +86,18 @@ impl IcalendarSource for BalfolkNl {
 
     fn location(
         location_parts: &Option<Vec<String>>,
-        url: &str,
     ) -> Result<Option<(String, Option<String>, String)>, Report> {
         let mut city = if let Some(location_parts) = location_parts {
             match location_parts.len() {
                 8 => location_parts[3].to_string(),
                 4.. => location_parts[2].to_string(),
                 _ => {
-                    warn!("Invalid location \"{:?}\" for {}", location_parts, url);
+                    warn!("Invalid location \"{:?}\"", location_parts,);
                     "".to_string()
                 }
             }
         } else {
-            warn!("Event {:?} missing location.", url);
+            warn!("Event missing location.");
             "Unknown city".to_string()
         };
         let country;
@@ -149,32 +148,26 @@ mod tests {
     #[test]
     fn test_parse_location() {
         assert_eq!(
-            BalfolkNl::location(&None, "http://url").unwrap(),
+            BalfolkNl::location(&None).unwrap(),
             Some(("Netherlands".to_string(), None, "Unknown city".to_string()))
         );
         assert_eq!(
-            BalfolkNl::location(
-                &Some(vec![
-                    "City".to_string(),
-                    "postcode".to_string(),
-                    "Nederland".to_string(),
-                ]),
-                "http://url",
-            )
+            BalfolkNl::location(&Some(vec![
+                "City".to_string(),
+                "postcode".to_string(),
+                "Nederland".to_string(),
+            ]))
             .unwrap(),
             Some(("Netherlands".to_string(), None, "".to_string()))
         );
         assert_eq!(
-            BalfolkNl::location(
-                &Some(vec![
-                    "Balfolk Zeist".to_string(),
-                    "Thorbeckelaan 5".to_string(),
-                    "Zeist".to_string(),
-                    "3705 KJ".to_string(),
-                    "Nederland".to_string(),
-                ]),
-                "http://url",
-            )
+            BalfolkNl::location(&Some(vec![
+                "Balfolk Zeist".to_string(),
+                "Thorbeckelaan 5".to_string(),
+                "Zeist".to_string(),
+                "3705 KJ".to_string(),
+                "Nederland".to_string(),
+            ]))
             .unwrap(),
             Some(("Netherlands".to_string(), None, "Zeist".to_string()))
         );
