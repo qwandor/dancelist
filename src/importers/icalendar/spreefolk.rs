@@ -64,6 +64,9 @@ impl IcalendarSource for Spreefolk {
                 .split("\n\n\n\n\n\n\nJavaScript ist in deinem Browser deaktiviert.")
                 .next()
                 .unwrap()
+                .split("\n \n\n\n\nJavaScript ist in deinem Browser deaktiviert.")
+                .next()
+                .unwrap()
                 .to_owned();
         }
 
