@@ -37,8 +37,12 @@ impl IcalendarSource for Spreefolk {
         !summary_lower.contains("workshop")
     }
 
-    fn styles(_parts: &EventParts) -> Vec<DanceStyle> {
-        vec![DanceStyle::Balfolk]
+    fn styles(parts: &EventParts) -> Vec<DanceStyle> {
+        if parts.summary.contains("Mitgliederversammlung") {
+            vec![]
+        } else {
+            vec![DanceStyle::Balfolk]
+        }
     }
 
     fn location(
