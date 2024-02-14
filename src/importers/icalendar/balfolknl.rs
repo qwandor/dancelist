@@ -136,10 +136,12 @@ impl IcalendarSource for BalfolkNl {
 
 fn shorten_name(raw_name: &str) -> String {
     raw_name
-        .replace(" (Rotterdam)", "")
+        .trim_end_matches(" (Rotterdam)")
+        .trim_end_matches(" (D) bij Nijmegen")
+        .split(" met Musac")
+        .next()
+        .unwrap()
         .replace(" - ", " — ")
-        .replace(" met Musac", "")
-        .replace(" (D) bij Nijmegen", "")
 }
 
 #[cfg(test)]
