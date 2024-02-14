@@ -45,7 +45,7 @@ fn combine_events(old_events: Events, new_events: Events) -> Events {
     events
 }
 
-const BANDS: [&str; 142] = [
+const BANDS: [&str; 143] = [
     "Achterband",
     "AdHoc Orkest",
     "Aérokorda",
@@ -98,6 +98,7 @@ const BANDS: [&str; 142] = [
     "Emily & The Simons",
     "Exqueezit",
     "Fahrenheit",
+    "Feather & Fox",
     "First Time Stringband",
     "Folie du Nord",
     "Folkinger",
