@@ -68,6 +68,7 @@ impl IcalendarSource for BalfolkNl {
             || parts.summary.starts_with("Folkwoods")
             || parts.summary.starts_with("Folkbal")
             || parts.summary.starts_with("Halloweenbal")
+            || parts.summary.starts_with("Huiskamerbal")
             || parts.summary.starts_with("Socialles ")
             || parts.summary.starts_with("Superette Bal")
             || parts.summary.starts_with("Verjaardagsbal")
