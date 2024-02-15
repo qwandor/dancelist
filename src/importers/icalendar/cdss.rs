@@ -210,6 +210,12 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://sfbaycontra.org/".to_string());
         }
+        "Houston Area Traditional Dance Society 3rd Sunday English Country Dance" => {
+            event.name = "3rd Sunday English Country Dance".to_string();
+            event
+                .links
+                .insert(0, "https://hatds.org/ecd#hatds".to_string());
+        }
         "Indy Contra Dance" => {
             event
                 .links
@@ -264,6 +270,12 @@ fn apply_fixes(event: &mut Event) {
                 0,
                 "https://colonialdanceclubofrichmond.com/english-dance-calendar".to_string(),
             );
+        }
+        "Sacramento English Country Dance (Third Sunday)" => {
+            event.name = "Sacramento English Country Dance".to_string();
+            event
+                .links
+                .insert(0, "https://sactocds.wordpress.com/".to_string());
         }
         "Second Saturday TopHill Music Contradance Party at Guiding Star Grange" => {
             event.name = "TopHill Music Contradance Party".to_string();
