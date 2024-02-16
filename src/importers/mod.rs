@@ -45,7 +45,7 @@ fn combine_events(old_events: Events, new_events: Events) -> Events {
     events
 }
 
-const BANDS: [&str; 143] = [
+const BANDS: [&str; 144] = [
     "Achterband",
     "AdHoc Orkest",
     "Aérokorda",
@@ -56,6 +56,7 @@ const BANDS: [&str; 143] = [
     "Artisjok",
     "Aubergine",
     "Aurélien Claranbaux",
+    "Back Row Band",
     "Ball Noir",
     "Bamako Express",
     "Bare Necessities",
@@ -190,7 +191,7 @@ const BANDS: [&str; 143] = [
     "Wouter en de Draak",
     "Wouter Kuyper",
 ];
-const CALLERS: [&str; 60] = [
+const CALLERS: [&str; 61] = [
     "Adina Gordon",
     "Alan Rosenthal",
     "Alice Raybourn",
@@ -238,6 +239,7 @@ const CALLERS: [&str; 60] = [
     "Orly Krasner",
     "Paul Wilde",
     "Rich MacMath",
+    "Rich Sbardella",
     "Rick Szumski",
     "River Abel",
     "Steph West",
