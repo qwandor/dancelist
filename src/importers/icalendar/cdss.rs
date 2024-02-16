@@ -27,6 +27,7 @@ impl IcalendarSource for Cdss {
         (description_lower.contains("lesson") && !description_lower.contains("no lesson"))
             || description_lower.contains("skills session")
             || description_lower.contains("workshops")
+            || description_lower.contains("beginner session")
             || description_lower.contains("beginner workshop")
             || description_lower.contains("beginners workshop")
             || description_lower.contains("beginners introduction")
