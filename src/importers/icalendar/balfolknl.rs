@@ -78,6 +78,7 @@ impl IcalendarSource for BalfolkNl {
             || parts.summary.starts_with("Balfolk café Nijmegen")
             || parts.summary.starts_with("DenneFeest")
             || parts.summary.starts_with("Dansavond")
+            || parts.summary.starts_with("Wageningen Junushoff")
             || parts.description.contains("Bal deel")
     }
 
