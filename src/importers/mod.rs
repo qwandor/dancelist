@@ -45,7 +45,7 @@ fn combine_events(old_events: Events, new_events: Events) -> Events {
     events
 }
 
-const BANDS: [&str; 144] = [
+const BANDS: [&str; 145] = [
     "Achterband",
     "AdHoc Orkest",
     "Aérokorda",
@@ -90,6 +90,7 @@ const BANDS: [&str; 144] = [
     "Duo Clercx",
     "Duo Gielen-Buscan",
     "Duo Mackie/Hendrix",
+    "Duo Pacher-Roblin",
     "Duo Roblin-Thebaut",
     "Duo Torv",
     "Duo l'Hêtre Heureux",
