@@ -164,6 +164,12 @@ fn apply_fixes(event: &mut Event) {
         "Contra Dance" if event.city == "Carrollton" && event.state.as_deref() == Some("TX") => {
             event.links.insert(0, "https://www.nttds.org/".to_string());
         }
+        "ContraATL Weekly Dance" => {
+            event.workshop = true;
+            event
+                .links
+                .insert(0, "https://contradance.org/".to_string());
+        }
         "Denver Contra Dance" => {
             event
                 .links
