@@ -91,8 +91,8 @@ impl IcalendarSource for BalfolkNl {
     ) -> Result<Option<(String, Option<String>, String)>, Report> {
         let mut city = if let Some(location_parts) = location_parts {
             match location_parts.len() {
-                8 => location_parts[3].to_string(),
-                4.. => location_parts[2].to_string(),
+                8 => location_parts[3].trim().to_string(),
+                4.. => location_parts[2].trim().to_string(),
                 _ => {
                     warn!("Invalid location \"{:?}\"", location_parts,);
                     "".to_string()
@@ -174,6 +174,17 @@ mod tests {
             ]))
             .unwrap(),
             Some(("Netherlands".to_string(), None, "Zeist".to_string()))
+        );
+        assert_eq!(
+            BalfolkNl::location(&Some(vec![
+                "Theater de Junushoff".to_string(),
+                "Plantsoen 3".to_string(),
+                " Wageningen".to_string(),
+                "6701AS".to_string(),
+                "Nederland".to_string(),
+            ]))
+            .unwrap(),
+            Some(("Netherlands".to_string(), None, "Wageningen".to_string()))
         );
     }
 }
