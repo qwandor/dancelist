@@ -45,7 +45,8 @@ fn combine_events(old_events: Events, new_events: Events) -> Events {
     events
 }
 
-const BANDS: [&str; 145] = [
+const BANDS: [&str; 150] = [
+    "A Fine Kettle of Fish",
     "Achterband",
     "AdHoc Orkest",
     "Aérokorda",
@@ -98,6 +99,7 @@ const BANDS: [&str; 145] = [
     "Eloise & Co.",
     "Emelie Waldken",
     "Emily & The Simons",
+    "Engine Room",
     "Exqueezit",
     "Fahrenheit",
     "Feather & Fox",
@@ -112,6 +114,7 @@ const BANDS: [&str; 145] = [
     "Hartwin Dhoore Trio",
     "Hartwin Dhoore",
     "Headwaters",
+    "Holiday Ball Orchestra",
     "I Pizzicati",
     "Joyance",
     "Kelten zonder Grenzen",
@@ -171,11 +174,13 @@ const BANDS: [&str; 145] = [
     "Swingology",
     "Take a Dance",
     "The Dam Beavers",
+    "The English Muffins",
     "The Fiddling Thomsons",
     "The Flying Elbows",
     "The Free Raisins",
     "The French Connection",
     "The Gaslight Tinkers",
+    "The String Bean Serenaders",
     "The Turning Stile",
     "Tref",
     "Trio Loubelya",
@@ -192,9 +197,10 @@ const BANDS: [&str; 145] = [
     "Wouter en de Draak",
     "Wouter Kuyper",
 ];
-const CALLERS: [&str; 61] = [
+const CALLERS: [&str; 65] = [
     "Adina Gordon",
     "Alan Rosenthal",
+    "Alex Deis-Lauby",
     "Alice Raybourn",
     "Andrew Swaine",
     "Barrett Grimm",
@@ -214,6 +220,7 @@ const CALLERS: [&str; 61] = [
     "Don Heinold",
     "Don Veino",
     "Dorothy Cummings",
+    "Erik Hoffman",
     "Gaye Fifer",
     "George Marshall",
     "George Thompson",
@@ -243,9 +250,11 @@ const CALLERS: [&str; 61] = [
     "Rich Sbardella",
     "Rick Szumski",
     "River Abel",
+    "Ron Buchanan",
     "Steph West",
     "Steve Zakon-Anderson",
     "Susan English",
+    "Susan Michaels",
     "Susie Kendig",
     "Tara Bolker",
     "Tod Whittemore",
