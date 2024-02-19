@@ -116,6 +116,7 @@ fn get_price(description: &str) -> Result<Option<String>, Report> {
     let price_regexes = [
         ("$", Regex::new(r"\$([0-9]+)").unwrap()),
         ("€", Regex::new(r"€([0-9]+)").unwrap()),
+        ("€", Regex::new(r"€ ([0-9]+)").unwrap()),
         ("€", Regex::new(r"([0-9]+) €").unwrap()),
         ("€", Regex::new(r"([0-9]+) Euro").unwrap()),
     ];
