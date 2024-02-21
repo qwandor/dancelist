@@ -14,6 +14,7 @@
 
 pub mod balfolknl;
 pub mod cdss;
+pub mod ceilidhclub;
 pub mod spreefolk;
 
 use super::{combine_events, BANDS, CALLERS};
@@ -115,6 +116,7 @@ fn convert<S: IcalendarSource>(parts: EventParts) -> Result<Option<event::Event>
 fn get_price(description: &str) -> Result<Option<String>, Report> {
     let price_regexes = [
         ("$", Regex::new(r"\$([0-9]+)").unwrap()),
+        ("£", Regex::new(r"£([0-9]+)").unwrap()),
         ("€", Regex::new(r"€([0-9]+)").unwrap()),
         ("€", Regex::new(r"€ ([0-9]+)").unwrap()),
         ("€", Regex::new(r"([0-9]+) €").unwrap()),
