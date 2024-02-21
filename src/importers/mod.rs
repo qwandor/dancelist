@@ -197,7 +197,7 @@ const BANDS: [&str; 150] = [
     "Wouter en de Draak",
     "Wouter Kuyper",
 ];
-const CALLERS: [&str; 65] = [
+const CALLERS: [&str; 66] = [
     "Adina Gordon",
     "Alan Rosenthal",
     "Alex Deis-Lauby",
@@ -217,6 +217,7 @@ const CALLERS: [&str; 65] = [
     "Darlene Underwood",
     "Dave Berman",
     "Dave Smukler",
+    "David Macemon",
     "Don Heinold",
     "Don Veino",
     "Dorothy Cummings",
