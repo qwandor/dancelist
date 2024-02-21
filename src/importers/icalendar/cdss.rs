@@ -156,7 +156,7 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://carolinaenglishcountrydance.com/".to_string());
         }
-        "CDK Contra Dance" => {
+        "CDK Contra Dance" | "CDK Contra & Square Dance" => {
             event
                 .links
                 .insert(0, "https://www.countrydancinginkalamazoo.com/".to_string());
@@ -280,6 +280,12 @@ fn apply_fixes(event: &mut Event) {
         }
         "Sacramento English Country Dance (Third Sunday)" => {
             event.name = "Sacramento English Country Dance".to_string();
+            event
+                .links
+                .insert(0, "https://sactocds.wordpress.com/".to_string());
+        }
+        "Sacramento (CA) Contra Dance, 2nd and 4th Saturdays" => {
+            event.name = "Sacramento Contra Dance".to_string();
             event
                 .links
                 .insert(0, "https://sactocds.wordpress.com/".to_string());
