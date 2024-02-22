@@ -201,7 +201,6 @@ fn apply_fixes(event: &mut Event) {
                 "https://www.nashvillecountrydancers.org/contra-dances".to_string(),
             );
         }
-
         "Friday Night Contra & Square Dance" => {
             event
                 .links
@@ -239,6 +238,14 @@ fn apply_fixes(event: &mut Event) {
                 0,
                 "https://capitalcitygrange.org/dancing/contradancing/".to_string(),
             );
+        }
+        "Mystic Pie Dance" => {
+            event
+                .links
+                .insert(0, "https://www.mysticpiedance.org/".to_string());
+            if event.price.as_deref() == Some("$3-$10") {
+                event.price = Some("$7-$10".to_string());
+            }
         }
         "Nashville Second Sunday English Country Dances" => {
             event.links.insert(
