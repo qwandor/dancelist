@@ -25,7 +25,7 @@ use crate::{
         event::{self, EventTime},
         events::Events,
     },
-    util::local_datetime_to_fixed_offset,
+    util::{local_datetime_to_fixed_offset, to_fixed_offset},
 };
 use eyre::{bail, eyre, Report, WrapErr};
 use icalendar::{
@@ -166,12 +166,13 @@ async fn import_new_events<S: IcalendarSource>() -> Result<Events, Report> {
         .await?
         .parse::<Calendar>()
         .map_err(|e| eyre!("Error parsing iCalendar file: {}", e))?;
+    let timezone = calendar.get_timezone();
     let mut events = Events {
         events: calendar
             .iter()
             .filter_map(|component| {
                 if let CalendarComponent::Event(event) = component {
-                    match get_parts(event) {
+                    match get_parts(event, timezone) {
                         Ok(parts) => convert::<S>(parts).transpose(),
                         Err(e) => Some(Err(e)),
                     }
@@ -185,7 +186,7 @@ async fn import_new_events<S: IcalendarSource>() -> Result<Events, Report> {
     Ok(events)
 }
 
-fn get_parts(event: &Event) -> Result<EventParts, Report> {
+fn get_parts(event: &Event, timezone: Option<&str>) -> Result<EventParts, Report> {
     let url = event.get_url().map(ToOwned::to_owned);
     let summary = unescape(
         event
@@ -197,7 +198,7 @@ fn get_parts(event: &Event) -> Result<EventParts, Report> {
             .get_description()
             .ok_or_else(|| eyre!("Event {:?} missing description.", event))?,
     );
-    let time = get_time(event)?;
+    let time = get_time(event, timezone)?;
     let location_parts = event.get_location().map(|location| {
         location
             .split("\\, ")
@@ -265,7 +266,7 @@ struct EventParts {
     pub categories: Option<Vec<String>>,
 }
 
-fn get_time(event: &Event) -> Result<EventTime, Report> {
+fn get_time(event: &Event, timezone: Option<&str>) -> Result<EventTime, Report> {
     let start = event
         .get_start()
         .ok_or_else(|| eyre!("Event {:?} missing start time.", event))?;
@@ -303,7 +304,21 @@ fn get_time(event: &Event) -> Result<EventTime, Report> {
                     .ok_or_else(|| eyre!("Ambiguous datetime for event {:?}", event))?,
             }
         }
-        _ => bail!("Mismatched start and end times."),
+        (
+            DatePerhapsTime::DateTime(CalendarDateTime::Utc(start)),
+            DatePerhapsTime::DateTime(CalendarDateTime::Utc(end)),
+        ) => {
+            let timezone =
+                timezone.ok_or_else(|| eyre!("Neither event nor calendar specified timezone."))?;
+            let timezone = timezone
+                .parse()
+                .map_err(|e| eyre!("Invalid timezone {}: {}", timezone, e))?;
+            EventTime::DateTime {
+                start: to_fixed_offset(start.with_timezone(&timezone)),
+                end: to_fixed_offset(end.with_timezone(&timezone)),
+            }
+        }
+        (start, end) => bail!("Mismatched start ({:?}) and end ({:?}) times.", start, end),
     })
 }
 
@@ -339,7 +354,33 @@ mod tests {
             .done();
 
         assert_eq!(
-            get_time(&event).unwrap(),
+            get_time(&event, None).unwrap(),
+            EventTime::DateTime {
+                start: FixedOffset::east_opt(7200)
+                    .unwrap()
+                    .with_ymd_and_hms(2022, 4, 1, 19, 0, 0)
+                    .single()
+                    .unwrap(),
+                end: FixedOffset::east_opt(7200)
+                    .unwrap()
+                    .with_ymd_and_hms(2022, 4, 1, 19, 0, 0)
+                    .single()
+                    .unwrap(),
+            }
+        );
+    }
+
+    #[test]
+    fn parse_datetime_utc() {
+        let start = Property::new("DTSTART", "20220401T170000Z").done();
+        let end = Property::new("DTEND", "20220401T170000Z").done();
+        let event = Event::new()
+            .append_property(start)
+            .append_property(end)
+            .done();
+
+        assert_eq!(
+            get_time(&event, Some("Europe/Amsterdam")).unwrap(),
             EventTime::DateTime {
                 start: FixedOffset::east_opt(7200)
                     .unwrap()

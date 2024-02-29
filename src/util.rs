@@ -45,7 +45,7 @@ pub const DEFAULT_TIMEZONES: [((&str, Option<&str>), Tz); 27] = [
     (("USA", Some("NY")), Tz::US__Eastern),
 ];
 
-fn to_fixed_offset(date_time: DateTime<Tz>) -> DateTime<FixedOffset> {
+pub fn to_fixed_offset(date_time: DateTime<Tz>) -> DateTime<FixedOffset> {
     let fixed_offset = date_time.offset().fix();
     date_time.with_timezone(&fixed_offset)
 }
