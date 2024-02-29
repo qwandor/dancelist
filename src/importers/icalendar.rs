@@ -15,6 +15,7 @@
 pub mod balfolknl;
 pub mod cdss;
 pub mod ceilidhclub;
+pub mod lancastercontra;
 pub mod spreefolk;
 
 use super::{combine_events, BANDS, CALLERS};
