@@ -45,6 +45,9 @@ impl IcalendarSource for LancasterContra {
         event
             .links
             .push("http://lancastercontra.org.uk/events/".to_string());
+        if event.name == "Contra dance" {
+            event.name = "Lancaster Contra".to_string();
+        }
         Some(event)
     }
 }
