@@ -94,7 +94,7 @@ fn convert<S: IcalendarSource>(parts: EventParts) -> Result<Option<event::Event>
     );
 
     Ok(S::fixup(event::Event {
-        name: parts.summary,
+        name: parts.summary.trim().to_owned(),
         details,
         links: parts.url.into_iter().collect(),
         time: parts.time,
