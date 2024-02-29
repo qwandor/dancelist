@@ -166,6 +166,12 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://www.countrydancinginkalamazoo.com/".to_string());
         }
+        "Circle Left" => {
+            event.links.insert(
+                0,
+                "https://www.queercontradance.org/circleleft.html".to_string(),
+            );
+        }
         "Contra Dance" if event.city == "Carrollton" && event.state.as_deref() == Some("TX") => {
             event.links.insert(0, "https://www.nttds.org/".to_string());
         }
@@ -226,6 +232,12 @@ fn apply_fixes(event: &mut Event) {
             event
                 .links
                 .insert(0, "https://sfbaycontra.org/".to_string());
+        }
+        "Houston Area Traditional Dance Society 1st Sunday English Country Dance" => {
+            event.name = "1st Sunday English Country Dance".to_string();
+            event
+                .links
+                .insert(0, "https://hatds.org/ecd#hatds".to_string());
         }
         "Houston Area Traditional Dance Society 3rd Sunday English Country Dance" => {
             event.name = "3rd Sunday English Country Dance".to_string();
@@ -307,6 +319,11 @@ fn apply_fixes(event: &mut Event) {
             event
                 .links
                 .insert(0, "https://sactocds.wordpress.com/".to_string());
+        }
+        "Sebastopol 1st and 3rd Sunday English Dance" => {
+            event
+                .links
+                .insert(0, "https://nbcds.org/english-country-dance/".to_string());
         }
         "Second Saturday TopHill Music Contradance Party at Guiding Star Grange" => {
             event.name = "TopHill Music Contradance Party".to_string();
