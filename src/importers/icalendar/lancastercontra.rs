@@ -14,7 +14,7 @@
 
 use super::{EventParts, IcalendarSource};
 use crate::model::{dancestyle::DanceStyle, event::Event};
-use eyre::{eyre, Report};
+use eyre::Report;
 
 pub struct LancasterContra;
 
@@ -36,21 +36,9 @@ impl IcalendarSource for LancasterContra {
     }
 
     fn location(
-        location_parts: &Option<Vec<String>>,
+        _location_parts: &Option<Vec<String>>,
     ) -> Result<Option<(String, Option<String>, String)>, Report> {
-        let location_parts = location_parts
-            .as_ref()
-            .ok_or_else(|| eyre!("Event missing location."))?;
-        if location_parts.len() < 3 {
-            return Ok(None);
-        }
-        let mut country = location_parts[location_parts.len() - 1].to_owned();
-        if country == "United Kingdom" {
-            country = "UK".to_owned();
-        }
-        let city = location_parts[location_parts.len() - 3].to_owned();
-
-        Ok(Some((country, None, city)))
+        Ok(Some(("UK".to_string(), None, "Lancaster".to_string())))
     }
 
     fn fixup(event: Event) -> Option<Event> {
