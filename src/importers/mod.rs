@@ -45,7 +45,7 @@ fn combine_events(old_events: Events, new_events: Events) -> Events {
     events
 }
 
-const BANDS: [&str; 150] = [
+const BANDS: [&str; 154] = [
     "A Fine Kettle of Fish",
     "Achterband",
     "AdHoc Orkest",
@@ -100,6 +100,7 @@ const BANDS: [&str; 150] = [
     "Emelie Waldken",
     "Emily & The Simons",
     "Engine Room",
+    "Erik en Martijn",
     "Exqueezit",
     "Fahrenheit",
     "Feather & Fox",
@@ -115,7 +116,9 @@ const BANDS: [&str; 150] = [
     "Hartwin Dhoore",
     "Headwaters",
     "Holiday Ball Orchestra",
+    "Hot Toddy",
     "I Pizzicati",
+    "Jormsons Kapell",
     "Joyance",
     "Kelten zonder Grenzen",
     "Kikker & Findus",
@@ -180,6 +183,7 @@ const BANDS: [&str; 150] = [
     "The Free Raisins",
     "The French Connection",
     "The Gaslight Tinkers",
+    "The Little Big Band",
     "The String Bean Serenaders",
     "The Turning Stile",
     "Tref",
@@ -197,7 +201,7 @@ const BANDS: [&str; 150] = [
     "Wouter en de Draak",
     "Wouter Kuyper",
 ];
-const CALLERS: [&str; 66] = [
+const CALLERS: [&str; 67] = [
     "Adina Gordon",
     "Alan Rosenthal",
     "Alex Deis-Lauby",
@@ -232,6 +236,7 @@ const CALLERS: [&str; 66] = [
     "Jordan Kammeyer",
     "Kalia Kliban",
     "Katy Heine",
+    "Kelsey Hartman",
     "Ken Gall",
     "Laura Beraha",
     "Lindsey Dono",
