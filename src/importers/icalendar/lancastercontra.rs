@@ -41,7 +41,10 @@ impl IcalendarSource for LancasterContra {
         Ok(Some(("UK".to_string(), None, "Lancaster".to_string())))
     }
 
-    fn fixup(event: Event) -> Option<Event> {
+    fn fixup(mut event: Event) -> Option<Event> {
+        event
+            .links
+            .push("http://lancastercontra.org.uk/events/".to_string());
         Some(event)
     }
 }
