@@ -45,7 +45,8 @@ fn combine_events(old_events: Events, new_events: Events) -> Events {
     events
 }
 
-const BANDS: [&str; 154] = [
+const BANDS: [&str; 155] = [
+    "112 and Then Some",
     "A Fine Kettle of Fish",
     "Achterband",
     "AdHoc Orkest",
