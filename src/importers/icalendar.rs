@@ -69,7 +69,7 @@ fn convert<S: IcalendarSource>(parts: EventParts) -> Result<Option<event::Event>
         S::location(&parts.location_parts).wrap_err_with(|| format!("For event {:?}", parts))?
     else {
         error!(
-            "Invalid location {:?} for {}",
+            "Invalid location {:?} for {:?}",
             parts.location_parts, parts.url
         );
         return Ok(None);
@@ -96,7 +96,7 @@ fn convert<S: IcalendarSource>(parts: EventParts) -> Result<Option<event::Event>
     Ok(S::fixup(event::Event {
         name: parts.summary,
         details,
-        links: vec![parts.url],
+        links: parts.url.into_iter().collect(),
         time: parts.time,
         country,
         state,
@@ -186,10 +186,7 @@ async fn import_new_events<S: IcalendarSource>() -> Result<Events, Report> {
 }
 
 fn get_parts(event: &Event) -> Result<EventParts, Report> {
-    let url = event
-        .get_url()
-        .ok_or_else(|| eyre!("Event {:?} missing url.", event))?
-        .to_owned();
+    let url = event.get_url().map(ToOwned::to_owned);
     let summary = unescape(
         event
             .get_summary()
@@ -259,7 +256,7 @@ fn lowercase_matches(needles: &[&str], a: &str, b: &str) -> Vec<String> {
 
 #[derive(Clone, Debug, Eq, PartialEq)]
 struct EventParts {
-    pub url: String,
+    pub url: Option<String>,
     pub summary: String,
     pub description: String,
     pub time: EventTime,
