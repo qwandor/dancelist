@@ -193,11 +193,7 @@ fn get_parts(event: &Event, timezone: Option<&str>) -> Result<EventParts, Report
             .get_summary()
             .ok_or_else(|| eyre!("Event {:?} missing summary.", event))?,
     );
-    let description = unescape(
-        event
-            .get_description()
-            .ok_or_else(|| eyre!("Event {:?} missing description.", event))?,
-    );
+    let description = unescape(event.get_description().unwrap_or_default());
     let time = get_time(event, timezone)?;
     let location_parts = event.get_location().map(|location| {
         location
