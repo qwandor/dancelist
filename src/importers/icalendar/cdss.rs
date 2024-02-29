@@ -191,6 +191,12 @@ fn apply_fixes(event: &mut Event) {
                 "https://oldfarmersball.com/english-country-dance/".to_string(),
             );
         }
+        "Contra at Guiding Star Grange" => {
+            event.links.insert(
+                0,
+                "https://www.guidingstargrange.org/events.html".to_string(),
+            );
+        }
         "Fourth Friday Experienced Contra at Guiding Star Grange" => {
             event.name = "Experienced Contra at Guiding Star Grange".to_string();
             event.links.insert(
