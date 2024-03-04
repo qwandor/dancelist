@@ -45,7 +45,7 @@ fn combine_events(old_events: Events, new_events: Events) -> Events {
     events
 }
 
-const BANDS: [&str; 156] = [
+const BANDS: [&str; 159] = [
     "112 and Then Some",
     "A Fine Kettle of Fish",
     "Achterband",
@@ -87,6 +87,7 @@ const BANDS: [&str; 156] = [
     "Devilish Mary",
     "Dogtown",
     "Drehwurm",
+    "Drive Train",
     "Duo Absynthe",
     "Duo Baftig",
     "Duo Bottasso",
@@ -138,6 +139,7 @@ const BANDS: [&str; 156] = [
     "Les Kickeuses",
     "Les Zéoles",
     "Liberty String Band",
+    "Lizzy's Cocktail",
     "Lone Star Pirates",
     "Long Forgotten String Band",
     "Madlot",
@@ -187,6 +189,7 @@ const BANDS: [&str; 156] = [
     "The Gaslight Tinkers",
     "The Little Big Band",
     "The String Bean Serenaders",
+    "The Syncopaths",
     "The Turning Stile",
     "Tref",
     "Trio Loubelya",
@@ -203,7 +206,7 @@ const BANDS: [&str; 156] = [
     "Wouter en de Draak",
     "Wouter Kuyper",
 ];
-const CALLERS: [&str; 69] = [
+const CALLERS: [&str; 72] = [
     "Adina Gordon",
     "Alan Rosenthal",
     "Alex Deis-Lauby",
@@ -211,6 +214,7 @@ const CALLERS: [&str; 69] = [
     "Andrew Swaine",
     "Barrett Grimm",
     "Ben Sachs-Hamilton",
+    "Bev Birnbaum",
     "Bob Frederking",
     "Billy Fischer",
     "Bob Isaacs",
@@ -224,6 +228,7 @@ const CALLERS: [&str; 69] = [
     "Dave Berman",
     "Dave Smukler",
     "David Macemon",
+    "Diane Silver",
     "Don Heinold",
     "Don Veino",
     "Dorothy Cummings",
@@ -261,6 +266,7 @@ const CALLERS: [&str; 69] = [
     "Rick Szumski",
     "River Abel",
     "Ron Buchanan",
+    "Seth Tepfer",
     "Steph West",
     "Steve Zakon-Anderson",
     "Susan English",
