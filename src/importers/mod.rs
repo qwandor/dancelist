@@ -45,7 +45,7 @@ fn combine_events(old_events: Events, new_events: Events) -> Events {
     events
 }
 
-const BANDS: [&str; 159] = [
+const BANDS: [&str; 162] = [
     "112 and Then Some",
     "A Fine Kettle of Fish",
     "Achterband",
@@ -161,6 +161,7 @@ const BANDS: [&str; 159] = [
     "PFM!",
     "Playing with Fyre",
     "Pont Ondulé",
+    "Portland Megaband",
     "QuiVive",
     "Red Case Band",
     "Rémi Geffroy",
@@ -180,6 +181,7 @@ const BANDS: [&str; 159] = [
     "Swinco",
     "Swingology",
     "Take a Dance",
+    "The Atchisons",
     "The Dam Beavers",
     "The English Muffins",
     "The Fiddling Thomsons",
@@ -196,6 +198,7 @@ const BANDS: [&str; 159] = [
     "Triple-X",
     "Two Hats",
     "Unbowed",
+    "Wabi Sabi",
     "Warleggan Village Band",
     "Wee Merry Banshees",
     "Wheels of the World",
@@ -206,7 +209,7 @@ const BANDS: [&str; 159] = [
     "Wouter en de Draak",
     "Wouter Kuyper",
 ];
-const CALLERS: [&str; 72] = [
+const CALLERS: [&str; 77] = [
     "Adina Gordon",
     "Alan Rosenthal",
     "Alex Deis-Lauby",
@@ -238,6 +241,7 @@ const CALLERS: [&str; 72] = [
     "George Thompson",
     "Janine Smith",
     "Jen Jasenski",
+    "Jill Allen",
     "Joanna Reiner Wilkinson",
     "John Krumm",
     "Jordan Kammeyer",
@@ -246,6 +250,7 @@ const CALLERS: [&str; 72] = [
     "Kelsey Hartman",
     "Ken Gall",
     "Laura Beraha",
+    "Laurel Thomas",
     "Lindsey Dono",
     "Lisa Greenleaf",
     "Lisa Heywood",
@@ -261,6 +266,7 @@ const CALLERS: [&str; 72] = [
     "Orly Krasner",
     "Paul Wilde",
     "Rhodri Davies",
+    "Rich Goss",
     "Rich MacMath",
     "Rich Sbardella",
     "Rick Szumski",
@@ -273,12 +279,14 @@ const CALLERS: [&str; 72] = [
     "Susan Michaels",
     "Susie Kendig",
     "Tara Bolker",
+    "Timothy Klein",
     "Tod Whittemore",
     "Tom Greene",
     "Val Medve",
     "Vicki Morrison",
     "Walter Zagorski",
     "Will Mentor",
+    "William Watson",
 ];
 
 #[cfg(test)]
