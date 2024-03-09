@@ -13,6 +13,7 @@
 // limitations under the License.
 
 pub mod balfolknl;
+pub mod boulder;
 pub mod cdss;
 pub mod ceilidhclub;
 pub mod lancastercontra;
