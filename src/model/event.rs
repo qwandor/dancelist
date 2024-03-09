@@ -13,7 +13,7 @@
 // limitations under the License.
 
 use super::dancestyle::DanceStyle;
-use chrono::{DateTime, Datelike, Duration, FixedOffset, NaiveDate, TimeZone, Utc};
+use chrono::{DateTime, Datelike, FixedOffset, NaiveDate, TimeDelta, TimeZone, Utc};
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize, Serializer};
 use std::ops::Not;
@@ -303,7 +303,7 @@ impl Event {
             } => start_date != end_date,
             // Subtract a few hours from the end time in case it finishes after midnight.
             EventTime::DateTime { start, end } => {
-                start.date_naive() < (end - Duration::hours(5)).date_naive()
+                start.date_naive() < (end - TimeDelta::try_hours(5).unwrap()).date_naive()
             }
         }
     }
