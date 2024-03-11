@@ -108,6 +108,7 @@ const BANDS: [&str; 163] = [
     "Fahrenheit",
     "Feather & Fox",
     "First Time Stringband",
+    "Flying Romanos",
     "Folie du Nord",
     "Folkinger",
     "Fyndus",
@@ -210,7 +211,7 @@ const BANDS: [&str; 163] = [
     "Wouter en de Draak",
     "Wouter Kuyper",
 ];
-const CALLERS: [&str; 77] = [
+const CALLERS: [&str; 80] = [
     "Adina Gordon",
     "Alan Rosenthal",
     "Alex Deis-Lauby",
@@ -236,6 +237,7 @@ const CALLERS: [&str; 77] = [
     "Don Heinold",
     "Don Veino",
     "Dorothy Cummings",
+    "Emily Rush",
     "Erik Hoffman",
     "Gaye Fifer",
     "George Marshall",
@@ -246,6 +248,7 @@ const CALLERS: [&str; 77] = [
     "Joanna Reiner Wilkinson",
     "John Krumm",
     "Jordan Kammeyer",
+    "Judi Rivkin",
     "Kalia Kliban",
     "Katy Heine",
     "Kelsey Hartman",
@@ -265,6 +268,7 @@ const CALLERS: [&str; 77] = [
     "Michael Karchar",
     "Nils Fredland",
     "Orly Krasner",
+    "Paul Ross",
     "Paul Wilde",
     "Rhodri Davies",
     "Rich Goss",
