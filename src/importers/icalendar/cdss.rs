@@ -197,6 +197,9 @@ fn apply_fixes(event: &mut Event) {
                 "https://oldfarmersball.com/english-country-dance/".to_string(),
             );
         }
+        "English Country Dance" if event.city == "Dallas" => {
+            event.links.insert(0, "https://www.nttds.org/".to_string());
+        }
         "Contra at Guiding Star Grange" => {
             event.links.insert(
                 0,
