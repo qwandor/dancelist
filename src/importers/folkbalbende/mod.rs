@@ -214,10 +214,19 @@ fn convert(event: &Event) -> Vec<event::Event> {
     let mut dates = event.dates.clone();
     dates.dedup();
 
+    let name = event
+        .name
+        .trim()
+        .replace(
+            "Practica In De Pianofabriek",
+            "Practica at the Pianofabriek",
+        )
+        .replace("Danslessen Niveau", "Dance Class Level");
+
     dates
         .iter()
         .map(|&date| event::Event {
-            name: event.name.trim().to_owned(),
+            name: name.clone(),
             details: Some(details.clone()),
             links: links.clone(),
             time: make_time(date, start_time, end_time),
