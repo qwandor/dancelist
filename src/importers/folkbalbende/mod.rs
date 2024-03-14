@@ -82,15 +82,12 @@ fn convert(event: &Event) -> Vec<event::Event> {
         .websites
         .iter()
         .filter_map(|website| {
-            if website.url.starts_with("http")
-                && !website
-                    .url
-                    .starts_with("https://frissefolk.be/fr/civicrm/event/info")
-                && !website
-                    .url
-                    .starts_with("https://frissefolk.be/nl/civicrm/event/info")
+            let url = &website.url;
+            if url.starts_with("http")
+                && !url.starts_with("https://frissefolk.be/fr/civicrm/event/info")
+                && !url.starts_with("https://frissefolk.be/nl/civicrm/event/info")
             {
-                Some(website.url.trim().to_owned())
+                Some(url.trim().to_owned())
             } else {
                 None
             }
