@@ -200,6 +200,13 @@ fn apply_fixes(event: &mut Event) {
         "English Country Dance" if event.city == "Dallas" => {
             event.links.insert(0, "https://www.nttds.org/".to_string());
         }
+        "Third Saturday Contra at Guiding Star Grange" => {
+            event.name = "Contra at Guiding Star Grange".to_string();
+            event.links.insert(
+                0,
+                "https://www.guidingstargrange.org/events.html".to_string(),
+            );
+        }
         "Contra at Guiding Star Grange" => {
             event.links.insert(
                 0,
