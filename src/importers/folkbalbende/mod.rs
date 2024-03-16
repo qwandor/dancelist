@@ -87,7 +87,17 @@ fn convert(event: &Event) -> Vec<event::Event> {
                 && !url.starts_with("https://frissefolk.be/fr/civicrm/event/info")
                 && !url.starts_with("https://frissefolk.be/nl/civicrm/event/info")
             {
-                Some(url.trim().to_owned())
+                Some(
+                    url.trim()
+                        .replace(
+                            "nl/event-nl/Danslessen niveau ",
+                            "en/event-en/dance-class-level-",
+                        )
+                        .replace(
+                            "nl/event-nl/Practica in De Pianofabriek",
+                            "en/event-en/practica-at-de-pianofabriek",
+                        ),
+                )
             } else {
                 None
             }
