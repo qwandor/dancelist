@@ -149,6 +149,12 @@ fn apply_fixes(event: &mut Event) {
                 "https://www.thelivingtradition.org/tltbodydance.html".to_string(),
             );
         }
+        "Ann Arbor Tuesday English Country Dance" => {
+            event.name = "Tuesday English Country Dance".to_string();
+            event
+                .links
+                .insert(0, "https://aactmad.org/english-country".to_string());
+        }
         "Capital English Country Dancers" => {
             event.links.insert(
                 0,
@@ -231,6 +237,9 @@ fn apply_fixes(event: &mut Event) {
             event
                 .links
                 .insert(0, "https://fsgw.org/Friday-contra-square-dance".to_string());
+        }
+        "Gainesville Florida English Country Dance" => {
+            event.name = "Gainesville English Country Dance".to_string();
         }
         "Goshen Community Contra Dance" => {
             event.links.insert(0, "http://godancing.org/".to_string());
