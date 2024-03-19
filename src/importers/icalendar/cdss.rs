@@ -269,6 +269,9 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://www.indycontra.org/".to_string());
         }
+        "Jax Contra Dance" => {
+            event.links.insert(0, "https://jaxcontra.org/".to_string());
+        }
         "Lancaster Contra Dance" => {
             event
                 .links
@@ -338,6 +341,11 @@ fn apply_fixes(event: &mut Event) {
             event
                 .links
                 .insert(0, "https://sactocds.wordpress.com/".to_string());
+        }
+        "San Antonio Contra Dance" => {
+            event
+                .links
+                .insert(0, "https://www.satxcontra.org/".to_string());
         }
         "Sebastopol 1st and 3rd Sunday English Dance" => {
             event
