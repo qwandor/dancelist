@@ -45,7 +45,7 @@ fn combine_events(old_events: Events, new_events: Events) -> Events {
     events
 }
 
-const BANDS: [&str; 168] = [
+const BANDS: [&str; 171] = [
     "112 and Then Some",
     "A Fine Kettle of Fish",
     "Achterband",
@@ -113,6 +113,7 @@ const BANDS: [&str; 168] = [
     "Flying Romanos",
     "Folie du Nord",
     "Folkinger",
+    "Fourpence",
     "Fyndus",
     "Geronimo",
     "Good Intentions",
@@ -186,6 +187,7 @@ const BANDS: [&str; 168] = [
     "Swingology",
     "Take a Dance",
     "The Atchisons",
+    "The Black Cat Quadrille",
     "The Dam Beavers",
     "The English Muffins",
     "The Fiddling Thomsons",
@@ -199,6 +201,7 @@ const BANDS: [&str; 168] = [
     "The Syncopaths",
     "The Turning Stile",
     "Tref",
+    "Trillium",
     "Trio Loubelya",
     "Triple-X",
     "Two Hats",
@@ -215,7 +218,7 @@ const BANDS: [&str; 168] = [
     "Wouter en de Draak",
     "Wouter Kuyper",
 ];
-const CALLERS: [&str; 83] = [
+const CALLERS: [&str; 84] = [
     "Adina Gordon",
     "Alan Rosenthal",
     "Alex Deis-Lauby",
@@ -231,6 +234,7 @@ const CALLERS: [&str; 83] = [
     "Brad Foster",
     "Bridget Whitehead",
     "Bronwyn Chelette",
+    "Brooke Friendly",
     "Cathy Campbell",
     "Christine Merryman",
     "Cindy Harris",
