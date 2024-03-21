@@ -219,6 +219,12 @@ fn apply_fixes(event: &mut Event) {
                 "https://www.guidingstargrange.org/events.html".to_string(),
             );
         }
+        "Contra Dance in Shelburne, VT" => {
+            event.name = "Queen City Contra".to_string();
+            event
+                .links
+                .insert(0, "https://queencitycontras.com/schedule".to_string());
+        }
         "Fourth Friday Experienced Contra at Guiding Star Grange" => {
             event.name = "Experienced Contra at Guiding Star Grange".to_string();
             event.links.insert(
