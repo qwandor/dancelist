@@ -393,6 +393,11 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://williamsburgheritagedancers.org/".to_string());
         }
+        "Valley Contra Dance" => {
+            event
+                .links
+                .insert(0, "https://valleycontradance.org/".to_string());
+        }
         "York Region English Country Dancers" => {
             event.links.insert(0, "http://www.yrecd.ca/".to_string());
         }
