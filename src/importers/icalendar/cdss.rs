@@ -155,6 +155,14 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://aactmad.org/english-country".to_string());
         }
+        "Asheville Sunday Afternoon English Country Dance"
+        | "Asheville Wednesday Evening English Country Dance" => {
+            event.name = "English Country Dance".to_string();
+            event.links.insert(
+                0,
+                "https://oldfarmersball.com/english-country-dance/".to_string(),
+            );
+        }
         "Capital English Country Dancers" => {
             event.links.insert(
                 0,
