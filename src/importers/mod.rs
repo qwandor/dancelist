@@ -45,7 +45,7 @@ fn combine_events(old_events: Events, new_events: Events) -> Events {
     events
 }
 
-const BANDS: [&str; 173] = [
+const BANDS: [&str; 178] = [
     "112 and Then Some",
     "A Fine Kettle of Fish",
     "Achterband",
@@ -124,6 +124,7 @@ const BANDS: [&str; 173] = [
     "Headwaters",
     "Hoggetowne Fancy",
     "Holiday Ball Orchestra",
+    "Hot Griselda",
     "Hot Toddy",
     "I Pizzicati",
     "Javallon",
@@ -150,6 +151,7 @@ const BANDS: [&str; 173] = [
     "Long Forgotten String Band",
     "Madlot",
     "Mara Menzel",
+    "Maracu",
     "Marbelous Daves",
     "Martina & Gisbert & Rainer",
     "Mevilish Merry",
@@ -197,14 +199,17 @@ const BANDS: [&str; 173] = [
     "The Free Raisins",
     "The French Connection",
     "The Gaslight Tinkers",
+    "The Ice Cream Truckers",
     "The Little Big Band",
     "The Moving Violations",
     "The String Bean Serenaders",
     "The Syncopaths",
     "The Turning Stile",
+    "The Westside Warblers",
     "Tref",
     "Trillium",
     "Trio Loubelya",
+    "Trip to Norwich",
     "Triple-X",
     "Two Hats",
     "Unbowed",
@@ -220,7 +225,7 @@ const BANDS: [&str; 173] = [
     "Wouter en de Draak",
     "Wouter Kuyper",
 ];
-const CALLERS: [&str; 86] = [
+const CALLERS: [&str; 87] = [
     "Adina Gordon",
     "Alan Rosenthal",
     "Alex Deis-Lauby",
@@ -296,6 +301,7 @@ const CALLERS: [&str; 86] = [
     "Steph West",
     "Steve Zakon-Anderson",
     "Susan English",
+    "Susan Kevra",
     "Susan Michaels",
     "Susie Kendig",
     "Tara Bolker",
