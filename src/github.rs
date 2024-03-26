@@ -110,6 +110,7 @@ pub async fn add_event_to_file(
     let author = email.map(|email| CommitAuthor {
         name: "Add form user".to_string(),
         email: email.to_string(),
+        date: None,
     });
 
     // Create a commit to add or modify the file.
