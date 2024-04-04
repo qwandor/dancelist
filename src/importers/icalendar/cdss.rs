@@ -345,6 +345,12 @@ fn apply_fixes(event: &mut Event) {
                 "https://colonialdanceclubofrichmond.com/english-dance-calendar".to_string(),
             );
         }
+        "Roseville CA First Sunday English Country Dance" => {
+            event.name = "Roseville English Country Dance".to_string();
+            event
+                .links
+                .insert(0, "https://sactocds.wordpress.com/".to_string());
+        }
         "Sacramento English Country Dance (Third Sunday)" => {
             event.name = "Sacramento English Country Dance".to_string();
             event
