@@ -256,7 +256,11 @@ fn convert(event: &Event) -> Vec<event::Event> {
 fn find_start_end_time(event: &Event) -> (Option<NaiveTime>, Option<NaiveTime>) {
     // Find the earliest start time and latest finish time, if any.
     let mut start_times: Vec<NaiveTime> = event.courses.iter().map(|course| course.start).collect();
-    let mut end_times: Vec<NaiveTime> = event.courses.iter().map(|course| course.end).collect();
+    let mut end_times: Vec<NaiveTime> = event
+        .courses
+        .iter()
+        .map(|course| course.end.unwrap_or(course.start))
+        .collect();
     if let Some(ball) = &event.ball {
         start_times.extend(ball.initiation_start);
         end_times.extend(ball.initiation_end);
@@ -375,7 +379,7 @@ mod tests {
             dates: vec![],
             courses: vec![Course {
                 start: NaiveTime::from_hms_opt(19, 0, 0).unwrap(),
-                end: NaiveTime::from_hms_opt(20, 0, 0).unwrap(),
+                end: Some(NaiveTime::from_hms_opt(20, 0, 0).unwrap()),
                 ..Default::default()
             }],
             ball: Some(Ball {
@@ -408,7 +412,7 @@ mod tests {
             dates: vec![],
             courses: vec![Course {
                 start: NaiveTime::from_hms_opt(10, 0, 0).unwrap(),
-                end: NaiveTime::from_hms_opt(18, 0, 0).unwrap(),
+                end: Some(NaiveTime::from_hms_opt(18, 0, 0).unwrap()),
                 ..Default::default()
             }],
             ball: Some(Ball {

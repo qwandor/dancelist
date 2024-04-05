@@ -127,7 +127,7 @@ pub struct Course {
     pub id: u32,
     pub title: String,
     pub start: NaiveTime,
-    pub end: NaiveTime,
+    pub end: Option<NaiveTime>,
     pub teachers: Vec<Teacher>,
     pub nl: String,
     pub fr: String,
