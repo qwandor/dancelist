@@ -45,7 +45,7 @@ fn combine_events(old_events: Events, new_events: Events) -> Events {
     events
 }
 
-const BANDS: [&str; 183] = [
+const BANDS: [&str; 186] = [
     "112 and Then Some",
     "A Fine Kettle of Fish",
     "Achterband",
@@ -168,10 +168,12 @@ const BANDS: [&str; 183] = [
     "Naragonia Quartet",
     "Nebel",
     "Noiranomis",
+    "Northern Aire",
     "Nova",
     "Nubia",
     "Paracetamol",
     "PFM!",
+    "Pimento Mori",
     "Playing with Fyre",
     "Pont Ondulé",
     "Portland Megaband",
@@ -220,6 +222,7 @@ const BANDS: [&str; 183] = [
     "Wabi Sabi",
     "Warleggan Village Band",
     "Wee Merry Banshees",
+    "Wergleyberg",
     "Westside Warblers",
     "Wheels of the World",
     "Wild Asparagus",
@@ -230,7 +233,7 @@ const BANDS: [&str; 183] = [
     "Wouter en de Draak",
     "Wouter Kuyper",
 ];
-const CALLERS: [&str; 88] = [
+const CALLERS: [&str; 91] = [
     "Adina Gordon",
     "Alan Rosenthal",
     "Alex Deis-Lauby",
@@ -275,6 +278,7 @@ const CALLERS: [&str; 88] = [
     "Jordan Kammeyer",
     "Judi Rivkin",
     "Kalia Kliban",
+    "Katie Zanders",
     "Katy Heine",
     "Kelsey Hartman",
     "Ken Gall",
@@ -302,6 +306,7 @@ const CALLERS: [&str; 88] = [
     "Rich Sbardella",
     "Rick Szumski",
     "River Abel",
+    "River Rainbowface",
     "Ron Buchanan",
     "Seth Tepfer",
     "Steph West",
@@ -311,6 +316,7 @@ const CALLERS: [&str; 88] = [
     "Susan Michaels",
     "Susie Kendig",
     "Tara Bolker",
+    "Ted Hodapp",
     "Timothy Klein",
     "Tod Whittemore",
     "Tom Greene",
