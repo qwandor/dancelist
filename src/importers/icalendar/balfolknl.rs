@@ -107,7 +107,7 @@ impl IcalendarSource for BalfolkNl {
             "Unknown city".to_string()
         };
         let country;
-        if city == "Kleve (D)" {
+        if city == "Kleve (D)" || city == "Kleve" {
             country = "Germany".to_string();
             city = "Kleve".to_string();
         } else {
