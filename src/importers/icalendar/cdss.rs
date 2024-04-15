@@ -262,6 +262,12 @@ fn apply_fixes(event: &mut Event) {
                 event.price = Some("$3-$8".to_string());
             }
         }
+        "Hartford Community Dance’s 2nd Saturday Contra Dance" => {
+            event.name = "Hartfort Community Dance Contra".to_string();
+            event
+                .links
+                .insert(0, "http://www.hcdance.org/contra-dance/".to_string());
+        }
         "Hayward Contra Dance" => {
             event
                 .links
@@ -291,6 +297,17 @@ fn apply_fixes(event: &mut Event) {
             event
                 .links
                 .insert(0, "https://lancastercontra.org/".to_string());
+        }
+        "Lawrence Barn Dance Association Contra Dance" => {
+            event.links.insert(
+                0,
+                "https://lawrencecontra.wordpress.com/calendar/".to_string(),
+            );
+        }
+        "Monterey Contra Dance" => {
+            event
+                .links
+                .insert(0, "https://montereycontradance.org/index.html".to_string());
         }
         "Montpelier Contra Dance" => {
             event.links.insert(
