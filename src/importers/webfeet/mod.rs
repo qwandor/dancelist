@@ -83,6 +83,7 @@ fn replace_entities(source: &str) -> String {
     source
         .replace("&nbsp;", "&#160;")
         .replace("&sup2;", "&#178;")
+        .replace("&Aacute;", "&#193;")
         .replace("&Agrave;", "&#192;")
         .replace("&agrave;", "&#224;")
         .replace("&Ccedil;", "&#199;")
