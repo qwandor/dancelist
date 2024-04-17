@@ -298,6 +298,11 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://lancastercontra.org/".to_string());
         }
+        "Las Vegas Contra Dance" => {
+            event
+                .links
+                .insert(0, "https://www.lasvegascontradance.org/".to_string());
+        }
         "Lawrence Barn Dance Association Contra Dance" => {
             event.links.insert(
                 0,
