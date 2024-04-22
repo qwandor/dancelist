@@ -45,7 +45,7 @@ fn combine_events(old_events: Events, new_events: Events) -> Events {
     events
 }
 
-const BANDS: [&str; 194] = [
+const BANDS: [&str; 195] = [
     "112 and Then Some",
     "A Fine Kettle of Fish",
     "Achterband",
@@ -125,6 +125,7 @@ const BANDS: [&str; 194] = [
     "Good Intentions",
     "Gott Folk!",
     "GrayScale",
+    "Guillaume Sparrow-Pepin & Rachel Bell",
     "Hartwin Dhoore Trio",
     "Hartwin Dhoore",
     "Headwaters",
@@ -241,7 +242,7 @@ const BANDS: [&str; 194] = [
     "Wouter en de Draak",
     "Wouter Kuyper",
 ];
-const CALLERS: [&str; 93] = [
+const CALLERS: [&str; 95] = [
     "Adina Gordon",
     "Alan Rosenthal",
     "Alex Deis-Lauby",
@@ -307,6 +308,7 @@ const CALLERS: [&str; 93] = [
     "Mary Wesley",
     "Michael Karchar",
     "Nils Fredland",
+    "Olivia Barry",
     "Orly Krasner",
     "Paul Ross",
     "Paul Wilde",
@@ -333,6 +335,7 @@ const CALLERS: [&str; 93] = [
     "Val Medve",
     "Vicki Morrison",
     "Walter Zagorski",
+    "Wendy Graham",
     "Will Mentor",
     "William Watson",
 ];
