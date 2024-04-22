@@ -320,6 +320,12 @@ fn apply_fixes(event: &mut Event) {
                 "https://capitalcitygrange.org/dancing/contradancing/".to_string(),
             );
         }
+        "Monday Night Contra Dance at the Laurel Theater" => {
+            event.name = "Contra Dance at the Laurel Theater".to_string();
+            event
+                .links
+                .insert(0, "https://www.knoxvillecontra.org/schedule".to_string());
+        }
         "Mystic Pie Dance" => {
             event
                 .links
