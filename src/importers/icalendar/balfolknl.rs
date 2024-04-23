@@ -65,6 +65,7 @@ impl IcalendarSource for BalfolkNl {
             || parts.summary.starts_with("BalFolk met ")
             || parts.summary.starts_with("Balfolk op zondagmiddag")
             || parts.summary.starts_with("Balfolk op de")
+            || parts.summary.starts_with("Balfolkcafe")
             || parts.summary.starts_with("BresBal")
             || parts.summary.starts_with("Dansavond")
             || parts.summary.starts_with("Drakenbal")
