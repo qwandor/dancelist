@@ -297,7 +297,7 @@ fn apply_fixes(event: &mut Event) {
             event.name = "Port Ewen English Country Dance".to_string();
             event.links.insert(
                 0,
-                "https://www.hudsonvalleydance.org/english-country-1".to_string,
+                "https://www.hudsonvalleydance.org/english-country-1".to_string(),
             );
             if event.organisation.is_none() {
                 event.organisation = Some("Hudson Valley Country Dancers".to_string());
