@@ -45,12 +45,13 @@ fn combine_events(old_events: Events, new_events: Events) -> Events {
     events
 }
 
-const BANDS: [&str; 197] = [
+const BANDS: [&str; 201] = [
     "112 and Then Some",
     "A Fine Kettle of Fish",
     "Achterband",
     "AdHoc Orkest",
     "Aérokorda",
+    "Air de Famille",
     "Airboxes",
     "AlleMonOh Stringband",
     "Andrea Capezzuoli",
@@ -93,6 +94,7 @@ const BANDS: [&str; 197] = [
     "Dead Sea Squirrels",
     "Devilish Mary",
     "Dogtown",
+    "Dreamy Folk Flow",
     "Drehwurm",
     "Drive Train",
     "Drøn",
@@ -186,6 +188,7 @@ const BANDS: [&str; 197] = [
     "Portland Megaband",
     "QuiVive",
     "Red Case Band",
+    "Reelplay",
     "Rémi Geffroy",
     "River Music",
     "River Road",
@@ -227,6 +230,7 @@ const BANDS: [&str; 197] = [
     "Trio Loubelya",
     "Trip to Norwich",
     "Triple-X",
+    "Two Catch a Raindrop",
     "Two Hats",
     "Unbowed",
     "Vandiekomsa",
@@ -244,7 +248,7 @@ const BANDS: [&str; 197] = [
     "Wouter en de Draak",
     "Wouter Kuyper",
 ];
-const CALLERS: [&str; 96] = [
+const CALLERS: [&str; 97] = [
     "Adina Gordon",
     "Alan Rosenthal",
     "Alex Deis-Lauby",
@@ -265,6 +269,7 @@ const CALLERS: [&str; 96] = [
     "Charley Harvey",
     "Christine Merryman",
     "Cindy Harris",
+    "Cis Hinkle",
     "Claire Takemori",
     "Dan Blim",
     "Darlene Underwood",
