@@ -217,6 +217,12 @@ fn apply_fixes(event: &mut Event) {
         "English Country Dance" if event.city == "Dallas" => {
             event.links.insert(0, "https://www.nttds.org/".to_string());
         }
+        "English Country Dance" if event.city == "Richmond" => {
+            event.links.insert(
+                0,
+                "http://burlingtoncountrydancers.org/english-country-dance-series/".to_string(),
+            );
+        }
         "Third Saturday Contra at Guiding Star Grange" => {
             event.name = "Contra at Guiding Star Grange".to_string();
             event.links.insert(
@@ -287,6 +293,16 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://hatds.org/ecd#hatds".to_string());
         }
+        "Hudson Valley Country Dancers - Port Ewen English Country Dance" => {
+            event.name = "Port Ewen English Country Dance".to_string();
+            event.links.insert(
+                0,
+                "https://www.hudsonvalleydance.org/english-country-1".to_string,
+            );
+            if event.organisation.is_none() {
+                event.organisation = Some("Hudson Valley Country Dancers".to_string());
+            }
+        }
         "Indy Contra Dance" => {
             event
                 .links
@@ -315,6 +331,12 @@ fn apply_fixes(event: &mut Event) {
             event
                 .links
                 .insert(0, "https://montereycontradance.org/index.html".to_string());
+        }
+        "Monthly American Folk Dance and Contra Series at Children's Museum of Oak Ridge" => {
+            event.name = "Knoxville Contra Dance".to_string();
+            event
+                .links
+                .insert(0, "https://www.knoxvillecontra.org/schedule".to_string());
         }
         "Montpelier Contra Dance" => {
             event.links.insert(
