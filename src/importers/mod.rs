@@ -45,7 +45,7 @@ fn combine_events(old_events: Events, new_events: Events) -> Events {
     events
 }
 
-const BANDS: [&str; 201] = [
+const BANDS: [&str; 203] = [
     "112 and Then Some",
     "A Fine Kettle of Fish",
     "Achterband",
@@ -75,6 +75,7 @@ const BANDS: [&str; 201] = [
     "Bougnat Sound",
     "Bourrée Party Crackers",
     "Bouton",
+    "Brazenkeys",
     "Broes",
     "Brook Farm String Band",
     "Bunny Bread Bandits",
@@ -135,6 +136,7 @@ const BANDS: [&str; 201] = [
     "Hijinks",
     "Hoggetowne Fancy",
     "Holiday Ball Orchestra",
+    "Hot Coffee Breakdown",
     "Hot Griselda",
     "Hot Toddy",
     "I Pizzicati",
