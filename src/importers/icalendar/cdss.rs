@@ -299,7 +299,7 @@ fn apply_fixes(event: &mut Event) {
                 0,
                 "https://www.hudsonvalleydance.org/english-country-1".to_string(),
             );
-            if event.organisation.is_none() {
+            if event.organisation.as_deref() == Some("cdss") {
                 event.organisation = Some("Hudson Valley Country Dancers".to_string());
             }
         }
