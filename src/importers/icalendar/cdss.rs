@@ -141,6 +141,11 @@ fn shorten_name(name: &str) -> String {
 /// Apply fixes for specific event series.
 fn apply_fixes(event: &mut Event) {
     match event.name.as_str() {
+        "2nd Saturdays Contra Dance" if event.city == "Portland" => {
+            event
+                .links
+                .insert(0, "https://portlandcountrydance.org/upcoming/".to_string());
+        }
         "3rd Saturday Contra Dance" if event.city == "Philadelphia" => {
             event
                 .links
@@ -241,6 +246,10 @@ fn apply_fixes(event: &mut Event) {
             event
                 .links
                 .insert(0, "https://queencitycontras.com/schedule".to_string());
+        }
+        "Contra Dancing in Houston, TX" => {
+            event.name = "Contra Dance".to_string();
+            event.links.insert(0, "https://hatds.org/".to_string());
         }
         "Fourth Friday Experienced Contra at Guiding Star Grange" => {
             event.name = "Experienced Contra at Guiding Star Grange".to_string();
@@ -419,6 +428,11 @@ fn apply_fixes(event: &mut Event) {
             event
                 .links
                 .insert(0, "https://www.satxcontra.org/".to_string());
+        }
+        "San Luis Obispo Monthly Contra Dance" => {
+            event
+                .links
+                .insert(0, "https://www.cccds.org/schedule/".to_string());
         }
         "Sebastopol 1st and 3rd Sunday English Dance" => {
             event
