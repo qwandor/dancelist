@@ -250,7 +250,7 @@ const BANDS: [&str; 203] = [
     "Wouter en de Draak",
     "Wouter Kuyper",
 ];
-const CALLERS: [&str; 97] = [
+const CALLERS: [&str; 100] = [
     "Adina Gordon",
     "Alan Rosenthal",
     "Alex Deis-Lauby",
@@ -284,6 +284,7 @@ const CALLERS: [&str; 97] = [
     "Don Veino",
     "Dorothy Cummings",
     "Earl McGill",
+    "Emily Addison",
     "Emily Rush",
     "Erik Hoffman",
     "Gaye Fifer",
@@ -317,6 +318,7 @@ const CALLERS: [&str; 97] = [
     "Martha Kent",
     "Mary Wesley",
     "Michael Karchar",
+    "Myra Hirschberg",
     "Nils Fredland",
     "Olivia Barry",
     "Orly Krasner",
@@ -341,6 +343,7 @@ const CALLERS: [&str; 97] = [
     "Ted Hodapp",
     "Timothy Klein",
     "Tod Whittemore",
+    "Tom Callwell",
     "Tom Greene",
     "Val Medve",
     "Vicki Morrison",
