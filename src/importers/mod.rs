@@ -250,7 +250,7 @@ const BANDS: [&str; 203] = [
     "Wouter en de Draak",
     "Wouter Kuyper",
 ];
-const CALLERS: [&str; 100] = [
+const CALLERS: [&str; 103] = [
     "Adina Gordon",
     "Alan Rosenthal",
     "Alex Deis-Lauby",
@@ -267,6 +267,7 @@ const CALLERS: [&str; 100] = [
     "Bridget Whitehead",
     "Bronwyn Chelette",
     "Brooke Friendly",
+    "Bruce Hamilton",
     "Cathy Campbell",
     "Charley Harvey",
     "Christine Merryman",
@@ -288,6 +289,7 @@ const CALLERS: [&str; 100] = [
     "Emily Rush",
     "Erik Hoffman",
     "Gaye Fifer",
+    "Gene Murrow",
     "George Marshall",
     "George Thompson",
     "Greg Frock",
@@ -304,6 +306,7 @@ const CALLERS: [&str; 100] = [
     "Kelsey Hartman",
     "Ken Gall",
     "Laura Beraha",
+    "Laura Hudlow",
     "Laurel Thomas",
     "Lindsey Dono",
     "Lisa Greenleaf",
