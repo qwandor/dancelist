@@ -125,7 +125,6 @@
         },
         "organisation": {
           "description": "The organisation who run the event.",
-          "default": null,
           "type": [
             "string",
             "null"
