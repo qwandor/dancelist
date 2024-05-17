@@ -302,6 +302,12 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://hatds.org/ecd#hatds".to_string());
         }
+        "English Country Dance in Houston" => {
+            event.name = "English Country Dance".to_string();
+            event
+                .links
+                .insert(0, "https://hatds.org/ecd#hatds".to_string());
+        }
         "Hudson Valley Country Dancers - Port Ewen English Country Dance" => {
             event.name = "Port Ewen English Country Dance".to_string();
             event.links.insert(
