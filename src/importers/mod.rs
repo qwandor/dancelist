@@ -45,7 +45,7 @@ fn combine_events(old_events: Events, new_events: Events) -> Events {
     events
 }
 
-const BANDS: [&str; 204] = [
+const BANDS: [&str; 208] = [
     "112 and Then Some",
     "A Fine Kettle of Fish",
     "Achterband",
@@ -181,6 +181,7 @@ const BANDS: [&str; 204] = [
     "Noiranomis",
     "Northern Aire",
     "Nova",
+    "Nozzy",
     "Nubia",
     "Paracetamol",
     "PFM!",
@@ -190,11 +191,13 @@ const BANDS: [&str; 204] = [
     "Portland Megaband",
     "QuiVive",
     "Red Case Band",
+    "Red Dog Riley",
     "Reelplay",
     "Rémi Geffroy",
     "River Music",
     "River Road",
     "Rokkende Vrouwen",
+    "Sail Away Ladies",
     "Serendipity",
     "Simone Bottasso",
     "Smith, Campeau & Nelson",
@@ -204,6 +207,7 @@ const BANDS: [&str; 204] = [
     "SpringTide",
     "Starling",
     "Stomp Rocket",
+    "Stringrays",
     "Supertrad",
     "Swinco",
     "Swingology",
@@ -251,7 +255,7 @@ const BANDS: [&str; 204] = [
     "Wouter en de Draak",
     "Wouter Kuyper",
 ];
-const CALLERS: [&str; 103] = [
+const CALLERS: [&str; 105] = [
     "Adina Gordon",
     "Alan Rosenthal",
     "Alex Deis-Lauby",
@@ -302,6 +306,7 @@ const CALLERS: [&str; 103] = [
     "Jordan Kammeyer",
     "Judi Rivkin",
     "Kalia Kliban",
+    "Kappy Laning",
     "Katie Zanders",
     "Katy Heine",
     "Kelsey Hartman",
@@ -314,6 +319,7 @@ const CALLERS: [&str; 103] = [
     "Lisa Harris-Frydman",
     "Lisa Heywood",
     "Liz Nelson",
+    "Louise Siddons",
     "Luke Donforth",
     "Mae Wilson",
     "Maeve Devlin",
