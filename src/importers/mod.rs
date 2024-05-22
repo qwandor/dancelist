@@ -45,7 +45,7 @@ fn combine_events(old_events: Events, new_events: Events) -> Events {
     events
 }
 
-const BANDS: [&str; 208] = [
+const BANDS: [&str; 209] = [
     "112 and Then Some",
     "A Fine Kettle of Fish",
     "Achterband",
@@ -94,6 +94,7 @@ const BANDS: [&str; 208] = [
     "De Trekvogels",
     "Dead Sea Squirrels",
     "Devilish Mary",
+    "DJ TacoShel",
     "Dogtown",
     "Dreamy Folk Flow",
     "Drehwurm",
@@ -104,11 +105,11 @@ const BANDS: [&str; 208] = [
     "Duo Bottasso",
     "Duo Clercx",
     "Duo Gielen-Buscan",
+    "Duo l'Hêtre Heureux",
     "Duo Mackie/Hendrix",
     "Duo Pacher-Roblin",
     "Duo Roblin-Thebaut",
     "Duo Torv",
-    "Duo l'Hêtre Heureux",
     "Elixir",
     "Eloise & Co.",
     "Emelie Waldken",
@@ -255,7 +256,7 @@ const BANDS: [&str; 208] = [
     "Wouter en de Draak",
     "Wouter Kuyper",
 ];
-const CALLERS: [&str; 105] = [
+const CALLERS: [&str; 106] = [
     "Adina Gordon",
     "Alan Rosenthal",
     "Alex Deis-Lauby",
@@ -284,6 +285,7 @@ const CALLERS: [&str; 105] = [
     "Dave Berman",
     "Dave Smukler",
     "David Macemon",
+    "Deanna Palumbo",
     "Dereck Kalish",
     "Diane Silver",
     "Don Heinold",
