@@ -45,7 +45,7 @@ fn combine_events(old_events: Events, new_events: Events) -> Events {
     events
 }
 
-const BANDS: [&str; 210] = [
+const BANDS: [&str; 212] = [
     "112 and Then Some",
     "A Fine Kettle of Fish",
     "Achterband",
@@ -142,6 +142,7 @@ const BANDS: [&str; 210] = [
     "Hot Toddy",
     "I Pizzicati",
     "Javallon",
+    "Jeroen Laureyssens",
     "Jormsons Kapell",
     "Joyance",
     "Kelten zonder Grenzen",
@@ -214,6 +215,7 @@ const BANDS: [&str; 210] = [
     "Swinco",
     "Swingology",
     "Take a Dance",
+    "Thalas",
     "The Atchisons",
     "The Boom Chicks",
     "The Black Cat Quadrille",
