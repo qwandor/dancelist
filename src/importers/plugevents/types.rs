@@ -48,12 +48,15 @@ pub struct Event {
     pub venue_locale: Option<String>,
     pub low_price: Option<u32>,
     pub high_price: Option<u32>,
+    pub low_price2: Option<u32>,
+    pub high_price2: Option<u32>,
     pub currency: Option<String>,
     pub is_free: bool,
     pub price_display: Option<String>,
     pub is_expanded: bool,
     pub event_format: EventFormat,
     pub event_format_display: String,
+    pub date_grouping_label: String,
 }
 
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq)]
