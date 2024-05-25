@@ -25,7 +25,7 @@ pub struct EventList {
     pub event_list_url: String,
 }
 
-#[derive(Clone, Debug, Deserialize, Eq, PartialEq)]
+#[derive(Clone, Debug, Default, Deserialize, Eq, PartialEq)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct Event {
     pub slug: String,
@@ -59,9 +59,10 @@ pub struct Event {
     pub date_grouping_label: String,
 }
 
-#[derive(Clone, Debug, Deserialize, Eq, PartialEq)]
+#[derive(Clone, Debug, Default, Deserialize, Eq, PartialEq)]
 #[serde(rename_all = "UPPERCASE")]
 pub enum EventFormat {
+    #[default]
     Class,
     Fest,
     Party,

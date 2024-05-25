@@ -113,3 +113,27 @@ fn format_price(event: &Event) -> Option<String> {
         })
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_format_price() {
+        assert_eq!(format_price(&Event::default()), None);
+        assert_eq!(
+            format_price(&Event {
+                price_display: Some("€ 10".to_string()),
+                ..Default::default()
+            }),
+            Some("€10".to_string())
+        );
+        assert_eq!(
+            format_price(&Event {
+                price_display: Some("€ 5-23".to_string()),
+                ..Default::default()
+            }),
+            Some("€5-€23".to_string())
+        );
+    }
+}
