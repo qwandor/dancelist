@@ -34,7 +34,7 @@ use crate::{
             balfolknl::BalfolkNl, boulder::Boulder, cdss::Cdss, ceilidhclub::CeilidhClub,
             import_events, lancastercontra::LancasterContra, spreefolk::Spreefolk,
         },
-        trycontra, webfeet,
+        plugevents, trycontra, webfeet,
     },
     model::events::Events,
 };
@@ -45,6 +45,7 @@ use axum::{
 };
 use clap::{Parser, Subcommand, ValueEnum};
 use eyre::Report;
+use importers::write_by_country;
 use log::info;
 use schemars::schema_for;
 use std::{
@@ -86,6 +87,13 @@ enum Command {
     Import {
         /// The source from which to import events.
         source: ImportSource,
+        /// The file to which to write the imported events.
+        filename: PathBuf,
+    },
+    /// Imports events from plug.events.
+    ImportPlugEvents {
+        /// The API token to use.
+        token: String,
         /// The file to which to write the imported events.
         filename: PathBuf,
     },
@@ -136,6 +144,9 @@ async fn main() -> Result<(), Report> {
         Some(Command::Duplicates) => find_duplicates().await,
         Some(Command::Diff { old, new }) => diff(old, new).await,
         Some(Command::Import { source, filename }) => import(*source, filename).await,
+        Some(Command::ImportPlugEvents { token, filename }) => {
+            import_plug_events(token, filename).await
+        }
     }
 }
 
@@ -202,6 +213,12 @@ async fn import(source: ImportSource, filename: &Path) -> Result<(), Report> {
         ImportSource::Webfeet => webfeet::import_events().await?,
     };
     write(filename, events.to_yaml_string()?)?;
+    Ok(())
+}
+
+async fn import_plug_events(token: &str, filename: &Path) -> Result<(), Report> {
+    let events = plugevents::import_events(token).await?;
+    write_by_country(events, filename)?;
     Ok(())
 }
 

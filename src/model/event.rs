@@ -22,6 +22,7 @@ use std::ops::Not;
 const FACEBOOK_EVENT_PREFIX: &str = "https://www.facebook.com/events/";
 const FBB_EVENT_PREFIX: &str = "https://folkbalbende.be/event/";
 const CDSS_EVENT_PREFIX: &str = "https://cdss.org/event/";
+const PLUG_EVENTS_PREFIX: &str = "https://www.plug.events/event/";
 
 #[derive(Clone, Debug, Deserialize, Eq, JsonSchema, PartialEq, Serialize)]
 pub struct Event {
@@ -251,6 +252,7 @@ impl Event {
             !link.starts_with(FACEBOOK_EVENT_PREFIX)
                 && !link.starts_with(FBB_EVENT_PREFIX)
                 && !link.starts_with(CDSS_EVENT_PREFIX)
+                && !link.starts_with(PLUG_EVENTS_PREFIX)
         })
     }
 
@@ -259,6 +261,7 @@ impl Event {
         let mut facebook_links = vec![];
         let mut fbb_links = vec![];
         let mut cdss_links = vec![];
+        let mut plug_events_links = vec![];
         let mut other_links = vec![];
         let mut first_gone = false;
         for link in &self.links {
@@ -277,6 +280,11 @@ impl Event {
                     short_name: "CDSS".to_string(),
                     url: link.to_owned(),
                 })
+            } else if link.starts_with(PLUG_EVENTS_PREFIX) {
+                plug_events_links.push(Link {
+                    short_name: "Plug".to_string(),
+                    url: link.to_owned(),
+                })
             } else if first_gone {
                 other_links.push(Link {
                     short_name: "…".to_string(),
@@ -290,6 +298,7 @@ impl Event {
         let mut links = facebook_links;
         links.extend(fbb_links);
         links.extend(cdss_links);
+        links.extend(plug_events_links);
         links.extend(other_links);
         links
     }

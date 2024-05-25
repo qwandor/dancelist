@@ -195,7 +195,7 @@ async fn sha_for_branch(
 /// with underscores, and removing special characters.
 ///
 /// The returned string will only contain ASCII alphanumeric characters, underscores and hyphens.
-fn to_safe_filename(s: &str) -> String {
+pub fn to_safe_filename(s: &str) -> String {
     let mut filename = s.to_lowercase().replace(' ', "_");
     filename.retain(|c| c.is_ascii_alphanumeric() || c == '_' || c == '-');
     filename.truncate(30);
