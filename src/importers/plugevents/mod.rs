@@ -100,12 +100,16 @@ fn convert(event: &Event, style: DanceStyle) -> Result<Option<event::Event>, Rep
 }
 
 fn format_price(event: &Event) -> Option<String> {
-    event.price_display.as_ref().map(|price| {
-        let mut price = price.replace(" ", "");
-        let currency = price.chars().next().unwrap();
-        if "$£€".contains(currency) {
-            price = price.replace("-", &format!("-{}", currency));
-        }
-        price
-    })
+    if event.is_free {
+        Some("free".to_string())
+    } else {
+        event.price_display.as_ref().map(|price| {
+            let mut price = price.replace(" ", "");
+            let currency = price.chars().next().unwrap();
+            if "$£€".contains(currency) {
+                price = price.replace("-", &format!("-{}", currency));
+            }
+            price
+        })
+    }
 }
