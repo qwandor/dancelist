@@ -21,16 +21,21 @@ use crate::model::{
     events::Events,
 };
 use eyre::{eyre, Report};
-use std::fs::read_to_string;
 
-pub async fn events() -> Result<Vec<Event>, Report> {
-    let json = read_to_string("plugevents.json")?;
+pub async fn events(token: &str) -> Result<Vec<Event>, Report> {
+    let json = reqwest::get(format!(
+        "https://api1.plug.events/api1/embed/embed1?token={}",
+        token
+    ))
+    .await?
+    .text()
+    .await?;
     let events: EventList = serde_json::from_str(&json)?;
     Ok(events.events)
 }
 
-pub async fn import_events() -> Result<Events, Report> {
-    let events = events().await?;
+pub async fn import_events(token: &str) -> Result<Events, Report> {
+    let events = events(token).await?;
     let style = DanceStyle::Balfolk;
 
     Ok(Events {

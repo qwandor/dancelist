@@ -89,6 +89,13 @@ enum Command {
         /// The file to which to write the imported events.
         filename: PathBuf,
     },
+    /// Imports events from plug.events.
+    ImportPlugEvents {
+        /// The API token to use.
+        token: String,
+        /// The file to which to write the imported events.
+        filename: PathBuf,
+    },
     /// Loads events as configured in the config file and tries to find duplicates.
     #[command(name = "dups")]
     Duplicates,
@@ -114,8 +121,6 @@ enum ImportSource {
     Trycontra,
     /// Imports events from webfeet.org.
     Webfeet,
-    /// Imports events from plug.events.
-    PlugEvents,
 }
 
 #[tokio::main]
@@ -138,6 +143,9 @@ async fn main() -> Result<(), Report> {
         Some(Command::Duplicates) => find_duplicates().await,
         Some(Command::Diff { old, new }) => diff(old, new).await,
         Some(Command::Import { source, filename }) => import(*source, filename).await,
+        Some(Command::ImportPlugEvents { token, filename }) => {
+            import_plug_events(token, filename).await
+        }
     }
 }
 
@@ -202,8 +210,13 @@ async fn import(source: ImportSource, filename: &Path) -> Result<(), Report> {
         ImportSource::LancasterContra => import_events::<LancasterContra>(old_events).await?,
         ImportSource::Trycontra => trycontra::import_events().await?,
         ImportSource::Webfeet => webfeet::import_events().await?,
-        ImportSource::PlugEvents => plugevents::import_events().await?,
     };
+    write(filename, events.to_yaml_string()?)?;
+    Ok(())
+}
+
+async fn import_plug_events(token: &str, filename: &Path) -> Result<(), Report> {
+    let events = plugevents::import_events(token).await?;
     write(filename, events.to_yaml_string()?)?;
     Ok(())
 }
