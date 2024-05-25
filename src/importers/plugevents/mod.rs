@@ -95,5 +95,12 @@ fn convert(event: &Event, style: DanceStyle) -> Result<Option<event::Event>, Rep
 }
 
 fn format_price(event: &Event) -> Option<String> {
-    None
+    event.price_display.as_ref().map(|price| {
+        let mut price = price.replace(" ", "");
+        let currency = price.chars().next().unwrap();
+        if "$£€".contains(currency) {
+            price = price.replace("-", &format!("-{}", currency));
+        }
+        price
+    })
 }
