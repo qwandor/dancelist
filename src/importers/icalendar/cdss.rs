@@ -228,7 +228,9 @@ fn apply_fixes(event: &mut Event) {
                 "http://burlingtoncountrydancers.org/english-country-dance-series/".to_string(),
             );
         }
-        "Third Saturday Contra at Guiding Star Grange" => {
+        "Third Saturday Contra at Guiding Star Grange"
+        | "Third Friday Contra at Guiding Star Grange"
+        | "Fifth Friday Contra at Guiding Star Grange" => {
             event.name = "Contra at Guiding Star Grange".to_string();
             event.links.insert(
                 0,
