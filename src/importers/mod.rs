@@ -79,7 +79,7 @@ pub fn write_by_country(events: Events, filename: &Path) -> Result<(), Report> {
         );
         if country_filename.exists() {
             // Load without validating, as imports may be invalid.
-            let old_events = Events::load_file_without_validation(filename)?;
+            let old_events = Events::load_file_without_validation(&country_filename)?;
             country_events = combine_events(old_events, country_events);
         } else {
             create_dir_all(country_filename.parent().unwrap())?;
