@@ -68,6 +68,7 @@ fn convert(event: &Event, style: DanceStyle) -> Result<Option<event::Event>, Rep
     let (workshop, social) = match event.event_format {
         EventFormat::Class => (true, false),
         EventFormat::Fest => (true, true),
+        EventFormat::Meet => (false, true),
         EventFormat::Party => (false, true),
     };
 

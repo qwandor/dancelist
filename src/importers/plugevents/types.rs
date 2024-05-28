@@ -65,5 +65,6 @@ pub enum EventFormat {
     #[default]
     Class,
     Fest,
+    Meet,
     Party,
 }
