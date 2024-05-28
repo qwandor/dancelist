@@ -82,6 +82,8 @@ fn convert(event: &Event, style: DanceStyle) -> Result<Option<event::Event>, Rep
                 .with_timezone(&event.timezone)
                 .fixed_offset()
                 .with_second(0)
+                .unwrap()
+                .with_nanosecond(0)
                 .unwrap(),
             end: event
                 .end_date_time_iso
