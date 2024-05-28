@@ -20,6 +20,7 @@ use crate::model::{
     event::{self, EventTime},
     events::Events,
 };
+use chrono::Timelike;
 use eyre::{eyre, Report};
 
 pub async fn events(token: &str) -> Result<Vec<Event>, Report> {
@@ -78,7 +79,9 @@ fn convert(event: &Event, style: DanceStyle) -> Result<Option<event::Event>, Rep
             start: event
                 .start_date_time_iso
                 .with_timezone(&event.timezone)
-                .fixed_offset(),
+                .fixed_offset()
+                .with_second(0)
+                .unwrap(),
             end: event
                 .end_date_time_iso
                 .with_timezone(&event.timezone)
