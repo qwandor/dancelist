@@ -191,6 +191,8 @@ fn convert(event: &Event) -> Vec<event::Event> {
         Some("Ol Da Folk Brugge".to_owned())
     } else if links.iter().any(|link| link.contains("stanistil.be")) {
         Some("Stanistil".to_owned())
+    } else if links.iter().any(|link| link.contains("pasdlayau.be")) {
+        Some("Pas d'La Yau".to_owned())
     } else {
         None
     };
