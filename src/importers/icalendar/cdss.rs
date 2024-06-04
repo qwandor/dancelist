@@ -330,6 +330,11 @@ fn apply_fixes(event: &mut Event) {
         "Jax Contra Dance" => {
             event.links.insert(0, "https://jaxcontra.org/".to_string());
         }
+        "Lake City Contra Dance" => {
+            event
+                .links
+                .insert(0, "https://seattledance.org/contra/lakecity/".to_string());
+        }
         "Lancaster Contra Dance" => {
             event
                 .links
@@ -410,7 +415,7 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "http://www.hcdance.org/quiet-corner-contra/".to_string());
         }
-        "Richmond Wednesday English Country Dance" => {
+        "Richmond English Country Dance" | "Richmond Wednesday English Country Dance" => {
             event.links.insert(
                 0,
                 "https://colonialdanceclubofrichmond.com/english-dance-calendar".to_string(),
@@ -484,6 +489,11 @@ fn apply_fixes(event: &mut Event) {
             event
                 .links
                 .insert(0, "https://thursdaycontra.com/".to_string());
+        }
+        "Wednesday Night Contra Dance" if event.city == "Baltimore" => {
+            event
+                .links
+                .insert(0, "https://www.bfms.org/squarecontra.php".to_string());
         }
         "Williamsburg Tuesday Night English Dance" => {
             event
