@@ -306,7 +306,7 @@ const BANDS: [&str; 215] = [
     "Wouter en de Draak",
     "Wouter Kuyper",
 ];
-const CALLERS: [&str; 108] = [
+const CALLERS: [&str; 109] = [
     "Adina Gordon",
     "Alan Rosenthal",
     "Alex Deis-Lauby",
@@ -398,6 +398,7 @@ const CALLERS: [&str; 108] = [
     "Ron Buchanan",
     "Seth Tepfer",
     "Steph West",
+    "Steve Gester",
     "Steve Zakon-Anderson",
     "Susan English",
     "Susan Kevra",
