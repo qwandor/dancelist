@@ -36,7 +36,7 @@ stable-eyre = "0.2.2"
 tokio = { version = "1.38.0", features = ["macros", "rt-multi-thread"] }
 toml = "0.8.14"
 tower-http = { version = "0.5.2", features = ["fs"] }
-url = "2.5.0"
+url = "2.5.1"
 
 [package.metadata.deb]
 section = "web"
