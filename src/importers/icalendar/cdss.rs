@@ -245,6 +245,11 @@ fn apply_fixes(event: &mut Event) {
                 "https://www.guidingstargrange.org/events.html".to_string(),
             );
         }
+        "Contra Dance at Lake Murray Contra Hall" => {
+            event
+                .links
+                .insert(0, "https://www.contracola.org/".to_string());
+        }
         "Contra Dance in Shelburne, VT" => {
             event.name = "Queen City Contra".to_string();
             event
