@@ -89,7 +89,7 @@ pub fn write_by_country(events: Events, filename: &Path) -> Result<(), Report> {
     Ok(())
 }
 
-const BANDS: [&str; 221] = [
+const BANDS: [&str; 222] = [
     "112 and Then Some",
     "A Fine Kettle of Fish",
     "Achterband",
@@ -305,6 +305,7 @@ const BANDS: [&str; 221] = [
     "Westside Warblers",
     "Wheels of the World",
     "Wild Asparagus",
+    "Wild Wombats of the Chesapeake",
     "Wilma",
     "Wim te Groen",
     "Wings & Tales",
