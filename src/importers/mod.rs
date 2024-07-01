@@ -313,7 +313,7 @@ const BANDS: [&str; 222] = [
     "Wouter en de Draak",
     "Wouter Kuyper",
 ];
-const CALLERS: [&str; 115] = [
+const CALLERS: [&str; 117] = [
     "Adina Gordon",
     "Alan Rosenthal",
     "Alex Deis-Lauby",
@@ -336,6 +336,7 @@ const CALLERS: [&str; 115] = [
     "Caroline Barnes",
     "Cathy Campbell",
     "Charley Harvey",
+    "Chrissy Fowler",
     "Christine Merryman",
     "Cindy Harris",
     "Cis Hinkle",
@@ -382,6 +383,7 @@ const CALLERS: [&str; 115] = [
     "Lisa Greenleaf",
     "Lisa Harris-Frydman",
     "Lisa Heywood",
+    "Lisa Newcomb",
     "Liz Nelson",
     "Louise Siddons",
     "Luke Donforth",
