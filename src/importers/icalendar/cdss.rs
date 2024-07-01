@@ -279,6 +279,9 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://fsgw.org/Friday-contra-square-dance".to_string());
         }
+        "Friends of Traditional Dance Contra" => {
+            event.links.insert(0, "https://fotd.org/".to_string());
+        }
         "Gainesville Florida English Country Dance" => {
             event.name = "Gainesville English Country Dance".to_string();
         }
