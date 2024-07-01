@@ -282,6 +282,12 @@ fn apply_fixes(event: &mut Event) {
         "Friends of Traditional Dance Contra" => {
             event.links.insert(0, "https://fotd.org/".to_string());
         }
+        "Flying Shoes First Friday Community Dance & Contra Dance" => {
+            event.name = "Flying Shoes Community Dance & Contra Dance".to_string();
+            event
+                .links
+                .insert(0, "https://belfastflyingshoes.org/calendar/".to_string());
+        }
         "Gainesville Florida English Country Dance" => {
             event.name = "Gainesville English Country Dance".to_string();
         }
