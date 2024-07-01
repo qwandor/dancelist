@@ -136,6 +136,11 @@ impl IcalendarSource for BalfolkNl {
         }
         event.name = shorten_name(&raw_name);
 
+        match event.city.as_str() {
+            "Lent" => event.city = "Nijmegen".to_string(),
+            _ => {}
+        }
+
         Some(event)
     }
 }
