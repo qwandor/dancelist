@@ -94,6 +94,10 @@ fn convert(event: &Event) -> Vec<event::Event> {
                             "en/event-en/dance-class-level-",
                         )
                         .replace(
+                            "nl/event-nl/Folkdans voor beginners - niveau ",
+                            "en/event-en/folk-dance-for-beginners-level-",
+                        )
+                        .replace(
                             "nl/event-nl/Practica in De Pianofabriek",
                             "en/event-en/practica-at-de-pianofabriek",
                         ),
@@ -234,7 +238,11 @@ fn convert(event: &Event) -> Vec<event::Event> {
             "Practica In De Pianofabriek",
             "Practica at the Pianofabriek",
         )
-        .replace("Danslessen Niveau", "Dance Class Level");
+        .replace("Danslessen Niveau", "Dance Class Level")
+        .replace(
+            "Folkdans Voor Beginners - Niveau",
+            "Folk Dance for Beginners - Level",
+        );
 
     dates
         .iter()
