@@ -89,7 +89,7 @@ pub fn write_by_country(events: Events, filename: &Path) -> Result<(), Report> {
     Ok(())
 }
 
-const BANDS: [&str; 222] = [
+const BANDS: [&str; 223] = [
     "112 and Then Some",
     "A Fine Kettle of Fish",
     "Achterband",
@@ -223,6 +223,7 @@ const BANDS: [&str; 222] = [
     "Martina & Gisbert & Rainer",
     "Merriment",
     "Mevilish Merry",
+    "Midnight on the Water",
     "Mieneke",
     "Momiro",
     "Mook",
@@ -313,7 +314,7 @@ const BANDS: [&str; 222] = [
     "Wouter en de Draak",
     "Wouter Kuyper",
 ];
-const CALLERS: [&str; 117] = [
+const CALLERS: [&str; 118] = [
     "Adina Gordon",
     "Alan Rosenthal",
     "Alex Deis-Lauby",
@@ -414,6 +415,7 @@ const CALLERS: [&str; 117] = [
     "Steph West",
     "Steve Gester",
     "Steve Zakon-Anderson",
+    "Sue Gola",
     "Susan English",
     "Susan Kevra",
     "Susan Michaels",
