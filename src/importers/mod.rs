@@ -89,7 +89,7 @@ pub fn write_by_country(events: Events, filename: &Path) -> Result<(), Report> {
     Ok(())
 }
 
-const BANDS: [&str; 223] = [
+const BANDS: [&str; 225] = [
     "112 and Then Some",
     "A Fine Kettle of Fish",
     "Achterband",
@@ -135,6 +135,7 @@ const BANDS: [&str; 223] = [
     "Cojiro",
     "Contra Banditos",
     "Contra Intuitive",
+    "ContraForce",
     "Contrary Faeries",
     "Contraverts",
     "David Cornelissen",
@@ -286,11 +287,12 @@ const BANDS: [&str; 223] = [
     "The String Bean Serenaders",
     "The Syncopaths",
     "The Turning Stile",
+    "Toss the Possum",
     "Tref",
     "Tribal Jaze",
     "Trillium",
-    "TriOblique",
     "Trio Baftig",
+    "TriOblique",
     "Trio Loubelya",
     "Trip to Norwich",
     "Triple-X",
@@ -314,7 +316,7 @@ const BANDS: [&str; 223] = [
     "Wouter en de Draak",
     "Wouter Kuyper",
 ];
-const CALLERS: [&str; 118] = [
+const CALLERS: [&str; 121] = [
     "Adina Gordon",
     "Alan Rosenthal",
     "Alex Deis-Lauby",
@@ -334,6 +336,7 @@ const CALLERS: [&str; 118] = [
     "Bronwyn Chelette",
     "Brooke Friendly",
     "Bruce Hamilton",
+    "Carol Kopp",
     "Caroline Barnes",
     "Cathy Campbell",
     "Charley Harvey",
@@ -349,6 +352,7 @@ const CALLERS: [&str; 118] = [
     "David Macemon",
     "Deanna Palumbo",
     "Dereck Kalish",
+    "Devin Pohly",
     "Diane Silver",
     "Don Heinold",
     "Don Veino",
@@ -422,6 +426,7 @@ const CALLERS: [&str; 118] = [
     "Susie Kendig",
     "Tara Bolker",
     "Ted Hodapp",
+    "Terry Doyle ",
     "Timothy Klein",
     "Tod Whittemore",
     "Tom Callwell",
