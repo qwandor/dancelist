@@ -260,6 +260,9 @@ fn apply_fixes(event: &mut Event) {
             event.name = "Contra Dance".to_string();
             event.links.insert(0, "https://hatds.org/".to_string());
         }
+        "Folklore Society of Greater Washington (FSGW) English Country Dance" => {
+            event.name = "FSGW English Country Dance".to_string();
+        }
         "Fourth Friday Experienced Contra at Guiding Star Grange" => {
             event.name = "Experienced Contra at Guiding Star Grange".to_string();
             event.links.insert(
@@ -278,6 +281,13 @@ fn apply_fixes(event: &mut Event) {
             event
                 .links
                 .insert(0, "https://fsgw.org/Friday-contra-square-dance".to_string());
+        }
+        "Friday Night Contra at Glen Echo, Maryland" => {
+            event.name = "Friday Night Contra at Glen Echo".to_string();
+            event.links.insert(
+                0,
+                "https://www.fridaynightdance.com/upcoming-dances".to_string(),
+            );
         }
         "Friends of Traditional Dance Contra" => {
             event.links.insert(0, "https://fotd.org/".to_string());
