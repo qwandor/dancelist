@@ -198,7 +198,7 @@ fn get_parts(event: &Event, timezone: Option<&str>) -> Result<EventParts, Report
     let time = get_time(event, timezone)?;
     let location_parts = event.get_location().map(|location| {
         location
-            .split("\\, ")
+            .split(", ")
             .map(ToOwned::to_owned)
             .collect::<Vec<_>>()
     });
