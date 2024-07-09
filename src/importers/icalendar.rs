@@ -208,7 +208,7 @@ fn get_parts(event: &Event, timezone: Option<&str>) -> Result<EventParts, Report
             .get("CN")
             .ok_or_else(|| eyre!("Event {:?} missing organiser name", event))?
             .value();
-        Some(organiser_name[1..organiser_name.len() - 1].to_owned())
+        Some(organiser_name.to_owned())
     } else {
         None
     };
