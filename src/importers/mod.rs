@@ -426,7 +426,7 @@ const CALLERS: [&str; 121] = [
     "Susie Kendig",
     "Tara Bolker",
     "Ted Hodapp",
-    "Terry Doyle ",
+    "Terry Doyle",
     "Timothy Klein",
     "Tod Whittemore",
     "Tom Callwell",
