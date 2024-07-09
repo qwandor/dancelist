@@ -316,7 +316,7 @@ const BANDS: [&str; 225] = [
     "Wouter en de Draak",
     "Wouter Kuyper",
 ];
-const CALLERS: [&str; 121] = [
+const CALLERS: [&str; 122] = [
     "Adina Gordon",
     "Alan Rosenthal",
     "Alex Deis-Lauby",
@@ -332,6 +332,7 @@ const CALLERS: [&str; 121] = [
     "Bob Frederking",
     "Bob Isaacs",
     "Brad Foster",
+    "Brian Hamshar",
     "Bridget Whitehead",
     "Bronwyn Chelette",
     "Brooke Friendly",
