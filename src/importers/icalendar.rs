@@ -39,6 +39,7 @@ use std::cmp::{max, min};
 trait IcalendarSource {
     const URL: &'static str;
     const DEFAULT_ORGANISATION: &'static str;
+    const DEFAULT_TIMEZONE: Option<&'static str> = None;
 
     /// Returns whether the event includes a workshop.
     fn workshop(parts: &EventParts) -> bool;
@@ -167,7 +168,7 @@ async fn import_new_events<S: IcalendarSource>() -> Result<Events, Report> {
         .await?
         .parse::<Calendar>()
         .map_err(|e| eyre!("Error parsing iCalendar file: {}", e))?;
-    let timezone = calendar.get_timezone();
+    let timezone = calendar.get_timezone().or(S::DEFAULT_TIMEZONE);
     let mut events = Events {
         events: calendar
             .iter()
@@ -305,8 +306,12 @@ fn get_time(event: &Event, timezone: Option<&str>) -> Result<EventTime, Report> 
             DatePerhapsTime::DateTime(CalendarDateTime::Utc(start)),
             DatePerhapsTime::DateTime(CalendarDateTime::Utc(end)),
         ) => {
-            let timezone =
-                timezone.ok_or_else(|| eyre!("Neither event nor calendar specified timezone."))?;
+            let timezone = timezone.ok_or_else(|| {
+                eyre!(
+                    "Neither event nor calendar specified timezone: {:?}.",
+                    event
+                )
+            })?;
             let timezone = timezone
                 .parse()
                 .map_err(|e| eyre!("Invalid timezone {}: {}", timezone, e))?;
