@@ -318,7 +318,7 @@ const BANDS: [&str; 227] = [
     "Wouter en de Draak",
     "Wouter Kuyper",
 ];
-const CALLERS: [&str; 123] = [
+const CALLERS: [&str; 124] = [
     "Adina Gordon",
     "Alan Rosenthal",
     "Alex Deis-Lauby",
@@ -372,6 +372,7 @@ const CALLERS: [&str; 123] = [
     "Greg Frock",
     "Gretchen Caldwell",
     "Harris Lapiroff",
+    "Janet Shepherd",
     "Janine Smith",
     "Jen Jasenski",
     "Jill Allen",
