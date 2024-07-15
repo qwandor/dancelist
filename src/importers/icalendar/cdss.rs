@@ -492,6 +492,12 @@ fn apply_fixes(event: &mut Event) {
                 "https://www.guidingstargrange.org/events.html".to_string(),
             );
         }
+        "South Florida Contradance" => {
+            event.links.insert(
+                0,
+                "https://sites.google.com/site/southfloridacontradance/home".to_string(),
+            );
+        }
         "Space Coast Contra Dance" => {
             event.links.insert(
                 0,
