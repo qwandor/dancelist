@@ -209,7 +209,7 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://www.cfootmad.org/".to_string());
         }
-        "ECD Atlanta Regular Dance" => {
+        "ECD Atlanta Regular Dance" | "English Country Dance Atlanta" => {
             event
                 .links
                 .insert(0, "https://ecdatlanta.org/schedule.htm".to_string());
