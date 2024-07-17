@@ -195,6 +195,11 @@ fn apply_fixes(event: &mut Event) {
                 "https://www.queercontradance.org/circleleft.html".to_string(),
             );
         }
+        "Cleveland Thursday English Country Dance" => {
+            event
+                .links
+                .insert(0, "https://englishcountryorg.wordpress.com/".to_string());
+        }
         "Contra Dance" if event.city == "Carrollton" && event.state.as_deref() == Some("TX") => {
             event.links.insert(0, "https://www.nttds.org/".to_string());
         }
