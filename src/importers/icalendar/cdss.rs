@@ -189,6 +189,11 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://www.countrydancinginkalamazoo.com/".to_string());
         }
+        "Childgrove English Country Dance" => {
+            event
+                .links
+                .insert(0, "https://www.childgrove.org/".to_string());
+        }
         "Circle Left" => {
             event.links.insert(
                 0,
@@ -384,6 +389,11 @@ fn apply_fixes(event: &mut Event) {
                 0,
                 "https://lawrencecontra.wordpress.com/calendar/".to_string(),
             );
+        }
+        "Monrovia English Country Dance" => {
+            event
+                .links
+                .insert(0, "https://monroviaecd.org/".to_string());
         }
         "Monterey Contra Dance" => {
             event
