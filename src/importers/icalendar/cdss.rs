@@ -299,10 +299,9 @@ fn apply_fixes(event: &mut Event) {
         }
         "Friday Night Contra at Glen Echo, Maryland" => {
             event.name = "Friday Night Contra at Glen Echo".to_string();
-            event.links.insert(
-                0,
-                "https://www.fridaynightdance.com/upcoming-dances".to_string(),
-            );
+            event
+                .links
+                .insert(0, "https://www.fridaynightdance.com/tickets".to_string());
         }
         "Friends of Traditional Dance Contra" => {
             event.links.insert(0, "https://fotd.org/".to_string());
