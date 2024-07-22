@@ -261,6 +261,11 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://queencitycontras.com/schedule".to_string());
         }
+        "Contra Dance in St Louis" => {
+            event
+                .links
+                .insert(0, "https://www.childgrove.org/".to_string());
+        }
         "Contra Dancing in Houston, TX" => {
             event.name = "Contra Dance".to_string();
             event.links.insert(0, "https://hatds.org/".to_string());
