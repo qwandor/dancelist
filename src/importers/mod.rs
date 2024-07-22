@@ -89,7 +89,7 @@ pub fn write_by_country(events: Events, filename: &Path) -> Result<(), Report> {
     Ok(())
 }
 
-const BANDS: [&str; 234] = [
+const BANDS: [&str; 235] = [
     "112 and Then Some",
     "A Fine Kettle of Fish",
     "Achterband",
@@ -128,8 +128,8 @@ const BANDS: [&str; 234] = [
     "Brook Farm String Band",
     "Bunny Bread Bandits",
     "Calico",
-    "Carin Greve",
     "Cardboard Cabin",
+    "Carin Greve",
     "Cecilia",
     "Chablis",
     "Chimney Swift",
@@ -237,8 +237,8 @@ const BANDS: [&str; 234] = [
     "Morceau de Breizh",
     "Musac",
     "Nachtmuziek",
-    "Naragonia",
     "Naragonia Quartet",
+    "Naragonia",
     "Nebel",
     "Noiranomis",
     "Northern Aire",
@@ -252,6 +252,7 @@ const BANDS: [&str; 234] = [
     "Pont Ondulé",
     "Portland Megaband",
     "QuiVive",
+    "Ragged Robin",
     "Red Case Band",
     "Red Dog Riley",
     "Reelplay",
@@ -278,8 +279,8 @@ const BANDS: [&str; 234] = [
     "Take a Dance",
     "Thalas",
     "The Atchisons",
-    "The Boom Chicks",
     "The Black Cat Quadrille",
+    "The Boom Chicks",
     "The Campeau Creek Boys",
     "The Dam Beavers",
     "The English Muffins",
@@ -300,8 +301,8 @@ const BANDS: [&str; 234] = [
     "Tribal Jaze",
     "Trillium",
     "Trio Baftig",
-    "TriOblique",
     "Trio Loubelya",
+    "TriOblique",
     "Trip to Norwich",
     "Triple-X",
     "Two Catch a Raindrop",
@@ -325,7 +326,7 @@ const BANDS: [&str; 234] = [
     "Wouter en de Draak",
     "Wouter Kuyper",
 ];
-const CALLERS: [&str; 126] = [
+const CALLERS: [&str; 128] = [
     "Adina Gordon",
     "Alan Rosenthal",
     "Alex Deis-Lauby",
@@ -339,6 +340,7 @@ const CALLERS: [&str; 126] = [
     "Bev Birnbaum",
     "Billy Fischer",
     "Bob Frederking",
+    "Bob Green",
     "Bob Isaacs",
     "Brad Foster",
     "Brian Hamshar",
@@ -386,6 +388,7 @@ const CALLERS: [&str; 126] = [
     "Joanna Reiner Wilkinson",
     "Joe Harrington",
     "John Krumm",
+    "John Notgrass",
     "Jordan Kammeyer",
     "Judi Rivkin",
     "Kalia Kliban",
