@@ -89,7 +89,7 @@ pub fn write_by_country(events: Events, filename: &Path) -> Result<(), Report> {
     Ok(())
 }
 
-const BANDS: [&str; 231] = [
+const BANDS: [&str; 234] = [
     "112 and Then Some",
     "A Fine Kettle of Fish",
     "Achterband",
@@ -108,6 +108,7 @@ const BANDS: [&str; 231] = [
     "Aurélien Claranbaux",
     "Back Row Band",
     "Ball Noir",
+    "Ballo Allegro",
     "Bamako Express",
     "Bare Necessities",
     "Bart Praet",
@@ -160,6 +161,7 @@ const BANDS: [&str; 231] = [
     "Duo Pacher-Roblin",
     "Duo Roblin-Thebaut",
     "Duo Torv",
+    "Duo Wolff-Moschcau",
     "Elixir",
     "Eloise & Co.",
     "Emelie Waldken",
@@ -177,6 +179,7 @@ const BANDS: [&str; 231] = [
     "Fyndus",
     "George Paul",
     "Geronimo",
+    "Gisbert",
     "Good Intentions",
     "Gott Folk!",
     "Grand Picnic",
