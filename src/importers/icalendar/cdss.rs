@@ -389,6 +389,11 @@ fn apply_fixes(event: &mut Event) {
                 "https://lawrencecontra.wordpress.com/calendar/".to_string(),
             );
         }
+        "Louisville English Country Dance" => {
+            event
+                .links
+                .insert(0, "https://www.louisvilleecd.org/".to_string());
+        }
         "Monrovia English Country Dance" => {
             event
                 .links
