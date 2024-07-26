@@ -89,7 +89,7 @@ pub fn write_by_country(events: Events, filename: &Path) -> Result<(), Report> {
     Ok(())
 }
 
-const BANDS: [&str; 235] = [
+const BANDS: [&str; 239] = [
     "112 and Then Some",
     "A Fine Kettle of Fish",
     "Achterband",
@@ -147,6 +147,7 @@ const BANDS: [&str; 235] = [
     "Devilish Mary",
     "DJ TacoShel",
     "Dogtown",
+    "Dragon Fire",
     "Dreamy Folk Flow",
     "Drehwurm",
     "Drive Train",
@@ -197,6 +198,7 @@ const BANDS: [&str; 235] = [
     "I Pizzicati",
     "Javallon",
     "Jeroen Laureyssens",
+    "Joachim Montbord",
     "Jormsons Kapell",
     "Joyance",
     "Kelten zonder Grenzen",
@@ -235,6 +237,7 @@ const BANDS: [&str; 235] = [
     "Momiro",
     "Mook",
     "Morceau de Breizh",
+    "Mr Folxlide",
     "Musac",
     "Nachtmuziek",
     "Naragonia Quartet",
@@ -325,6 +328,7 @@ const BANDS: [&str; 235] = [
     "Woody & the Westside Warblers",
     "Wouter en de Draak",
     "Wouter Kuyper",
+    "Yanyk",
 ];
 const CALLERS: [&str; 128] = [
     "Adina Gordon",
