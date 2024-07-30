@@ -89,7 +89,7 @@ pub fn write_by_country(events: Events, filename: &Path) -> Result<(), Report> {
     Ok(())
 }
 
-const BANDS: [&str; 239] = [
+const BANDS: [&str; 242] = [
     "112 and Then Some",
     "A Fine Kettle of Fish",
     "Achterband",
@@ -201,6 +201,7 @@ const BANDS: [&str; 239] = [
     "Joachim Montbord",
     "Jormsons Kapell",
     "Joyance",
+    "Jumping Sharks",
     "Kelten zonder Grenzen",
     "Kikker & Findus",
     "Kingfisher",
@@ -267,6 +268,7 @@ const BANDS: [&str; 239] = [
     "Sail Away Ladies",
     "Serendipity",
     "Simone Bottasso",
+    "Sister Haggis",
     "Smith, Campeau & Nelson",
     "Snaarmaarwaar",
     "Snappin' Bug Stringband",
@@ -316,6 +318,7 @@ const BANDS: [&str; 239] = [
     "Wabi Sabi",
     "Wakarusa Roundabouts",
     "Warleggan Village Band",
+    "Waterbound String Band",
     "Wee Merry Banshees",
     "Wergleyberg",
     "Westside Warblers",
@@ -330,12 +333,13 @@ const BANDS: [&str; 239] = [
     "Wouter Kuyper",
     "Yanyk",
 ];
-const CALLERS: [&str; 128] = [
+const CALLERS: [&str; 131] = [
     "Adina Gordon",
     "Alan Rosenthal",
     "Alex Deis-Lauby",
     "Alice Raybourn",
     "Andrew Swaine",
+    "Ann Fallon",
     "Annie Kidwell",
     "Barbara Finney",
     "Barrett Grimm",
@@ -343,6 +347,7 @@ const CALLERS: [&str; 128] = [
     "Ben Sela",
     "Bev Birnbaum",
     "Billy Fischer",
+    "Bob Fabinski",
     "Bob Frederking",
     "Bob Green",
     "Bob Isaacs",
@@ -397,6 +402,7 @@ const CALLERS: [&str; 128] = [
     "Judi Rivkin",
     "Kalia Kliban",
     "Kappy Laning",
+    "Karen Andrews",
     "Katie Zanders",
     "Katy Heine",
     "Kelsey Hartman",
