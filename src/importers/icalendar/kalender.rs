@@ -60,9 +60,17 @@ impl IcalendarSource for Kalender {
         let description_lower = parts.description.to_lowercase();
         if summary_lower.contains("balfolk")
             || summary_lower.contains("bal folk")
+            || summary_lower.contains("bretagne")
+            || summary_lower.contains("frankreich")
+            || summary_lower.contains("minibal")
             || description_lower.contains("balfolk")
         {
             styles.push(DanceStyle::Balfolk);
+        }
+        if summary_lower.contains("irish set dance")
+            || description_lower.contains("irisch set dance")
+        {
+            styles.push(DanceStyle::IrishSet);
         }
         styles
     }
