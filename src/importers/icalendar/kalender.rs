@@ -16,17 +16,19 @@ use super::{EventParts, IcalendarSource};
 use crate::model::{dancestyle::DanceStyle, event::Event};
 use eyre::Report;
 
-const GERMANY_CITIES: [&str; 10] = [
-    "Ehningen",
-    "Freiburg",
-    "Frickingen",
-    "Frommern",
-    "Gomaringen",
-    "Heiligenberg",
-    "Karlsruhe",
-    "Kirchheim",
-    "Nürtingen",
-    "Tübingen",
+const GERMANY_CITIES: [(&str, &str); 12] = [
+    ("Ehningen", "Ehningen"),
+    ("Freiburg", "Freiburg i. Br"),
+    ("Frickingen", "Frickingen"),
+    ("Frommern", "Frommern"),
+    ("Gomaringen", "Gomaringen"),
+    ("Heiligenberg", "Heiligenberg"),
+    ("Karlsruhe", "Karlsruhe"),
+    ("Kirchheim", "Kirchheim"),
+    ("Nürtingen", "Nürtingen"),
+    ("Stuttgart", "Stuttgart"),
+    ("Tübingen", "Tübingen"),
+    ("VHS Rottenburg", "Rottenburg am Neckar"),
 ];
 
 /// Importer for Balfolk-Orga-Kalender.
@@ -80,8 +82,8 @@ impl IcalendarSource for Kalender {
         location_parts: &Option<Vec<String>>,
     ) -> Result<Option<(String, Option<String>, String)>, Report> {
         if let Some(location_parts) = location_parts {
-            for city in &GERMANY_CITIES {
-                if location_parts.iter().any(|part| part.contains(city)) {
+            for (match_str, city) in &GERMANY_CITIES {
+                if location_parts.iter().any(|part| part.contains(match_str)) {
                     return Ok(Some((city.to_string(), None, "Germany".to_string())));
                 }
             }
