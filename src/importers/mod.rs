@@ -89,7 +89,7 @@ pub fn write_by_country(events: Events, filename: &Path) -> Result<(), Report> {
     Ok(())
 }
 
-const BANDS: [&str; 242] = [
+const BANDS: [&str; 245] = [
     "112 and Then Some",
     "A Fine Kettle of Fish",
     "Achterband",
@@ -117,6 +117,7 @@ const BANDS: [&str; 242] = [
     "Ben Bolker and Susanne Maziarz",
     "Berkenwerk",
     "Big Fun",
+    "Biskaya",
     "Blind Squirrel",
     "BmB",
     "Bougnat Sound",
@@ -140,6 +141,7 @@ const BANDS: [&str; 242] = [
     "ContraForce",
     "Contrary Faeries",
     "Contraverts",
+    "Danzvogel",
     "David Cornelissen",
     "De Houtzagerij",
     "De Trekvogels",
@@ -272,6 +274,7 @@ const BANDS: [&str; 242] = [
     "Smith, Campeau & Nelson",
     "Snaarmaarwaar",
     "Snappin' Bug Stringband",
+    "Soldo",
     "Sparv",
     "Spintuition",
     "SpringTide",
