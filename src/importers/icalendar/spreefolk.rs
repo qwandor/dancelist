@@ -46,9 +46,7 @@ impl IcalendarSource for Spreefolk {
         }
     }
 
-    fn location(
-        _location_parts: &Option<Vec<String>>,
-    ) -> Result<Option<(String, Option<String>, String)>, Report> {
+    fn location(_parts: &EventParts) -> Result<Option<(String, Option<String>, String)>, Report> {
         Ok(Some(("Germany".to_string(), None, "Berlin".to_string())))
     }
 

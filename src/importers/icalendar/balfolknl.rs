@@ -91,10 +91,8 @@ impl IcalendarSource for BalfolkNl {
         vec![DanceStyle::Balfolk]
     }
 
-    fn location(
-        location_parts: &Option<Vec<String>>,
-    ) -> Result<Option<(String, Option<String>, String)>, Report> {
-        let mut city = if let Some(location_parts) = location_parts {
+    fn location(parts: &EventParts) -> Result<Option<(String, Option<String>, String)>, Report> {
+        let mut city = if let Some(location_parts) = &parts.location_parts {
             match location_parts.len() {
                 8 => location_parts[3].trim().to_string(),
                 4.. => location_parts[2].trim().to_string(),
@@ -162,37 +160,46 @@ mod tests {
     #[test]
     fn test_parse_location() {
         assert_eq!(
-            BalfolkNl::location(&None).unwrap(),
+            BalfolkNl::location(&EventParts::default()).unwrap(),
             Some(("Netherlands".to_string(), None, "Unknown city".to_string()))
         );
         assert_eq!(
-            BalfolkNl::location(&Some(vec![
-                "City".to_string(),
-                "postcode".to_string(),
-                "Nederland".to_string(),
-            ]))
+            BalfolkNl::location(&EventParts {
+                location_parts: Some(vec![
+                    "City".to_string(),
+                    "postcode".to_string(),
+                    "Nederland".to_string(),
+                ]),
+                ..Default::default()
+            })
             .unwrap(),
             Some(("Netherlands".to_string(), None, "".to_string()))
         );
         assert_eq!(
-            BalfolkNl::location(&Some(vec![
-                "Balfolk Zeist".to_string(),
-                "Thorbeckelaan 5".to_string(),
-                "Zeist".to_string(),
-                "3705 KJ".to_string(),
-                "Nederland".to_string(),
-            ]))
+            BalfolkNl::location(&EventParts {
+                location_parts: Some(vec![
+                    "Balfolk Zeist".to_string(),
+                    "Thorbeckelaan 5".to_string(),
+                    "Zeist".to_string(),
+                    "3705 KJ".to_string(),
+                    "Nederland".to_string(),
+                ]),
+                ..Default::default()
+            })
             .unwrap(),
             Some(("Netherlands".to_string(), None, "Zeist".to_string()))
         );
         assert_eq!(
-            BalfolkNl::location(&Some(vec![
-                "Theater de Junushoff".to_string(),
-                "Plantsoen 3".to_string(),
-                " Wageningen".to_string(),
-                "6701AS".to_string(),
-                "Nederland".to_string(),
-            ]))
+            BalfolkNl::location(&EventParts {
+                location_parts: Some(vec![
+                    "Theater de Junushoff".to_string(),
+                    "Plantsoen 3".to_string(),
+                    " Wageningen".to_string(),
+                    "6701AS".to_string(),
+                    "Nederland".to_string(),
+                ]),
+                ..Default::default()
+            })
             .unwrap(),
             Some(("Netherlands".to_string(), None, "Wageningen".to_string()))
         );

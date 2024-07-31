@@ -35,9 +35,7 @@ impl IcalendarSource for LancasterContra {
         vec![DanceStyle::Contra]
     }
 
-    fn location(
-        _location_parts: &Option<Vec<String>>,
-    ) -> Result<Option<(String, Option<String>, String)>, Report> {
+    fn location(_parts: &EventParts) -> Result<Option<(String, Option<String>, String)>, Report> {
         Ok(Some(("UK".to_string(), None, "Lancaster".to_string())))
     }
 

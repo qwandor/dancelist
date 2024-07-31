@@ -29,6 +29,7 @@ use crate::{
     },
     util::{local_datetime_to_fixed_offset, to_fixed_offset},
 };
+use chrono::NaiveDate;
 use eyre::{bail, eyre, Report, WrapErr};
 use icalendar::{
     Calendar, CalendarComponent, CalendarDateTime, Component, DatePerhapsTime, Event, EventLike,
@@ -52,9 +53,7 @@ trait IcalendarSource {
     fn styles(parts: &EventParts) -> Vec<DanceStyle>;
 
     /// Converts location parts to (country, state, city).
-    fn location(
-        location_parts: &Option<Vec<String>>,
-    ) -> Result<Option<(String, Option<String>, String)>, Report>;
+    fn location(parts: &EventParts) -> Result<Option<(String, Option<String>, String)>, Report>;
 
     /// Returns links for the event.
     fn links(parts: &EventParts) -> Vec<String> {
@@ -74,11 +73,11 @@ fn convert<S: IcalendarSource>(parts: EventParts) -> Result<Option<event::Event>
     let workshop = S::workshop(&parts);
     let social = S::social(&parts);
     let Some((country, state, city)) =
-        S::location(&parts.location_parts).wrap_err_with(|| format!("For event {:?}", parts))?
+        S::location(&parts).wrap_err_with(|| format!("For event {:?}", parts))?
     else {
         error!(
-            "Invalid location {:?} for {:?}",
-            parts.location_parts, parts.url
+            "Invalid location {:?} for {:?} '{}'",
+            parts.location_parts, parts.url, parts.summary
         );
         return Ok(None);
     };
@@ -278,6 +277,24 @@ struct EventParts {
     pub organiser: Option<String>,
     pub categories: Option<Vec<String>>,
     pub uid: Option<String>,
+}
+
+impl Default for EventParts {
+    fn default() -> Self {
+        Self {
+            url: Default::default(),
+            summary: Default::default(),
+            description: Default::default(),
+            time: EventTime::DateOnly {
+                start_date: NaiveDate::from_ymd_opt(1970, 1, 1).unwrap(),
+                end_date: NaiveDate::from_ymd_opt(1970, 1, 1).unwrap(),
+            },
+            location_parts: Default::default(),
+            organiser: Default::default(),
+            categories: Default::default(),
+            uid: Default::default(),
+        }
+    }
 }
 
 fn get_time(event: &Event, timezone: Option<&str>) -> Result<EventTime, Report> {

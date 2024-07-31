@@ -94,12 +94,16 @@ impl IcalendarSource for Kalender {
         links
     }
 
-    fn location(
-        location_parts: &Option<Vec<String>>,
-    ) -> Result<Option<(String, Option<String>, String)>, Report> {
-        if let Some(location_parts) = location_parts {
+    fn location(parts: &EventParts) -> Result<Option<(String, Option<String>, String)>, Report> {
+        if let Some(location_parts) = &parts.location_parts {
             for (match_str, city) in &GERMANY_CITIES {
                 if location_parts.iter().any(|part| part.contains(match_str)) {
+                    return Ok(Some((city.to_string(), None, "Germany".to_string())));
+                }
+            }
+        } else {
+            for (match_str, city) in &GERMANY_CITIES {
+                if parts.summary.contains(match_str) {
                     return Ok(Some((city.to_string(), None, "Germany".to_string())));
                 }
             }
