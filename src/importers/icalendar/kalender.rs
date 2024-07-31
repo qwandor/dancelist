@@ -72,6 +72,9 @@ impl IcalendarSource for Kalender {
         {
             styles.push(DanceStyle::IrishSet);
         }
+        if summary_lower.contains("skandi-ball") {
+            styles.push(DanceStyle::Scandinavian);
+        }
         styles
     }
 
