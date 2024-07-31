@@ -75,7 +75,12 @@ impl IcalendarSource for Kalender {
         if summary_lower.contains("skandi-ball") {
             styles.push(DanceStyle::Scandinavian);
         }
-        styles
+
+        if styles.is_empty() {
+            vec![DanceStyle::Balfolk]
+        } else {
+            styles
+        }
     }
 
     fn links(parts: &EventParts) -> Vec<String> {
