@@ -65,6 +65,17 @@ impl IcalendarSource for Kalender {
         styles
     }
 
+    fn links(parts: &EventParts) -> Vec<String> {
+        let mut links = parts.url.clone().into_iter().collect::<Vec<_>>();
+        if let Some(uid) = &parts.uid {
+            links.push(format!(
+                "https://kalender.digital/574d155c91900caea879/event/{}",
+                &uid[4..]
+            ));
+        }
+        links
+    }
+
     fn location(
         location_parts: &Option<Vec<String>>,
     ) -> Result<Option<(String, Option<String>, String)>, Report> {

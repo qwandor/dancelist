@@ -56,6 +56,11 @@ trait IcalendarSource {
         location_parts: &Option<Vec<String>>,
     ) -> Result<Option<(String, Option<String>, String)>, Report>;
 
+    /// Returns links for the event.
+    fn links(parts: &EventParts) -> Vec<String> {
+        parts.url.clone().into_iter().collect()
+    }
+
     /// Applies any further changes to the event after conversion, or returns `None` to skip it.
     fn fixup(event: event::Event) -> Option<event::Event>;
 }
@@ -77,6 +82,7 @@ fn convert<S: IcalendarSource>(parts: EventParts) -> Result<Option<event::Event>
         );
         return Ok(None);
     };
+    let links = S::links(&parts);
     let price = get_price(&parts.description)?;
     let description_lower = parts.description.to_lowercase();
     let summary_lower = parts.summary.to_lowercase();
@@ -99,7 +105,7 @@ fn convert<S: IcalendarSource>(parts: EventParts) -> Result<Option<event::Event>
     Ok(S::fixup(event::Event {
         name: parts.summary.trim().to_owned(),
         details,
-        links: parts.url.into_iter().collect(),
+        links,
         time: parts.time,
         country,
         state,
@@ -221,6 +227,7 @@ fn get_parts(event: &Event, timezone: Option<&str>) -> Result<EventParts, Report
         None
     };
     let categories = get_categories(event);
+    let uid = event.get_uid().map(ToOwned::to_owned);
     Ok(EventParts {
         url,
         summary,
@@ -229,6 +236,7 @@ fn get_parts(event: &Event, timezone: Option<&str>) -> Result<EventParts, Report
         location_parts,
         organiser,
         categories,
+        uid,
     })
 }
 
@@ -269,6 +277,7 @@ struct EventParts {
     pub location_parts: Option<Vec<String>>,
     pub organiser: Option<String>,
     pub categories: Option<Vec<String>>,
+    pub uid: Option<String>,
 }
 
 fn get_time(event: &Event, timezone: Option<&str>) -> Result<EventTime, Report> {
