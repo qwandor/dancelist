@@ -190,7 +190,13 @@ async fn import_new_events<S: IcalendarSource>() -> Result<Events, Report> {
 }
 
 fn get_parts(event: &Event, timezone: Option<&str>) -> Result<EventParts, Report> {
-    let url = event.get_url().map(ToOwned::to_owned);
+    let url = event.get_url().map(|url| {
+        if url.contains("://") {
+            url.to_string()
+        } else {
+            format!("http://{}", url)
+        }
+    });
     let summary = unescape(
         event
             .get_summary()
