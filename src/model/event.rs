@@ -23,6 +23,7 @@ const FACEBOOK_EVENT_PREFIX: &str = "https://www.facebook.com/events/";
 const FBB_EVENT_PREFIX: &str = "https://folkbalbende.be/event/";
 const CDSS_EVENT_PREFIX: &str = "https://cdss.org/event/";
 const PLUG_EVENTS_PREFIX: &str = "https://www.plug.events/event/";
+const KALENDER_EVENT_PREFIX: &str = "https://kalender.digital/574d155c91900caea879/event/";
 
 #[derive(Clone, Debug, Deserialize, Eq, JsonSchema, PartialEq, Serialize)]
 pub struct Event {
@@ -253,6 +254,7 @@ impl Event {
                 && !link.starts_with(FBB_EVENT_PREFIX)
                 && !link.starts_with(CDSS_EVENT_PREFIX)
                 && !link.starts_with(PLUG_EVENTS_PREFIX)
+                && !link.starts_with(KALENDER_EVENT_PREFIX)
         })
     }
 
@@ -262,6 +264,7 @@ impl Event {
         let mut fbb_links = vec![];
         let mut cdss_links = vec![];
         let mut plug_events_links = vec![];
+        let mut kalender_links = vec![];
         let mut other_links = vec![];
         let mut first_gone = false;
         for link in &self.links {
@@ -285,6 +288,11 @@ impl Event {
                     short_name: "Plug".to_string(),
                     url: link.to_owned(),
                 })
+            } else if link.starts_with(KALENDER_EVENT_PREFIX) {
+                kalender_links.push(Link {
+                    short_name: "BOK".to_string(),
+                    url: link.to_owned(),
+                })
             } else if first_gone {
                 other_links.push(Link {
                     short_name: "…".to_string(),
@@ -300,6 +308,7 @@ impl Event {
         links.extend(cdss_links);
         links.extend(plug_events_links);
         links.extend(other_links);
+        links.extend(kalender_links);
         links
     }
 
