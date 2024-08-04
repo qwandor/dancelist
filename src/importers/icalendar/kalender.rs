@@ -99,13 +99,13 @@ impl IcalendarSource for Kalender {
         if let Some(location_parts) = &parts.location_parts {
             for (match_str, city) in &GERMANY_CITIES {
                 if location_parts.iter().any(|part| part.contains(match_str)) {
-                    return Ok(Some((city.to_string(), None, "Germany".to_string())));
+                    return Ok(Some(("Germany".to_string(), None, city.to_string())));
                 }
             }
         } else {
             for (match_str, city) in &GERMANY_CITIES {
                 if parts.summary.contains(match_str) || parts.description.contains(match_str) {
-                    return Ok(Some((city.to_string(), None, "Germany".to_string())));
+                    return Ok(Some(("Germany".to_string(), None, city.to_string())));
                 }
             }
         }
