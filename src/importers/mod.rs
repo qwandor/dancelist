@@ -112,7 +112,7 @@ const BANDS: [&str; 258] = [
     "Avalance",
     "Back Row Band",
     "Ball Noir",
-    "Ballkanese",
+    "Ballkanesen",
     "Ballo Allegro",
     "Bamako Express",
     "Bare Necessities",
