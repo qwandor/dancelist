@@ -47,6 +47,7 @@ impl IcalendarSource for Kalender {
             || description_lower.contains("tanz-workshop")
             || description_lower.contains("tanzeinführungsworkshop")
             || description_lower.contains("tanzeinführung")
+            || description_lower.contains("tanzkurse")
             || summary_lower.contains("workshop")
     }
 
