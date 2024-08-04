@@ -89,7 +89,7 @@ pub fn write_by_country(events: Events, filename: &Path) -> Result<(), Report> {
     Ok(())
 }
 
-const BANDS: [&str; 251] = [
+const BANDS: [&str; 258] = [
     "112 and Then Some",
     "A Fine Kettle of Fish",
     "Achterband",
@@ -97,8 +97,10 @@ const BANDS: [&str; 251] = [
     "Aérokorda",
     "Air de Famille",
     "Airboxes",
+    "Akleja",
     "AlleMonOh Stringband",
     "Andrea Capezzuoli",
+    "Andreas Neumann",
     "Androneda",
     "Andy Cutting",
     "Antanjo",
@@ -107,6 +109,7 @@ const BANDS: [&str; 251] = [
     "Atlantic Crossing",
     "Aubergine",
     "Aurélien Claranbaux",
+    "Avalance",
     "Back Row Band",
     "Ball Noir",
     "Ballkanese",
@@ -169,6 +172,7 @@ const BANDS: [&str; 251] = [
     "Duo Roblin-Thebaut",
     "Duo Torv",
     "Duo Wolff-Moschcau",
+    "Elba Connection",
     "Elixir",
     "Eloise & Co.",
     "Emelie Waldken",
@@ -231,6 +235,8 @@ const BANDS: [&str; 251] = [
     "Lizzy's Cocktail",
     "Lone Star Pirates",
     "Long Forgotten String Band",
+    "Luca Fiorini",
+    "Lys&Co",
     "Madlot",
     "Magistal",
     "Mara Menzel",
@@ -256,6 +262,7 @@ const BANDS: [&str; 251] = [
     "Nova",
     "Nozzy",
     "Nubia",
+    "Pamplemousse",
     "Paracetamol",
     "PFM!",
     "Pimento Mori",
@@ -342,11 +349,12 @@ const BANDS: [&str; 251] = [
     "Wouter Kuyper",
     "Yanyk",
 ];
-const CALLERS: [&str; 131] = [
+const CALLERS: [&str; 132] = [
     "Adina Gordon",
     "Alan Rosenthal",
     "Alex Deis-Lauby",
     "Alice Raybourn",
+    "Andrea Nettleton",
     "Andrew Swaine",
     "Ann Fallon",
     "Annie Kidwell",
