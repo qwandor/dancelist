@@ -55,10 +55,9 @@ impl IcalendarSource for Boulder {
         styles
     }
 
-    fn location(
-        location_parts: &Option<Vec<String>>,
-    ) -> Result<Option<(String, Option<String>, String)>, Report> {
-        let location_parts = location_parts
+    fn location(parts: &EventParts) -> Result<Option<(String, Option<String>, String)>, Report> {
+        let location_parts = parts
+            .location_parts
             .as_ref()
             .ok_or_else(|| eyre!("Event missing location."))?;
         if location_parts.len() < 3 {

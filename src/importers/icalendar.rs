@@ -16,6 +16,7 @@ pub mod balfolknl;
 pub mod boulder;
 pub mod cdss;
 pub mod ceilidhclub;
+pub mod kalender;
 pub mod lancastercontra;
 pub mod spreefolk;
 
@@ -28,6 +29,7 @@ use crate::{
     },
     util::{local_datetime_to_fixed_offset, to_fixed_offset},
 };
+use chrono::NaiveDate;
 use eyre::{bail, eyre, Report, WrapErr};
 use icalendar::{
     Calendar, CalendarComponent, CalendarDateTime, Component, DatePerhapsTime, Event, EventLike,
@@ -51,9 +53,12 @@ trait IcalendarSource {
     fn styles(parts: &EventParts) -> Vec<DanceStyle>;
 
     /// Converts location parts to (country, state, city).
-    fn location(
-        location_parts: &Option<Vec<String>>,
-    ) -> Result<Option<(String, Option<String>, String)>, Report>;
+    fn location(parts: &EventParts) -> Result<Option<(String, Option<String>, String)>, Report>;
+
+    /// Returns links for the event.
+    fn links(parts: &EventParts) -> Vec<String> {
+        parts.url.clone().into_iter().collect()
+    }
 
     /// Applies any further changes to the event after conversion, or returns `None` to skip it.
     fn fixup(event: event::Event) -> Option<event::Event>;
@@ -68,14 +73,15 @@ fn convert<S: IcalendarSource>(parts: EventParts) -> Result<Option<event::Event>
     let workshop = S::workshop(&parts);
     let social = S::social(&parts);
     let Some((country, state, city)) =
-        S::location(&parts.location_parts).wrap_err_with(|| format!("For event {:?}", parts))?
+        S::location(&parts).wrap_err_with(|| format!("For event {:?}", parts))?
     else {
         error!(
-            "Invalid location {:?} for {:?}",
-            parts.location_parts, parts.url
+            "Invalid location {:?} for {:?} '{}'",
+            parts.location_parts, parts.url, parts.summary
         );
         return Ok(None);
     };
+    let links = S::links(&parts);
     let price = get_price(&parts.description)?;
     let description_lower = parts.description.to_lowercase();
     let summary_lower = parts.summary.to_lowercase();
@@ -98,7 +104,7 @@ fn convert<S: IcalendarSource>(parts: EventParts) -> Result<Option<event::Event>
     Ok(S::fixup(event::Event {
         name: parts.summary.trim().to_owned(),
         details,
-        links: parts.url.into_iter().collect(),
+        links,
         time: parts.time,
         country,
         state,
@@ -189,7 +195,13 @@ async fn import_new_events<S: IcalendarSource>() -> Result<Events, Report> {
 }
 
 fn get_parts(event: &Event, timezone: Option<&str>) -> Result<EventParts, Report> {
-    let url = event.get_url().map(ToOwned::to_owned);
+    let url = event.get_url().map(|url| {
+        if url.contains("://") {
+            url.to_string()
+        } else {
+            format!("http://{}", url)
+        }
+    });
     let summary = unescape(
         event
             .get_summary()
@@ -210,10 +222,17 @@ fn get_parts(event: &Event, timezone: Option<&str>) -> Result<EventParts, Report
             .ok_or_else(|| eyre!("Event {:?} missing organiser name", event))?
             .value();
         Some(organiser_name.to_owned())
+    } else if let Some(attendee) = event
+        .multi_properties()
+        .get("ATTENDEE")
+        .and_then(|attendees| attendees.first())
+    {
+        Some(attendee.value().to_owned())
     } else {
         None
     };
     let categories = get_categories(event);
+    let uid = event.get_uid().map(ToOwned::to_owned);
     Ok(EventParts {
         url,
         summary,
@@ -222,6 +241,7 @@ fn get_parts(event: &Event, timezone: Option<&str>) -> Result<EventParts, Report
         location_parts,
         organiser,
         categories,
+        uid,
     })
 }
 
@@ -262,6 +282,25 @@ struct EventParts {
     pub location_parts: Option<Vec<String>>,
     pub organiser: Option<String>,
     pub categories: Option<Vec<String>>,
+    pub uid: Option<String>,
+}
+
+impl Default for EventParts {
+    fn default() -> Self {
+        Self {
+            url: Default::default(),
+            summary: Default::default(),
+            description: Default::default(),
+            time: EventTime::DateOnly {
+                start_date: NaiveDate::from_ymd_opt(1970, 1, 1).unwrap(),
+                end_date: NaiveDate::from_ymd_opt(1970, 1, 1).unwrap(),
+            },
+            location_parts: Default::default(),
+            organiser: Default::default(),
+            categories: Default::default(),
+            uid: Default::default(),
+        }
+    }
 }
 
 fn get_time(event: &Event, timezone: Option<&str>) -> Result<EventTime, Report> {

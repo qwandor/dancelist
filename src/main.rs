@@ -32,7 +32,8 @@ use crate::{
         folkbalbende,
         icalendar::{
             balfolknl::BalfolkNl, boulder::Boulder, cdss::Cdss, ceilidhclub::CeilidhClub,
-            import_events, lancastercontra::LancasterContra, spreefolk::Spreefolk,
+            import_events, kalender::Kalender, lancastercontra::LancasterContra,
+            spreefolk::Spreefolk,
         },
         plugevents, trycontra, webfeet,
     },
@@ -114,9 +115,11 @@ enum ImportSource {
     CeilidhClub,
     /// Imports events from cdss.org.
     Cdss,
+    /// Imports events from Balfolk-Orga-Kalender.
+    Kalender,
     // Imports events from lancastercontra.org.uk.
     LancasterContra,
-    /// Imports evets from spreefolk.de.
+    /// Imports events from spreefolk.de.
     Spreefolk,
     /// Imports longer events from trycontra.com.
     Trycontra,
@@ -207,6 +210,7 @@ async fn import(source: ImportSource, filename: &Path) -> Result<(), Report> {
         ImportSource::Boulder => import_events::<Boulder>(old_events).await?,
         ImportSource::CeilidhClub => import_events::<CeilidhClub>(old_events).await?,
         ImportSource::Cdss => import_events::<Cdss>(old_events).await?,
+        ImportSource::Kalender => import_events::<Kalender>(old_events).await?,
         ImportSource::Spreefolk => import_events::<Spreefolk>(old_events).await?,
         ImportSource::LancasterContra => import_events::<LancasterContra>(old_events).await?,
         ImportSource::Trycontra => trycontra::import_events().await?,

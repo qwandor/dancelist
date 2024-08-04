@@ -81,10 +81,9 @@ impl IcalendarSource for Cdss {
         styles
     }
 
-    fn location(
-        location_parts: &Option<Vec<String>>,
-    ) -> Result<Option<(String, Option<String>, String)>, Report> {
-        let location_parts = location_parts
+    fn location(parts: &EventParts) -> Result<Option<(String, Option<String>, String)>, Report> {
+        let location_parts = parts
+            .location_parts
             .as_ref()
             .ok_or_else(|| eyre!("Event missing location."))?;
         if location_parts.len() < 3 {
@@ -577,23 +576,41 @@ mod tests {
 
     #[test]
     fn test_parse_location() {
-        assert_eq!(Cdss::location(&Some(vec![])).unwrap(), None);
         assert_eq!(
-            Cdss::location(&Some(vec!["USA".to_string()])).unwrap(),
+            Cdss::location(&EventParts {
+                location_parts: Some(vec![]),
+                ..Default::default()
+            })
+            .unwrap(),
             None
         );
         assert_eq!(
-            Cdss::location(&Some(vec!["CA".to_string(), "USA".to_string()])).unwrap(),
+            Cdss::location(&EventParts {
+                location_parts: Some(vec!["USA".to_string()]),
+                ..Default::default()
+            })
+            .unwrap(),
             None
         );
         assert_eq!(
-            Cdss::location(&Some(vec![
-                "123 Some Street".to_string(),
-                "Hayward".to_string(),
-                "CA".to_string(),
-                "94541".to_string(),
-                "USA".to_string(),
-            ]))
+            Cdss::location(&EventParts {
+                location_parts: Some(vec!["CA".to_string(), "USA".to_string()]),
+                ..Default::default()
+            })
+            .unwrap(),
+            None
+        );
+        assert_eq!(
+            Cdss::location(&EventParts {
+                location_parts: Some(vec![
+                    "123 Some Street".to_string(),
+                    "Hayward".to_string(),
+                    "CA".to_string(),
+                    "94541".to_string(),
+                    "USA".to_string(),
+                ]),
+                ..Default::default()
+            })
             .unwrap(),
             Some((
                 "USA".to_string(),
@@ -602,12 +619,15 @@ mod tests {
             ))
         );
         assert_eq!(
-            Cdss::location(&Some(vec![
-                "Pittsburgh".to_string(),
-                "PA".to_string(),
-                "1234".to_string(),
-                "USA".to_string(),
-            ]))
+            Cdss::location(&EventParts {
+                location_parts: Some(vec![
+                    "Pittsburgh".to_string(),
+                    "PA".to_string(),
+                    "1234".to_string(),
+                    "USA".to_string(),
+                ]),
+                ..Default::default()
+            })
             .unwrap(),
             Some((
                 "USA".to_string(),
@@ -616,12 +636,15 @@ mod tests {
             ))
         );
         assert_eq!(
-            Cdss::location(&Some(vec![
-                "Toronto".to_string(),
-                "Ontario".to_string(),
-                "1234".to_string(),
-                "Canada".to_string(),
-            ]))
+            Cdss::location(&EventParts {
+                location_parts: Some(vec![
+                    "Toronto".to_string(),
+                    "Ontario".to_string(),
+                    "1234".to_string(),
+                    "Canada".to_string(),
+                ]),
+                ..Default::default()
+            })
             .unwrap(),
             Some((
                 "Canada".to_string(),
@@ -630,22 +653,28 @@ mod tests {
             ))
         );
         assert_eq!(
-            Cdss::location(&Some(vec![
-                "London".to_string(),
-                "N10AB".to_string(),
-                "United Kingdom".to_string()
-            ]))
+            Cdss::location(&EventParts {
+                location_parts: Some(vec![
+                    "London".to_string(),
+                    "N10AB".to_string(),
+                    "United Kingdom".to_string()
+                ]),
+                ..Default::default()
+            })
             .unwrap(),
             Some(("UK".to_string(), None, "London".to_string()))
         );
         assert_eq!(
-            Cdss::location(&Some(vec![
-                "Venue Name".to_string(),
-                "Address".to_string(),
-                "London".to_string(),
-                "N10AB".to_string(),
-                "United Kingdom".to_string()
-            ]))
+            Cdss::location(&EventParts {
+                location_parts: Some(vec![
+                    "Venue Name".to_string(),
+                    "Address".to_string(),
+                    "London".to_string(),
+                    "N10AB".to_string(),
+                    "United Kingdom".to_string()
+                ]),
+                ..Default::default()
+            })
             .unwrap(),
             Some(("UK".to_string(), None, "London".to_string()))
         );
