@@ -222,6 +222,12 @@ fn get_parts(event: &Event, timezone: Option<&str>) -> Result<EventParts, Report
             .ok_or_else(|| eyre!("Event {:?} missing organiser name", event))?
             .value();
         Some(organiser_name.to_owned())
+    } else if let Some(attendee) = event
+        .multi_properties()
+        .get("ATTENDEE")
+        .and_then(|attendees| attendees.first())
+    {
+        Some(attendee.value().to_owned())
     } else {
         None
     };
