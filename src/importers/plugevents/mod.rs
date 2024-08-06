@@ -65,12 +65,25 @@ fn convert(event: &Event, style: DanceStyle) -> Result<Option<event::Event>, Rep
     }
     .to_string();
 
-    let (workshop, social) = match event.event_format {
-        EventFormat::Class => (true, false),
-        EventFormat::Fest => (true, true),
-        EventFormat::Meet => (false, true),
-        EventFormat::Party => (false, true),
-    };
+    let mut workshop = false;
+    let mut social = false;
+    for subinterest in &event.subinterests {
+        match subinterest {
+            EventFormat::Class => {
+                workshop = true;
+            }
+            EventFormat::Festival => {
+                workshop = true;
+                social = true;
+            }
+            EventFormat::Meeting => {
+                social = true;
+            }
+            EventFormat::Party => {
+                social = true;
+            }
+        }
+    }
 
     Ok(Some(event::Event {
         name: event.name.clone(),

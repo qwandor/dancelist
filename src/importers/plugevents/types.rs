@@ -54,17 +54,15 @@ pub struct Event {
     pub is_free: bool,
     pub price_display: Option<String>,
     pub is_expanded: bool,
-    pub event_format: EventFormat,
-    pub event_format_display: String,
     pub date_grouping_label: String,
+    pub subinterests: Vec<EventFormat>,
 }
 
 #[derive(Clone, Debug, Default, Deserialize, Eq, PartialEq)]
-#[serde(rename_all = "UPPERCASE")]
 pub enum EventFormat {
     #[default]
     Class,
-    Fest,
-    Meet,
+    Festival,
+    Meeting,
     Party,
 }
