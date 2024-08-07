@@ -208,8 +208,10 @@ fn convert(event: &Event) -> Vec<event::Event> {
     let (start_time, end_time) = find_start_end_time(event);
 
     let city = match event.location.address.city.as_str() {
+        "Antwerpen" => "Antwerp",
         "Brugge" => "Bruges",
         "Assebroek" => "Bruges",
+        "Brussel" => "Brussels",
         "Bruxelles" => "Brussels",
         "Courtrai" => "Kortrijk",
         "Elsene" => "Brussels",
@@ -222,6 +224,7 @@ fn convert(event: &Event) -> Vec<event::Event> {
         "Saint-Gilles" => "Brussels",
         "Schoten" => "Antwerp",
         "Sint-Gillis" => "Brussels",
+        "Watermael-Boitsfort" => "Watermaal-Bosvoorde",
         "Wijgmaal" => "Leuven",
         "Wilsele" => "Leuven",
         other => other,
