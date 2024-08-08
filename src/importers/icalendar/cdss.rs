@@ -503,6 +503,11 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://nbcds.org/english-country-dance/".to_string());
         }
+        "Second Saturday BFMS Contra Dance" => {
+            event
+                .links
+                .insert(0, "https://www.bfms.org/saturdayDance.php".to_string());
+        }
         "Second Saturday TopHill Music Contradance Party at Guiding Star Grange" => {
             event.name = "TopHill Music Contradance Party".to_string();
             event.links.insert(
