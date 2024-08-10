@@ -417,6 +417,12 @@ fn apply_fixes(event: &mut Event) {
                 "https://capitalcitygrange.org/dancing/contradancing/".to_string(),
             );
         }
+        "Monday Evening English Country Dance in Baltimore" => {
+            event.name = "Monday Evening English Country Dance".to_string();
+            event
+                .links
+                .insert(0, "https://www.bfms.org/mondayDance.php".to_string());
+        }
         "Monday Night Contra Dance at the Laurel Theater" => {
             event.name = "Contra Dance at the Laurel Theater".to_string();
             event
@@ -487,6 +493,11 @@ fn apply_fixes(event: &mut Event) {
             event
                 .links
                 .insert(0, "https://sactocds.wordpress.com/".to_string());
+        }
+        "Saint Louis Queer Contra" => {
+            event
+                .links
+                .insert(0, "https://www.shedances.org/".to_string());
         }
         "San Antonio Contra Dance" => {
             event
