@@ -69,7 +69,16 @@ fn convert(event: &Event, style: DanceStyle) -> Result<Option<event::Event>, Rep
     let mut social = false;
     for subinterest in &event.subinterests {
         match subinterest {
-            EventFormat::Class => {
+            EventFormat::BalfolkNL => {
+                social = true;
+            }
+            EventFormat::Advanced
+            | EventFormat::Class
+            | EventFormat::Course
+            | EventFormat::Event
+            | EventFormat::Learning
+            | EventFormat::LessonSeries
+            | EventFormat::Intensive => {
                 workshop = true;
             }
             EventFormat::Festival => {
@@ -79,9 +88,11 @@ fn convert(event: &Event, style: DanceStyle) -> Result<Option<event::Event>, Rep
             EventFormat::Meeting => {
                 social = true;
             }
-            EventFormat::Party => {
+            EventFormat::Organiser => {}
+            EventFormat::Party | EventFormat::Social => {
                 social = true;
             }
+            EventFormat::Teacher => {}
         }
     }
 

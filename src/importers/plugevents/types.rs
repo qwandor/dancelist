@@ -61,8 +61,19 @@ pub struct Event {
 #[derive(Clone, Debug, Default, Deserialize, Eq, PartialEq)]
 pub enum EventFormat {
     #[default]
+    Advanced,
+    BalfolkNL,
     Class,
+    Course,
+    Event,
     Festival,
+    Intensive,
+    Learning,
+    #[serde(rename = "Lesson-series")]
+    LessonSeries,
     Meeting,
+    Organiser,
     Party,
+    Social,
+    Teacher,
 }
