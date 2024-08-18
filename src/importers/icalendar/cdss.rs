@@ -390,6 +390,11 @@ fn apply_fixes(event: &mut Event) {
                 "https://lawrencecontra.wordpress.com/calendar/".to_string(),
             );
         }
+        "Lenox Contra Dance" => {
+            event
+                .links
+                .insert(0, "https://lenoxcontradance.org/sched.php".to_string());
+        }
         "Louisville English Country Dance" => {
             event
                 .links
