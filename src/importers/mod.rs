@@ -89,7 +89,7 @@ pub fn write_by_country(events: Events, filename: &Path) -> Result<(), Report> {
     Ok(())
 }
 
-const BANDS: [&str; 262] = [
+const BANDS: [&str; 263] = [
     "112 and Then Some",
     "A Fine Kettle of Fish",
     "Achterband",
@@ -172,6 +172,7 @@ const BANDS: [&str; 262] = [
     "Duo Roblin-Thebaut",
     "Duo Torv",
     "Duo Wolff-Moschcau",
+    "Edentia",
     "Elba Connection",
     "Elixir",
     "Eloise & Co.",
