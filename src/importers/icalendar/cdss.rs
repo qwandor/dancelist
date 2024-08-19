@@ -171,6 +171,13 @@ fn apply_fixes(event: &mut Event) {
                 "https://oldfarmersball.com/english-country-dance/".to_string(),
             );
         }
+        "Ashland Country Dancers - English Country Dance" => {
+            event.name = "Ashland Country Dancers".to_string();
+            event.links.insert(
+                0,
+                "http://www.heatherandrose.org/activities/ongoing.shtml".to_string(),
+            );
+        }
         "Capital English Country Dancers" => {
             event.links.insert(
                 0,
@@ -566,11 +573,14 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://thursdaycontra.com/".to_string());
         }
-        "Wednesday Night Contra Dance" if event.city == "Baltimore" => {
+        "Wednesday Night Contra Dance" | "Wednesday Night Contra Dance BFMS"
+            if event.city == "Baltimore" =>
+        {
             event
                 .links
                 .insert(0, "https://www.bfms.org/squarecontra.php".to_string());
         }
+
         "Williamsburg Tuesday Night English Dance" => {
             event
                 .links
