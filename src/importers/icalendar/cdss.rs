@@ -255,6 +255,12 @@ fn apply_fixes(event: &mut Event) {
                 "https://www.guidingstargrange.org/events.html".to_string(),
             );
         }
+        "Columbia (SC) Contra Dance" => {
+            event.name = "Columbia Contra Dance".to_string();
+            event
+                .links
+                .insert(0, "https://www.contracola.org/".to_string());
+        }
         "Contra at Guiding Star Grange" => {
             event.links.insert(
                 0,
