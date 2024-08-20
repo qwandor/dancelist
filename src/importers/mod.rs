@@ -356,7 +356,7 @@ const BANDS: [&str; 265] = [
     "Wry Bred",
     "Yanyk",
 ];
-const CALLERS: [&str; 138] = [
+const CALLERS: [&str; 139] = [
     "Adina Gordon",
     "Alan Rosenthal",
     "Alex Deis-Lauby",
@@ -386,6 +386,7 @@ const CALLERS: [&str; 138] = [
     "Caroline Barnes",
     "Cathy Campbell",
     "Charley Harvey",
+    "Chris Hernandez",
     "Chrissy Fowler",
     "Christine Merryman",
     "Cindy Harris",
