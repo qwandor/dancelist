@@ -167,8 +167,10 @@ pub enum Style {
     DanceFolkDance,
     #[serde(rename = "Dance.French/Breton")]
     DanceFrenchBreton,
-    #[serde(rename = "Dance.Barn Dance  ")]
+    #[serde(rename = "Dance.Barn Dance")]
     DanceBarnDance,
+    #[serde(rename = "Dance.Barn Dance  ")]
+    DanceBarnDanceSpace,
     #[serde(rename = "Dance.Cajun")]
     DanceCajun,
     #[serde(rename = "Dance.Contra")]
