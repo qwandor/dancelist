@@ -563,6 +563,13 @@ fn apply_fixes(event: &mut Event) {
                 "https://spacecoastcontra.org/calendar-upcoming-contra-dances/".to_string(),
             );
         }
+        "Sunday Afternoon Dancing Planet Contra Dance" => {
+            event.name = "Dancing Planet Contra Dance".to_string();
+            event.links.insert(
+                0,
+                "https://dancingplanetproductions.com/contra/".to_string(),
+            );
+        }
         "TECDA Friday Evening Dance" | "TECDA Tuesday Evening English Country Dance" => {
             event
                 .links
