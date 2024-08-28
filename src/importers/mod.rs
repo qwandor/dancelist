@@ -89,7 +89,7 @@ pub fn write_by_country(events: Events, filename: &Path) -> Result<(), Report> {
     Ok(())
 }
 
-const BANDS: [&str; 265] = [
+const BANDS: [&str; 268] = [
     "112 and Then Some",
     "A Fine Kettle of Fish",
     "Achterband",
@@ -201,6 +201,7 @@ const BANDS: [&str; 265] = [
     "Hartwin Dhoore Trio",
     "Hartwin Dhoore",
     "Headwaters",
+    "High Drive",
     "Hijinks",
     "Hoggetowne Fancy",
     "Holiday Ball Orchestra",
@@ -261,6 +262,7 @@ const BANDS: [&str; 265] = [
     "Naragonia Quartet",
     "Naragonia",
     "Nebel",
+    "Night Heron",
     "Noiranomis",
     "Northern Aire",
     "Nova",
@@ -328,6 +330,7 @@ const BANDS: [&str; 265] = [
     "Tribal Jaze",
     "Trillium",
     "Trio Baftig",
+    "Trio Con Brio",
     "Trio Loubelya",
     "TriOblique",
     "Trip to Norwich",
@@ -356,7 +359,7 @@ const BANDS: [&str; 265] = [
     "Wry Bred",
     "Yanyk",
 ];
-const CALLERS: [&str; 139] = [
+const CALLERS: [&str; 143] = [
     "Adina Gordon",
     "Alan Rosenthal",
     "Alex Deis-Lauby",
@@ -399,6 +402,7 @@ const CALLERS: [&str; 139] = [
     "Dave Smukler",
     "David Eisenstadter",
     "David Macemon",
+    "David Millstone",
     "Deanna Palumbo",
     "Dereck Kalish",
     "Devin Pohly",
@@ -414,12 +418,14 @@ const CALLERS: [&str; 139] = [
     "Gene Murrow",
     "George Marshall",
     "George Thompson",
+    "Graham Christian",
     "Greg Frock",
     "Gretchen Caldwell",
     "Harris Lapiroff",
     "Janet Shepherd",
     "Janine Smith",
     "Jen Jasenski",
+    "Jenna Simpson",
     "Jill Allen",
     "Joanna Reiner Wilkinson",
     "Joe Harrington",
@@ -473,6 +479,7 @@ const CALLERS: [&str; 139] = [
     "River Abel",
     "River Rainbowface",
     "Ron Buchanan",
+    "Scott Higgs",
     "Seth Tepfer",
     "Steph West",
     "Steve Gester",
