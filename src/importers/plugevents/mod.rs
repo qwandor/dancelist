@@ -69,7 +69,7 @@ fn convert(event: &Event, style: DanceStyle) -> Result<Option<event::Event>, Rep
     let mut social = false;
     for subinterest in &event.subinterests {
         match subinterest {
-            EventFormat::BalfolkNL => {
+            EventFormat::Balfolk | EventFormat::BalfolkNL | EventFormat::Folkbal => {
                 social = true;
             }
             EventFormat::Advanced

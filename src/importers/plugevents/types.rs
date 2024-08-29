@@ -62,11 +62,13 @@ pub struct Event {
 pub enum EventFormat {
     #[default]
     Advanced,
+    Balfolk,
     BalfolkNL,
     Class,
     Course,
     Event,
     Festival,
+    Folkbal,
     Intensive,
     Learning,
     #[serde(rename = "Lesson-series")]
