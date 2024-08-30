@@ -89,10 +89,12 @@ pub fn write_by_country(events: Events, filename: &Path) -> Result<(), Report> {
     Ok(())
 }
 
-const BANDS: [&str; 274] = [
+const BANDS: [&str; 281] = [
     "112 and Then Some",
     "A Fine Kettle of Fish",
+    "Abacus",
     "Achterband",
+    "Adam Rich-Griffin & Nicola McConkey ",
     "AdHoc Orkest",
     "Aérokorda",
     "Air de Famille",
@@ -119,6 +121,7 @@ const BANDS: [&str; 274] = [
     "Bargainatt",
     "Barock op de Deel",
     "Bart Praet",
+    "Bearded Dragons",
     "Beat Bouet Trio",
     "Bellamira",
     "Ben Bolker and Susanne Maziarz",
@@ -150,6 +153,7 @@ const BANDS: [&str; 274] = [
     "Contra Intuitive",
     "ContraForce",
     "Contrary Faeries",
+    "Contrasaurus",
     "Contraverts",
     "Danzvogel",
     "David Cornelissen",
@@ -183,6 +187,7 @@ const BANDS: [&str; 274] = [
     "Emelie Waldken",
     "Emily & The Simons",
     "Engine Room",
+    "English Contra Dance Band",
     "Erik en Martijn",
     "Exqueezit",
     "Fahrenheit",
@@ -190,6 +195,7 @@ const BANDS: [&str; 274] = [
     "Fiddlechicks",
     "Fior",
     "First Time Stringband",
+    "Flying Cat",
     "Flying Romanos",
     "Folie du Nord",
     "Folkinger",
@@ -253,6 +259,7 @@ const BANDS: [&str; 274] = [
     "Marbelous Daves",
     "Marie Paulette",
     "Martina & Gisbert & Rainer",
+    "Matt Norman & Hannah Cummings",
     "Mavro Meli",
     "Merriment",
     "Mevilish Merry",
@@ -365,7 +372,7 @@ const BANDS: [&str; 274] = [
     "Wry Bred",
     "Yanyk",
 ];
-const CALLERS: [&str; 156] = [
+const CALLERS: [&str; 158] = [
     "Adina Gordon",
     "Alan Rosenthal",
     "Alan Winston",
@@ -441,6 +448,7 @@ const CALLERS: [&str; 156] = [
     "Jen Jasenski",
     "Jen Morgan",
     "Jenna Simpson",
+    "Jeremy Child",
     "Jill Allen",
     "Joanna Reiner Wilkinson",
     "Joe Harrington",
@@ -498,6 +506,7 @@ const CALLERS: [&str; 156] = [
     "River Rainbowface",
     "Rob Humphrey",
     "Ron Buchanan",
+    "Sally Vernon",
     "Scott Higgs",
     "Seth Tepfer",
     "Steph West",
