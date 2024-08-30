@@ -43,7 +43,7 @@ impl IcalendarSource for BristolContra {
         event
             .links
             .insert(0, "https://bristolcontra.wordpress.com/".to_string());
-        //event.name = "Bristol Contra Dance".to_string();
+        event.name = "Bristol Contra Dance".to_string();
         Some(event)
     }
 }
