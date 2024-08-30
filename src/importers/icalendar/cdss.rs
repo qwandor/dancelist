@@ -178,6 +178,12 @@ fn apply_fixes(event: &mut Event) {
                 "http://www.heatherandrose.org/activities/ongoing.shtml".to_string(),
             );
         }
+        "BACDS Peninsula English Country Dance" => {
+            event.links.insert(
+                0,
+                "https://www.bacds.org/series/english/peninsula/".to_string(),
+            );
+        }
         "Capital English Country Dancers" => {
             event.links.insert(
                 0,
