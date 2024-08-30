@@ -260,12 +260,19 @@ fn get_categories(event: &Event) -> Option<Vec<String>> {
 }
 
 /// Returns strings from the slice which are contained in one of the two lowercase strings passed.
+///
+/// Also finds matches where "&" is replaced with "and".
 fn lowercase_matches(needles: &[&str], a: &str, b: &str) -> Vec<String> {
     needles
         .iter()
         .filter_map(|needle| {
             let needle_lower = needle.to_lowercase();
-            if a.contains(&needle_lower) || b.contains(&needle_lower) {
+            let needle_and = needle.replace("&", "and");
+            if a.contains(&needle_lower)
+                || b.contains(&needle_lower)
+                || a.contains(&needle_and)
+                || b.contains(&needle_and)
+            {
                 Some(needle.to_string())
             } else {
                 None

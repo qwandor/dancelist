@@ -124,7 +124,7 @@ const BANDS: [&str; 281] = [
     "Bearded Dragons",
     "Beat Bouet Trio",
     "Bellamira",
-    "Ben Bolker and Susanne Maziarz",
+    "Ben Bolker & Susanne Maziarz",
     "Benjamin Rowe & Adam Rich-Griffin",
     "Berkenwerk",
     "Big Fun",
