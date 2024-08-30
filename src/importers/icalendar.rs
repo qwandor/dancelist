@@ -267,7 +267,7 @@ fn lowercase_matches(needles: &[&str], a: &str, b: &str) -> Vec<String> {
         .iter()
         .filter_map(|needle| {
             let needle_lower = needle.to_lowercase();
-            let needle_and = needle.replace("&", "and");
+            let needle_and = needle_lower.replace("&", "and");
             if a.contains(&needle_lower)
                 || b.contains(&needle_lower)
                 || a.contains(&needle_and)
@@ -442,6 +442,24 @@ mod tests {
                     .single()
                     .unwrap(),
             }
+        );
+    }
+
+    #[test]
+    fn match_band() {
+        const TEST_BANDS: [&str; 3] = ["Matt Norman & Edward Wallace", "Nozzy", "Nubia"];
+
+        assert_eq!(
+            lowercase_matches(&TEST_BANDS, "with nozzy", "and nubia"),
+            vec!["Nozzy".to_string(), "Nubia".to_string()]
+        );
+        assert_eq!(
+            lowercase_matches(
+                &TEST_BANDS,
+                "bob morgan with matt norman and edward wallace",
+                ""
+            ),
+            vec!["Matt Norman & Edward Wallace".to_string()]
         );
     }
 }
