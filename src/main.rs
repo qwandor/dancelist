@@ -31,9 +31,9 @@ use crate::{
     importers::{
         folkbalbende,
         icalendar::{
-            balfolknl::BalfolkNl, boulder::Boulder, cdss::Cdss, ceilidhclub::CeilidhClub,
-            import_events, kalender::Kalender, lancastercontra::LancasterContra,
-            spreefolk::Spreefolk,
+            balfolknl::BalfolkNl, boulder::Boulder, bristolcontra::BristolContra, cdss::Cdss,
+            ceilidhclub::CeilidhClub, import_events, kalender::Kalender,
+            lancastercontra::LancasterContra, spreefolk::Spreefolk,
         },
         plugevents, trycontra, webfeet,
     },
@@ -111,6 +111,8 @@ enum ImportSource {
     Balfolknl,
     /// Imports events from boulderdance.org.
     Boulder,
+    // Imports events from bristolcontra.wordpress.com.
+    BristolContra,
     /// Imports events from ceilidhclub.com.
     CeilidhClub,
     /// Imports events from cdss.org.
@@ -208,6 +210,7 @@ async fn import(source: ImportSource, filename: &Path) -> Result<(), Report> {
         ImportSource::Balbende => folkbalbende::import_events().await?,
         ImportSource::Balfolknl => import_events::<BalfolkNl>(old_events).await?,
         ImportSource::Boulder => import_events::<Boulder>(old_events).await?,
+        ImportSource::BristolContra => import_events::<BristolContra>(old_events).await?,
         ImportSource::CeilidhClub => import_events::<CeilidhClub>(old_events).await?,
         ImportSource::Cdss => import_events::<Cdss>(old_events).await?,
         ImportSource::Kalender => import_events::<Kalender>(old_events).await?,

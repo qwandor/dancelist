@@ -14,6 +14,7 @@
 
 pub mod balfolknl;
 pub mod boulder;
+pub mod bristolcontra;
 pub mod cdss;
 pub mod ceilidhclub;
 pub mod kalender;
