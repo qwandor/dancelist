@@ -191,7 +191,7 @@ const BANDS: [&str; 282] = [
     "Erik en Martijn",
     "Exqueezit",
     "Fahrenheit",
-    "Feather & Fox",
+    "Feather and Fox",
     "Fiddlechicks",
     "Fior",
     "First Time Stringband",
