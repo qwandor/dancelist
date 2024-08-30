@@ -359,9 +359,10 @@ const BANDS: [&str; 268] = [
     "Wry Bred",
     "Yanyk",
 ];
-const CALLERS: [&str; 143] = [
+const CALLERS: [&str; 144] = [
     "Adina Gordon",
     "Alan Rosenthal",
+    "Alan Winston",
     "Alex Deis-Lauby",
     "Alice Raybourn",
     "Andrea Nettleton",
