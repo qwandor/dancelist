@@ -89,7 +89,7 @@ pub fn write_by_country(events: Events, filename: &Path) -> Result<(), Report> {
     Ok(())
 }
 
-const BANDS: [&str; 282] = [
+const BANDS: [&str; 284] = [
     "112 and Then Some",
     "A Fine Kettle of Fish",
     "Abacus",
@@ -189,6 +189,7 @@ const BANDS: [&str; 282] = [
     "Engine Room",
     "English Contra Dance Band",
     "Erik en Martijn",
+    "Euphor",
     "Exqueezit",
     "Fahrenheit",
     "Feather and Fox",
@@ -259,8 +260,8 @@ const BANDS: [&str; 282] = [
     "Marbelous Daves",
     "Marie Paulette",
     "Martina & Gisbert & Rainer",
-    "Matt Norman & Hannah Cummings",
     "Matt Norman & Edward Wallace",
+    "Matt Norman & Hannah Cummings",
     "Mavro Meli",
     "Merriment",
     "Mevilish Merry",
@@ -275,6 +276,7 @@ const BANDS: [&str; 282] = [
     "Naragonia Quartet",
     "Naragonia",
     "Nebel",
+    "New Hoosier Broadcasters",
     "Night Heron",
     "Noiranomis",
     "Northern Aire",
@@ -373,7 +375,7 @@ const BANDS: [&str; 282] = [
     "Wry Bred",
     "Yanyk",
 ];
-const CALLERS: [&str; 158] = [
+const CALLERS: [&str; 161] = [
     "Adina Gordon",
     "Alan Rosenthal",
     "Alan Winston",
@@ -408,6 +410,8 @@ const CALLERS: [&str; 158] = [
     "Charley Harvey",
     "Charlie Turner",
     "Charlotte Rich-Griffin",
+    "Charmaine Slaven",
+    "Chet Gray",
     "Chris Hernandez",
     "Chrissy Fowler",
     "Christine Merryman",
@@ -518,6 +522,7 @@ const CALLERS: [&str; 158] = [
     "Susan Kevra",
     "Susan Michaels",
     "Susie Kendig",
+    "Tamara Loewenthal",
     "Tara Bolker",
     "Ted Hodapp",
     "Terry Doyle",
