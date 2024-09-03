@@ -43,6 +43,7 @@ impl IcalendarSource for BalfolkNl {
             || parts.description.contains("Vooraf dansuitleg")
             || parts.description.contains("de Docent")
             || parts.description.contains("losse les")
+            || parts.description.contains("dansintroduktie")
     }
 
     fn social(parts: &EventParts) -> bool {
@@ -84,6 +85,7 @@ impl IcalendarSource for BalfolkNl {
             || parts.summary.starts_with("DenneFeest")
             || parts.summary.starts_with("Dansavond")
             || parts.summary.starts_with("Wageningen Junushoff")
+            || parts.summary.starts_with("Vaalser bal Folk")
             || parts.description.contains("Bal deel")
     }
 
