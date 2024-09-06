@@ -67,7 +67,7 @@ fn convert(event: &Event, style: DanceStyle) -> Result<Option<event::Event>, Rep
 
     let mut workshop = false;
     let mut social = false;
-    for subinterest in &event.subinterests {
+    for subinterest in event.subinterests.clone().unwrap_or_default() {
         match subinterest {
             EventFormat::Balfolk | EventFormat::BalfolkNL | EventFormat::Folkbal => {
                 social = true;

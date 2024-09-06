@@ -55,7 +55,7 @@ pub struct Event {
     pub price_display: Option<String>,
     pub is_expanded: bool,
     pub date_grouping_label: String,
-    pub subinterests: Vec<EventFormat>,
+    pub subinterests: Option<Vec<EventFormat>>,
 }
 
 #[derive(Clone, Debug, Default, Deserialize, Eq, PartialEq)]
