@@ -213,10 +213,23 @@ fn apply_fixes(event: &mut Event) {
                 "https://www.queercontradance.org/circleleft.html".to_string(),
             );
         }
-        "Cleveland Thursday English Country Dance" => {
+        "Cleveland Thursday English Country Dance"
+        | "Cleveland Second Friday English Country Dance" => {
             event
                 .links
                 .insert(0, "https://englishcountryorg.wordpress.com/".to_string());
+        }
+        "Common Floor Contra Dance" => {
+            event
+                .links
+                .insert(0, "https://www.commonfloorcontra.dance/".to_string());
+        }
+        "Concord NH English Country Dance" => {
+            event.name = "Concord English Country Dance".to_string();
+            event.links.insert(
+                0,
+                "https://manylives-oneworld.com/dave-bateman/nhecds/".to_string(),
+            );
         }
         "Contra Dance" if event.city == "Carrollton" && event.state.as_deref() == Some("TX") => {
             event.links.insert(0, "https://www.nttds.org/".to_string());
@@ -454,6 +467,11 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://www.knoxvillecontra.org/schedule".to_string());
         }
+        "Monday Night Dance" if &event.city == "Knoxville" => {
+            event
+                .links
+                .insert(0, "https://www.knoxvillecontra.org/schedule".to_string());
+        }
         "Mystic Pie Dance" => {
             event
                 .links
@@ -610,6 +628,14 @@ fn apply_fixes(event: &mut Event) {
             event
                 .links
                 .insert(0, "https://valleycontradance.org/".to_string());
+        }
+        "Verona, VA Monday Night Contra Dance" => {
+            event.name = "Verona Monday Night Contra Dance".to_string();
+            event.links.insert(
+                0,
+                "https://shenandoahvalleycontradance.weebly.com/monday-night-contra.html"
+                    .to_string(),
+            );
         }
         "York Region English Country Dancers" => {
             event.links.insert(0, "http://www.yrecd.ca/".to_string());
