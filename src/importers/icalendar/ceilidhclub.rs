@@ -57,6 +57,9 @@ impl IcalendarSource for CeilidhClub {
         } else if event.name.starts_with("Scotch Whisky Tasting") {
             return None;
         }
+        if event.organisation.as_deref() == Some("Ceilidh Club") {
+            event.organisation = Some(Self::DEFAULT_ORGANISATION.to_string());
+        }
         event.details = None;
         Some(event)
     }
