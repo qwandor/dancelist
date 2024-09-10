@@ -185,6 +185,12 @@ fn apply_fixes(event: &mut Event) {
                 "https://www.bacds.org/series/english/peninsula/".to_string(),
             );
         }
+        "Baton Rouge Contra Dance" => {
+            event.links.insert(
+                0,
+                "https://louisianacontrasandsquares.com/events.html".to_string(),
+            );
+        }
         "Capital English Country Dancers" => {
             event.links.insert(
                 0,
