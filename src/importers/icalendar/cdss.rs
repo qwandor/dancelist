@@ -558,6 +558,12 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://www.cccds.org/schedule/".to_string());
         }
+        "Scissortail Contra Dance in Oklahoma City" => {
+            event.name = "Scissortail Contra Dance".to_string();
+            event
+                .links
+                .insert(0, "https://scissortail.org/calendar/".to_string());
+        }
         "Sebastopol 1st and 3rd Sunday English Dance" => {
             event
                 .links
