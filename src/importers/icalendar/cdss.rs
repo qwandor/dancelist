@@ -263,7 +263,10 @@ fn apply_fixes(event: &mut Event) {
                 "https://oldfarmersball.com/english-country-dance/".to_string(),
             );
         }
-        "English Country Dance" if event.city == "Dallas" => {
+        "English Country Dance" | "2nd Saturday English Country Dance"
+            if event.city == "Dallas" =>
+        {
+            event.name = "English Country Dance".to_string();
             event.links.insert(0, "https://www.nttds.org/".to_string());
         }
         "English Country Dance" if event.city == "Richmond" => {
@@ -271,6 +274,9 @@ fn apply_fixes(event: &mut Event) {
                 0,
                 "http://burlingtoncountrydancers.org/english-country-dance-series/".to_string(),
             );
+        }
+        "English Country Dance - Norwich, VT" => {
+            event.name = "English Country Dance".to_string();
         }
         "First Saturday Contra at Guiding Star Grange"
         | "Third Saturday Contra at Guiding Star Grange"
@@ -344,6 +350,11 @@ fn apply_fixes(event: &mut Event) {
         }
         "Friends of Traditional Dance Contra" => {
             event.links.insert(0, "https://fotd.org/".to_string());
+        }
+        "Floyd Contra Dance" => {
+            event
+                .links
+                .insert(0, "https://www.floydcontradance.org/".to_string());
         }
         "Flying Shoes First Friday Community Dance & Contra Dance" => {
             event.name = "Flying Shoes Community Dance & Contra Dance".to_string();
@@ -570,7 +581,9 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://nbcds.org/english-country-dance/".to_string());
         }
-        "Second Saturday BFMS Contra Dance" => {
+        "Second Saturday BFMS Contra Dance"
+        | "Second Saturday Baltimore Folk Music Society Contra Dance" => {
+            event.name = "Second Saturday BFMS Contra Dance".to_string();
             event
                 .links
                 .insert(0, "https://www.bfms.org/saturdayDance.php".to_string());
@@ -612,6 +625,13 @@ fn apply_fixes(event: &mut Event) {
             event
                 .links
                 .insert(0, "https://www.tecda.ca/weekly_dances.html".to_string());
+        }
+        "The Asheville Monday Night Contra Dance" => {
+            event.name = "Asheville Monday Night Contra Dance".to_string();
+            event.links.insert(
+                0,
+                "https://themondaynightdance.wixsite.com/home/about".to_string(),
+            );
         }
         "Third Sunday English Regency Dancing" => {
             event.links.insert(
