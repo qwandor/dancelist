@@ -161,7 +161,7 @@ const BANDS: [&str; 295] = [
     "De Trekvogels",
     "Dead Sea Squirrels",
     "Devilish Mary",
-    "Die ZWIE",
+    "Die ZWEI",
     "DJ TacoShel",
     "Dodging Pheasants",
     "Dogtown",
