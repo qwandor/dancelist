@@ -89,7 +89,7 @@ pub fn write_by_country(events: Events, filename: &Path) -> Result<(), Report> {
     Ok(())
 }
 
-const BANDS: [&str; 290] = [
+const BANDS: [&str; 295] = [
     "112 and Then Some",
     "A Fine Kettle of Fish",
     "Abacus",
@@ -161,6 +161,7 @@ const BANDS: [&str; 290] = [
     "De Trekvogels",
     "Dead Sea Squirrels",
     "Devilish Mary",
+    "Die ZWIE",
     "DJ TacoShel",
     "Dodging Pheasants",
     "Dogtown",
@@ -185,6 +186,7 @@ const BANDS: [&str; 290] = [
     "Elba Connection",
     "Elixir",
     "Eloise & Co.",
+    "EmBRUN",
     "Emelie Waldken",
     "Emily & The Simons",
     "Engine Room",
@@ -208,11 +210,13 @@ const BANDS: [&str; 290] = [
     "Gisbert",
     "Good Intentions",
     "Gott Folk!",
+    "Göze",
     "Grand Picnic",
     "GrayScale",
     "Guillaume Sparrow-Pepin & Rachel Bell",
     "Hartwin Dhoore Trio",
     "Hartwin Dhoore",
+    "Havok",
     "Headwaters",
     "High Drive",
     "Hijinks",
@@ -360,6 +364,7 @@ const BANDS: [&str; 290] = [
     "Two Catch a Raindrop",
     "Two Hats",
     "Unbowed",
+    "Ute+Michael",
     "Vandiekomsa",
     "Viola Voilá",
     "Wabi Sabi",
