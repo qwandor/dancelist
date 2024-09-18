@@ -19,6 +19,7 @@ pub mod cdss;
 pub mod ceilidhclub;
 pub mod kalender;
 pub mod lancastercontra;
+pub mod marburg;
 pub mod spreefolk;
 
 use super::{combine_events, BANDS, CALLERS};
