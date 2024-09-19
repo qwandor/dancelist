@@ -95,6 +95,9 @@ fn convert(event: &Event, style: DanceStyle) -> Result<Option<event::Event>, Rep
             EventFormat::Teacher => {}
         }
     }
+    if event.name.contains("warsztatów") || event.description.contains("warsztaty") {
+        workshop = true;
+    }
 
     Ok(Some(event::Event {
         name: event.name.clone(),
