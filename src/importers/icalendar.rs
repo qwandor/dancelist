@@ -23,7 +23,7 @@ pub mod lancastercontra;
 pub mod marburg;
 pub mod spreefolk;
 
-use super::{combine_events, BANDS, CALLERS};
+use super::{bands::BANDS, callers::CALLERS, combine_events};
 use crate::{
     model::{
         dancestyle::DanceStyle,
