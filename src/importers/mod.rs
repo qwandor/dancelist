@@ -89,7 +89,7 @@ pub fn write_by_country(events: Events, filename: &Path) -> Result<(), Report> {
     Ok(())
 }
 
-const BANDS: [&str; 295] = [
+const BANDS: [&str; 300] = [
     "112 and Then Some",
     "A Fine Kettle of Fish",
     "Abacus",
@@ -177,8 +177,10 @@ const BANDS: [&str; 295] = [
     "Duo Gielen-Buscan",
     "Duo l'Hêtre Heureux",
     "Duo Mackie/Hendrix",
+    "Duo Nello",
     "Duo Pacher-Roblin",
     "Duo Roblin-Thebaut",
+    "Duo Thézé",
     "Duo Torv",
     "Duo Wolff-Moschcau",
     "Edentia",
@@ -263,6 +265,7 @@ const BANDS: [&str; 295] = [
     "Mara Menzel",
     "Maracu",
     "Marbelous Daves",
+    "Marfinara",
     "Marie Paulette",
     "Martina & Gisbert & Rainer",
     "Matt Norman & Edward Wallace",
@@ -289,6 +292,7 @@ const BANDS: [&str; 295] = [
     "Nova",
     "Nozzy",
     "Nubia",
+    "Ormuz",
     "Pamplemousse",
     "Paracetamol",
     "Persons of Quality",
@@ -347,6 +351,7 @@ const BANDS: [&str; 295] = [
     "The Rafter Ringers",
     "The String Bean Serenaders",
     "The Syncopaths",
+    "The Third Degree",
     "The Turning Stile",
     "Toad Holler",
     "Toad in the Hole",
