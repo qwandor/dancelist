@@ -671,6 +671,12 @@ fn apply_fixes(event: &mut Event) {
                     .to_string(),
             );
         }
+        "Wasatch Contras Third Saturday Monthly Contra Dance" => {
+            event.name = "Wasatch Contra Dance".to_string();
+            event
+                .links
+                .insert(0, "https://wasatchcontras.org/".to_string());
+        }
         "York Region English Country Dancers" => {
             event.links.insert(0, "http://www.yrecd.ca/".to_string());
         }
