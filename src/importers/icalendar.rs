@@ -17,6 +17,7 @@ pub mod boulder;
 pub mod bristolcontra;
 pub mod cdss;
 pub mod ceilidhclub;
+pub mod dresden;
 pub mod kalender;
 pub mod lancastercontra;
 pub mod marburg;
