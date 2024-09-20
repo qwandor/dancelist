@@ -193,6 +193,13 @@ fn apply_fixes(event: &mut Event) {
                 "https://louisianacontrasandsquares.com/events.html".to_string(),
             );
         }
+        "Blacksburg Contra Dance" => {
+            event.links.insert(
+                0,
+                "https://blacksburgcontradance.com/contradance.html".to_string(),
+            );
+            event.workshop = true;
+        }
         "Capital English Country Dancers" => {
             event.links.insert(
                 0,
