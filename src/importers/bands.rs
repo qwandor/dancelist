@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 300] = [
+pub const BANDS: [&str; 303] = [
     "112 and Then Some",
     "A Fine Kettle of Fish",
     "Abacus",
@@ -36,6 +36,7 @@ pub const BANDS: [&str; 300] = [
     "Aurélien Claranbaux",
     "Avalance",
     "Back Row Band",
+    "Bal O'Gadjo",
     "Ball Noir",
     "Ballkanesen",
     "Ballo Allegro",
@@ -129,6 +130,7 @@ pub const BANDS: [&str; 300] = [
     "Folie du Nord",
     "Folkinger",
     "Fourpence",
+    "French Toast",
     "Fyndus",
     "George Paul",
     "Geronimo",
@@ -201,6 +203,7 @@ pub const BANDS: [&str; 300] = [
     "Moab Community Dance Band",
     "Momiro",
     "Mook",
+    "Moore & Moss",
     "Morceau de Breizh",
     "Mr Folxlide",
     "Musac",
