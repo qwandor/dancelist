@@ -154,7 +154,7 @@ fn shorten_name(name: &str) -> String {
 /// Apply fixes for specific event series.
 fn apply_fixes(event: &mut Event) {
     match event.name.as_str() {
-        "2nd Saturdays Contra Dance" if event.city == "Portland" => {
+        "2nd Saturdays Contra Dance" | "4th Saturdays Contra Dance" if event.city == "Portland" => {
             event
                 .links
                 .insert(0, "https://portlandcountrydance.org/upcoming/".to_string());
@@ -424,6 +424,12 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://hatds.org/ecd#hatds".to_string());
         }
+        "Houston Area Traditional Dance Society 5th Sunday English Country Dance" => {
+            event.name = "5th Sunday English Country Dance".to_string();
+            event
+                .links
+                .insert(0, "https://hatds.org/ecd#hatds".to_string());
+        }
         "English Country Dance in Houston" => {
             event.name = "English Country Dance".to_string();
             event
@@ -485,6 +491,11 @@ fn apply_fixes(event: &mut Event) {
             event
                 .links
                 .insert(0, "https://www.louisvilleecd.org/".to_string());
+        }
+        "Mendocino English Country Dance" => {
+            event
+                .links
+                .insert(0, "https://www.mendoecd.org/events/".to_string());
         }
         "Monrovia English Country Dance" => {
             event
@@ -611,7 +622,8 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://scissortail.org/calendar/".to_string());
         }
-        "Sebastopol 1st and 3rd Sunday English Dance" => {
+        "Sebastopol 1st and 3rd Sunday English Dance"
+        | "Sebastopol 5th Sunday Advanced English Dance" => {
             event
                 .links
                 .insert(0, "https://nbcds.org/english-country-dance/".to_string());
