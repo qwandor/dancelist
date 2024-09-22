@@ -12,7 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const CALLERS: [&str; 174] = [
+pub const CALLERS: [&str; 181] = [
+    "Annie Fain Barralon",
+    "Dan Seppeler",
     "Adina Gordon",
     "Alan Rosenthal",
     "Alan Winston",
@@ -22,6 +24,7 @@ pub const CALLERS: [&str; 174] = [
     "Andrea Nettleton",
     "Andrew Swaine",
     "Ann Fallon",
+    "Anna Rain",
     "Annie Kidwell",
     "April Blum",
     "Barbara Finney",
@@ -69,6 +72,7 @@ pub const CALLERS: [&str; 174] = [
     "David Eisenstadter",
     "David Macemon",
     "David Millstone",
+    "David Newitt",
     "Deanna Palumbo",
     "Dereck Kalish",
     "Devin Pohly",
@@ -90,6 +94,7 @@ pub const CALLERS: [&str; 174] = [
     "Gretchen Caldwell",
     "Harris Lapiroff",
     "Jack Kanutin",
+    "Jacqui Grennan",
     "Jake Wood",
     "Janet Shepherd",
     "Janine Smith",
@@ -123,6 +128,7 @@ pub const CALLERS: [&str; 174] = [
     "Lisa Harris-Frydman",
     "Lisa Heywood",
     "Lisa Newcomb",
+    "Liz Burkhart",
     "Liz Nelson",
     "Louise Siddons",
     "Luke Donforth",
@@ -170,6 +176,7 @@ pub const CALLERS: [&str; 174] = [
     "Susan English",
     "Susan Kevra",
     "Susan Michaels",
+    "Susan Petrick",
     "Susan Taylor",
     "Susie Kendig",
     "Tamara Loewenthal",
