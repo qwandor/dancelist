@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 303] = [
+pub const BANDS: [&str; 304] = [
     "112 and Then Some",
     "A Fine Kettle of Fish",
     "Abacus",
@@ -252,6 +252,7 @@ pub const BANDS: [&str; 303] = [
     "Starling",
     "Stomp Rocket",
     "Stringrays",
+    "Strings on Wings",
     "Stromlosplus",
     "Supertrad",
     "Swinco",

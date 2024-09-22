@@ -12,12 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const CALLERS: [&str; 170] = [
+pub const CALLERS: [&str; 172] = [
     "Adina Gordon",
     "Alan Rosenthal",
     "Alan Winston",
     "Alex Deis-Lauby",
     "Alice Raybourn",
+    "Alice Smith-Goeke",
     "Andrea Nettleton",
     "Andrew Swaine",
     "Ann Fallon",
@@ -41,6 +42,7 @@ pub const CALLERS: [&str; 170] = [
     "Bronwyn Chelette",
     "Brooke Friendly",
     "Bruce Hamilton",
+    "Carl Friedman",
     "Carl Levine",
     "Carol Kopp",
     "Carol Ormand",
