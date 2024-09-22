@@ -23,6 +23,8 @@ impl IcalendarSource for Cdss {
         "https://cdss.org/events/list/?ical=1",
         "https://cdss.org/events/list/page/2/?ical=1",
         "https://cdss.org/events/list/page/3/?ical=1",
+        "https://cdss.org/events/list/page/4/?ical=1",
+        "https://cdss.org/events/list/page/5/?ical=1",
     ];
     const DEFAULT_ORGANISATION: &'static str = "CDSS";
 
