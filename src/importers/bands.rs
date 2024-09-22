@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 304] = [
+pub const BANDS: [&str; 306] = [
     "112 and Then Some",
     "A Fine Kettle of Fish",
     "Abacus",
@@ -72,6 +72,7 @@ pub const BANDS: [&str; 304] = [
     "Chaotic Good",
     "Chimney Swift",
     "Ciac Boum",
+    "Ciona",
     "Cojiro",
     "Contra Banditos",
     "Contra Intuitive",
@@ -119,6 +120,7 @@ pub const BANDS: [&str; 304] = [
     "English Contra Dance Band",
     "Erik en Martijn",
     "Euphor",
+    "Ewout & Anouk",
     "Exqueezit",
     "Fahrenheit",
     "Feather and Fox",
