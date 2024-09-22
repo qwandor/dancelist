@@ -19,7 +19,7 @@ use eyre::Report;
 pub struct Spreefolk;
 
 impl IcalendarSource for Spreefolk {
-    const URL: &'static str = "https://spreefolk.de/?mec-ical-feed=1";
+    const URLS: &'static [&'static str] = &["https://spreefolk.de/?mec-ical-feed=1"];
     const DEFAULT_ORGANISATION: &'static str = "Spreefolk e.V.";
     const DEFAULT_TIMEZONE: Option<&'static str> = Some("Europe/Berlin");
 

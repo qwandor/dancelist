@@ -23,7 +23,7 @@ use eyre::{eyre, Report};
 pub struct Boulder;
 
 impl IcalendarSource for Boulder {
-    const URL: &'static str = "https://boulderdance.org/events/?ical=1";
+    const URLS: &'static [&'static str] = &["https://boulderdance.org/events/?ical=1"];
 
     const DEFAULT_ORGANISATION: &'static str = "Boulder Dance Coalition";
 

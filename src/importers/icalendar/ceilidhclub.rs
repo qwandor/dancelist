@@ -19,7 +19,7 @@ use eyre::{eyre, Report};
 pub struct CeilidhClub;
 
 impl IcalendarSource for CeilidhClub {
-    const URL: &'static str = "https://ceilidhclub.com/tickets/?ical=1";
+    const URLS: &'static [&'static str] = &["https://ceilidhclub.com/tickets/?ical=1"];
     const DEFAULT_ORGANISATION: &'static str = "London Ceilidh Club";
 
     fn workshop(_parts: &EventParts) -> bool {

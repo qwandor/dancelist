@@ -42,7 +42,7 @@ use regex::Regex;
 use std::cmp::{max, min};
 
 trait IcalendarSource {
-    const URL: &'static str;
+    const URLS: &'static [&'static str];
     const DEFAULT_ORGANISATION: &'static str;
     const DEFAULT_TIMEZONE: Option<&'static str> = None;
 
@@ -171,29 +171,33 @@ pub async fn import_events<S: IcalendarSource>(old_events: Events) -> Result<Eve
 
 /// Fetches the iCalendar file for the given source, then converts events from it.
 async fn import_new_events<S: IcalendarSource>() -> Result<Events, Report> {
-    let calendar = reqwest::get(S::URL)
-        .await?
-        .text()
-        .await?
-        .parse::<Calendar>()
-        .map_err(|e| eyre!("Error parsing iCalendar file: {}", e))?;
-    let timezone = calendar.get_timezone().or(S::DEFAULT_TIMEZONE);
-    let mut events = Events {
-        events: calendar
-            .iter()
-            .filter_map(|component| {
-                if let CalendarComponent::Event(event) = component {
-                    match get_parts(event, timezone) {
-                        Ok(parts) => convert::<S>(parts).transpose(),
-                        Err(e) => Some(Err(e)),
+    let mut events = Events::default();
+    for url in S::URLS {
+        let calendar = reqwest::get(*url)
+            .await?
+            .text()
+            .await?
+            .parse::<Calendar>()
+            .map_err(|e| eyre!("Error parsing iCalendar file: {}", e))?;
+        let timezone = calendar.get_timezone().or(S::DEFAULT_TIMEZONE);
+        events.events.extend(
+            calendar
+                .iter()
+                .filter_map(|component| {
+                    if let CalendarComponent::Event(event) = component {
+                        match get_parts(event, timezone) {
+                            Ok(parts) => convert::<S>(parts).transpose(),
+                            Err(e) => Some(Err(e)),
+                        }
+                    } else {
+                        None
                     }
-                } else {
-                    None
-                }
-            })
-            .collect::<Result<_, _>>()?,
-    };
+                })
+                .collect::<Result<Vec<_>, _>>()?,
+        );
+    }
     events.sort();
+    events.events.dedup();
     Ok(events)
 }
 

@@ -19,7 +19,7 @@ use eyre::{eyre, Report};
 pub struct Cdss;
 
 impl IcalendarSource for Cdss {
-    const URL: &'static str = "https://cdss.org/events/list/?ical=1";
+    const URLS: &'static [&'static str] = &["https://cdss.org/events/list/?ical=1"];
     const DEFAULT_ORGANISATION: &'static str = "CDSS";
 
     fn workshop(parts: &EventParts) -> bool {

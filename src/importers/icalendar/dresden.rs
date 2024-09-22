@@ -41,8 +41,8 @@ pub async fn import_events(old_events: Events) -> Result<Events, Report> {
 struct Dresden;
 
 impl IcalendarSource for Dresden {
-    const URL: &'static str =
-        "https://www.gugelhupf-dresden.de/tanz-in-dresden/calendar/icslist/calendar.ics";
+    const URLS: &'static [&'static str] =
+        &["https://www.gugelhupf-dresden.de/tanz-in-dresden/calendar/icslist/calendar.ics"];
     const DEFAULT_ORGANISATION: &'static str = ORGANISATION;
     const DEFAULT_TIMEZONE: Option<&'static str> = Some("Europe/Berlin");
 
@@ -81,8 +81,8 @@ impl IcalendarSource for Dresden {
 struct DresdenWeekly;
 
 impl IcalendarSource for DresdenWeekly {
-    const URL: &'static str =
-        "https://www.gugelhupf-dresden.de/tanz-am-dienstag/calendar/icslist/calendar.ics";
+    const URLS: &'static [&'static str] =
+        &["https://www.gugelhupf-dresden.de/tanz-am-dienstag/calendar/icslist/calendar.ics"];
     const DEFAULT_ORGANISATION: &'static str = ORGANISATION;
     const DEFAULT_TIMEZONE: Option<&'static str> = Some("Europe/Berlin");
 

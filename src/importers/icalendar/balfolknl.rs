@@ -20,7 +20,7 @@ use log::{info, warn};
 pub struct BalfolkNl;
 
 impl IcalendarSource for BalfolkNl {
-    const URL: &'static str = "https://www.balfolk.nl/events.ics";
+    const URLS: &'static [&'static str] = &["https://www.balfolk.nl/events.ics"];
     const DEFAULT_ORGANISATION: &'static str = "balfolk.nl";
 
     fn workshop(parts: &EventParts) -> bool {

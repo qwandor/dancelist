@@ -19,8 +19,8 @@ use eyre::Report;
 pub struct BristolContra;
 
 impl IcalendarSource for BristolContra {
-    const URL: &'static str =
-        "https://calendar.google.com/calendar/ical/bristolcontra%40gmail.com/public/basic.ics";
+    const URLS: &'static [&'static str] =
+        &["https://calendar.google.com/calendar/ical/bristolcontra%40gmail.com/public/basic.ics"];
     const DEFAULT_ORGANISATION: &'static str = "Bristol Contra";
 
     fn workshop(_parts: &EventParts) -> bool {
