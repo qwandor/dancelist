@@ -180,21 +180,13 @@ async fn import_new_events<S: IcalendarSource>() -> Result<Events, Report> {
             .parse::<Calendar>()
             .map_err(|e| eyre!("Error parsing iCalendar file: {}", e))?;
         let timezone = calendar.get_timezone().or(S::DEFAULT_TIMEZONE);
-        events.events.extend(
-            calendar
-                .iter()
-                .filter_map(|component| {
-                    if let CalendarComponent::Event(event) = component {
-                        match get_parts(event, timezone) {
-                            Ok(parts) => convert::<S>(parts).transpose(),
-                            Err(e) => Some(Err(e)),
-                        }
-                    } else {
-                        None
-                    }
-                })
-                .collect::<Result<Vec<_>, _>>()?,
-        );
+        for component in calendar.iter() {
+            if let CalendarComponent::Event(event) = component {
+                events
+                    .events
+                    .extend(convert::<S>(get_parts(event, timezone)?)?);
+            }
+        }
     }
     events.sort();
     events.events.dedup();
