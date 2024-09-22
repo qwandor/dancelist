@@ -12,7 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 306] = [
+pub const BANDS: [&str; 308] = [
+    "Chris Liakos & John Wetzel",
     "112 and Then Some",
     "A Fine Kettle of Fish",
     "Abacus",
@@ -295,6 +296,7 @@ pub const BANDS: [&str; 306] = [
     "Trip Hazard",
     "Trip to Norwich",
     "Triple-X",
+    "Triptych",
     "Two Catch a Raindrop",
     "Two Hats",
     "Unbowed",
