@@ -200,6 +200,12 @@ fn apply_fixes(event: &mut Event) {
             );
             event.workshop = true;
         }
+        "Bloomington Contra Dance" => {
+            event.links.insert(
+                0,
+                "https://bloomingtoncontra.org/wednesday-dances/".to_string(),
+            );
+        }
         "Capital English Country Dancers" => {
             event.links.insert(
                 0,
@@ -422,6 +428,11 @@ fn apply_fixes(event: &mut Event) {
             event
                 .links
                 .insert(0, "https://www.indycontra.org/".to_string());
+        }
+        "Indy English Country Dance" => {
+            event
+                .links
+                .insert(0, "https://sites.google.com/view/indyecd/".to_string());
         }
         "Jax Contra Dance" => {
             event.links.insert(0, "https://jaxcontra.org/".to_string());
