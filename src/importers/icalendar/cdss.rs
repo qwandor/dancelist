@@ -100,15 +100,11 @@ impl IcalendarSource for Cdss {
             .location_parts
             .as_ref()
             .ok_or_else(|| eyre!("Event missing location."))?;
-        if location_parts.is_empty() {
-            return Ok(Some(("USA".to_owned(), None, "".to_owned())));
-        } else if location_parts.len() < 2 {
-            return Ok(Some(("USA".to_owned(), None, location_parts[0].to_owned())));
-        } else if location_parts.len() < 3 {
+        if location_parts.len() < 3 {
             return Ok(Some((
                 "USA".to_owned(),
-                Some(location_parts[0].to_owned()),
-                location_parts[1].to_owned(),
+                location_parts.get(1).cloned(),
+                location_parts.get(0).cloned().unwrap_or_default(),
             )));
         }
         let mut country = location_parts[location_parts.len() - 1].to_owned();
@@ -756,23 +752,27 @@ mod tests {
                 ..Default::default()
             })
             .unwrap(),
-            None
+            Some(("USA".to_string(), None, "".to_string()))
         );
         assert_eq!(
             Cdss::location(&EventParts {
-                location_parts: Some(vec!["USA".to_string()]),
+                location_parts: Some(vec!["City".to_string()]),
                 ..Default::default()
             })
             .unwrap(),
-            None
+            Some(("USA".to_string(), None, "City".to_string()))
         );
         assert_eq!(
             Cdss::location(&EventParts {
-                location_parts: Some(vec!["CA".to_string(), "USA".to_string()]),
+                location_parts: Some(vec!["City".to_string(), "CA".to_string()]),
                 ..Default::default()
             })
             .unwrap(),
-            None
+            Some((
+                "USA".to_string(),
+                Some("CA".to_string()),
+                "City".to_string()
+            ))
         );
         assert_eq!(
             Cdss::location(&EventParts {
