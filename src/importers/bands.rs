@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 319] = [
+pub const BANDS: [&str; 326] = [
     "112 and Then Some",
     "A Fine Kettle of Fish",
     "Abacus",
@@ -35,6 +35,7 @@ pub const BANDS: [&str; 319] = [
     "Aubergine",
     "Aurélien Claranbaux",
     "Avalance",
+    "Avourneen",
     "Back Row Band",
     "Bal O'Gadjo",
     "Ball Noir",
@@ -90,6 +91,7 @@ pub const BANDS: [&str; 319] = [
     "De Trekvogels",
     "Dead Sea Squirrels",
     "Devilish Mary",
+    "Die Hayner",
     "Die ZWEI",
     "DJ TacoShel",
     "Dodging Pheasants",
@@ -175,6 +177,7 @@ pub const BANDS: [&str; 319] = [
     "Kördeböf",
     "KV Express",
     "L'air Inconnu",
+    "L’equipe",
     "La Belle Ivresse",
     "La Réveilleuse",
     "La Sauterelle",
@@ -187,6 +190,7 @@ pub const BANDS: [&str; 319] = [
     "Les Bottines Artistiques",
     "Les Kickeuses",
     "Les Zéoles",
+    "Leveret",
     "Liberty String Band",
     "Lizzy's Cocktail",
     "Lone Star Pirates",
@@ -196,6 +200,7 @@ pub const BANDS: [&str; 319] = [
     "Lys&Co",
     "Madlot",
     "Magistal",
+    "MaJoPlus",
     "Mara Menzel",
     "Maracu",
     "Marbelous Daves",
@@ -251,6 +256,7 @@ pub const BANDS: [&str; 319] = [
     "Sail Away Ladies",
     "Serendipity",
     "Shandy",
+    "Shillelagh",
     "Simone Bottasso",
     "Sister Haggis",
     "Smith, Campeau & Nelson",
@@ -308,6 +314,7 @@ pub const BANDS: [&str; 319] = [
     "Trip to Norwich",
     "Triple-X",
     "Triptych",
+    "Trouveur Valdoten",
     "Two Catch a Raindrop",
     "Two Hats",
     "Unbowed",
