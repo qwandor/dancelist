@@ -40,9 +40,10 @@ impl IcalendarSource for Boulder {
     }
 
     fn social(parts: &EventParts) -> bool {
-        parts.summary == "Scandinavian Weekly Dance"
+        parts.summary == "Boulder Scandinavian Weekend"
+            || parts.summary == "Scandinavian Christmas Dance"
             || parts.summary == "Scandinavian Monthly Dance"
-            || parts.summary == "Boulder Scandinavian Weekend"
+            || parts.summary == "Scandinavian Weekly Dance"
             || parts.summary.contains("Contra")
     }
 
