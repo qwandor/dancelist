@@ -32,10 +32,11 @@ impl IcalendarSource for Boulder {
     const DEFAULT_ORGANISATION: &'static str = "Boulder Dance Coalition";
 
     fn workshop(parts: &EventParts) -> bool {
+        let description_lower = parts.description.to_lowercase();
         parts.summary == "Scottish Country Dance"
             || parts.summary == "Scandinavian Weekly Dance"
             || parts.summary == "Boulder Scandinavian Weekend"
-            || (parts.description.contains("lesson") && !parts.description.contains("no lesson"))
+            || (description_lower.contains("lesson") && !description_lower.contains("no lesson"))
     }
 
     fn social(parts: &EventParts) -> bool {
