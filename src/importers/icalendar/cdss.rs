@@ -100,8 +100,16 @@ impl IcalendarSource for Cdss {
             .location_parts
             .as_ref()
             .ok_or_else(|| eyre!("Event missing location."))?;
-        if location_parts.len() < 3 {
-            return Ok(None);
+        if location_parts.is_empty() {
+            return Ok(Some(("USA".to_owned(), None, "".to_owned())));
+        } else if location_parts.len() < 2 {
+            return Ok(Some(("USA".to_owned(), None, location_parts[0].to_owned())));
+        } else if location_parts.len() < 3 {
+            return Ok(Some((
+                "USA".to_owned(),
+                Some(location_parts[0].to_owned()),
+                location_parts[1].to_owned(),
+            )));
         }
         let mut country = location_parts[location_parts.len() - 1].to_owned();
         if country == "United States" {
