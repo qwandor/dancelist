@@ -106,6 +106,11 @@ impl IcalendarSource for Kalender {
                     return Ok(Some(("Germany".to_string(), None, city.to_string())));
                 }
             }
+            return Ok(Some((
+                "Germany".to_string(),
+                None,
+                location_parts[0].to_string(),
+            )));
         } else {
             for (match_str, city) in &GERMANY_CITIES {
                 if parts.summary.contains(match_str) || parts.description.contains(match_str) {
