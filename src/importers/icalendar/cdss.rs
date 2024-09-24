@@ -674,6 +674,11 @@ fn apply_fixes(event: &mut Event) {
                 "https://dancingplanetproductions.com/contra/".to_string(),
             );
         }
+        "Tallahassee Contra Dance" => {
+            event
+                .links
+                .insert(0, "http://www.tallydancer.com/".to_string());
+        }
         "TECDA Friday Evening Dance" | "TECDA Tuesday Evening English Country Dance" => {
             event
                 .links
