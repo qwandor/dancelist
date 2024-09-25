@@ -12,9 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 326] = [
+pub const BANDS: [&str; 328] = [
     "112 and Then Some",
     "A Fine Kettle of Fish",
+    "A Joyful Noise",
     "Abacus",
     "Achterband",
     "Adam Rich-Griffin & Nicola McConkey ",
@@ -275,6 +276,7 @@ pub const BANDS: [&str; 326] = [
     "Supertrad",
     "Swinco",
     "Swingology",
+    "Sycamore",
     "Take a Dance",
     "Thalas",
     "The Atchisons",

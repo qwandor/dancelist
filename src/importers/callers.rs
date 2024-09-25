@@ -12,9 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const CALLERS: [&str; 181] = [
-    "Annie Fain Barralon",
-    "Dan Seppeler",
+pub const CALLERS: [&str; 182] = [
     "Adina Gordon",
     "Alan Rosenthal",
     "Alan Winston",
@@ -23,8 +21,10 @@ pub const CALLERS: [&str; 181] = [
     "Alice Smith-Goeke",
     "Andrea Nettleton",
     "Andrew Swaine",
+    "Angela DeCarlis",
     "Ann Fallon",
     "Anna Rain",
+    "Annie Fain Barralon",
     "Annie Kidwell",
     "April Blum",
     "Barbara Finney",
@@ -65,6 +65,7 @@ pub const CALLERS: [&str; 181] = [
     "Courtney Cartwright",
     "Daisy Black",
     "Dan Blim",
+    "Dan Seppeler",
     "Darlene Underwood",
     "Dave Bateman",
     "Dave Berman",
