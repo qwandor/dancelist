@@ -69,13 +69,20 @@ fn convert(event: &Event, style: DanceStyle) -> Result<Option<event::Event>, Rep
     let mut social = false;
     for subinterest in event.subinterests.clone().unwrap_or_default() {
         match subinterest {
-            EventFormat::Balfolk | EventFormat::BalfolkNL | EventFormat::Folkbal => {
+            EventFormat::Bal
+            | EventFormat::Balfolk
+            | EventFormat::BalfolkNL
+            | EventFormat::Folkbal
+            | EventFormat::FolkBal => {
                 social = true;
             }
             EventFormat::Advanced
             | EventFormat::Class
             | EventFormat::Course
+            | EventFormat::DanceClass
+            | EventFormat::Dansles
             | EventFormat::Event
+            | EventFormat::Les
             | EventFormat::Learning
             | EventFormat::LessonSeries
             | EventFormat::Intensive => {
@@ -89,10 +96,22 @@ fn convert(event: &Event, style: DanceStyle) -> Result<Option<event::Event>, Rep
                 social = true;
             }
             EventFormat::Organiser => {}
-            EventFormat::Party | EventFormat::Social => {
+            EventFormat::Dansavond
+            | EventFormat::LiveMusic
+            | EventFormat::LiveMuziek
+            | EventFormat::Party
+            | EventFormat::Social
+            | EventFormat::SocialDancing => {
                 social = true;
             }
-            EventFormat::Teacher => {}
+            EventFormat::Practica => {
+                social = true;
+            }
+            EventFormat::SocialClass | EventFormat::Sociales => {
+                workshop = true;
+                social = true;
+            }
+            EventFormat::MusicClass | EventFormat::Musiekles | EventFormat::Teacher => {}
         }
     }
     if event.name.contains("warsztatów") || event.description.contains("warsztaty") {

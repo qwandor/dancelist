@@ -62,20 +62,40 @@ pub struct Event {
 pub enum EventFormat {
     #[default]
     Advanced,
+    Bal,
     Balfolk,
     BalfolkNL,
     Class,
     Course,
+    #[serde(rename = "Dance Class")]
+    DanceClass,
+    Dansavond,
+    Dansles,
     Event,
     Festival,
     Folkbal,
+    FolkBal,
     Intensive,
     Learning,
+    Les,
     #[serde(rename = "Lesson-series")]
     LessonSeries,
+    #[serde(rename = "Live Music")]
+    LiveMusic,
+    #[serde(rename = "Live Muziek")]
+    LiveMuziek,
     Meeting,
+    #[serde(rename = "Music Class")]
+    MusicClass,
+    Musiekles,
     Organiser,
     Party,
+    Practica,
     Social,
+    #[serde(rename = "Social Class")]
+    SocialClass,
+    #[serde(rename = "Social Dancing")]
+    SocialDancing,
+    Sociales,
     Teacher,
 }
