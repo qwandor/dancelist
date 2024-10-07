@@ -30,6 +30,7 @@ impl IcalendarSource for Spreefolk {
             || description_lower.contains("tanz-workshop")
             || description_lower.contains("tanzeinführungsworkshop")
             || description_lower.contains("tanzeinführung")
+            || description_lower.contains("workshop tänze")
             || summary_lower.contains("workshop")
     }
 
