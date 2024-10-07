@@ -16,7 +16,7 @@ use super::{EventParts, IcalendarSource};
 use crate::model::{dancestyle::DanceStyle, event::Event};
 use eyre::Report;
 
-const GERMANY_CITIES: [(&str, &str); 16] = [
+const GERMANY_CITIES: [(&str, &str); 17] = [
     ("Bad Boll", "Bad Boll"),
     ("Ehningen", "Ehningen"),
     ("Freiburg", "Freiburg i. Br"),
@@ -26,6 +26,7 @@ const GERMANY_CITIES: [(&str, &str); 16] = [
     ("Heiligenberg", "Heiligenberg"),
     ("Karlsruhe", "Karlsruhe"),
     ("Kirchheim", "Kirchheim"),
+    ("Lautenbach", "Lautenbach"),
     ("Marzling", "Marzling"),
     ("Nürtingen", "Nürtingen"),
     ("Rechberghausen", "Göppingen"),
