@@ -169,6 +169,9 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://portlandcountrydance.org/upcoming/".to_string());
         }
+        "3rd Friday Hot Springs NC Contradance" => {
+            event.name = "Hot Springs Contradance".to_string();
+        }
         "3rd Saturday Contra Dance" if event.city == "Philadelphia" => {
             event
                 .links
