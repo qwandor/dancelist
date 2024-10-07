@@ -174,6 +174,12 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://3rdsaturday.thursdaycontra.com/".to_string());
         }
+        "All-Ages Community Barn Dance" => {
+            event.links.insert(
+                0,
+                "https://fvfs.org/WordPress/events/barn-dance/".to_string(),
+            );
+        }
         "Anaheim Contra Dance" => {
             event.links.insert(
                 0,
@@ -275,6 +281,12 @@ fn apply_fixes(event: &mut Event) {
         "Contra Dance" if event.city == "Carrollton" && event.state.as_deref() == Some("TX") => {
             event.links.insert(0, "https://www.nttds.org/".to_string());
         }
+        "Contra Dance at Tapestry Folkdance Center" => {
+            event
+                .links
+                .insert(0, "https://www.tapestryfolkdance.org/contra".to_string());
+            event.workshop = true;
+        }
         "ContraATL Weekly Dance" => {
             event.workshop = true;
             event
@@ -339,6 +351,11 @@ fn apply_fixes(event: &mut Event) {
                 0,
                 "https://www.guidingstargrange.org/events.html".to_string(),
             );
+        }
+        "Contra for a Cause" => {
+            event
+                .links
+                .insert(0, "https://www.kofc109.com/contra".to_string());
         }
         "Contra Dance at Lake Murray Contra Hall" => {
             event
@@ -554,6 +571,12 @@ fn apply_fixes(event: &mut Event) {
                 event.price = Some("$7-$10".to_string());
             }
         }
+        "Nashville English Country Dance" => {
+            event.links.insert(
+                0,
+                "https://www.nashvillecountrydancers.org/english-country-dances".to_string(),
+            );
+        }
         "Nashville Second Sunday English Country Dances" => {
             event.links.insert(
                 0,
@@ -721,11 +744,16 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://www.bfms.org/squarecontra.php".to_string());
         }
-
         "Williamsburg Tuesday Night English Dance" => {
             event
                 .links
                 .insert(0, "https://williamsburgheritagedancers.org/".to_string());
+        }
+        "Worcester Contra Dance" | "Worcester Contra Dance!" => {
+            event.name = "Worcester Contra Dance".to_string();
+            event
+                .links
+                .insert(0, "https://www.worcesterdance.org/".to_string());
         }
         "Valley Contra Dance" => {
             event
