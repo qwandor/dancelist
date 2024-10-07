@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 329] = [
+pub const BANDS: [&str; 333] = [
     "112 and Then Some",
     "A Fine Kettle of Fish",
     "A Joyful Noise",
@@ -139,6 +139,7 @@ pub const BANDS: [&str; 329] = [
     "Flying Romanos",
     "Folie du Nord",
     "Folkinger",
+    "Folkschwestern Biese",
     "Fourpence",
     "French Toast",
     "Fyndus",
@@ -181,6 +182,7 @@ pub const BANDS: [&str; 329] = [
     "L'air Inconnu",
     "L’equipe",
     "La Belle Ivresse",
+    "La Bonne Soupe",
     "La Réveilleuse",
     "La Sauterelle",
     "Lackawanna Longnecks",
@@ -235,6 +237,7 @@ pub const BANDS: [&str; 329] = [
     "Nova",
     "Nozzy",
     "Nubia",
+    "Olivier Valence",
     "Ormuz",
     "Pamplemousse",
     "Paracetamol",
@@ -320,6 +323,7 @@ pub const BANDS: [&str; 329] = [
     "Trouveur Valdoten",
     "Two Catch a Raindrop",
     "Two Hats",
+    "Ultra Tagada",
     "Unbowed",
     "Ute+Michael",
     "Vandiekomsa",
