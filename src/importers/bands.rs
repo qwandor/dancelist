@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 333] = [
+pub const BANDS: [&str; 339] = [
     "112 and Then Some",
     "A Fine Kettle of Fish",
     "A Joyful Noise",
@@ -31,6 +31,7 @@ pub const BANDS: [&str; 333] = [
     "Androneda",
     "Andy Cutting",
     "Antanjo",
+    "Anytime English Players",
     "Appalachian Roots",
     "Artisjok",
     "Atlantic Crossing",
@@ -87,6 +88,8 @@ pub const BANDS: [&str; 333] = [
     "Contrasaurus",
     "Contraverts",
     "Countercurrent",
+    "Crossover Duo",
+    "Crossover Trio",
     "Danzvogel",
     "David Cornelissen",
     "De Houtzagerij",
@@ -142,10 +145,12 @@ pub const BANDS: [&str; 333] = [
     "Folkschwestern Biese",
     "Fourpence",
     "French Toast",
+    "Full Tilt",
     "Fyndus",
     "George Paul",
     "Geronimo",
     "Gisbert",
+    "Go Figure",
     "Good Intentions",
     "Gott Folk!",
     "Göze",
@@ -165,6 +170,7 @@ pub const BANDS: [&str; 333] = [
     "Hot Griselda",
     "Hot Toddy",
     "I Pizzicati",
+    "Irish Diplomacy",
     "Javallon",
     "Jeroen Laureyssens",
     "Joachim Montbord",
