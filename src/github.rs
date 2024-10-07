@@ -33,7 +33,7 @@ async fn build_octocrab(config: &GitHubConfig) -> Result<Octocrab, InternalError
         .await?;
 
     // Make an Octocrab for that installation.
-    Ok(octocrab.installation(installation.id))
+    Ok(octocrab.installation(installation.id)?)
 }
 
 fn get_repo_pulls<'a>(
