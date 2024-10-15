@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 343] = [
+pub const BANDS: [&str; 347] = [
     "112 and Then Some",
     "A Fine Kettle of Fish",
     "A Joyful Noise",
@@ -37,6 +37,7 @@ pub const BANDS: [&str; 343] = [
     "Atlantic Crossing",
     "Aubergine",
     "Aurélien Claranbaux",
+    "Autour de Bâle",
     "Avalance",
     "Avourneen",
     "Back Row Band",
@@ -88,6 +89,7 @@ pub const BANDS: [&str; 343] = [
     "Contrary Faeries",
     "Contrasaurus",
     "Contraverts",
+    "Coral Riff",
     "Countercurrent",
     "Crossover Duo",
     "Crossover Trio",
@@ -139,6 +141,7 @@ pub const BANDS: [&str; 343] = [
     "Fiddlechicks",
     "Fior",
     "First Time Stringband",
+    "Flour City Doughboys",
     "Flying Cat",
     "Flying Romanos",
     "Folie du Nord",
@@ -336,6 +339,7 @@ pub const BANDS: [&str; 343] = [
     "Ultra Tagada",
     "Unbowed",
     "Ute+Michael",
+    "Vagalan",
     "Vandiekomsa",
     "Viola Voilá",
     "Wabi Sabi",
