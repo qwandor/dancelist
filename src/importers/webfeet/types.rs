@@ -151,6 +151,8 @@ impl Default for Status {
 #[derive(Copy, Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
 pub enum Style {
     Contra,
+    #[serde(rename = "Dance.")]
+    Dance,
     #[serde(rename = "Dance.American.American Contra")]
     DanceAmericanAmericanContra,
     #[serde(rename = "Dance.Bal")]
