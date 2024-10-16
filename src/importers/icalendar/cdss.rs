@@ -223,6 +223,12 @@ fn apply_fixes(event: &mut Event) {
                 "https://louisianacontrasandsquares.com/events.html".to_string(),
             );
         }
+        "Berea 4th Saturday English Country Dance" => {
+            event.links.insert(
+                0,
+                "https://www.berea-folk-circle.org/english-country-dance".to_string(),
+            );
+        }
         "Blacksburg Contra Dance" => {
             event.links.insert(
                 0,
@@ -552,6 +558,11 @@ fn apply_fixes(event: &mut Event) {
         }
         "Monday Evening English Country Dance in Baltimore" => {
             event.name = "Monday Evening English Country Dance".to_string();
+            event
+                .links
+                .insert(0, "https://www.bfms.org/mondayDance.php".to_string());
+        }
+        "Monday Night English Country Dance" if &event.city == "Baltimore" => {
             event
                 .links
                 .insert(0, "https://www.bfms.org/mondayDance.php".to_string());
