@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const CALLERS: [&str; 188] = [
+pub const CALLERS: [&str; 190] = [
     "Adina Gordon",
     "Alan Rosenthal",
     "Alan Winston",
@@ -68,6 +68,7 @@ pub const CALLERS: [&str; 188] = [
     "Dan Blim",
     "Dan Kappus",
     "Dan Seppeler",
+    "Darlene Hamilton",
     "Darlene Underwood",
     "Dave Bateman",
     "Dave Berman",
@@ -186,6 +187,7 @@ pub const CALLERS: [&str; 188] = [
     "Susan Petrick",
     "Susan Taylor",
     "Susie Kendig",
+    "Suzanne Farmer",
     "Tamara Loewenthal",
     "Tara Bolker",
     "Ted Hodapp",
