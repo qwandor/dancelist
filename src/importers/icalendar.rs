@@ -342,9 +342,9 @@ fn get_time(event: &Event, timezone: Option<&str>) -> Result<EventTime, Report> 
                 .map_err(|e| eyre!("Invalid timezone: {}", e))?;
             EventTime::DateTime {
                 start: local_datetime_to_fixed_offset(&start, start_timezone)
-                    .ok_or_else(|| eyre!("Ambiguous datetime for event {:?}", event))?,
+                    .ok_or_else(|| eyre!("Ambiguous start datetime for event {:?}", event))?,
                 end: local_datetime_to_fixed_offset(&end, end_timezone)
-                    .ok_or_else(|| eyre!("Ambiguous datetime for event {:?}", event))?,
+                    .ok_or_else(|| eyre!("Ambiguous end datetime for event {:?}", event))?,
             }
         }
         (

@@ -98,6 +98,6 @@ pub fn local_datetime_to_fixed_offset(
     timezone: Tz,
 ) -> Option<DateTime<FixedOffset>> {
     Some(to_fixed_offset(
-        timezone.from_local_datetime(local).single()?,
+        timezone.from_local_datetime(local).earliest()?,
     ))
 }
