@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 355] = [
+pub const BANDS: [&str; 358] = [
     "112 and Then Some",
     "A Fine Kettle of Fish",
     "A Joyful Noise",
@@ -97,6 +97,7 @@ pub const BANDS: [&str; 355] = [
     "Crossover Trio",
     "Danzvogel",
     "David Cornelissen",
+    "David James & Craig Johnson",
     "De Houtzagerij",
     "De Trekvogels",
     "Dead Sea Squirrels",
@@ -119,6 +120,7 @@ pub const BANDS: [&str; 355] = [
     "Duo l'Hêtre Heureux",
     "Duo Mackie/Hendrix",
     "Duo Nello",
+    "Duo NoLa",
     "Duo Pacher-Roblin",
     "Duo Roblin-Thebaut",
     "Duo Thézé",
@@ -335,6 +337,7 @@ pub const BANDS: [&str; 355] = [
     "Trio Baftig",
     "Trio Con Brio",
     "Trio Loubelya",
+    "Trio Mirambel",
     "TriOblique",
     "Trip Hazard",
     "Trip to Norwich",
