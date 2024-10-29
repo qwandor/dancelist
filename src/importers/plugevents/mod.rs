@@ -145,10 +145,17 @@ fn convert(event: &Event, style: DanceStyle) -> Result<Option<event::Event>, Rep
         bands: vec![],
         callers: vec![],
         price: format_price(event),
-        organisation: event.published_by_name.clone(),
+        organisation: event.published_by_name.as_deref().map(fix_organisation),
         cancelled: false,
         source: None,
     }))
+}
+
+fn fix_organisation(published_by_name: &str) -> String {
+    match published_by_name {
+        "Chata Numinosum" => "Numinosum".to_string(),
+        _ => published_by_name.to_string(),
+    }
 }
 
 fn format_price(event: &Event) -> Option<String> {
