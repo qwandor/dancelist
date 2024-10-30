@@ -232,6 +232,11 @@ fn apply_fixes(event: &mut Event) {
                 "https://www.bacds.org/series/english/peninsula/".to_string(),
             );
         }
+        "Baltimore Folk Music Society Wednesday Contra Dance" => {
+            event
+                .links
+                .insert(0, "https://www.bfms.org/squarecontra.php".to_string());
+        }
         "Baton Rouge Contra Dance" => {
             event.links.insert(
                 0,
@@ -328,6 +333,13 @@ fn apply_fixes(event: &mut Event) {
             event
                 .links
                 .insert(0, "https://www.cfootmad.org/".to_string());
+        }
+        "Dover 2nd Friday New England Traditional Dance" => {
+            event.name = "Dover New England Traditional Dance".to_string();
+            event.links.insert(
+                0,
+                "https://manylives-oneworld.com/dave-bateman/dover-dance/".to_string(),
+            );
         }
         "ECD Atlanta Regular Dance" | "English Country Dance Atlanta" => {
             event
