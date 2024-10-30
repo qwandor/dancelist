@@ -652,6 +652,9 @@ fn apply_fixes(event: &mut Event) {
                 "https://colonialdanceclubofrichmond.com/english-dance-calendar".to_string(),
             );
         }
+        "Richmond Saturday Night Contra Dance" => {
+            event.name = "Saturday Night Contra Dance".to_string();
+        }
         "Roseville CA First Sunday English Country Dance" => {
             event.name = "Roseville English Country Dance".to_string();
             event
