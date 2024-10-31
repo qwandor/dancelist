@@ -97,7 +97,8 @@ impl IcalendarSource for Boulder {
             }
         }
         match event.name.as_str() {
-            "Scottish Country Dance" => {
+            "Boulder Scottish Country Dance" | "Scottish Country Dance" => {
+                event.name = "Scottish Country Dance".to_string();
                 if let EventTime::DateTime { start, end } = &mut event.time {
                     if end == start {
                         *end = *start + TimeDelta::try_hours(2).unwrap();
