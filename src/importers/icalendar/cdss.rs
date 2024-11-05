@@ -159,6 +159,7 @@ fn shorten_name(name: &str) -> String {
         .trim_end_matches(" in Nelson, NH")
         .trim_end_matches(" in Van Nuys")
         .trim_end_matches("—Richmond, VT")
+        .trim_end_matches(", Vermont")
         .replace("Berkeley, CA", "Berkeley")
         .replace("Dover NH", "Dover")
         .replace("Richmond VA", "Richmond")
