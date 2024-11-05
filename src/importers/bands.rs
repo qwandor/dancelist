@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 358] = [
+pub const BANDS: [&str; 360] = [
     "112 and Then Some",
     "A Fine Kettle of Fish",
     "A Joyful Noise",
@@ -69,6 +69,7 @@ pub const BANDS: [&str; 358] = [
     "Box of Frogs",
     "Brasstown Balfolk Band",
     "Brazenkeys",
+    "Brickyard Joes",
     "Broes",
     "Brook Farm String Band",
     "Bunny Bread Bandits",
@@ -328,6 +329,7 @@ pub const BANDS: [&str; 358] = [
     "The Turning Stile",
     "Toad Holler",
     "Toad in the Hole",
+    "Tooth Pickers",
     "Topspin",
     "Toss the Possum",
     "Tralala Lovers",
