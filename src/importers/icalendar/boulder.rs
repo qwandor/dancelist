@@ -36,6 +36,7 @@ impl IcalendarSource for Boulder {
         parts.summary == "Scottish Country Dance"
             || parts.summary == "Scandinavian Weekly Dance"
             || parts.summary == "Boulder Scandinavian Weekend"
+            || parts.summary.contains("Class")
             || (description_lower.contains("lesson") && !description_lower.contains("no lesson"))
     }
 
@@ -111,10 +112,7 @@ impl IcalendarSource for Boulder {
                     event.price = Some("$5".to_string());
                 }
             }
-            "Scandinavian Weekly Dance" => {
-                event
-                    .links
-                    .insert(0, "https://boulderscandinaviandancers.org/".to_string());
+            "Scandinavian Weekly Dance" | "Scandinavian Basics Class" => {
                 if event.price.is_none() {
                     event.price = Some("$7".to_string());
                 }
