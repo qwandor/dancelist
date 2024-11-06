@@ -696,6 +696,12 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://www.satxcontra.org/".to_string());
         }
+        "San Francisco Contra Dance" => {
+            event.links.insert(
+                0,
+                "https://bacds.org/series/contra/san_francisco_wed/".to_string(),
+            );
+        }
         "San Luis Obispo Monthly Contra Dance" => {
             event
                 .links
