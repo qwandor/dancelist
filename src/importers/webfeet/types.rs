@@ -133,7 +133,7 @@ pub struct Location {
     #[serde(rename = "@Mapref")]
     pub mapref: Option<String>,
     #[serde(rename = "$value")]
-    pub value: String,
+    pub value: Option<String>,
 }
 
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]

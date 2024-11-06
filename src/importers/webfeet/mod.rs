@@ -111,7 +111,10 @@ fn convert(event: &EventRecord) -> Option<Event> {
         .iter()
         .map(|band| band.value.clone())
         .collect();
-    let city = event.location_collection.location.value.clone();
+    let Some(city) = event.location_collection.location.value.clone() else {
+        eprintln!("Dropping {:?} with no city.", event.location_collection);
+        return None;
+    };
 
     let mut name = format!("{} in {}", bands.join(" & "), city);
     let bands = bands.into_iter().filter(|band| band != "TBA").collect();
