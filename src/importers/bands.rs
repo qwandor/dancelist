@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 360] = [
+pub const BANDS: [&str; 361] = [
     "112 and Then Some",
     "A Fine Kettle of Fish",
     "A Joyful Noise",
@@ -26,6 +26,7 @@ pub const BANDS: [&str; 360] = [
     "Akleja",
     "AlleMonOh Stringband",
     "Amarillis & Anders",
+    "Amberwing",
     "Andrea Capezzuoli",
     "Andreas Neumann",
     "Androneda",
