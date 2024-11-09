@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 361] = [
+pub const BANDS: [&str; 362] = [
     "112 and Then Some",
     "A Fine Kettle of Fish",
     "A Joyful Noise",
@@ -348,6 +348,7 @@ pub const BANDS: [&str; 361] = [
     "Triptych",
     "Trouveur Valdoten",
     "Tunebuggy",
+    "Turnip the Beet",
     "Two Catch a Raindrop",
     "Two Hats",
     "Ultra Tagada",
