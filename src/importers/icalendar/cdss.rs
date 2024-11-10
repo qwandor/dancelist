@@ -396,7 +396,8 @@ fn apply_fixes(event: &mut Event) {
                 "https://www.guidingstargrange.org/events.html".to_string(),
             );
         }
-        "Contra for a Cause" => {
+        "Contra for a Cause" | "Contra for a Cause!" => {
+            event.name = "Contra for a Cause".to_string();
             event
                 .links
                 .insert(0, "https://www.kofc109.com/contra".to_string());
