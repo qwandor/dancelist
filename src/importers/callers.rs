@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const CALLERS: [&str; 197] = [
+pub const CALLERS: [&str; 201] = [
     "Adina Gordon",
     "Alan Rosenthal",
     "Alan Winston",
@@ -23,6 +23,7 @@ pub const CALLERS: [&str; 197] = [
     "Andrea Nettleton",
     "Andrew Swaine",
     "Angela DeCarlis",
+    "Ann Carter",
     "Ann Fallon",
     "Anna Rain",
     "Annie Fain Barralon",
@@ -30,8 +31,10 @@ pub const CALLERS: [&str; 197] = [
     "April Blum",
     "Barbara Finney",
     "Barrett Grimm",
+    "Beau Farmer",
     "Ben Sachs-Hamilton",
     "Ben Sela",
+    "Beth Molaro",
     "Bev Birnbaum",
     "Billy Fischer",
     "Bob Devaty",
@@ -72,6 +75,7 @@ pub const CALLERS: [&str; 197] = [
     "Darlene Underwood",
     "Dave Bateman",
     "Dave Berman",
+    "Dave Rupp",
     "Dave Smukler",
     "David Eisenstadter",
     "David Kirchner",
