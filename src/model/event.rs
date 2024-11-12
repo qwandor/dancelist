@@ -433,11 +433,15 @@ impl Event {
     }
 
     /// Returns a key for sorting events by start time then location.
-    pub fn date_location_sort_key(&self) -> (DateTime<Utc>, String, String) {
+    pub fn date_location_sort_key(
+        &self,
+    ) -> (DateTime<Utc>, String, Option<String>, String, String) {
         (
             self.time.start_time_sort_key(),
             self.country.clone(),
+            self.state.clone(),
             self.city.clone(),
+            self.name.clone(),
         )
     }
 }
