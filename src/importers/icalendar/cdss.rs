@@ -422,6 +422,11 @@ fn apply_fixes(event: &mut Event) {
             event.name = "Contra Dance".to_string();
             event.links.insert(0, "https://hatds.org/".to_string());
         }
+        "Dancing with Jane Austen" => {
+            event
+                .links
+                .insert(0, "https://www.woosterdance.com/".to_string());
+        }
         "Folklore Society of Greater Washington (FSGW) English Country Dance" => {
             event.name = "FSGW English Country Dance".to_string();
         }
