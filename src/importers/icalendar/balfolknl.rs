@@ -67,7 +67,7 @@ impl IcalendarSource for BalfolkNl {
             || parts.summary.starts_with("Balfolk in Kleve")
             || parts.summary.starts_with("Balfolk met ")
             || parts.summary.starts_with("BalFolk met ")
-            || parts.summary.starts_with("Balfolk op zondagmiddag")
+            || parts.summary.starts_with("Balfolk op zondag")
             || parts.summary.starts_with("Balfolk op de")
             || parts.summary.starts_with("Balfolkcafe")
             || parts.summary.starts_with("BresBal")
