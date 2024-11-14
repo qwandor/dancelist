@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 365] = [
+pub const BANDS: [&str; 369] = [
     "112 and Then Some",
     "A Fine Kettle of Fish",
     "A Joyful Noise",
@@ -24,6 +24,7 @@ pub const BANDS: [&str; 365] = [
     "Air de Famille",
     "Airboxes",
     "Akleja",
+    "Alchemy",
     "AlleMonOh Stringband",
     "Amarillis & Anders",
     "Amberwing",
@@ -297,6 +298,7 @@ pub const BANDS: [&str; 365] = [
     "Spintuition",
     "SpringTide",
     "Starling",
+    "Steam!",
     "Stomp Rocket",
     "Stove Dragon",
     "Stringrays",
@@ -323,6 +325,7 @@ pub const BANDS: [&str; 365] = [
     "The Gaslight Tinkers",
     "The Hollertones",
     "The Ice Cream Truckers",
+    "The Johns",
     "The Little Big Band",
     "The Moving Violations",
     "The Orphans",
@@ -358,6 +361,7 @@ pub const BANDS: [&str; 365] = [
     "Unbowed",
     "Ute+Michael",
     "Vagalan",
+    "Valentin Barray",
     "Vandiekomsa",
     "Viola Voilá",
     "Wabi Sabi",
