@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 369] = [
+pub const BANDS: [&str; 371] = [
     "112 and Then Some",
     "A Fine Kettle of Fish",
     "A Joyful Noise",
@@ -161,6 +161,7 @@ pub const BANDS: [&str; 369] = [
     "Froghammer",
     "Full Tilt",
     "Fyndus",
+    "Fyr Freya",
     "George Paul",
     "Geronimo",
     "Gisbert",
@@ -368,6 +369,7 @@ pub const BANDS: [&str; 369] = [
     "Wakarusa Roundabouts",
     "Warleggan Village Band",
     "Waterbound String Band",
+    "Waverley Station",
     "Wee Merry Banshees",
     "Wergleyberg",
     "Westside Warblers",
