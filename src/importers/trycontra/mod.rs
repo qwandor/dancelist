@@ -112,6 +112,12 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
         })
         .collect();
 
+    let organisation = if links[0].contains("dancingfish.dance") {
+        "Dancing Fish"
+    } else {
+        "TryContra"
+    };
+
     Ok(Some(event::Event {
         name,
         details: None,
@@ -126,7 +132,7 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
         bands,
         callers: event.callers.to_owned(),
         price: None,
-        organisation: Some("TryContra".to_string()),
+        organisation: Some(organisation.to_string()),
         cancelled,
         source: None,
     }))
