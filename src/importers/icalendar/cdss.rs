@@ -596,6 +596,13 @@ fn apply_fixes(event: &mut Event) {
                 "https://capitalcitygrange.org/dancing/contradancing/".to_string(),
             );
         }
+        "Monday Contra Dance" if event.city == "Nelson" => {
+            event.links.insert(
+                0,
+                "https://www.monadnockfolk.org/contra-dances/the-nelson-monday-night-dance/"
+                    .to_string(),
+            );
+        }
         "Monday Evening English Country Dance in Baltimore" => {
             event.name = "Monday Evening English Country Dance".to_string();
             event
