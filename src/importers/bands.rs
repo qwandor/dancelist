@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 371] = [
+pub const BANDS: [&str; 373] = [
     "112 and Then Some",
     "A Fine Kettle of Fish",
     "A Joyful Noise",
@@ -186,6 +186,7 @@ pub const BANDS: [&str; 371] = [
     "Hot Griselda",
     "Hot Toddy",
     "I Pizzicati",
+    "Ice Cream Truckers",
     "Irish Diplomacy",
     "Javallon",
     "Jeroen Laureyssens",
@@ -241,6 +242,7 @@ pub const BANDS: [&str; 371] = [
     "Mevilish Merry",
     "Midnight on the Water",
     "Mieneke",
+    "Millserati",
     "Moab Community Dance Band",
     "Momiro",
     "Mook",
