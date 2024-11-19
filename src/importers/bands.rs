@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 373] = [
+pub const BANDS: [&str; 372] = [
     "112 and Then Some",
     "A Fine Kettle of Fish",
     "A Joyful Noise",
@@ -381,7 +381,6 @@ pub const BANDS: [&str; 373] = [
     "Wilma",
     "Wim te Groen",
     "Wings & Tales",
-    "Woody & the Westside Warblers",
     "Wouter en de Draak",
     "Wouter Kuyper",
     "Wry Bred",
