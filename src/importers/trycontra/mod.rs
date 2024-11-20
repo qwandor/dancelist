@@ -108,6 +108,7 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
                 .replace(band, "The ")
                 .replace("The Engine Room", "Engine Room")
                 .replace("The Stringrays", "Stringrays")
+                .replace("The Ice Cream Truckers", "Ice Cream Truckers")
                 .replace("Eloise &co.", "Eloise & Co.")
         })
         .collect();
