@@ -44,6 +44,7 @@ impl IcalendarSource for BalfolkNl {
             || parts.description.contains("Vooraf dansuitleg")
             || parts.description.contains("de Docent")
             || parts.description.contains("losse les")
+            || parts.description.contains("dansintroductie")
             || parts.description.contains("dansintroduktie")
     }
 
