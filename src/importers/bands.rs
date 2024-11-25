@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 372] = [
+pub const BANDS: [&str; 374] = [
     "112 and Then Some",
     "A Fine Kettle of Fish",
     "A Joyful Noise",
@@ -75,6 +75,7 @@ pub const BANDS: [&str; 372] = [
     "Brickyard Joes",
     "Broes",
     "Brook Farm String Band",
+    "Brooklyn Swing Ensemble",
     "Bunny Bread Bandits",
     "Calico",
     "Cardboard Cabin",
@@ -121,6 +122,7 @@ pub const BANDS: [&str; 372] = [
     "Duo Baftig",
     "Duo Bottasso",
     "Duo Clercx",
+    "Duo Coudroy Genet",
     "Duo Gielen-Buscan",
     "Duo l'Hêtre Heureux",
     "Duo Mackie/Hendrix",
