@@ -33,7 +33,8 @@ impl IcalendarSource for Boulder {
 
     fn workshop(parts: &EventParts) -> bool {
         let description_lower = parts.description.to_lowercase();
-        parts.summary == "Scottish Country Dance"
+        parts.summary == "Boulder Scottish Country Dance"
+            || parts.summary == "Scottish Country Dance"
             || parts.summary == "Scandinavian Weekly Dance"
             || parts.summary == "Boulder Scandinavian Weekend"
             || parts.summary.contains("Class")
