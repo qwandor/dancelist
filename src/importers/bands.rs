@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 375] = [
+pub const BANDS: [&str; 376] = [
     "112 and Then Some",
     "A Fine Kettle of Fish",
     "A Joyful Noise",
@@ -243,6 +243,7 @@ pub const BANDS: [&str; 375] = [
     "Mavro Meli",
     "Merriment",
     "Mevilish Merry",
+    "Mickey Koth & John Kalinowski",
     "Midnight on the Water",
     "Mieneke",
     "Millserati",
