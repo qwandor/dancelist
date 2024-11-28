@@ -65,6 +65,8 @@ pub enum EventFormat {
     Bal,
     Balfolk,
     BalfolkNL,
+    #[serde(rename = "Balmuziek leren")]
+    BalmuziekLeren,
     Class,
     Course,
     #[serde(rename = "Dance Class")]

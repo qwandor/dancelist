@@ -111,7 +111,10 @@ fn convert(event: &Event, style: DanceStyle) -> Result<Option<event::Event>, Rep
                 workshop = true;
                 social = true;
             }
-            EventFormat::MusicClass | EventFormat::Musiekles | EventFormat::Teacher => {}
+            EventFormat::BalmuziekLeren
+            | EventFormat::MusicClass
+            | EventFormat::Musiekles
+            | EventFormat::Teacher => {}
         }
     }
     if event.name.contains("warsztatów") || event.description.contains("warsztaty") {
