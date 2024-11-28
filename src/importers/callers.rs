@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const CALLERS: [&str; 207] = [
+pub const CALLERS: [&str; 209] = [
     "Adina Gordon",
     "Alan Rosenthal",
     "Alan Winston",
@@ -50,6 +50,7 @@ pub const CALLERS: [&str; 207] = [
     "Bronwyn Chelette",
     "Brooke Friendly",
     "Bruce Hamilton",
+    "Cara King",
     "Carl Friedman",
     "Carl Levine",
     "Carol Kopp",
@@ -142,6 +143,7 @@ pub const CALLERS: [&str; 207] = [
     "Laura Hudlow",
     "Laurel Thomas",
     "Lauren Wilson",
+    "Lindsay Verbil",
     "Lindsey Dono",
     "Lisa Greenleaf",
     "Lisa Harris-Frydman",
