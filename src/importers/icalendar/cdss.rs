@@ -574,6 +574,12 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://www.mendoecd.org/events/".to_string());
         }
+        "Missoula Folklore Society Contra Dance" => {
+            event.links.insert(
+                0,
+                "https://www.missoulafolk.org/dance-schedule-vizne".to_string(),
+            );
+        }
         "Monrovia English Country Dance" => {
             event
                 .links
