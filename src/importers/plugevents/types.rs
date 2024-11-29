@@ -75,6 +75,7 @@ pub enum EventFormat {
     Dansles,
     Event,
     Festival,
+    Flashmob,
     Folkbal,
     FolkBal,
     Intensive,
@@ -90,8 +91,12 @@ pub enum EventFormat {
     #[serde(rename = "Music Class")]
     MusicClass,
     Musiekles,
+    Optreden,
     Organiser,
+    Overig,
     Party,
+    Performance,
+    Piano,
     Practica,
     Social,
     #[serde(rename = "Social Class")]
