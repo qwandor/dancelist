@@ -50,7 +50,7 @@ impl IcalendarSource for Kalender {
         let description_lower = parts.description.to_lowercase();
         description_lower.contains("workshop")
             || description_lower.contains("tanzeinführung")
-            || description_lower.contains("tanzkurse")
+            || description_lower.contains("kurse")
             || summary_lower.contains("workshop")
     }
 
