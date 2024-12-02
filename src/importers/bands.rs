@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 376] = [
+pub const BANDS: [&str; 377] = [
     "112 and Then Some",
     "A Fine Kettle of Fish",
     "A Joyful Noise",
@@ -44,6 +44,7 @@ pub const BANDS: [&str; 376] = [
     "Avourneen",
     "Back Row Band",
     "Bal O'Gadjo",
+    "Balbuzar",
     "Ball Noir",
     "Ballkanesen",
     "Ballo Allegro",
@@ -347,7 +348,7 @@ pub const BANDS: [&str; 376] = [
     "Toss the Possum",
     "Tralala Lovers",
     "Tref",
-    "Tribal Jaze",
+    "Tribal Jâze",
     "Trillium",
     "Trio Baftig",
     "Trio Con Brio",
