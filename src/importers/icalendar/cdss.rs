@@ -580,6 +580,12 @@ fn apply_fixes(event: &mut Event) {
                 "https://www.missoulafolk.org/dance-schedule-vizne".to_string(),
             );
         }
+        "Missoula Folklore Society English Country Dance" => {
+            event.links.insert(
+                0,
+                "https://www.missoulafolk.org/english-country-dancing".to_string(),
+            );
+        }
         "Monrovia English Country Dance" => {
             event
                 .links
