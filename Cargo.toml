@@ -15,7 +15,7 @@ axum = { version = "0.7.9", features = ["macros"] }
 axum-extra = { version = "0.9.6", features = ["form", "typed-header"] }
 chrono = { version = "0.4.38", features = ["serde"] }
 chrono-tz = { version = "0.10.0", features = ["serde"] }
-clap = { version = "4.5.21", features = ["derive"] }
+clap = { version = "4.5.22", features = ["derive"] }
 color-backtrace = "0.6.1"
 enum-iterator = "2.1.0"
 eyre = "0.6.12"
