@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const CALLERS: [&str; 209] = [
+pub const CALLERS: [&str; 211] = [
     "Adina Gordon",
     "Alan Rosenthal",
     "Alan Winston",
@@ -85,6 +85,7 @@ pub const CALLERS: [&str; 209] = [
     "David Macemon",
     "David Millstone",
     "David Newitt",
+    "David Smukler",
     "Deanna Palumbo",
     "Dereck Kalish",
     "Devin Pohly",
@@ -174,6 +175,7 @@ pub const CALLERS: [&str; 209] = [
     "Peter Stix",
     "Peter Wollenberg",
     "Qwill Duvall",
+    "Rachel Ameen",
     "Rachel Pusey",
     "Rebecca Anger",
     "Rhi Davies",
