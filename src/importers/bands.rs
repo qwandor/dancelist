@@ -334,6 +334,7 @@ pub const BANDS: [&str; 377] = [
     "The Hollertones",
     "The Johns",
     "The Little Big Band",
+    "The Lost Keys",
     "The Moving Violations",
     "The Orphans",
     "The Rafter Ringers",
