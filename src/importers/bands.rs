@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 379] = [
+pub const BANDS: [&str; 382] = [
     "112 and Then Some",
     "A Fine Kettle of Fish",
     "A Joyful Noise",
@@ -333,6 +333,7 @@ pub const BANDS: [&str; 379] = [
     "The Gaslight Tinkers",
     "The Hollertones",
     "The Johns",
+    "The Latter Day Lizards",
     "The Little Big Band",
     "The Lost Keys",
     "The McKenzies",
@@ -348,6 +349,7 @@ pub const BANDS: [&str; 379] = [
     "Tooth Pickers",
     "Topspin",
     "Toss the Possum",
+    "TradTöchter",
     "Tralala Lovers",
     "Tref",
     "Tribal Jâze",
@@ -392,4 +394,5 @@ pub const BANDS: [&str; 379] = [
     "Wouter Kuyper",
     "Wry Bred",
     "Yanyk",
+    "Zéphyr Combo",
 ];
