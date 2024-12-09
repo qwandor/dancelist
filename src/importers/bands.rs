@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 378] = [
+pub const BANDS: [&str; 379] = [
     "112 and Then Some",
     "A Fine Kettle of Fish",
     "A Joyful Noise",
@@ -335,6 +335,7 @@ pub const BANDS: [&str; 378] = [
     "The Johns",
     "The Little Big Band",
     "The Lost Keys",
+    "The McKenzies",
     "The Moving Violations",
     "The Orphans",
     "The Rafter Ringers",
