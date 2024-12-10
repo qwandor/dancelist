@@ -14,7 +14,8 @@
 
 use super::{EventParts, IcalendarSource};
 use crate::model::{dancestyle::DanceStyle, event::Event};
-use eyre::{eyre, Report};
+use eyre::Report;
+use log::warn;
 
 pub struct Cdss;
 
@@ -102,10 +103,10 @@ impl IcalendarSource for Cdss {
     }
 
     fn location(parts: &EventParts) -> Result<Option<(String, Option<String>, String)>, Report> {
-        let location_parts = parts
-            .location_parts
-            .as_ref()
-            .ok_or_else(|| eyre!("Event missing location."))?;
+        let Some(location_parts) = parts.location_parts.as_ref() else {
+            warn!("Event missing location.");
+            return Ok(None);
+        };
         if location_parts.len() < 3 {
             return Ok(Some((
                 "USA".to_owned(),
