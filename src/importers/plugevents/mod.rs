@@ -15,6 +15,7 @@
 mod types;
 
 use self::types::{Event, EventFormat, EventList};
+use super::{bands::BANDS, lowercase_matches};
 use crate::model::{
     dancestyle::DanceStyle,
     event::{self, EventTime},
@@ -126,6 +127,10 @@ fn convert(event: &Event, style: DanceStyle) -> Result<Option<event::Event>, Rep
         workshop = true;
     }
 
+    let name_lower = event.name.to_lowercase();
+    let description_lower = event.description.to_lowercase();
+    let bands = lowercase_matches(&BANDS, &description_lower, &name_lower);
+
     Ok(Some(event::Event {
         name: event.name.clone(),
         details: Some(event.description.clone()),
@@ -150,7 +155,7 @@ fn convert(event: &Event, style: DanceStyle) -> Result<Option<event::Event>, Rep
         styles: vec![style],
         workshop,
         social,
-        bands: vec![],
+        bands,
         callers: vec![],
         price: format_price(event),
         organisation: event.published_by_name.as_deref().map(fix_organisation),

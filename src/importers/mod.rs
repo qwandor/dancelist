@@ -91,6 +91,28 @@ pub fn write_by_country(events: Events, filename: &Path) -> Result<(), Report> {
     Ok(())
 }
 
+/// Returns strings from the slice which are contained in one of the two lowercase strings passed.
+///
+/// Also finds matches where "&" is replaced with "and".
+fn lowercase_matches(needles: &[&str], a: &str, b: &str) -> Vec<String> {
+    needles
+        .iter()
+        .filter_map(|needle| {
+            let needle_lower = needle.to_lowercase();
+            let needle_and = needle_lower.replace("&", "and");
+            if a.contains(&needle_lower)
+                || b.contains(&needle_lower)
+                || a.contains(&needle_and)
+                || b.contains(&needle_and)
+            {
+                Some(needle.to_string())
+            } else {
+                None
+            }
+        })
+        .collect()
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -237,5 +259,23 @@ mod tests {
 
         let combined = combine_events(old_events, new_events);
         assert_eq!(combined.events, vec![old1, new2, new4]);
+    }
+
+    #[test]
+    fn match_band() {
+        const TEST_BANDS: [&str; 3] = ["Matt Norman & Edward Wallace", "Nozzy", "Nubia"];
+
+        assert_eq!(
+            lowercase_matches(&TEST_BANDS, "with nozzy", "and nubia"),
+            vec!["Nozzy".to_string(), "Nubia".to_string()]
+        );
+        assert_eq!(
+            lowercase_matches(
+                &TEST_BANDS,
+                "bob morgan with matt norman and edward wallace",
+                ""
+            ),
+            vec!["Matt Norman & Edward Wallace".to_string()]
+        );
     }
 }

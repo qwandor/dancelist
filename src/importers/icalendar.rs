@@ -23,7 +23,7 @@ pub mod lancastercontra;
 pub mod marburg;
 pub mod spreefolk;
 
-use super::{bands::BANDS, callers::CALLERS, combine_events};
+use super::{bands::BANDS, callers::CALLERS, combine_events, lowercase_matches};
 use crate::{
     model::{
         dancestyle::DanceStyle,
@@ -253,28 +253,6 @@ fn get_categories(event: &Event) -> Option<Vec<String>> {
     )
 }
 
-/// Returns strings from the slice which are contained in one of the two lowercase strings passed.
-///
-/// Also finds matches where "&" is replaced with "and".
-fn lowercase_matches(needles: &[&str], a: &str, b: &str) -> Vec<String> {
-    needles
-        .iter()
-        .filter_map(|needle| {
-            let needle_lower = needle.to_lowercase();
-            let needle_and = needle_lower.replace("&", "and");
-            if a.contains(&needle_lower)
-                || b.contains(&needle_lower)
-                || a.contains(&needle_and)
-                || b.contains(&needle_and)
-            {
-                Some(needle.to_string())
-            } else {
-                None
-            }
-        })
-        .collect()
-}
-
 #[derive(Clone, Debug, Eq, PartialEq)]
 struct EventParts {
     pub url: Option<String>,
@@ -436,24 +414,6 @@ mod tests {
                     .single()
                     .unwrap(),
             }
-        );
-    }
-
-    #[test]
-    fn match_band() {
-        const TEST_BANDS: [&str; 3] = ["Matt Norman & Edward Wallace", "Nozzy", "Nubia"];
-
-        assert_eq!(
-            lowercase_matches(&TEST_BANDS, "with nozzy", "and nubia"),
-            vec!["Nozzy".to_string(), "Nubia".to_string()]
-        );
-        assert_eq!(
-            lowercase_matches(
-                &TEST_BANDS,
-                "bob morgan with matt norman and edward wallace",
-                ""
-            ),
-            vec!["Matt Norman & Edward Wallace".to_string()]
         );
     }
 }
