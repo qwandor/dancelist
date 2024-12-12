@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 382] = [
+pub const BANDS: [&str; 383] = [
     "112 and Then Some",
     "A Fine Kettle of Fish",
     "A Joyful Noise",
@@ -348,6 +348,7 @@ pub const BANDS: [&str; 382] = [
     "Toad in the Hole",
     "Tooth Pickers",
     "Topspin",
+    "Torrent",
     "Toss the Possum",
     "TradTöchter",
     "Tralala Lovers",
