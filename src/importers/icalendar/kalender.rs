@@ -16,7 +16,7 @@ use super::{EventParts, IcalendarSource};
 use crate::model::{dancestyle::DanceStyle, event::Event};
 use eyre::Report;
 
-const GERMANY_CITIES: [(&str, &str); 19] = [
+const GERMANY_CITIES: &[(&str, &str)] = &[
     ("Bad Boll", "Bad Boll"),
     ("Balingen", "Balingen"),
     ("Ehningen", "Ehningen"),
@@ -31,6 +31,7 @@ const GERMANY_CITIES: [(&str, &str); 19] = [
     ("Marzling", "Marzling"),
     ("Nürtingen", "Nürtingen"),
     ("Rechberghausen", "Göppingen"),
+    ("Roggenburg", "Roggenburg"),
     ("Schwäbisch Gmünd", "Schwäbisch Gmünd"),
     ("Stuttgart", "Stuttgart"),
     ("Tübingen", "Tübingen"),
@@ -102,7 +103,7 @@ impl IcalendarSource for Kalender {
 
     fn location(parts: &EventParts) -> Result<Option<(String, Option<String>, String)>, Report> {
         if let Some(location_parts) = &parts.location_parts {
-            for (match_str, city) in &GERMANY_CITIES {
+            for (match_str, city) in GERMANY_CITIES {
                 if location_parts.iter().any(|part| part.contains(match_str)) {
                     return Ok(Some(("Germany".to_string(), None, city.to_string())));
                 }
@@ -113,7 +114,7 @@ impl IcalendarSource for Kalender {
                 location_parts[0].to_string(),
             )));
         } else {
-            for (match_str, city) in &GERMANY_CITIES {
+            for (match_str, city) in GERMANY_CITIES {
                 if parts.summary.contains(match_str) || parts.description.contains(match_str) {
                     return Ok(Some(("Germany".to_string(), None, city.to_string())));
                 }
