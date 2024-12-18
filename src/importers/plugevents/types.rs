@@ -79,6 +79,7 @@ pub enum EventFormat {
     Folkbal,
     FolkBal,
     Intensive,
+    Jam,
     Learning,
     Les,
     #[serde(rename = "Lesson-series")]
@@ -105,4 +106,5 @@ pub enum EventFormat {
     SocialDancing,
     Sociales,
     Teacher,
+    Workshop,
 }

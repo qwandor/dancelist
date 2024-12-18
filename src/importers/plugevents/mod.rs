@@ -83,10 +83,11 @@ fn convert(event: &Event, style: DanceStyle) -> Result<Option<event::Event>, Rep
             | EventFormat::DanceClass
             | EventFormat::Dansles
             | EventFormat::Event
+            | EventFormat::Intensive
             | EventFormat::Les
             | EventFormat::Learning
             | EventFormat::LessonSeries
-            | EventFormat::Intensive => {
+            | EventFormat::Workshop => {
                 workshop = true;
             }
             EventFormat::Festival => {
@@ -99,6 +100,7 @@ fn convert(event: &Event, style: DanceStyle) -> Result<Option<event::Event>, Rep
             EventFormat::Organiser => {}
             EventFormat::Dansavond
             | EventFormat::Flashmob
+            | EventFormat::Jam
             | EventFormat::LiveMusic
             | EventFormat::LiveMuziek
             | EventFormat::Party
