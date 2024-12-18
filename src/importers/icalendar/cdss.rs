@@ -776,10 +776,9 @@ fn apply_fixes(event: &mut Event) {
             );
         }
         "South Florida Contradance" => {
-            event.links.insert(
-                0,
-                "https://sites.google.com/site/southfloridacontradance/home".to_string(),
-            );
+            event
+                .links
+                .insert(0, "https://southfloridacontradance.com/".to_string());
         }
         "Space Coast Contra Dance" => {
             event.links.insert(
