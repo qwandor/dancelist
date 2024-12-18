@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 385] = [
+pub const BANDS: [&str; 388] = [
     "112 and Then Some",
     "A Fine Kettle of Fish",
     "A Joyful Noise",
@@ -201,6 +201,7 @@ pub const BANDS: [&str; 385] = [
     "Joyride",
     "Jumping Sharks",
     "Jumpstart",
+    "Kaleidoscope",
     "Kaw Creek",
     "Kelten zonder Grenzen",
     "Kikker & Findus",
@@ -219,6 +220,7 @@ pub const BANDS: [&str; 385] = [
     "Laouen",
     "Larks in the Attic",
     "Laurie Fisher & Nik Coker",
+    "Le Mange Bal",
     "Les Bottines Artistiques",
     "Les Kickeuses",
     "Les Zéoles",
@@ -309,6 +311,7 @@ pub const BANDS: [&str; 385] = [
     "SpringTide",
     "Starling",
     "Steam!",
+    "Steppin' Stones",
     "Stomp Rocket",
     "Stove Dragon",
     "Stringrays",
