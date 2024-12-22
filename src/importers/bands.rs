@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 389] = [
+pub const BANDS: [&str; 390] = [
     "112 and Then Some",
     "A Fine Kettle of Fish",
     "A Joyful Noise",
@@ -346,6 +346,7 @@ pub const BANDS: [&str; 389] = [
     "The Moving Violations",
     "The Orphans",
     "The Rafter Ringers",
+    "The Star Charters",
     "The String Bean Serenaders",
     "The Syncopaths",
     "The Third Degree",
