@@ -50,10 +50,11 @@ impl IcalendarSource for BalfolkNl {
 
     fn social(parts: &EventParts) -> bool {
         parts.summary.contains("Social dance")
-            || parts.summary.contains("Balfolkbal")
             || parts.summary.contains("Avondbal")
+            || parts.summary.contains("Balfolkbal")
             || parts.summary.contains("Bal in")
             || parts.summary.contains("Balfolk Bal")
+            || parts.summary.contains("Balfolk social")
             || parts.summary.contains("Balfolk concert")
             || parts.summary.contains("Seizoensafsluiting")
             || parts.summary.contains("Vuurbal")
