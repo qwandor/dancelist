@@ -481,6 +481,11 @@ fn apply_fixes(event: &mut Event) {
                 event.price = Some("$3-$8".to_string());
             }
         }
+        "Groton Grange Contra Dance" => {
+            event
+                .links
+                .insert(0, "https://grotongrange.org/contra-dance/".to_string());
+        }
         "Hartford Community Dance’s 2nd Saturday Contra Dance" => {
             event.name = "Hartfort Community Dance Contra".to_string();
             event
