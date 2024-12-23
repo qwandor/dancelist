@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const CALLERS: [&str; 217] = [
+pub const CALLERS: [&str; 220] = [
     "Adina Gordon",
     "Alan Rosenthal",
     "Alan Winston",
@@ -124,6 +124,7 @@ pub const CALLERS: [&str; 217] = [
     "Jenny Fraser",
     "Jeremy Child",
     "Jeremy Korr",
+    "Jesse Partridge",
     "Jill Allen",
     "Jill Delaney",
     "Joanna Reiner Wilkinson",
@@ -173,6 +174,7 @@ pub const CALLERS: [&str; 217] = [
     "Michael Karcher",
     "Myra Hirschberg",
     "Nils Fredland",
+    "Noah Grunzweig",
     "Olivia Barry",
     "Orly Krasner",
     "Paul Ross",
@@ -197,6 +199,7 @@ pub const CALLERS: [&str; 217] = [
     "Ron Buchanan",
     "Sally Vernon",
     "Sam Smith",
+    "Sandy Lafleur",
     "Scott Higgs",
     "Seth Tepfer",
     "Steph West",

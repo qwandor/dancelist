@@ -12,11 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 390] = [
+pub const BANDS: [&str; 392] = [
     "112 and Then Some",
     "A Fine Kettle of Fish",
     "A Joyful Noise",
     "Abacus",
+    "Accentricity",
     "Achterband",
     "Adam Rich-Griffin & Nicola McConkey ",
     "AdHoc Orkest",
@@ -150,6 +151,7 @@ pub const BANDS: [&str; 390] = [
     "Exqueezit",
     "Fahrenheit",
     "Feather and Fox",
+    "Fiddle Hellions Big Band",
     "Fiddlechicks",
     "Filippo Gambetta",
     "Fior",
