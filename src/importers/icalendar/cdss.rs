@@ -687,6 +687,11 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://pittsburghcontra.org/".to_string());
         }
+        "Princeton Country Dancers’ Contra Dance" => {
+            event
+                .links
+                .insert(0, "https://www.princetoncountrydancers.org/".to_string());
+        }
         "Quiet Corner Contra Dance" => {
             event
                 .links
