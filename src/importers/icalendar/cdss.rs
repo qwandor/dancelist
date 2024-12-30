@@ -135,12 +135,15 @@ impl IcalendarSource for Cdss {
     fn fixup(mut event: Event) -> Option<Event> {
         event.name = shorten_name(&event.name);
         apply_fixes(&mut event);
-        if event.name == "NACDS Contra Dance"
+        if (event.name == "NACDS Contra Dance"
             && event
                 .details
                 .as_deref()
                 .unwrap_or_default()
-                .starts_with("We meet in the gym at Faith Presbyterian Church")
+                .starts_with("We meet in the gym at Faith Presbyterian Church"))
+            || event
+                .name
+                .starts_with("Second Friday Bread & Roses Fusion Dance")
         {
             // Filter out bogus duplicate events.
             return None;
