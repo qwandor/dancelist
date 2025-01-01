@@ -459,7 +459,7 @@ fn apply_fixes(event: &mut Event) {
             event.name = "Friday Night Contra at Glen Echo".to_string();
             event
                 .links
-                .insert(0, "https://www.fridaynightdance.com/tickets".to_string());
+                .insert(0, "https://www.fridaynightdance.com/".to_string());
         }
         "Friends of Traditional Dance Contra" => {
             event.links.insert(0, "https://fotd.org/".to_string());
@@ -596,6 +596,9 @@ fn apply_fixes(event: &mut Event) {
                 0,
                 "https://www.missoulafolk.org/english-country-dancing".to_string(),
             );
+        }
+        "Moab, Utah Contra Dance" => {
+            event.name = "Moab Contra Dance".to_string();
         }
         "Monrovia English Country Dance" => {
             event
