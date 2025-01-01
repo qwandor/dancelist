@@ -13,9 +13,8 @@
 // limitations under the License.
 
 use crate::{errors::InternalError, model::events::Events, AppState};
-use axum::{async_trait, extract::FromRequestParts, http::request::Parts};
+use axum::{extract::FromRequestParts, http::request::Parts};
 
-#[async_trait]
 impl FromRequestParts<AppState> for Events {
     type Rejection = InternalError;
 
