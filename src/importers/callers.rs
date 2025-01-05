@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const CALLERS: [&str; 220] = [
+pub const CALLERS: [&str; 222] = [
     "Adina Gordon",
     "Alan Rosenthal",
     "Alan Winston",
@@ -58,6 +58,7 @@ pub const CALLERS: [&str; 220] = [
     "Carol Ormand",
     "Caroline Barnes",
     "Cathy Campbell",
+    "Cathy Hollister",
     "Charley Harvey",
     "Charlie Turner",
     "Charlotte Crittenden",
@@ -135,6 +136,7 @@ pub const CALLERS: [&str; 220] = [
     "Joseph Pimentel",
     "Judi Rivkin",
     "Julian Blechner",
+    "Juliette Webb",
     "Kalia Kliban",
     "Kappy Laning",
     "Karen Andrews",
