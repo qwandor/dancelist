@@ -403,7 +403,7 @@ fn apply_fixes(event: &mut Event) {
                 "https://www.guidingstargrange.org/events.html".to_string(),
             );
         }
-        "Contra for a Cause" | "Contra for a Cause!" => {
+        "Contra for a Cause" | "Contra for a Cause!" | "Contra Dance for a Cause" => {
             event.name = "Contra for a Cause".to_string();
             event
                 .links
