@@ -12,12 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 394] = [
+pub const BANDS: [&str; 397] = [
     "112 and Then Some",
     "A Fine Kettle of Fish",
     "A Joyful Noise",
     "Abacus",
     "Accentricity",
+    "Accords Perdus",
     "Achterband",
     "Adam Rich-Griffin & Nicola McConkey ",
     "AdHoc Orkest",
@@ -90,6 +91,7 @@ pub const BANDS: [&str; 394] = [
     "Chris Liakos & John Wetzel",
     "Ciac Boum",
     "Ciona",
+    "CLARABAL",
     "Cojiro",
     "Constellation",
     "Contra Banditos",
@@ -275,6 +277,7 @@ pub const BANDS: [&str; 394] = [
     "Nova",
     "Nozzy",
     "Nubia",
+    "Nut en Genoegen",
     "Old Time All Stars",
     "Olivier Valence",
     "Ormuz",
