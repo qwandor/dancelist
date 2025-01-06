@@ -67,11 +67,14 @@ impl IcalendarSource for Spreefolk {
                 .next()
                 .unwrap()
                 .to_owned();
-            if details
-                .contains("Der Eintritt ist frei – Spenden für Tanz und Musik sind aber willkommen")
-                && event.price.is_none()
-            {
-                event.price = Some("donation".to_string());
+            if event.price.is_none() {
+                if details.contains(
+                    "Der Eintritt ist frei – Spenden für Tanz und Musik sind aber willkommen",
+                ) {
+                    event.price = Some("donation".to_string());
+                } else if details.contains("Der Eintritt ist frei") {
+                    event.price = Some("free".to_string());
+                }
             }
         }
 
