@@ -67,7 +67,10 @@ pub enum EventFormat {
     BalfolkNL,
     #[serde(rename = "Balmuziek leren")]
     BalmuziekLeren,
+    Buurtvereniging,
     Class,
+    #[serde(rename = "Community Association")]
+    CommunityAssociation,
     Course,
     #[serde(rename = "Dance Class")]
     DanceClass,
@@ -93,6 +96,7 @@ pub enum EventFormat {
     MusicClass,
     Musiekles,
     Optreden,
+    Organisator,
     Organiser,
     Overig,
     Party,

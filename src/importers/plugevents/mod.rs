@@ -97,7 +97,7 @@ fn convert(event: &Event, style: DanceStyle) -> Result<Option<event::Event>, Rep
             EventFormat::Meeting => {
                 social = true;
             }
-            EventFormat::Organiser => {}
+            EventFormat::Organisator | EventFormat::Organiser => {}
             EventFormat::Dansavond
             | EventFormat::Flashmob
             | EventFormat::Jam
@@ -117,6 +117,8 @@ fn convert(event: &Event, style: DanceStyle) -> Result<Option<event::Event>, Rep
                 social = true;
             }
             EventFormat::BalmuziekLeren
+            | EventFormat::Buurtvereniging
+            | EventFormat::CommunityAssociation
             | EventFormat::MusicClass
             | EventFormat::Musiekles
             | EventFormat::Optreden
