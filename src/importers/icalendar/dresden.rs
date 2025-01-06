@@ -24,6 +24,7 @@ use crate::{
 };
 use chrono_tz::Tz;
 use eyre::Report;
+use regex::Regex;
 
 const ORGANISATION: &str = "Folktanz Dresden e.V.";
 
@@ -110,6 +111,16 @@ impl IcalendarSource for DresdenWeekly {
         );
         Some(event)
     }
+
+    fn fix_before_parse(source: String) -> String {
+        let source = Regex::new("(Einführungsstunde:.*)\nORGANIZER")
+            .unwrap()
+            .replace_all(&source, "DESCRIPTION:$1\nORGANIZER");
+        let source = Regex::new("(Einführungsstunde:.*)\n(.*)\nORGANIZER")
+            .unwrap()
+            .replace_all(&source, "DESCRIPTION:$1\\n$2\nORGANIZER");
+        source.into_owned()
+    }
 }
 
 fn common_fixup(event: &mut Event) {
@@ -120,5 +131,28 @@ fn common_fixup(event: &mut Event) {
             .expect("Error fixing start time");
         *end = local_datetime_to_fixed_offset(&end.naive_utc(), Tz::Europe__Berlin)
             .expect("Error fixing end time");
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn fix_description() {
+        assert_eq!(DresdenWeekly::fix_before_parse("".to_string()), "");
+        assert_eq!(DresdenWeekly::fix_before_parse("foo".to_string()), "foo");
+        assert_eq!(
+            DresdenWeekly::fix_before_parse(
+                "Einführungsstunde: foo\nORGANIZER;CN=\"Henry\":\n".to_string()
+            ),
+            "DESCRIPTION:Einführungsstunde: foo\nORGANIZER;CN=\"Henry\":\n"
+        );
+        assert_eq!(
+            DresdenWeekly::fix_before_parse(
+                "Einführungsstunde:\nfoo\nORGANIZER;CN=\"Henry\":\n".to_string()
+            ),
+            "DESCRIPTION:Einführungsstunde:\\nfoo\nORGANIZER;CN=\"Henry\":\n"
+        );
     }
 }

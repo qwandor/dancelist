@@ -65,6 +65,11 @@ trait IcalendarSource {
 
     /// Applies any further changes to the event after conversion, or returns `None` to skip it.
     fn fixup(event: event::Event) -> Option<event::Event>;
+
+    /// Applies fixes to iCalendar file before parsing.
+    fn fix_before_parse(source: String) -> String {
+        source
+    }
 }
 
 fn convert<S: IcalendarSource>(parts: EventParts) -> Result<Option<event::Event>, Report> {
@@ -173,10 +178,7 @@ pub async fn import_events<S: IcalendarSource>(old_events: Events) -> Result<Eve
 async fn import_new_events<S: IcalendarSource>() -> Result<Events, Report> {
     let mut events = Events::default();
     for url in S::URLS {
-        let calendar = reqwest::get(*url)
-            .await?
-            .text()
-            .await?
+        let calendar = S::fix_before_parse(reqwest::get(*url).await?.text().await?)
             .parse::<Calendar>()
             .map_err(|e| eyre!("Error parsing iCalendar file: {}", e))?;
         let timezone = calendar.get_timezone().or(S::DEFAULT_TIMEZONE);
