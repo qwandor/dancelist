@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 397] = [
+pub const BANDS: [&str; 399] = [
     "112 and Then Some",
     "A Fine Kettle of Fish",
     "A Joyful Noise",
@@ -71,6 +71,7 @@ pub const BANDS: [&str; 397] = [
     "Bougnat Sound",
     "Bourrée Party Crackers",
     "Bouton",
+    "Bowrider",
     "Box and String Trio",
     "Box of Frogs",
     "Brasstown Balfolk Band",
@@ -166,6 +167,7 @@ pub const BANDS: [&str; 397] = [
     "Folkinger",
     "Folkschwestern Biese",
     "Fourpence",
+    "Free Raisins",
     "French Toast",
     "Froghammer",
     "Full Tilt",
