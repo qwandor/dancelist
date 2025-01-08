@@ -699,6 +699,13 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://www.princetoncountrydancers.org/".to_string());
         }
+        "Princeton Country Dancers' English Country Dance" => {
+            event.name = "Princeton English Country Dance".to_string();
+            event.workshop = true;
+            event
+                .links
+                .insert(0, "https://www.princetoncountrydancers.org/".to_string());
+        }
         "Quiet Corner Contra Dance" => {
             event
                 .links
