@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 399] = [
+pub const BANDS: [&str; 400] = [
     "112 and Then Some",
     "A Fine Kettle of Fish",
     "A Joyful Noise",
@@ -387,6 +387,7 @@ pub const BANDS: [&str; 399] = [
     "Two Hats",
     "Ultra Tagada",
     "Unbowed",
+    "Unipot",
     "Ute+Michael",
     "Vagalan",
     "Valentin Barray",
