@@ -185,6 +185,10 @@ fn format_price(event: &Event) -> Option<String> {
             if "$£€".contains(currency) {
                 price = price.replace("-", &format!("-{}", currency));
             }
+            price = price.replace(".00", "");
+            if let Some(stripped) = price.strip_prefix("zł") {
+                price = format!("{} PLN", stripped);
+            }
             price
         })
     }
@@ -210,6 +214,13 @@ mod tests {
                 ..Default::default()
             }),
             Some("€5-€23".to_string())
+        );
+        assert_eq!(
+            format_price(&Event {
+                price_display: Some("zł90.00".to_string()),
+                ..Default::default()
+            }),
+            Some("90 PLN".to_string())
         );
     }
 }
