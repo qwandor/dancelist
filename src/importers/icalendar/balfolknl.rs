@@ -96,8 +96,25 @@ impl IcalendarSource for BalfolkNl {
             || parts.description.contains("Bal deel")
     }
 
-    fn styles(_parts: &EventParts) -> Vec<DanceStyle> {
-        vec![DanceStyle::Balfolk]
+    fn styles(parts: &EventParts) -> Vec<DanceStyle> {
+        let summary_lower = parts.summary.to_lowercase();
+        let description_lower = parts.description.to_lowercase();
+
+        let mut styles = vec![];
+        if summary_lower.starts_with("swedish dance") {
+            styles.push(DanceStyle::Scandinavian);
+        } else {
+            styles.push(DanceStyle::Balfolk);
+        }
+        if description_lower.contains("polska")
+            || description_lower.contains("nordic")
+            || description_lower.contains("zweeds dansen")
+        {
+            styles.push(DanceStyle::Scandinavian);
+        }
+        styles.sort();
+        styles.dedup();
+        styles
     }
 
     fn location(parts: &EventParts) -> Result<Option<(String, Option<String>, String)>, Report> {
