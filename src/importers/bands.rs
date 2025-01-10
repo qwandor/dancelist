@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 400] = [
+pub const BANDS: [&str; 402] = [
     "112 and Then Some",
     "A Fine Kettle of Fish",
     "A Joyful Noise",
@@ -156,6 +156,7 @@ pub const BANDS: [&str; 400] = [
     "Fahrenheit",
     "Feather and Fox",
     "Fiddle Hellions Big Band",
+    "Fiddle Hellions",
     "Fiddlechicks",
     "Filippo Gambetta",
     "Fior",
@@ -302,6 +303,7 @@ pub const BANDS: [&str; 400] = [
     "River Music",
     "River Road",
     "Rokkende Vrouwen",
+    "Root System",
     "Round Hill Ramblers",
     "Rum & Onions",
     "Sail Away Ladies",
