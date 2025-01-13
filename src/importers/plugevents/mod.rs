@@ -73,6 +73,7 @@ fn convert(event: &Event, style: DanceStyle) -> Result<Option<event::Event>, Rep
             EventFormat::Bal
             | EventFormat::Balfolk
             | EventFormat::BalfolkNL
+            | EventFormat::Concert
             | EventFormat::Folkbal
             | EventFormat::FolkBal => {
                 social = true;

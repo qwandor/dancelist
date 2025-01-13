@@ -55,6 +55,9 @@ pub struct Event {
     pub price_display: Option<String>,
     pub is_expanded: bool,
     pub date_grouping_label: String,
+    pub interest_tags: Vec<String>,
+    pub interest_slugs: Vec<String>,
+    pub featured_participants: Vec<FeaturedParticipant>,
     pub subinterests: Option<Vec<EventFormat>>,
 }
 
@@ -71,6 +74,7 @@ pub enum EventFormat {
     Class,
     #[serde(rename = "Community Association")]
     CommunityAssociation,
+    Concert,
     Course,
     #[serde(rename = "Dance Class")]
     DanceClass,
@@ -111,4 +115,20 @@ pub enum EventFormat {
     Sociales,
     Teacher,
     Workshop,
+}
+
+#[derive(Clone, Debug, Default, Deserialize, Eq, PartialEq)]
+#[serde(deny_unknown_fields, rename_all = "camelCase")]
+pub struct FeaturedParticipant {
+    pub kind: u8,
+    pub slug: String,
+    pub name: String,
+    pub subtitle: Option<String>,
+    pub create_date_iso: DateTime<Utc>,
+    pub readable_create_date: String,
+    pub event_readable_time: String,
+    pub image_url: String,
+    pub thumb_image_url: String,
+    pub status: u8,
+    pub plug_url: Option<String>,
 }
