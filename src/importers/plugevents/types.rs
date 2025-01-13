@@ -55,10 +55,33 @@ pub struct Event {
     pub price_display: Option<String>,
     pub is_expanded: bool,
     pub date_grouping_label: String,
-    pub interest_tags: Vec<String>,
+    pub interest_tags: Vec<InterestTag>,
     pub interest_slugs: Vec<String>,
     pub featured_participants: Vec<FeaturedParticipant>,
     pub subinterests: Option<Vec<EventFormat>>,
+}
+
+#[derive(Clone, Debug, Deserialize, Eq, PartialEq)]
+pub enum InterestTag {
+    Balfolk,
+    #[serde(rename = "Balfolk Music")]
+    BalfolkMusic,
+    BalfolkNL,
+    Dance,
+    DancingBodies,
+    #[serde(rename = "Folk Dance")]
+    FolkDance,
+    #[serde(rename = "Folk Music")]
+    FolkMusic,
+    Music,
+    NeoTrad,
+    #[serde(rename = "Social Dance")]
+    SocialDance,
+    #[serde(rename = "Swedish Folk Dance")]
+    SwedishFolkDance,
+    #[serde(rename = "Swedish Traditional Music")]
+    SwedishTraditionalMusic,
+    Workshop,
 }
 
 #[derive(Clone, Debug, Default, Deserialize, Eq, PartialEq)]

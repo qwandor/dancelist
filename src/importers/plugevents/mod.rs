@@ -48,7 +48,7 @@ pub async fn import_events(token: &str) -> Result<Events, Report> {
     })
 }
 
-fn convert(event: &Event, style: DanceStyle) -> Result<Option<event::Event>, Report> {
+fn convert(event: &Event, default_style: DanceStyle) -> Result<Option<event::Event>, Report> {
     let Some(venue_locale) = &event.venue_locale else {
         eprintln!("Event \"{}\" has no venueLocale, skipping.", event.name);
         return Ok(None);
@@ -68,6 +68,30 @@ fn convert(event: &Event, style: DanceStyle) -> Result<Option<event::Event>, Rep
 
     let mut workshop = false;
     let mut social = false;
+    let mut styles = Vec::new();
+    for interest_tag in &event.interest_tags {
+        match interest_tag {
+            types::InterestTag::SocialDance => {
+                social = true;
+            }
+            types::InterestTag::Workshop => {
+                workshop = true;
+            }
+            types::InterestTag::Balfolk | types::InterestTag::BalfolkMusic => {
+                styles.push(DanceStyle::Balfolk);
+            }
+            types::InterestTag::SwedishFolkDance | types::InterestTag::SwedishTraditionalMusic => {
+                styles.push(DanceStyle::Scandinavian);
+            }
+            types::InterestTag::BalfolkNL
+            | types::InterestTag::Dance
+            | types::InterestTag::DancingBodies
+            | types::InterestTag::FolkDance
+            | types::InterestTag::FolkMusic
+            | types::InterestTag::Music
+            | types::InterestTag::NeoTrad => {}
+        }
+    }
     for subinterest in event.subinterests.clone().unwrap_or_default() {
         match subinterest {
             EventFormat::Bal
@@ -128,6 +152,12 @@ fn convert(event: &Event, style: DanceStyle) -> Result<Option<event::Event>, Rep
             | EventFormat::Teacher => {}
         }
     }
+    if styles.is_empty() {
+        styles.push(default_style);
+    } else {
+        styles.sort();
+        styles.dedup();
+    }
     if event.name.contains("warsztatów") || event.description.contains("warsztaty") {
         workshop = true;
     }
@@ -157,7 +187,7 @@ fn convert(event: &Event, style: DanceStyle) -> Result<Option<event::Event>, Rep
         country,
         state: None,
         city,
-        styles: vec![style],
+        styles,
         workshop,
         social,
         bands,
