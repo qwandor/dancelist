@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 402] = [
+pub const BANDS: [&str; 404] = [
     "112 and Then Some",
     "A Fine Kettle of Fish",
     "A Joyful Noise",
@@ -82,6 +82,7 @@ pub const BANDS: [&str; 402] = [
     "Brooklyn Swing Ensemble",
     "Bunny Bread Bandits",
     "Calico",
+    "Calliope",
     "Cardboard Cabin",
     "Carin Greve",
     "Cecilia",
@@ -182,6 +183,7 @@ pub const BANDS: [&str; 402] = [
     "Gott Folk!",
     "Göze",
     "Grand Picnic",
+    "Gray & Friends",
     "GrayScale",
     "Guillaume Sparrow-Pepin & Rachel Bell",
     "Harken!",
