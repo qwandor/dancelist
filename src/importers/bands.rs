@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 404] = [
+pub const BANDS: [&str; 407] = [
     "112 and Then Some",
     "A Fine Kettle of Fish",
     "A Joyful Noise",
@@ -90,6 +90,7 @@ pub const BANDS: [&str; 404] = [
     "Chaotic Good",
     "Chicken Feathers",
     "Chimney Swift",
+    "Chrástu",
     "Chris Liakos & John Wetzel",
     "Ciac Boum",
     "Ciona",
@@ -297,6 +298,7 @@ pub const BANDS: [&str; 404] = [
     "Portland Megaband",
     "QuiVive",
     "Ragged Robin",
+    "Ratatouille",
     "Red Case Band",
     "Red Dog Riley",
     "Reelplay",
@@ -318,6 +320,7 @@ pub const BANDS: [&str; 404] = [
     "Snaarmaarwaar",
     "Snappin' Bug Stringband",
     "Soldo",
+    "Solid Ghost",
     "Southwind",
     "Sparv",
     "Spintuition",
