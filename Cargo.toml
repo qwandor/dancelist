@@ -21,7 +21,7 @@ enum-iterator = "2.1.0"
 eyre = "0.6.12"
 icalendar = { version = "0.16.10", features = ["parser"] }
 jsonwebtoken = "9.3.0"
-log = "0.4.22"
+log = "0.4.25"
 octocrab = "0.42.1"
 pretty_env_logger = "0.5.0"
 quick-xml = { version = "0.37.2", features = ["serialize"] }
