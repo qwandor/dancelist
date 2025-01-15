@@ -287,6 +287,11 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://www.countrydancinginkalamazoo.com/".to_string());
         }
+        "Chicago Contra Dance" => {
+            event
+                .links
+                .insert(0, "https://www.chicagobarndance.org/calendar/".to_string());
+        }
         "Childgrove English Country Dance" => {
             event
                 .links
