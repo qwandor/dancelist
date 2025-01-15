@@ -923,6 +923,10 @@ fn apply_fixes(event: &mut Event) {
             event.city = "Manhattan".to_string();
             event.state = Some("KS".to_string());
         }
+        ("9 Genevieve Circle", Some("Asheville")) => {
+            event.city = "Asheville".to_string();
+            event.state = Some("NC".to_string());
+        }
         _ => {}
     }
 }
