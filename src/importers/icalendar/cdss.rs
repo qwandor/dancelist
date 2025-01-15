@@ -349,6 +349,15 @@ fn apply_fixes(event: &mut Event) {
                 "https://manylives-oneworld.com/dave-bateman/dover-dance/".to_string(),
             );
         }
+        "Dover English Country Dancers - Monthly Dance" => {
+            event.name = "Dover Monthly English Country Dance".to_string();
+            event.links.insert(
+                0,
+                "Dover English Country Dancers - Monthly Dance".to_string(),
+            );
+            event.state = Some("DE".to_string());
+            event.country = "USA".to_string();
+        }
         "ECD Atlanta Regular Dance" | "English Country Dance Atlanta" => {
             event
                 .links
@@ -851,6 +860,12 @@ fn apply_fixes(event: &mut Event) {
             event
                 .links
                 .insert(0, "https://thursdaycontra.com/".to_string());
+        }
+        "Tucson Contra Dance" => {
+            event
+                .links
+                .insert(0, "https://tucsoncontradancers.org/".to_string());
+            event.price = Some("$5-$10".to_string());
         }
         "Wednesday Night Contra Dance" | "Wednesday Night Contra Dance BFMS"
             if event.city == "Baltimore" =>
