@@ -914,9 +914,16 @@ fn apply_fixes(event: &mut Event) {
         _ => {}
     }
 
-    if event.city == "401 Chapman St" && event.state.as_deref() == Some("Greenfield") {
-        event.city = "Greenfield".to_string();
-        event.state = Some("MA".to_string());
+    match (event.city.as_str(), event.state.as_deref()) {
+        ("401 Chapman St", Some("Greenfield")) => {
+            event.city = "Greenfield".to_string();
+            event.state = Some("MA".to_string());
+        }
+        ("1101 Poyntz Ave.", Some("Manhattan")) => {
+            event.city = "Manhattan".to_string();
+            event.state = Some("KS".to_string());
+        }
+        _ => {}
     }
 }
 
