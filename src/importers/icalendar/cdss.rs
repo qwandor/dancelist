@@ -351,10 +351,9 @@ fn apply_fixes(event: &mut Event) {
         }
         "Dover English Country Dancers - Monthly Dance" => {
             event.name = "Dover Monthly English Country Dance".to_string();
-            event.links.insert(
-                0,
-                "Dover English Country Dancers - Monthly Dance".to_string(),
-            );
+            event
+                .links
+                .insert(0, "http://www.doverdancers.org/".to_string());
             event.state = Some("DE".to_string());
             event.country = "USA".to_string();
         }
