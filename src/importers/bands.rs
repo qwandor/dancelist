@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 407] = [
+pub const BANDS: [&str; 408] = [
     "112 and Then Some",
     "A Fine Kettle of Fish",
     "A Joyful Noise",
@@ -283,6 +283,7 @@ pub const BANDS: [&str; 407] = [
     "Nozzy",
     "Nubia",
     "Nut en Genoegen",
+    "Oh CONTRAire",
     "Old Time All Stars",
     "Olivier Valence",
     "Ormuz",
