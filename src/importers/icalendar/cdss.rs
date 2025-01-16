@@ -40,7 +40,7 @@ impl IcalendarSource for Cdss {
         (description_lower.contains("lesson") && !description_lower.contains("no lesson"))
             || description_lower.contains("skills class")
             || description_lower.contains("skills session")
-            || description_lower.contains("workshops")
+            || description_lower.contains("workshop")
             || description_lower.contains("basics session")
             || description_lower.contains("basics/review session")
             || description_lower.contains("beginner introduction")
@@ -48,11 +48,12 @@ impl IcalendarSource for Cdss {
             || description_lower.contains("beginner session")
             || description_lower.contains("beginner teaching")
             || description_lower.contains("beginner workshop")
-            || description_lower.contains("beginners workshop")
-            || description_lower.contains("beginners introduction")
-            || description_lower.contains("beginners’ workshop")
             || description_lower.contains("beginner’s session")
             || description_lower.contains("beginner’s workshop")
+            || description_lower.contains("beginners introduction")
+            || description_lower.contains("beginners workshop")
+            || description_lower.contains("beginners’ workshop")
+            || description_lower.contains("beginning workshop")
             || description_lower.contains("class on the basics")
             || description_lower.contains("dance workshop")
             || description_lower.contains("introduction or review")
@@ -65,7 +66,6 @@ impl IcalendarSource for Cdss {
             || description_lower.contains("newcomer session")
             || description_lower.contains("newcomers")
             || description_lower.contains("refresher session")
-            || description_lower.contains("workshop with")
     }
 
     fn social(_parts: &EventParts) -> bool {
