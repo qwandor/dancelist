@@ -702,10 +702,24 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://ottawacontra.ca/".to_string());
         }
+        "Parish Center for the Arts Barn Dance" => {
+            event.links.insert(
+                0,
+                "https://cdss.org/event/parish-center-for-the-arts-barn-dance/".to_string(),
+            );
+            event.city = "Westford".to_string();
+            event.state = Some("MA".to_string());
+        }
         "Pittsburgh Contra Dance" => {
             event
                 .links
                 .insert(0, "https://pittsburghcontra.org/".to_string());
+        }
+        "Princeton Country Dancers' Combination Contra and English Country Dance" => {
+            event
+                .links
+                .insert(0, "https://www.princetoncountrydancers.org/".to_string());
+            event.workshop = true;
         }
         "Princeton Country Dancers’ Contra Dance" => {
             event
