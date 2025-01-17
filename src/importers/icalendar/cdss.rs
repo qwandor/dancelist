@@ -705,7 +705,7 @@ fn apply_fixes(event: &mut Event) {
         "Parish Center for the Arts Barn Dance" => {
             event.links.insert(
                 0,
-                "https://cdss.org/event/parish-center-for-the-arts-barn-dance/".to_string(),
+                "https://parisharts.square.site/barn-contra-dance".to_string(),
             );
             event.city = "Westford".to_string();
             event.state = Some("MA".to_string());
