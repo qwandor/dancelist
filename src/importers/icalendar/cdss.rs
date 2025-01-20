@@ -447,6 +447,15 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://www.woosterdance.com/".to_string());
         }
+        "English Country Dance Classes in Pasadena" => {
+            event.name = "English Country Dance Class".to_string();
+            event.links.insert(
+                0,
+                "https://historicalteaanddance.org/#Tuesdaydances".to_string(),
+            );
+            event.workshop = true;
+            event.social = false;
+        }
         "Folklore Society of Greater Washington (FSGW) English Country Dance" => {
             event.name = "FSGW English Country Dance".to_string();
         }
