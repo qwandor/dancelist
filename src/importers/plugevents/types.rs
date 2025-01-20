@@ -67,6 +67,8 @@ pub enum InterestTag {
     #[serde(rename = "Balfolk Music")]
     BalfolkMusic,
     BalfolkNL,
+    #[serde(rename = "Contra Dance")]
+    ContraDance,
     Dance,
     DancingBodies,
     #[serde(rename = "Folk Dance")]

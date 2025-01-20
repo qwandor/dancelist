@@ -14,7 +14,7 @@
 
 mod types;
 
-use self::types::{Event, EventFormat, EventList};
+use self::types::{Event, EventFormat, EventList, InterestTag};
 use super::{bands::BANDS, lowercase_matches};
 use crate::model::{
     dancestyle::DanceStyle,
@@ -71,25 +71,28 @@ fn convert(event: &Event, default_style: DanceStyle) -> Result<Option<event::Eve
     let mut styles = Vec::new();
     for interest_tag in &event.interest_tags {
         match interest_tag {
-            types::InterestTag::SocialDance => {
+            InterestTag::SocialDance => {
                 social = true;
             }
-            types::InterestTag::Workshop => {
+            InterestTag::Workshop => {
                 workshop = true;
             }
-            types::InterestTag::Balfolk | types::InterestTag::BalfolkMusic => {
+            InterestTag::Balfolk | InterestTag::BalfolkMusic => {
                 styles.push(DanceStyle::Balfolk);
             }
-            types::InterestTag::SwedishFolkDance | types::InterestTag::SwedishTraditionalMusic => {
+            InterestTag::SwedishFolkDance | InterestTag::SwedishTraditionalMusic => {
                 styles.push(DanceStyle::Scandinavian);
             }
-            types::InterestTag::BalfolkNL
-            | types::InterestTag::Dance
-            | types::InterestTag::DancingBodies
-            | types::InterestTag::FolkDance
-            | types::InterestTag::FolkMusic
-            | types::InterestTag::Music
-            | types::InterestTag::NeoTrad => {}
+            InterestTag::ContraDance => {
+                styles.push(DanceStyle::Contra);
+            }
+            InterestTag::BalfolkNL
+            | InterestTag::Dance
+            | InterestTag::DancingBodies
+            | InterestTag::FolkDance
+            | InterestTag::FolkMusic
+            | InterestTag::Music
+            | InterestTag::NeoTrad => {}
         }
     }
     for subinterest in event.subinterests.clone().unwrap_or_default() {
