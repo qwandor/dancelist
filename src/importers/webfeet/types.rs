@@ -187,6 +187,8 @@ pub enum Style {
     DanceEnglishCeilidh,
     #[serde(rename = "Dance.English Folk")]
     DanceEnglishFolk,
+    #[serde(rename = "Dance.French")]
+    DanceFrench,
     #[serde(rename = "Dance.Irish Set")]
     DanceIrishSet,
     #[serde(rename = "Dance.Playford")]
