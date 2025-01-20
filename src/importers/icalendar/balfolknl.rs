@@ -31,6 +31,7 @@ impl IcalendarSource for BalfolkNl {
             || parts.summary.contains("mini-cursus")
             || parts.summary.contains("Wilde Wereld Wageningen")
             || parts.summary.contains("workshop")
+            || parts.summary.starts_with("Afsluitend bal")
             || parts.summary.starts_with("DenneFeest")
             || parts.summary.starts_with("Folkbal Wilhelmina")
             || parts.summary.starts_with("Proefles ")
