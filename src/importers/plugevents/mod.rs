@@ -85,6 +85,7 @@ fn convert(event: &Event, default_style: DanceStyle) -> Result<Option<event::Eve
             }
             InterestTag::ContraDance => {
                 styles.push(DanceStyle::Contra);
+                social = true;
             }
             InterestTag::BalfolkNL
             | InterestTag::Dance
