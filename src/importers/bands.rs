@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 408] = [
+pub const BANDS: [&str; 410] = [
     "112 and Then Some",
     "A Fine Kettle of Fish",
     "A Joyful Noise",
@@ -177,6 +177,7 @@ pub const BANDS: [&str; 408] = [
     "Fyr Freya",
     "George Paul",
     "Geronimo",
+    "Ginkgo",
     "Gisbert",
     "Go Figure",
     "Good Company",
@@ -212,6 +213,7 @@ pub const BANDS: [&str; 408] = [
     "Jumping Sharks",
     "Jumpstart",
     "Kaleidoscope",
+    "Kaléidoscope",
     "Kaw Creek",
     "Kelten zonder Grenzen",
     "Kikker & Findus",
