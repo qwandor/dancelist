@@ -64,6 +64,8 @@ pub struct Event {
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq)]
 pub enum InterestTag {
     Balfolk,
+    #[serde(rename = "Balfolk dance")]
+    Balfolkdance,
     #[serde(rename = "Balfolk Music")]
     BalfolkMusic,
     BalfolkNL,

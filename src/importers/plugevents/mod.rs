@@ -77,7 +77,7 @@ fn convert(event: &Event, default_style: DanceStyle) -> Result<Option<event::Eve
             InterestTag::Workshop => {
                 workshop = true;
             }
-            InterestTag::Balfolk | InterestTag::BalfolkMusic => {
+            InterestTag::Balfolk | InterestTag::Balfolkdance | InterestTag::BalfolkMusic => {
                 styles.push(DanceStyle::Balfolk);
             }
             InterestTag::SwedishFolkDance | InterestTag::SwedishTraditionalMusic => {
