@@ -854,6 +854,11 @@ fn apply_fixes(event: &mut Event) {
                 "https://dancingplanetproductions.com/contra/".to_string(),
             );
         }
+        "Swingin' Tern Contra Dance" => {
+            event
+                .links
+                .insert(0, "https://folkproject.org/swingin-tern/".to_string());
+        }
         "Syracuse English Country Dance" => {
             event.links.insert(
                 0,
