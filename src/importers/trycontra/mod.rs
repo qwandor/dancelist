@@ -106,6 +106,7 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
         .map(|band| {
             initial_the
                 .replace(band, "The ")
+                .trim()
                 .replace("The Engine Room", "Engine Room")
                 .replace("The Stringrays", "Stringrays")
                 .replace("The Ice Cream Truckers", "Ice Cream Truckers")
