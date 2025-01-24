@@ -51,6 +51,9 @@ impl IcalendarSource for Boulder {
 
     fn styles(parts: &EventParts) -> Vec<DanceStyle> {
         let mut styles = vec![];
+        if parts.summary.contains("English Country Dance") {
+            styles.push(DanceStyle::EnglishCountryDance);
+        }
         if parts.summary.contains("Scottish Country Dance") {
             styles.push(DanceStyle::ScottishCountryDance);
         }
