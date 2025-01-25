@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 415] = [
+pub const BANDS: [&str; 419] = [
     "112 and Then Some",
     "A Fine Kettle of Fish",
     "A Joyful Noise",
@@ -115,6 +115,7 @@ pub const BANDS: [&str; 415] = [
     "De Houtzagerij",
     "De Trekvogels",
     "Dead Sea Squirrels",
+    "Definitely Contraband",
     "Devilish Mary",
     "Die Hayner",
     "Die ZWEI",
@@ -198,6 +199,7 @@ pub const BANDS: [&str; 415] = [
     "High Drive",
     "Hijinks",
     "Hoggetowne Fancy",
+    "Hoik",
     "Holiday Ball Orchestra",
     "Hot Coffee Breakdown",
     "Hot Griselda",
@@ -335,6 +337,7 @@ pub const BANDS: [&str; 415] = [
     "Steam!",
     "Steppin' Stones",
     "Stomp Rocket",
+    "Stomping Ground",
     "Stove Dragon",
     "Stringrays",
     "Strings on Wings",
@@ -419,6 +422,7 @@ pub const BANDS: [&str; 415] = [
     "Whirled Peas",
     "Wild Asparagus",
     "Wild Wombats of the Chesapeake",
+    "WillPower",
     "Wilma",
     "Wim te Groen",
     "Wings & Tales",
