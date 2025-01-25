@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const CALLERS: [&str; 226] = [
+pub const CALLERS: [&str; 229] = [
     "Adam Hughes",
     "Adina Gordon",
     "Alan Rosenthal",
@@ -153,6 +153,7 @@ pub const CALLERS: [&str; 226] = [
     "Laura Beraha",
     "Laura Hudlow",
     "Laurel Thomas",
+    "Lauren Catlin",
     "Lauren Wilson",
     "Lindsay Verbil",
     "Lindsey Dono",
@@ -167,6 +168,7 @@ pub const CALLERS: [&str; 226] = [
     "Lydia Molineaux",
     "Mae Wilson",
     "Maeve Devlin",
+    "Malcolm Jowett",
     "Marc Airhart",
     "Margaret Goodman",
     "Mark Elvins",
@@ -177,6 +179,7 @@ pub const CALLERS: [&str; 226] = [
     "Michael Karchar",
     "Michael Karcher",
     "Myra Hirschberg",
+    "Nicola Scott",
     "Nils Fredland",
     "Noah Grunzweig",
     "Olivia Barry",
