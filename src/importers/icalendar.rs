@@ -17,6 +17,7 @@ pub mod boulder;
 pub mod bristolcontra;
 pub mod cdss;
 pub mod ceilidhclub;
+pub mod contrabridge;
 pub mod dresden;
 pub mod kalender;
 pub mod lancastercontra;
@@ -339,6 +340,33 @@ fn get_time(event: &Event, timezone: Option<&str>) -> Result<EventTime, Report> 
             EventTime::DateTime {
                 start: to_fixed_offset(start.with_timezone(&timezone)),
                 end: to_fixed_offset(end.with_timezone(&timezone)),
+            }
+        }
+        (
+            DatePerhapsTime::DateTime(CalendarDateTime::Floating(start)),
+            DatePerhapsTime::DateTime(CalendarDateTime::Floating(end)),
+        ) => {
+            let timezone = timezone.ok_or_else(|| {
+                eyre!(
+                    "Neither event nor calendar specified timezone: {:?}.",
+                    event
+                )
+            })?;
+            let timezone = timezone
+                .parse()
+                .map_err(|e| eyre!("Invalid timezone {}: {}", timezone, e))?;
+            EventTime::DateTime {
+                start: to_fixed_offset(
+                    start
+                        .and_local_timezone(timezone)
+                        .single()
+                        .ok_or_else(|| eyre!("Ambiguous local time {}", start))?,
+                ),
+                end: to_fixed_offset(
+                    end.and_local_timezone(timezone)
+                        .single()
+                        .ok_or_else(|| eyre!("Ambiguous local time {}", start))?,
+                ),
             }
         }
         (start, end) => bail!("Mismatched start ({:?}) and end ({:?}) times.", start, end),
