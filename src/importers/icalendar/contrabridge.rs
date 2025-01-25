@@ -42,6 +42,7 @@ impl IcalendarSource for Contrabridge {
         event
             .links
             .insert(0, "https://contrabridge.org/events/".to_string());
+        event.name = "Contrabridge".to_string();
         if event.price.is_none() {
             event.price = Some("£7-£15".to_string());
         }
