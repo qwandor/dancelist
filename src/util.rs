@@ -15,7 +15,7 @@
 use chrono::{DateTime, FixedOffset, NaiveDateTime, Offset, TimeZone};
 use chrono_tz::Tz;
 
-pub const DEFAULT_TIMEZONES: [((&str, Option<&str>), Tz); 73] = [
+pub const DEFAULT_TIMEZONES: [((&str, Option<&str>), Tz); 74] = [
     (("Australia", Some("QLD")), Tz::Australia__Brisbane),
     (("Australia", Some("TAS")), Tz::Australia__Hobart),
     (("Australia", Some("WA")), Tz::Australia__Perth),
@@ -29,6 +29,7 @@ pub const DEFAULT_TIMEZONES: [((&str, Option<&str>), Tz); 73] = [
     (("Denmark", None), Tz::Europe__Copenhagen),
     (("France", None), Tz::Europe__Paris),
     (("Germany", None), Tz::Europe__Berlin),
+    (("Hungary", None), Tz::Europe__Budapest),
     (("Iraq", None), Tz::Asia__Baghdad),
     (("Ireland", None), Tz::Europe__Dublin),
     (("Italy", None), Tz::Europe__Rome),
