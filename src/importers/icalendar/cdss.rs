@@ -456,6 +456,10 @@ fn apply_fixes(event: &mut Event) {
             event.workshop = true;
             event.social = false;
         }
+        "English Country Dance in Pittsburgh" => {
+            event.name = "English Country Dance".to_string();
+            event.links.insert(0, "https://cdssp.org/".to_string());
+        }
         "Folklore Society of Greater Washington (FSGW) English Country Dance" => {
             event.name = "FSGW English Country Dance".to_string();
         }
