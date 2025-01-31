@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 421] = [
+pub const BANDS: [&str; 422] = [
     "112 and Then Some",
     "A Fine Kettle of Fish",
     "A Joyful Noise",
@@ -417,12 +417,13 @@ pub const BANDS: [&str; 421] = [
     "Waterbound String Band",
     "Waverley Station",
     "Wee Merry Banshees",
+    "Weirdstrings",
     "Wergleyberg",
     "Westside Warblers",
     "Wheels of the World",
     "Whirled Peas",
-    "Weirdstrings",
     "Wild Asparagus",
+    "Wild Notes",
     "Wild Wombats of the Chesapeake",
     "WillPower",
     "Wilma",
