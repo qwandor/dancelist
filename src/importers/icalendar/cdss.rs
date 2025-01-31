@@ -516,7 +516,8 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://grotongrange.org/contra-dance/".to_string());
         }
-        "Hartford Community Dance’s 2nd Saturday Contra Dance" => {
+        "Hartford Community Dance's 2nd Saturday Contra Dance"
+        | "Hartford Community Dance’s 2nd Saturday Contra Dance" => {
             event.name = "Hartfort Community Dance Contra".to_string();
             event
                 .links
