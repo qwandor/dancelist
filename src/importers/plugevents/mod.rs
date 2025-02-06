@@ -179,8 +179,23 @@ fn convert(event: &Event, default_style: DanceStyle) -> Result<Option<event::Eve
     bands.sort();
     bands.dedup();
 
+    if name_lower.contains("warsztaty") {
+        workshop = true;
+    }
+    let mut name = event.name.clone();
+    match name.as_str() {
+        "Balfolk Środowy" => {
+            name = "Wednesday Balfolk".to_string();
+            social = true;
+        }
+        "Folktańcówka" => {
+            social = true;
+        }
+        _ => {}
+    }
+
     Ok(Some(event::Event {
-        name: event.name.clone(),
+        name,
         details: Some(event.description.clone()),
         links: vec![event.plug_url.clone()],
         time: EventTime::DateTime {
@@ -214,7 +229,7 @@ fn convert(event: &Event, default_style: DanceStyle) -> Result<Option<event::Eve
 
 fn fix_organisation(published_by_name: &str) -> String {
     match published_by_name {
-        "Chata Numinosum" => "Numinosum".to_string(),
+        "Chata Numinosum" | "Numinosum Festival" => "Numinosum".to_string(),
         _ => published_by_name.to_string(),
     }
 }
