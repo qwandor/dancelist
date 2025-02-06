@@ -87,7 +87,8 @@ fn convert(event: &Event, default_style: DanceStyle) -> Result<Option<event::Eve
                 styles.push(DanceStyle::Contra);
                 social = true;
             }
-            InterestTag::BalfolkNL
+            InterestTag::Art
+            | InterestTag::BalfolkNL
             | InterestTag::Dance
             | InterestTag::DancingBodies
             | InterestTag::FolkDance
