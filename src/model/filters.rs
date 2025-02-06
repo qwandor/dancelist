@@ -404,6 +404,16 @@ mod tests {
     }
 
     #[test]
+    fn multiple_filters_query_string() {
+        let filters = Filters {
+            country: Some("UK".to_string()),
+            city: Some("London".to_string()),
+            ..Default::default()
+        };
+        assert_eq!(filters.to_query_string().unwrap(), "country=UK&city=London");
+    }
+
+    #[test]
     fn deserialize_styles_filters() {
         let query_string = "styles=balfolk%2Ccontra%2Ce-ceilidh";
         assert_eq!(
