@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 425] = [
+pub const BANDS: [&str; 426] = [
     "112 and Then Some",
     "A Fine Kettle of Fish",
     "A Joyful Noise",
@@ -123,6 +123,7 @@ pub const BANDS: [&str; 425] = [
     "DJ TacoShel",
     "Dodging Pheasants",
     "Dogtown",
+    "Doxatunes",
     "Dragon Fire",
     "Dreamy Folk Flow",
     "Drehwurm",
