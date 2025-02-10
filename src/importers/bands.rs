@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 426] = [
+pub const BANDS: [&str; 428] = [
     "112 and Then Some",
     "A Fine Kettle of Fish",
     "A Joyful Noise",
@@ -277,9 +277,11 @@ pub const BANDS: [&str; 426] = [
     "Mook",
     "Moore & Moss",
     "Morceau de Breizh",
+    "Mound City Slickers",
     "Mr Folxlide",
     "Musac",
     "Nachtmuziek",
+    "Naradi",
     "Naragonia Quartet",
     "Naragonia",
     "Nebel",
