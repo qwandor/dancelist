@@ -64,29 +64,43 @@ pub struct Event {
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq)]
 pub enum InterestTag {
     Art,
+    Bachata,
     Balfolk,
     #[serde(rename = "Balfolk dance")]
     Balfolkdance,
     #[serde(rename = "Balfolk Music")]
     BalfolkMusic,
     BalfolkNL,
+    #[serde(rename = "Blues Dance")]
+    BluesDance,
     #[serde(rename = "Contra Dance")]
     ContraDance,
+    #[serde(rename = "Couple dance")]
+    CoupleDance,
     Dance,
     DancingBodies,
     #[serde(rename = "Folk Dance")]
     FolkDance,
     #[serde(rename = "Folk Music")]
     FolkMusic,
+    #[serde(rename = "Forró Dance")]
+    ForroDance,
+    Fusion,
     Music,
     NeoTrad,
+    #[serde(rename = "Salsa Dance")]
+    SalsaDance,
     #[serde(rename = "Social Dance")]
     SocialDance,
     #[serde(rename = "Swedish Folk Dance")]
     SwedishFolkDance,
     #[serde(rename = "Swedish Traditional Music")]
     SwedishTraditionalMusic,
+    Tango,
+    #[serde(rename = "West Coast Swing")]
+    WestCoastSwing,
     Workshop,
+    Zouk,
 }
 
 #[derive(Clone, Debug, Default, Deserialize, Eq, PartialEq)]

@@ -88,13 +88,22 @@ fn convert(event: &Event, default_style: DanceStyle) -> Result<Option<event::Eve
                 social = true;
             }
             InterestTag::Art
+            | InterestTag::Bachata
             | InterestTag::BalfolkNL
+            | InterestTag::BluesDance
+            | InterestTag::CoupleDance
             | InterestTag::Dance
             | InterestTag::DancingBodies
             | InterestTag::FolkDance
             | InterestTag::FolkMusic
+            | InterestTag::ForroDance
+            | InterestTag::Fusion
             | InterestTag::Music
-            | InterestTag::NeoTrad => {}
+            | InterestTag::NeoTrad
+            | InterestTag::SalsaDance
+            | InterestTag::Tango
+            | InterestTag::WestCoastSwing
+            | InterestTag::Zouk => {}
         }
     }
     for subinterest in event.subinterests.clone().unwrap_or_default() {
