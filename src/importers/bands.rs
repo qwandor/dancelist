@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 428] = [
+pub const BANDS: [&str; 429] = [
     "112 and Then Some",
     "A Fine Kettle of Fish",
     "A Joyful Noise",
@@ -192,6 +192,7 @@ pub const BANDS: [&str; 428] = [
     "Grand Picnic",
     "Gray & Friends",
     "GrayScale",
+    "Gribouille",
     "Guillaume Sparrow-Pepin & Rachel Bell",
     "Harken!",
     "Hartwin Dhoore Trio",
