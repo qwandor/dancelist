@@ -363,6 +363,12 @@ fn apply_fixes(event: &mut Event) {
             event.state = Some("DE".to_string());
             event.country = "USA".to_string();
         }
+        "East Derry Contra Dance!" => {
+            event
+                .links
+                .insert(0, "https://www.wordworthy2.org/".to_string());
+            event.name = "East Derry Contra Dance".to_string();
+        }
         "ECD Atlanta Regular Dance" | "English Country Dance Atlanta" => {
             event
                 .links
