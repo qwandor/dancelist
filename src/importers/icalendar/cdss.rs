@@ -432,7 +432,8 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://www.kofc109.com/contra".to_string());
         }
-        "Contra Dance at Lake Murray Contra Hall" => {
+        "Columbia Contra Dance at Arsenal Hill Center"
+        | "Contra Dance at Lake Murray Contra Hall" => {
             event
                 .links
                 .insert(0, "https://www.contracola.org/".to_string());
