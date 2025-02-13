@@ -57,13 +57,13 @@ pub async fn index_html(
     }
 
     let countries = events.countries(&filters.with_country(None));
-    let states = if filters.country.is_some() {
+    let states = if !filters.country.is_empty() {
         events.states(&filters.with_state(None))
     } else {
         vec![]
     };
     let styles = events.styles(&filters.with_style(None));
-    let cities = if filters.country.is_some() {
+    let cities = if !filters.country.is_empty() {
         events.cities(&filters.with_city(None))
     } else {
         vec![]
