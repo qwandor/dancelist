@@ -32,7 +32,13 @@ pub struct Filters {
     pub date: DateFilter,
     pub country: Option<String>,
     pub state: Option<String>,
-    pub city: Option<String>,
+    #[serde(
+        default,
+        skip_serializing_if = "HashSet::is_empty",
+        serialize_with = "strings_ser",
+        deserialize_with = "strings_de"
+    )]
+    pub city: HashSet<String>,
     #[serde(
         alias = "style", // For backwards compatibility with old URLs.
         default,
@@ -66,6 +72,18 @@ fn styles_de<'de, D: Deserializer<'de>>(deserializer: D) -> Result<HashSet<Dance
         .split(',')
         .map(|style_tag| DanceStyle::deserialize(style_tag.into_deserializer()))
         .collect()
+}
+
+fn strings_ser<S: Serializer>(strings: &HashSet<String>, serializer: S) -> Result<S::Ok, S::Error> {
+    let mut strings: Vec<_> = strings.iter().map(ToOwned::to_owned).collect();
+    // Sort so as to maintain a consistent serialisation.
+    strings.sort();
+    serializer.serialize_str(&strings.join(","))
+}
+
+fn strings_de<'de, D: Deserializer<'de>>(deserializer: D) -> Result<HashSet<String>, D::Error> {
+    let string = String::deserialize(deserializer)?;
+    Ok(string.split(',').map(|item| item.to_owned()).collect())
 }
 
 #[derive(Copy, Clone, Debug, Deserialize, Eq, PartialEq, Sequence, Serialize)]
@@ -113,7 +131,7 @@ impl Filters {
     pub fn has_some(&self) -> bool {
         self.country.is_some()
             || self.state.is_some()
-            || self.city.is_some()
+            || !self.city.is_empty()
             || !self.styles.is_empty()
             || self.multiday.is_some()
             || self.workshop.is_some()
@@ -156,10 +174,8 @@ impl Filters {
                 return false;
             }
         }
-        if let Some(city) = &self.city {
-            if &event.city != city {
-                return false;
-            }
+        if !self.city.is_empty() && !self.city.contains(&event.city) {
+            return false;
         }
         if !self.styles.is_empty() && !event.styles.iter().any(|style| self.styles.contains(style))
         {
@@ -209,26 +225,22 @@ impl Filters {
         let style = if self.styles.is_empty() {
             "Folk dance".to_string()
         } else {
-            let mut style_string = String::new();
             let mut styles: Vec<_> = self.styles.iter().collect();
             // Sort to ensure a consistent title.
             styles.sort();
-            for (i, style) in styles.iter().enumerate() {
-                style_string += &uppercase_first_letter(style.name());
-                match self.styles.len().cmp(&(i + 2)) {
-                    Ordering::Greater => {
-                        style_string += " , ";
-                    }
-                    Ordering::Equal => {
-                        style_string += " and ";
-                    }
-                    Ordering::Less => {}
-                }
-            }
-            style_string
+            let styles: Vec<_> = styles
+                .into_iter()
+                .map(|style| uppercase_first_letter(style.name()))
+                .collect();
+            join_words(&styles)
+        };
+        let cities = if self.city.is_empty() {
+            None
+        } else {
+            Some(join_cities(&self.city))
         };
 
-        match (&self.country, &self.state, &self.city) {
+        match (&self.country, &self.state, cities) {
             (None, None, None) => format!("{} events", style),
             (Some(country), None, None) => {
                 if country == "UK" || country == "USA" {
@@ -237,17 +249,21 @@ impl Filters {
                     format!("{} events in {}", style, country)
                 }
             }
-            (None, None, Some(city)) => format!("{} events in {}", style, city),
-            (None, Some(state), None) => format!("{} events in {}", style, state),
-            (None, Some(state), Some(city)) => format!("{} events in {}, {}", style, city, state),
-            (Some(country), None, Some(city)) => {
-                format!("{} events in {}, {}", style, city, country)
+            (None, None, Some(cities)) => format!("{} events in {}", style, cities),
+            (None, Some(state), None) => {
+                format!("{} events in {}", style, state)
+            }
+            (None, Some(state), Some(cities)) => {
+                format!("{} events in {}, {}", style, cities, state)
+            }
+            (Some(country), None, Some(cities)) => {
+                format!("{} events in {}, {}", style, cities, country)
             }
             (Some(country), Some(state), None) => {
                 format!("{} events in {}, {}", style, state, country)
             }
-            (Some(country), Some(state), Some(city)) => {
-                format!("{} events in {}, {}, {}", style, city, state, country)
+            (Some(country), Some(state), Some(cities)) => {
+                format!("{} events in {}, {}, {}", style, cities, state, country)
             }
         }
     }
@@ -258,7 +274,7 @@ impl Filters {
         Self {
             country: owned(country),
             state: None,
-            city: None,
+            city: HashSet::new(),
             ..self.clone()
         }
     }
@@ -267,7 +283,7 @@ impl Filters {
     pub fn with_state(&self, state: Option<&str>) -> Self {
         Self {
             state: owned(state),
-            city: None,
+            city: HashSet::new(),
             ..self.clone()
         }
     }
@@ -275,7 +291,7 @@ impl Filters {
     /// Makes a new set of filters like this one but with the given city filter.
     pub fn with_city(&self, city: Option<&str>) -> Self {
         Self {
-            city: owned(city),
+            city: city.iter().map(|city| city.to_string()).collect(),
             ..self.clone()
         }
     }
@@ -339,6 +355,29 @@ fn is_default<T: Default + PartialEq>(value: &T) -> bool {
     value == &T::default()
 }
 
+fn join_cities(cities: &HashSet<String>) -> String {
+    let mut cities: Vec<_> = cities.into_iter().map(ToOwned::to_owned).collect();
+    cities.sort();
+    join_words(&cities)
+}
+
+fn join_words(parts: &[String]) -> String {
+    let mut s = String::new();
+    for (i, part) in parts.into_iter().enumerate() {
+        s += part;
+        match parts.len().cmp(&(i + 2)) {
+            Ordering::Greater => {
+                s += " , ";
+            }
+            Ordering::Equal => {
+                s += " and ";
+            }
+            Ordering::Less => {}
+        }
+    }
+    s
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -368,6 +407,15 @@ mod tests {
             ..Default::default()
         };
         assert_eq!(filters.make_title(), "Balfolk and Contra events");
+    }
+
+    #[test]
+    fn one_city_title() {
+        let filters = Filters {
+            city: ["London".to_string()].into_iter().collect(),
+            ..Default::default()
+        };
+        assert_eq!(filters.make_title(), "Folk dance events in London");
     }
 
     #[test]
@@ -404,10 +452,24 @@ mod tests {
     }
 
     #[test]
+    fn cities_filters_query_string() {
+        let filters = Filters {
+            city: ["London".to_string(), "Cambridge".to_string()]
+                .into_iter()
+                .collect(),
+            ..Default::default()
+        };
+        assert_eq!(
+            filters.to_query_string().unwrap(),
+            "city=Cambridge%2CLondon"
+        );
+    }
+
+    #[test]
     fn multiple_filters_query_string() {
         let filters = Filters {
             country: Some("UK".to_string()),
-            city: Some("London".to_string()),
+            city: ["London".to_string()].into_iter().collect(),
             ..Default::default()
         };
         assert_eq!(filters.to_query_string().unwrap(), "country=UK&city=London");

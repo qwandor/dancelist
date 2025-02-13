@@ -80,13 +80,13 @@
 		{% if cities.len() > 1 %}
 		<ul>
 			{% for city in cities %}
-			{% if filters.city.as_ref() == Some(city) %}
+			{% if filters.city.contains(city.as_str()) %}
 			<li><strong>{{ city }}</strong></li>
 			{% else %}
 			<li><a href="?{{ filters.with_city(Some(city)).to_query_string().unwrap()|safe }}">{{ city }}</a></li>
 			{% endif %}
 			{% endfor %}
-			{% if filters.city.is_some() %}
+			{% if !filters.city.is_empty() %}
 			<li><a href="?{{ filters.with_city(None).to_query_string().unwrap()|safe }}">all cities</a></li>
 			{% endif %}
 		</ul>
