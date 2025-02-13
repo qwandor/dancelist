@@ -30,8 +30,20 @@ use std::{
 pub struct Filters {
     #[serde(default, skip_serializing_if = "is_default")]
     pub date: DateFilter,
-    pub country: Option<String>,
-    pub state: Option<String>,
+    #[serde(
+        default,
+        skip_serializing_if = "HashSet::is_empty",
+        serialize_with = "strings_ser",
+        deserialize_with = "strings_de"
+    )]
+    pub country: HashSet<String>,
+    #[serde(
+        default,
+        skip_serializing_if = "HashSet::is_empty",
+        serialize_with = "strings_ser",
+        deserialize_with = "strings_de"
+    )]
+    pub state: HashSet<String>,
     #[serde(
         default,
         skip_serializing_if = "HashSet::is_empty",
@@ -129,8 +141,8 @@ impl Filters {
     }
 
     pub fn has_some(&self) -> bool {
-        self.country.is_some()
-            || self.state.is_some()
+        !self.country.is_empty()
+            || !self.state.is_empty()
             || !self.city.is_empty()
             || !self.styles.is_empty()
             || self.multiday.is_some()
@@ -164,15 +176,15 @@ impl Filters {
             },
         }
 
-        if let Some(country) = &self.country {
-            if &event.country != country {
-                return false;
-            }
+        if !self.country.is_empty() && !self.country.contains(&event.country) {
+            return false;
         }
-        if let Some(state) = &self.state {
-            if event.state.as_deref().unwrap_or_default() != state {
-                return false;
-            }
+        if !self.state.is_empty()
+            && !self
+                .state
+                .contains(event.state.as_deref().unwrap_or_default())
+        {
+            return false;
         }
         if !self.city.is_empty() && !self.city.contains(&event.city) {
             return false;
@@ -234,36 +246,46 @@ impl Filters {
                 .collect();
             join_words(&styles)
         };
+        let countries = if self.country.is_empty() {
+            None
+        } else {
+            Some(join_cities(&self.country))
+        };
+        let states = if self.state.is_empty() {
+            None
+        } else {
+            Some(join_cities(&self.state))
+        };
         let cities = if self.city.is_empty() {
             None
         } else {
             Some(join_cities(&self.city))
         };
 
-        match (&self.country, &self.state, cities) {
+        match (countries, states, cities) {
             (None, None, None) => format!("{} events", style),
-            (Some(country), None, None) => {
-                if country == "UK" || country == "USA" {
-                    format!("{} events in the {}", style, country)
+            (Some(countries), None, None) => {
+                if countries == "UK" || countries == "USA" {
+                    format!("{} events in the {}", style, countries)
                 } else {
-                    format!("{} events in {}", style, country)
+                    format!("{} events in {}", style, countries)
                 }
             }
             (None, None, Some(cities)) => format!("{} events in {}", style, cities),
-            (None, Some(state), None) => {
-                format!("{} events in {}", style, state)
+            (None, Some(states), None) => {
+                format!("{} events in {}", style, states)
             }
-            (None, Some(state), Some(cities)) => {
-                format!("{} events in {}, {}", style, cities, state)
+            (None, Some(states), Some(cities)) => {
+                format!("{} events in {}, {}", style, cities, states)
             }
             (Some(country), None, Some(cities)) => {
                 format!("{} events in {}, {}", style, cities, country)
             }
-            (Some(country), Some(state), None) => {
-                format!("{} events in {}, {}", style, state, country)
+            (Some(country), Some(states), None) => {
+                format!("{} events in {}, {}", style, states, country)
             }
-            (Some(country), Some(state), Some(cities)) => {
-                format!("{} events in {}, {}, {}", style, cities, state, country)
+            (Some(country), Some(states), Some(cities)) => {
+                format!("{} events in {}, {}, {}", style, cities, states, country)
             }
         }
     }
@@ -272,8 +294,8 @@ impl Filters {
     /// city filter.
     pub fn with_country(&self, country: Option<&str>) -> Self {
         Self {
-            country: owned(country),
-            state: None,
+            country: country.iter().map(|country| country.to_string()).collect(),
+            state: HashSet::new(),
             city: HashSet::new(),
             ..self.clone()
         }
@@ -282,7 +304,7 @@ impl Filters {
     /// Makes a new set of filters like this one but with the given state filter and no city filter.
     pub fn with_state(&self, state: Option<&str>) -> Self {
         Self {
-            state: owned(state),
+            state: state.iter().map(|state| state.to_string()).collect(),
             city: HashSet::new(),
             ..self.clone()
         }
@@ -347,10 +369,6 @@ fn uppercase_first_letter(s: &str) -> String {
     }
 }
 
-fn owned<T: ToOwned + ?Sized>(option_ref: Option<&T>) -> Option<T::Owned> {
-    option_ref.map(ToOwned::to_owned)
-}
-
 fn is_default<T: Default + PartialEq>(value: &T) -> bool {
     value == &T::default()
 }
@@ -392,7 +410,7 @@ mod tests {
     fn one_style_country_title() {
         let filters = Filters {
             styles: [DanceStyle::EnglishCountryDance].into_iter().collect(),
-            country: Some("New Zealand".to_string()),
+            country: ["New Zealand".to_string()].into_iter().collect(),
             ..Default::default()
         };
         assert_eq!(filters.make_title(), "ECD events in New Zealand");
@@ -416,6 +434,25 @@ mod tests {
             ..Default::default()
         };
         assert_eq!(filters.make_title(), "Folk dance events in London");
+    }
+
+    #[test]
+    fn special_country_title() {
+        let filters = Filters {
+            country: ["UK".to_string()].into_iter().collect(),
+            ..Default::default()
+        };
+        assert_eq!(filters.make_title(), "Folk dance events in the UK");
+        let filters = Filters {
+            country: ["USA".to_string()].into_iter().collect(),
+            ..Default::default()
+        };
+        assert_eq!(filters.make_title(), "Folk dance events in the USA");
+        let filters = Filters {
+            country: ["USA".to_string(), "UK".to_string()].into_iter().collect(),
+            ..Default::default()
+        };
+        assert_eq!(filters.make_title(), "Folk dance events in UK and USA");
     }
 
     #[test]
@@ -468,7 +505,7 @@ mod tests {
     #[test]
     fn multiple_filters_query_string() {
         let filters = Filters {
-            country: Some("UK".to_string()),
+            country: ["UK".to_string()].into_iter().collect(),
             city: ["London".to_string()].into_iter().collect(),
             ..Default::default()
         };

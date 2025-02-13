@@ -49,7 +49,7 @@
 
 		<ul>
 			{% for country in countries %}
-			{% if filters.country.as_ref() == Some(country.name) %}
+			{% if filters.country.contains(country.name.as_str()) %}
 			<li><strong>{{ country.name }}</strong></li>
 			{% else %}
 			<li><a href="?{{ filters.with_country(Some(country.name)).to_query_string().unwrap()|safe }}">{{
@@ -57,7 +57,7 @@
 					}}</a></li>
 			{% endif %}
 			{% endfor %}
-			{% if filters.country.is_some() %}
+			{% if !filters.country.is_empty() %}
 			<li><a href="?{{ filters.with_country(None).to_query_string().unwrap()|safe }}">all countries</a></li>
 			{% endif %}
 		</ul>
@@ -65,13 +65,13 @@
 		{% if states.len() > 1 %}
 		<ul>
 			{% for state in states %}
-			{% if filters.state.as_ref() == Some(state) %}
+			{% if filters.state.contains(state.as_str()) %}
 			<li><strong>{{ state }}</strong></li>
 			{% else %}
 			<li><a href="?{{ filters.with_state(Some(state)).to_query_string().unwrap()|safe }}">{{ state }}</a></li>
 			{% endif %}
 			{% endfor %}
-			{% if filters.state.is_some() %}
+			{% if !filters.state.is_empty() %}
 			<li><a href="?{{ filters.with_state(None).to_query_string().unwrap()|safe }}">all states</a></li>
 			{% endif %}
 		</ul>
