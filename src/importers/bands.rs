@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 430] = [
+pub const BANDS: [&str; 433] = [
     "112 and Then Some",
     "A Fine Kettle of Fish",
     "A Joyful Noise",
@@ -241,6 +241,7 @@ pub const BANDS: [&str; 430] = [
     "Laouen",
     "Larks in the Attic",
     "Laurie Fisher & Nik Coker",
+    "Le Carillon",
     "Le Driadi",
     "Le Mange Bal",
     "Les Bottines Artistiques",
@@ -349,6 +350,7 @@ pub const BANDS: [&str; 430] = [
     "Stringrays",
     "Strings on Wings",
     "Stromlosplus",
+    "Sture und Sigmar",
     "Supertrad",
     "Swinco",
     "Swingology",
@@ -414,6 +416,7 @@ pub const BANDS: [&str; 430] = [
     "Ultra Tagada",
     "Unbowed",
     "Unipot",
+    "Uppsala",
     "Ute+Michael",
     "Vagalan",
     "Valentin Barray",

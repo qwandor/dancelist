@@ -19,6 +19,7 @@ pub mod cdss;
 pub mod ceilidhclub;
 pub mod contrabridge;
 pub mod dresden;
+pub mod freiburg;
 pub mod kalender;
 pub mod lancastercontra;
 pub mod marburg;
