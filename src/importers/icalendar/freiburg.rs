@@ -31,7 +31,7 @@ impl IcalendarSource for Freiburg {
             || description_lower.contains("workshop")
     }
 
-    fn social(parts: &EventParts) -> bool {
+    fn social(_parts: &EventParts) -> bool {
         true
     }
 
@@ -53,7 +53,7 @@ impl IcalendarSource for Freiburg {
         styles
     }
 
-    fn location(parts: &EventParts) -> Result<Option<(String, Option<String>, String)>, Report> {
+    fn location(_parts: &EventParts) -> Result<Option<(String, Option<String>, String)>, Report> {
         Ok(Some((
             "Germany".to_string(),
             None,
