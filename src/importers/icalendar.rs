@@ -23,6 +23,7 @@ pub mod freiburg;
 pub mod kalender;
 pub mod lancastercontra;
 pub mod marburg;
+pub mod skandia;
 pub mod spreefolk;
 
 use super::{bands::BANDS, callers::CALLERS, combine_events, lowercase_matches};
