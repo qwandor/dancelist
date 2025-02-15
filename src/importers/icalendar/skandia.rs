@@ -31,7 +31,6 @@ impl IcalendarSource for Skandia {
             || summary_lower.contains("free class")
             || summary_lower.contains("dance class")
             || summary_lower.contains("dance review")
-            || summary_lower.contains("jullekstuga")
             || description_lower.contains("class")
             || description_lower.contains("dance workshop")
     }
@@ -40,6 +39,7 @@ impl IcalendarSource for Skandia {
         let summary_lower = parts.summary.to_lowercase();
         summary_lower.contains("free dance")
             || summary_lower.contains("gala")
+            || summary_lower.contains("jullekstuga")
             || summary_lower.contains("live")
             || summary_lower.contains("midsommarfest")
             || summary_lower.contains("third friday dance")
