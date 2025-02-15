@@ -127,6 +127,9 @@ impl IcalendarSource for Kalender {
     fn fixup(mut event: Event) -> Option<Event> {
         event.name = shorten_name(&event.name);
         if event.name == "KA-BALFOLK" {
+            event
+                .links
+                .insert(0, "https://ka-balfolk.de/termine-elementor/".to_string());
             event.name = "KA-Balfolk".to_string();
         }
 
