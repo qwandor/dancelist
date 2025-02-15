@@ -24,6 +24,7 @@ const GERMANY_CITIES: &[(&str, &str)] = &[
     ("Frickingen", "Frickingen"),
     ("Frommern", "Frommern"),
     ("Gomaringen", "Gomaringen"),
+    ("Großschönach", "Großschönach"),
     ("Heiligenberg", "Heiligenberg"),
     ("Karlsruhe", "Karlsruhe"),
     ("Kirchheim", "Kirchheim"),
@@ -125,6 +126,9 @@ impl IcalendarSource for Kalender {
 
     fn fixup(mut event: Event) -> Option<Event> {
         event.name = shorten_name(&event.name);
+        if event.name == "KA-BALFOLK" {
+            event.name = "KA-Balfolk".to_string();
+        }
 
         Some(event)
     }
