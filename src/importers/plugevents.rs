@@ -120,6 +120,7 @@ fn convert(event: &Event, default_style: DanceStyle) -> Result<Option<event::Eve
             | EventFormat::Class
             | EventFormat::Course
             | EventFormat::DanceClass
+            | EventFormat::DansenLeren
             | EventFormat::Dansles
             | EventFormat::Event
             | EventFormat::Intensive
