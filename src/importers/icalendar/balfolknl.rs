@@ -24,10 +24,11 @@ impl IcalendarSource for BalfolkNl {
     const DEFAULT_ORGANISATION: &'static str = "balfolk.nl";
 
     fn workshop(parts: &EventParts) -> bool {
-        parts.summary.contains("Fundamentals")
+        parts.summary.contains("balfolklessen")
             || parts.summary.contains("Basis van")
             || parts.summary.contains("beginnerslessen")
             || parts.summary.contains("danslessen")
+            || parts.summary.contains("Fundamentals")
             || parts.summary.contains("mini-cursus")
             || parts.summary.contains("Wilde Wereld Wageningen")
             || parts.summary.contains("workshop")
