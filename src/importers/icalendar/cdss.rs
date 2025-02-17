@@ -202,6 +202,9 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://3rdsaturday.thursdaycontra.com/".to_string());
         }
+        "4th Saturday Kingston, NH, Contra Dance!" => {
+            event.name = "Kingston Contra Dance".to_string();
+        }
         "All-Ages Community Barn Dance" => {
             event.links.insert(
                 0,
