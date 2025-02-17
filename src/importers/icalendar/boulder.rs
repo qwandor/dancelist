@@ -35,7 +35,7 @@ impl IcalendarSource for Boulder {
         let description_lower = parts.description.to_lowercase();
         parts.summary == "Boulder Scottish Country Dance"
             || parts.summary == "Scottish Country Dance"
-            || parts.summary == "Scandinavian Weekly Dance"
+            || parts.summary.starts_with("Scandinavian Weekly Dance")
             || parts.summary == "Boulder Scandinavian Weekend"
             || parts.summary.contains("Class")
             || (description_lower.contains("lesson") && !description_lower.contains("no lesson"))
@@ -44,8 +44,8 @@ impl IcalendarSource for Boulder {
     fn social(parts: &EventParts) -> bool {
         parts.summary == "Boulder Scandinavian Weekend"
             || parts.summary == "Scandinavian Christmas Dance"
-            || parts.summary == "Scandinavian Monthly Dance"
-            || parts.summary == "Scandinavian Weekly Dance"
+            || parts.summary.starts_with("Scandinavian Monthly Dance")
+            || parts.summary.starts_with("Scandinavian Weekly Dance")
             || parts.summary.contains("Contra")
     }
 
