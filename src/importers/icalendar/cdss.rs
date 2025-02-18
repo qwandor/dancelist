@@ -182,6 +182,11 @@ fn shorten_name(name: &str) -> String {
 
 /// Apply fixes for specific event series.
 fn apply_fixes(event: &mut Event) {
+    let details_lower = event.details.as_deref().unwrap_or_default().to_lowercase();
+    if event.price.is_none() && details_lower.contains("admission by donation") {
+        event.price = Some("donation".to_string());
+    }
+
     match (event.city.as_str(), event.state.as_deref()) {
         ("Henrico", Some("VA")) => {
             event.city = "Richmond".to_string();
