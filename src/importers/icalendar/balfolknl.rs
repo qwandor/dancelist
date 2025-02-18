@@ -168,8 +168,12 @@ impl IcalendarSource for BalfolkNl {
             _ => {}
         }
 
-        if event.start_year() > 2026 {
-            return None;
+        if event.name == "Dansavond" && event.city == "Zeist" {
+            if event.start_year() > 2026 {
+                return None;
+            } else if event.price.is_none() {
+                event.price = Some("€5".to_string());
+            }
         }
 
         Some(event)
