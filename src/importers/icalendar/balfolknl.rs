@@ -168,6 +168,10 @@ impl IcalendarSource for BalfolkNl {
             _ => {}
         }
 
+        if event.start_year() > 2026 {
+            return None;
+        }
+
         Some(event)
     }
 }
