@@ -374,14 +374,14 @@ fn is_default<T: Default + PartialEq>(value: &T) -> bool {
 }
 
 fn join_cities(cities: &HashSet<String>) -> String {
-    let mut cities: Vec<_> = cities.into_iter().map(ToOwned::to_owned).collect();
+    let mut cities: Vec<_> = cities.iter().map(ToOwned::to_owned).collect();
     cities.sort();
     join_words(&cities)
 }
 
 fn join_words(parts: &[String]) -> String {
     let mut s = String::new();
-    for (i, part) in parts.into_iter().enumerate() {
+    for (i, part) in parts.iter().enumerate() {
         s += part;
         match parts.len().cmp(&(i + 2)) {
             Ordering::Greater => {
