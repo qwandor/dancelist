@@ -279,6 +279,14 @@ fn apply_fixes(event: &mut Event) {
                 "https://bloomingtoncontra.org/wednesday-dances/".to_string(),
             );
         }
+        "Buena Vista 1st Saturday Community Contra & Band Jam" => {
+            event.name = "Buena Vista Community Contra & Band Jam".to_string();
+            event
+                .links
+                .insert(0, "http://www.arkvalleymusicanddance.org/".to_string());
+            event.state = Some("CO".to_string());
+            event.city = "Buena Vista".to_string();
+        }
         "Capital English Country Dancers" => {
             event.links.insert(
                 0,
