@@ -28,7 +28,6 @@ const GERMANY_CITIES: &[(&str, &str)] = &[
     ("Heiligenberg", "Heiligenberg"),
     ("Karlsruhe", "Karlsruhe"),
     ("Kirchheim", "Kirchheim"),
-    ("Lautenbach", "Lautenbach"),
     ("Marzling", "Marzling"),
     ("Nürtingen", "Nürtingen"),
     ("Rechberghausen", "Göppingen"),
