@@ -298,7 +298,7 @@ pub const BANDS: [&str; 455] = [
     "Mr Folxlide",
     "Musac",
     "Nachtmuziek",
-    "Naradi",
+    "Naredi",
     "Naragonia Quartet",
     "Naragonia",
     "Nebel",
