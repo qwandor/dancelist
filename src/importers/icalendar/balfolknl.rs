@@ -81,6 +81,7 @@ impl IcalendarSource for BalfolkNl {
             || parts.summary.starts_with("Dansavond")
             || parts.summary.starts_with("Dansavond")
             || parts.summary.starts_with("DenneFeest")
+            || parts.summary.starts_with("Discoavond")
             || parts.summary.starts_with("Drakenbal")
             || parts.summary.starts_with("Fest Noz")
             || parts.summary.starts_with("Festibal")
@@ -174,6 +175,8 @@ impl IcalendarSource for BalfolkNl {
             } else if event.price.is_none() {
                 event.price = Some("€5".to_string());
             }
+        } else if event.name.starts_with("Discoavond (") && event.city == "Amsterdam" {
+            event.name = "Discoavond".to_string();
         }
 
         Some(event)
