@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 456] = [
+pub const BANDS: [&str; 458] = [
     "112 and Then Some",
     "A Fine Kettle of Fish",
     "A Joyful Noise",
@@ -112,6 +112,7 @@ pub const BANDS: [&str; 456] = [
     "Countercurrent",
     "Crossover Duo",
     "Crossover Trio",
+    "Danse Café",
     "Danzvogel",
     "David Cornelissen",
     "David James & Craig Johnson",
@@ -123,6 +124,7 @@ pub const BANDS: [&str; 456] = [
     "Die Hayner",
     "Die ZWEI",
     "DJ TacoShel",
+    "Djîga",
     "Dodging Pheasants",
     "Dogtown",
     "Doxatunes",
