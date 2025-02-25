@@ -102,6 +102,7 @@ fn convert(event: &Event, default_style: DanceStyle) -> Result<Option<event::Eve
             | InterestTag::NeoTrad
             | InterestTag::SalsaDance
             | InterestTag::Tango
+            | InterestTag::Teacher
             | InterestTag::WestCoastSwing
             | InterestTag::Zouk => {}
         }
@@ -112,6 +113,7 @@ fn convert(event: &Event, default_style: DanceStyle) -> Result<Option<event::Eve
             | EventFormat::Balfolk
             | EventFormat::BalfolkNL
             | EventFormat::Concert
+            | EventFormat::Dance
             | EventFormat::Folkbal
             | EventFormat::FolkBal => {
                 social = true;
@@ -159,6 +161,7 @@ fn convert(event: &Event, default_style: DanceStyle) -> Result<Option<event::Eve
             EventFormat::BalmuziekLeren
             | EventFormat::Buurtvereniging
             | EventFormat::CommunityAssociation
+            | EventFormat::DancingBodies
             | EventFormat::MusicClass
             | EventFormat::Musiekles
             | EventFormat::Optreden

@@ -97,6 +97,7 @@ pub enum InterestTag {
     #[serde(rename = "Swedish Traditional Music")]
     SwedishTraditionalMusic,
     Tango,
+    Teacher,
     #[serde(rename = "West Coast Swing")]
     WestCoastSwing,
     Workshop,
@@ -118,8 +119,10 @@ pub enum EventFormat {
     CommunityAssociation,
     Concert,
     Course,
+    Dance,
     #[serde(rename = "Dance Class")]
     DanceClass,
+    DancingBodies,
     Dansavond,
     #[serde(rename = "Dansen leren")]
     DansenLeren,
