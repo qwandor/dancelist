@@ -102,11 +102,65 @@ pub struct Ics(pub Calendar);
 
 impl IntoResponse for Ics {
     fn into_response(self) -> Response {
-        let mut res = Response::new(Body::from(self.0.to_string()));
+        let mut res = Response::new(Body::from(self.0.to_string().replace("\\N", "\\n")));
         res.headers_mut().insert(
             header::CONTENT_TYPE,
             HeaderValue::from_static("text/calendar"),
         );
         res
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use axum::body;
+    use chrono::TimeZone;
+
+    #[tokio::test]
+    async fn empty() {
+        let calendar = Calendar::new();
+        let ics = Ics(calendar);
+        let response = ics.into_response();
+        assert_eq!(
+            body::to_bytes(response.into_body(), 2000).await.unwrap(),
+            "\
+BEGIN:VCALENDAR\r
+VERSION:2.0\r
+PRODID:ICALENDAR-RS\r
+CALSCALE:GREGORIAN\r
+END:VCALENDAR\r
+"
+        );
+    }
+
+    #[tokio::test]
+    async fn description_newline() {
+        let calendar = Calendar::new()
+            .push(
+                icalendar::Event::new()
+                    .uid("20fabeca-4caa-45b3-8e65-aff7b21c4779")
+                    .timestamp(Utc.with_ymd_and_hms(2025, 2, 22, 1, 2, 3).unwrap())
+                    .description("foo\nbar")
+                    .done(),
+            )
+            .done();
+        let ics = Ics(calendar);
+        let response = ics.into_response();
+        assert_eq!(
+            body::to_bytes(response.into_body(), 2000).await.unwrap(),
+            "\
+BEGIN:VCALENDAR\r
+VERSION:2.0\r
+PRODID:ICALENDAR-RS\r
+CALSCALE:GREGORIAN\r
+BEGIN:VEVENT\r
+DESCRIPTION:foo\\nbar\r
+DTSTAMP:20250222T010203Z\r
+UID:20fabeca-4caa-45b3-8e65-aff7b21c4779\r
+END:VEVENT\r
+END:VCALENDAR\r
+"
+        );
     }
 }
