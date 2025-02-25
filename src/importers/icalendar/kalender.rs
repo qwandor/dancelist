@@ -58,7 +58,8 @@ impl IcalendarSource for Kalender {
 
     fn social(parts: &EventParts) -> bool {
         let summary_lower = parts.summary.to_lowercase();
-        !summary_lower.contains("workshop")
+        let description_lower = parts.description.to_lowercase();
+        description_lower.contains("bal mit") || !summary_lower.contains("workshop")
     }
 
     fn styles(parts: &EventParts) -> Vec<DanceStyle> {
@@ -79,7 +80,7 @@ impl IcalendarSource for Kalender {
         {
             styles.push(DanceStyle::IrishSet);
         }
-        if summary_lower.contains("skandi-ball") {
+        if summary_lower.contains("skandi-ball") || summary_lower.contains("swedish") {
             styles.push(DanceStyle::Scandinavian);
         }
 
