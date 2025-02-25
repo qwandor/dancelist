@@ -34,6 +34,7 @@ impl IcalendarSource for BalfolkNl {
             || parts.summary.contains("workshop")
             || parts.summary.starts_with("DenneFeest")
             || parts.summary.starts_with("Folkbal Wilhelmina")
+            || parts.summary.starts_with("Minibal")
             || parts.summary.starts_with("Proefles ")
             || parts.summary.starts_with("Socialles ")
             || parts.description.contains("dancing workshop")
