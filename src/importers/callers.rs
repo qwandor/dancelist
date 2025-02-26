@@ -37,7 +37,7 @@ pub const CALLERS: [&str; 235] = [
     "Ben Sachs-Hamilton",
     "Ben Sela",
     "Beth Molaro",
-    "Bev Birnbaum",
+    "Bev Bernbaum",
     "Beverly Francis",
     "Billy Fischer",
     "Bob Devaty",
