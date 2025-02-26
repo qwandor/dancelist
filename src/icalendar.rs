@@ -102,7 +102,7 @@ pub struct Ics(pub Calendar);
 
 impl IntoResponse for Ics {
     fn into_response(self) -> Response {
-        let mut res = Response::new(Body::from(self.0.to_string().replace("\\N", "\\n")));
+        let mut res = Response::new(Body::from(self.0.to_string()));
         res.headers_mut().insert(
             header::CONTENT_TYPE,
             HeaderValue::from_static("text/calendar"),
