@@ -752,6 +752,9 @@ fn apply_fixes(event: &mut Event) {
             event.city = "Westford".to_string();
             event.state = Some("MA".to_string());
         }
+        "Phoenix 4th Friday Contra Dance" => {
+            event.links.insert(0, "https://phxtmd.org/".to_string());
+        }
         "Pittsburgh Contra Dance" => {
             event
                 .links
