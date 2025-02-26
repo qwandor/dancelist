@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 458] = [
+pub const BANDS: [&str; 460] = [
     "112 and Then Some",
     "A Fine Kettle of Fish",
     "A Joyful Noise",
@@ -350,6 +350,7 @@ pub const BANDS: [&str; 458] = [
     "Serendipity",
     "Shandy",
     "Shillelagh",
+    "Sigmar Gothe",
     "Simone Bottasso",
     "Sister Haggis",
     "Six-feet Back Band",
@@ -469,6 +470,7 @@ pub const BANDS: [&str; 458] = [
     "Wouter en de Draak",
     "Wouter Kuyper",
     "Wry Bred",
+    "YanYana",
     "Yanyk",
     "Zéphyr Combo",
 ];
