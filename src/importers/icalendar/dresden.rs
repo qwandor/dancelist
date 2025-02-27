@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use super::{import_new_events, EventParts, IcalendarSource};
+use super::{EventParts, IcalendarSource, import_new_events};
 use crate::{
     importers::combine_events,
     model::{

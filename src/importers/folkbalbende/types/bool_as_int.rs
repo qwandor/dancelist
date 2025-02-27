@@ -13,8 +13,8 @@
 // limitations under the License.
 
 use serde::{
-    de::{Error as _, Unexpected},
     Deserialize, Deserializer, Serializer,
+    de::{Error as _, Unexpected},
 };
 
 pub fn serialize<S: Serializer>(value: &bool, serializer: S) -> Result<S::Ok, S::Error> {

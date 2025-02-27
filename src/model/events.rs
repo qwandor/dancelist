@@ -14,7 +14,7 @@
 
 use super::{dancestyle::DanceStyle, event::Event, filters::Filters};
 use chrono::Utc;
-use eyre::{bail, Report, WrapErr};
+use eyre::{Report, WrapErr, bail};
 use log::trace;
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};

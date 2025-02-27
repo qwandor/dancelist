@@ -20,7 +20,8 @@ pub struct Marburg;
 
 impl IcalendarSource for Marburg {
     const URLS: &'static [&'static str] = &[
-        "https://www.folkclub-marburg.de/wp/wp-content/plugins/bal-folk-eventlist/ical/Bal-Folk-Marburg-Calendar.ics"];
+        "https://www.folkclub-marburg.de/wp/wp-content/plugins/bal-folk-eventlist/ical/Bal-Folk-Marburg-Calendar.ics",
+    ];
     const DEFAULT_ORGANISATION: &'static str = "Folkclub Marburg";
     const DEFAULT_TIMEZONE: Option<&'static str> = Some("Europe/Berlin");
 

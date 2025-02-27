@@ -14,7 +14,7 @@
 
 use super::{EventParts, IcalendarSource};
 use crate::model::{dancestyle::DanceStyle, event::Event};
-use eyre::{eyre, Report};
+use eyre::{Report, eyre};
 
 pub struct CeilidhClub;
 

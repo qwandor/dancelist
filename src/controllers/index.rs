@@ -14,7 +14,7 @@
 
 use crate::{
     errors::InternalError,
-    icalendar::{events_to_calendar, Ics},
+    icalendar::{Ics, events_to_calendar},
     model::{
         dancestyle::DanceStyle,
         event::Event,
@@ -24,7 +24,7 @@ use crate::{
 };
 use askama::Template;
 use axum::{extract::Query, response::Html};
-use axum_extra::{headers::Host, TypedHeader};
+use axum_extra::{TypedHeader, headers::Host};
 use chrono::{Datelike, Months, NaiveDate};
 
 pub async fn index(

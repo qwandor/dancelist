@@ -22,7 +22,7 @@ use crate::model::{
     events::Events,
 };
 use chrono::Timelike;
-use eyre::{eyre, Report};
+use eyre::{Report, eyre};
 
 pub async fn events(token: &str) -> Result<Vec<Event>, Report> {
     let json = reqwest::get(format!(

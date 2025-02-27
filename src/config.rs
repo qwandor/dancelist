@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use eyre::{bail, Report, WrapErr};
+use eyre::{Report, WrapErr, bail};
 use serde::Deserialize;
 use std::{
     fs::read_to_string,

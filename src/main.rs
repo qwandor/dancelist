@@ -41,9 +41,9 @@ use crate::{
     model::events::Events,
 };
 use axum::{
+    Router,
     extract::FromRef,
     routing::{get, get_service, post},
-    Router,
 };
 use clap::{Parser, Subcommand, ValueEnum};
 use eyre::Report;

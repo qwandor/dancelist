@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use serde::{de::Error as _, Deserialize, Deserializer, Serializer};
+use serde::{Deserialize, Deserializer, Serializer, de::Error as _};
 
 pub fn serialize<S: Serializer>(value: &i32, serializer: S) -> Result<S::Ok, S::Error> {
     serializer.serialize_str(&value.to_string())

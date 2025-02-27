@@ -17,9 +17,9 @@ use super::{
     event::{Event, EventTime},
 };
 use chrono::{DateTime, Utc};
-use enum_iterator::{all, Sequence};
+use enum_iterator::{Sequence, all};
 use eyre::Report;
-use serde::{de::IntoDeserializer, Deserialize, Deserializer, Serialize, Serializer};
+use serde::{Deserialize, Deserializer, Serialize, Serializer, de::IntoDeserializer};
 use std::{
     cmp::Ordering,
     collections::HashSet,
