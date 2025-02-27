@@ -18,7 +18,7 @@ use crate::model::{
     event::{Event, EventTime},
 };
 use chrono::TimeDelta;
-use eyre::{eyre, Report};
+use eyre::{Report, eyre};
 
 pub struct Boulder;
 

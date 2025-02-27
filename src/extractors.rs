@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use crate::{errors::InternalError, model::events::Events, AppState};
+use crate::{AppState, errors::InternalError, model::events::Events};
 use axum::{extract::FromRequestParts, http::request::Parts};
 
 impl FromRequestParts<AppState> for Events {

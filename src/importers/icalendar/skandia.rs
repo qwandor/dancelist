@@ -20,8 +20,9 @@ use log::warn;
 pub struct Skandia;
 
 impl IcalendarSource for Skandia {
-    const URLS: &'static [&'static str] =
-        &["https://calendar.google.com/calendar/ical/6pl4osll43g516ccl1vd79qmm0%40group.calendar.google.com/public/basic.ics"];
+    const URLS: &'static [&'static str] = &[
+        "https://calendar.google.com/calendar/ical/6pl4osll43g516ccl1vd79qmm0%40group.calendar.google.com/public/basic.ics",
+    ];
     const DEFAULT_ORGANISATION: &'static str = "Skandia Folkdance Society";
 
     fn workshop(parts: &EventParts) -> bool {

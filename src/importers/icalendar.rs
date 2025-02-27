@@ -36,7 +36,7 @@ use crate::{
     util::{local_datetime_to_fixed_offset, to_fixed_offset},
 };
 use chrono::NaiveDate;
-use eyre::{bail, eyre, Report, WrapErr};
+use eyre::{Report, WrapErr, bail, eyre};
 use icalendar::{
     Calendar, CalendarComponent, CalendarDateTime, Component, DatePerhapsTime, Event, EventLike,
 };

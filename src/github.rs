@@ -7,11 +7,11 @@ use eyre::eyre;
 use jsonwebtoken::EncodingKey;
 use log::{trace, warn};
 use octocrab::{
+    Octocrab, OctocrabBuilder,
     models::repos::{CommitAuthor, Object},
     params::repos::Reference,
     pulls::PullRequestHandler,
     repos::RepoHandler,
-    Octocrab, OctocrabBuilder,
 };
 use std::{collections::HashSet, fs};
 use url::Url;

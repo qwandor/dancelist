@@ -43,7 +43,9 @@ const GERMANY_CITIES: &[(&str, &str)] = &[
 pub struct Kalender;
 
 impl IcalendarSource for Kalender {
-    const URLS: &'static [&'static str] = &["https://export.kalender.digital/ics/0/574d155c91900caea879/balfolk-orga-kalender.ics?past_months=3&future_months=36"];
+    const URLS: &'static [&'static str] = &[
+        "https://export.kalender.digital/ics/0/574d155c91900caea879/balfolk-orga-kalender.ics?past_months=3&future_months=36",
+    ];
     const DEFAULT_ORGANISATION: &'static str = "Balfolk-Orga-Kalender";
     const DEFAULT_TIMEZONE: Option<&'static str> = Some("Europe/Berlin");
 

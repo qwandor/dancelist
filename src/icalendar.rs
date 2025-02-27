@@ -1,7 +1,7 @@
 use crate::model::event::{Event, EventTime};
 use axum::{
     body::Body,
-    http::{header, HeaderValue},
+    http::{HeaderValue, header},
     response::{IntoResponse, Response},
 };
 use chrono::Utc;

@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use enum_iterator::{all, Sequence};
+use enum_iterator::{Sequence, all};
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 use std::fmt::{self, Display, Formatter};
