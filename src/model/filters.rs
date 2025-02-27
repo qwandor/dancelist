@@ -385,7 +385,7 @@ fn join_words(parts: &[String]) -> String {
         s += part;
         match parts.len().cmp(&(i + 2)) {
             Ordering::Greater => {
-                s += " , ";
+                s += ", ";
             }
             Ordering::Equal => {
                 s += " and ";
@@ -425,6 +425,21 @@ mod tests {
             ..Default::default()
         };
         assert_eq!(filters.make_title(), "Balfolk and Contra events");
+    }
+
+    #[test]
+    fn three_style_title() {
+        let filters = Filters {
+            styles: [
+                DanceStyle::Balfolk,
+                DanceStyle::Contra,
+                DanceStyle::Scandinavian,
+            ]
+            .into_iter()
+            .collect(),
+            ..Default::default()
+        };
+        assert_eq!(filters.make_title(), "Balfolk, Contra and Scandi events");
     }
 
     #[test]
