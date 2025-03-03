@@ -304,6 +304,11 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://www.countrydancinginkalamazoo.com/".to_string());
         }
+        "Central Illinois English Country Dance" => {
+            event
+                .links
+                .insert(0, "http://www.centralillinoisecd.org/#sched".to_string());
+        }
         "Chicago Contra Dance" => {
             event
                 .links
