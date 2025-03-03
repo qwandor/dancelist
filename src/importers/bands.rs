@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 460] = [
+pub const BANDS: [&str; 462] = [
     "112 and Then Some",
     "A Fine Kettle of Fish",
     "A Joyful Noise",
@@ -44,6 +44,7 @@ pub const BANDS: [&str; 460] = [
     "Autour de Bâle",
     "Avalance",
     "Avourneen",
+    "ba.fnu",
     "Back Row Band",
     "Bal O'Gadjo",
     "Balbuzar",
@@ -173,6 +174,7 @@ pub const BANDS: [&str; 460] = [
     "Fior",
     "First Time Stringband",
     "Fjellerkene",
+    "Flatland Consort",
     "Flour City Doughboys",
     "Flying Cat",
     "Flying Romanos",
