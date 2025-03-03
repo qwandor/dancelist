@@ -29,7 +29,7 @@ regex = "1.11.1"
 reqwest = "0.12.4"
 schemars = { version = "0.8.22", features = ["chrono"] }
 serde = { version = "1.0.218", features = ["derive"] }
-serde_json = "1.0.139"
+serde_json = "1.0.140"
 serde_urlencoded = "0.7.1"
 serde_yaml = "0.8.26"
 stable-eyre = "0.2.2"
