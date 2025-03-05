@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 462] = [
+pub const BANDS: [&str; 464] = [
     "112 and Then Some",
     "A Fine Kettle of Fish",
     "A Joyful Noise",
@@ -213,6 +213,7 @@ pub const BANDS: [&str; 462] = [
     "Hartwin Dhoore",
     "Havok",
     "Headwaters",
+    "Here on the Hill",
     "High Drive",
     "Hijinks",
     "Hoggetowne Fancy",
@@ -229,6 +230,7 @@ pub const BANDS: [&str; 462] = [
     "Joachim Montbord",
     "Joanna Hyde & Tadhg O Meachair",
     "Jormsons Kapell",
+    "Joy Factor",
     "Joyance",
     "Joyride",
     "Jumping Sharks",
