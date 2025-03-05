@@ -60,7 +60,7 @@ impl IcalendarSource for Cdss {
             || description_lower.contains("introduction to english dance basics")
             || description_lower.contains("introductory session")
             || description_lower.contains("introductory workshop")
-            || description_lower.contains("learn the ropes")
+            || description_lower.contains("[learn the ropes")
             || description_lower.contains("new dancer intro")
             || description_lower.contains("newcomer session")
             || description_lower.contains("newcomers")
