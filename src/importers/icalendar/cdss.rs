@@ -624,7 +624,9 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://www.lasvegascontradance.org/".to_string());
         }
-        "Lawrence Barn Dance Association Contra Dance" | "Community Contra Dance"
+        "Lawrence Barn Dance Association Contra"
+        | "Lawrence Barn Dance Association Contra Dance"
+        | "Community Contra Dance"
             if event.city == "Lawrence" =>
         {
             event.links.insert(
