@@ -77,6 +77,14 @@ impl IcalendarSource for Dresden {
         );
         Some(event)
     }
+
+    fn fix_before_parse(source: String) -> String {
+        let source = Regex::new("(u.a. mit.*)\nORGANIZER")
+            .unwrap()
+            .replace_all(&source, "DESCRIPTION:$1\nORGANIZER");
+        println!("{source}");
+        source.into_owned()
+    }
 }
 
 struct DresdenWeekly;
