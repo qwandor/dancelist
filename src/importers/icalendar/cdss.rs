@@ -541,6 +541,11 @@ fn apply_fixes(event: &mut Event) {
         "Gainesville Florida English Country Dance" => {
             event.name = "Gainesville English Country Dance".to_string();
         }
+        "Gentle English Country Dance" => {
+            event
+                .links
+                .insert(0, "https://bfms.org/gentleEnglish.php".to_string());
+        }
         "Goshen Community Contra Dance" => {
             event.links.insert(0, "http://godancing.org/".to_string());
             if event.price.as_deref() == Some("$3-$18") {
