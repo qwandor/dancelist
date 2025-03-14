@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 468] = [
+pub const BANDS: [&str; 469] = [
     "112 and Then Some",
     "A Fine Kettle of Fish",
     "A Joyful Noise",
@@ -53,6 +53,7 @@ pub const BANDS: [&str; 468] = [
     "Ballo Allegro",
     "Bamako Express",
     "Bandage a Trois",
+    "Banna Damhsa",
     "Bare Necessities",
     "Bargainatt",
     "Barock op de Deel",
