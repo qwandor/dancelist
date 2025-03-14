@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 465] = [
+pub const BANDS: [&str; 468] = [
     "112 and Then Some",
     "A Fine Kettle of Fish",
     "A Joyful Noise",
@@ -138,6 +138,7 @@ pub const BANDS: [&str; 465] = [
     "Duo Absynthe",
     "Duo Baftig",
     "Duo Bottasso",
+    "Duo Brotto Milleret",
     "Duo Clercx",
     "Duo Coudroy Genet",
     "Duo Gielen-Buscan",
@@ -206,6 +207,7 @@ pub const BANDS: [&str; 465] = [
     "GrayScale",
     "Gribouille",
     "Griff Trio",
+    "Groove Factory",
     "Guillaume Sparrow-Pepin & Rachel Bell",
     "Hale Bill & the Bopps",
     "Harken!",
@@ -235,6 +237,7 @@ pub const BANDS: [&str; 465] = [
     "Joyride",
     "Jumping Sharks",
     "Jumpstart",
+    "Kabál",
     "Kaleidoscope",
     "Kaléidoscope",
     "Kaw Creek",
