@@ -57,8 +57,16 @@ pub struct Event {
     pub date_grouping_label: String,
     pub interest_tags: Vec<InterestTag>,
     pub interest_slugs: Vec<String>,
+    pub interests: Vec<Interest>,
     pub featured_participants: Vec<FeaturedParticipant>,
     pub subinterests: Option<Vec<EventFormat>>,
+}
+
+#[derive(Clone, Debug, Deserialize, Eq, PartialEq)]
+pub struct Interest {
+    pub subs: Vec<EventFormat>,
+    pub tag: InterestTag,
+    pub slug: String,
 }
 
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq)]
