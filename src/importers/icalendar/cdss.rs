@@ -435,7 +435,10 @@ fn apply_fixes(event: &mut Event) {
                 "https://www.tapestryfolkdance.org/english-country-dance".to_string(),
             );
         }
-        "Columbia (SC) Contra Dance" => {
+        "Columbia (SC) Contra Dance"
+        | "Columbia Contra Dance at Arsenal Hill Center"
+        | "Columbia Contra Dance at Arsenal Hill Park"
+        | "Contra Dance at Lake Murray Contra Hall" => {
             event.name = "Columbia Contra Dance".to_string();
             event
                 .links
@@ -455,12 +458,6 @@ fn apply_fixes(event: &mut Event) {
             event
                 .links
                 .insert(0, "https://www.kofc109.com/contra".to_string());
-        }
-        "Columbia Contra Dance at Arsenal Hill Center"
-        | "Contra Dance at Lake Murray Contra Hall" => {
-            event
-                .links
-                .insert(0, "https://www.contracola.org/".to_string());
         }
         "Contra Dance in Shelburne, VT" => {
             event.name = "Queen City Contra".to_string();
