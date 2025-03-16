@@ -49,6 +49,8 @@ pub struct Event {
     pub tags: Vec<String>,
     pub image: Option<String>,
     pub organisation: Option<Organisation>,
+    #[serde(with = "bool_as_int")]
+    pub hidden: bool,
 }
 
 #[derive(Copy, Clone, Debug, Default, Deserialize, Eq, PartialEq, Serialize)]
