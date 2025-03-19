@@ -504,6 +504,13 @@ fn apply_fixes(event: &mut Event) {
         "Folklore Society of Greater Washington (FSGW) English Country Dance" => {
             event.name = "FSGW English Country Dance".to_string();
         }
+        "Four Corners Barn Dance!" => {
+            event.name = "Four Corners Barn Dance".to_string();
+            event.links.insert(
+                0,
+                "https://www.fourcornersarts.org/concerts-events/".to_string(),
+            );
+        }
         "Fourth Friday Experienced Contra at Guiding Star Grange" => {
             event.name = "Experienced Contra at Guiding Star Grange".to_string();
             event.links.insert(
