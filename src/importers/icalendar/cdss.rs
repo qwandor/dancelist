@@ -728,7 +728,7 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://www.knoxvillecontra.org/schedule".to_string());
         }
-        "Mystic Contra Dance" | "Mystic Pie Dance" => {
+        "Mystic Contra Dance" | "Mystic Pie Dance" | "Mystic Pie Dance!" => {
             event
                 .links
                 .insert(0, "https://www.mysticpiedance.org/".to_string());
