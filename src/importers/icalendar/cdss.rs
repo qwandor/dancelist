@@ -40,6 +40,8 @@ impl IcalendarSource for Cdss {
     fn workshop(parts: &EventParts) -> bool {
         let description_lower = parts.description.to_lowercase();
         (description_lower.contains("lesson") && !description_lower.contains("no lesson"))
+            || description_lower.contains("“learn the ropes")
+            || description_lower.contains("[learn the ropes")
             || description_lower.contains("basics session")
             || description_lower.contains("basics/review session")
             || description_lower.contains("beginner class")
@@ -62,7 +64,6 @@ impl IcalendarSource for Cdss {
             || description_lower.contains("introduction to english dance basics")
             || description_lower.contains("introductory session")
             || description_lower.contains("introductory workshop")
-            || description_lower.contains("[learn the ropes")
             || description_lower.contains("new dancer intro")
             || description_lower.contains("newcomer session")
             || description_lower.contains("newcomers")
