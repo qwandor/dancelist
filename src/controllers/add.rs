@@ -22,13 +22,13 @@ use crate::{
         events::{Band, Caller, Country, Events, Organisation},
         filters::Filters,
     },
-    util::local_datetime_to_fixed_offset,
+    util::{default_timezone_for, local_datetime_to_fixed_offset},
 };
 use askama::Template;
 use axum::{extract::State, response::Html};
 use axum_extra::extract::Form;
 use chrono::{NaiveDate, NaiveDateTime};
-use chrono_tz::Tz;
+use chrono_tz::{TZ_VARIANTS, Tz};
 use serde::{Deserialize, Deserializer, de::IntoDeserializer};
 use std::sync::Arc;
 use url::Url;
@@ -117,60 +117,60 @@ impl AddTemplate {
 #[derive(Clone, Debug, Default, Deserialize, Eq, PartialEq)]
 pub struct AddForm {
     #[serde(deserialize_with = "trim")]
-    name: String,
+    pub name: String,
     #[serde(deserialize_with = "trim_non_empty")]
-    details: Option<String>,
+    pub details: Option<String>,
     #[serde(deserialize_with = "trim_non_empty_vec")]
-    links: Vec<String>,
+    pub links: Vec<String>,
     #[serde(default)]
-    with_time: bool,
+    pub with_time: bool,
     #[serde(deserialize_with = "date_or_none")]
-    start_date: Option<NaiveDate>,
+    pub start_date: Option<NaiveDate>,
     #[serde(deserialize_with = "date_or_none")]
-    end_date: Option<NaiveDate>,
+    pub end_date: Option<NaiveDate>,
     #[serde(deserialize_with = "datetime_or_none")]
-    start: Option<NaiveDateTime>,
+    pub start: Option<NaiveDateTime>,
     #[serde(deserialize_with = "datetime_or_none")]
-    end: Option<NaiveDateTime>,
-    timezone: Option<Tz>,
+    pub end: Option<NaiveDateTime>,
+    pub timezone: Option<Tz>,
     #[serde(deserialize_with = "trim")]
-    country: String,
+    pub country: String,
     #[serde(deserialize_with = "trim_non_empty")]
-    state: Option<String>,
+    pub state: Option<String>,
     #[serde(deserialize_with = "trim")]
-    city: String,
+    pub city: String,
     #[serde(default)]
-    styles: Vec<DanceStyle>,
+    pub styles: Vec<DanceStyle>,
     #[serde(default)]
-    workshop: bool,
+    pub workshop: bool,
     #[serde(default)]
-    social: bool,
+    pub social: bool,
     #[serde(deserialize_with = "trim_non_empty_vec")]
-    bands: Vec<String>,
+    pub bands: Vec<String>,
     #[serde(deserialize_with = "trim_non_empty_vec")]
-    callers: Vec<String>,
+    pub callers: Vec<String>,
     #[serde(deserialize_with = "trim_non_empty")]
-    price: Option<String>,
+    pub price: Option<String>,
     #[serde(deserialize_with = "trim_non_empty")]
-    organisation: Option<String>,
+    pub organisation: Option<String>,
     #[serde(deserialize_with = "trim_non_empty")]
-    email: Option<String>,
+    pub email: Option<String>,
 }
 
 impl AddForm {
-    fn workshop(&self) -> bool {
+    pub fn workshop(&self) -> bool {
         self.workshop
     }
 
-    fn social(&self) -> bool {
+    pub fn social(&self) -> bool {
         self.social
     }
 
-    fn with_time(&self) -> bool {
+    pub fn with_time(&self) -> bool {
         self.with_time
     }
 
-    fn start_date_string(&self) -> String {
+    pub fn start_date_string(&self) -> String {
         if let Some(start_date) = self.start_date {
             start_date.to_string()
         } else {
@@ -178,7 +178,7 @@ impl AddForm {
         }
     }
 
-    fn end_date_string(&self) -> String {
+    pub fn end_date_string(&self) -> String {
         if let Some(end_date) = self.end_date {
             end_date.to_string()
         } else {
@@ -186,7 +186,7 @@ impl AddForm {
         }
     }
 
-    fn start_string(&self) -> String {
+    pub fn start_string(&self) -> String {
         if let Some(start) = self.start {
             start.to_string()
         } else {
@@ -194,11 +194,66 @@ impl AddForm {
         }
     }
 
-    fn end_string(&self) -> String {
+    pub fn end_string(&self) -> String {
         if let Some(end) = self.end {
             end.to_string()
         } else {
             String::default()
+        }
+    }
+
+    pub fn from_event(event: &Event) -> Self {
+        let (with_time, start_date, end_date, start, end, timezone) = match event.time {
+            EventTime::DateOnly {
+                start_date,
+                end_date,
+            } => (false, Some(start_date), Some(end_date), None, None, None),
+            EventTime::DateTime { start, end } => {
+                let timezone = default_timezone_for(&event.country, event.state.as_deref())
+                    .filter(|timezone| {
+                        // Check that timezone is plausible.
+                        local_datetime_to_fixed_offset(&start.naive_local(), *timezone)
+                            == Some(start)
+                    })
+                    .or_else(|| {
+                        //  Find a plausible timezone
+                        TZ_VARIANTS.into_iter().find(|timezone| {
+                            local_datetime_to_fixed_offset(&start.naive_local(), *timezone)
+                                == Some(start)
+                        })
+                    });
+                (
+                    true,
+                    None,
+                    None,
+                    Some(start.naive_local()),
+                    Some(end.naive_local()),
+                    timezone,
+                )
+            }
+        };
+
+        Self {
+            name: event.name.clone(),
+            details: event.details.clone(),
+            links: event.links.clone(),
+            with_time,
+            start_date,
+            end_date,
+            start,
+            end,
+            timezone,
+            country: event.country.clone(),
+            state: event.state.clone(),
+            city: event.city.clone(),
+            styles: event.styles.clone(),
+            workshop: event.workshop.clone(),
+            social: event.social.clone(),
+            bands: event.bands.clone(),
+            callers: event.callers.clone(),
+            price: event.price.clone(),
+            organisation: event.organisation.clone(),
+            email: None,
         }
     }
 }

@@ -497,6 +497,7 @@ dependencies = [
  "serde_json",
  "serde_urlencoded",
  "serde_yaml",
+ "sha1",
  "stable-eyre",
  "tokio",
  "toml",

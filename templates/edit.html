@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Edit event</title>
+	<link rel="stylesheet" type="text/css" href="/stylesheets/main.css" />
+	<script type="text/javascript">
+		/** Timezones to set automatically based on the country and state. */
+		const DEFAULT_TIMEZONES = new Map([
+			{% for tz in crate::util::DEFAULT_TIMEZONES %}
+			["{{ tz.0.0 }}/{{ tz.0.1.unwrap_or_default() }}", "{{ tz.1 }}"],
+			{% endfor %}
+		]);
+	</script>
+	<script type="text/javascript" src="/scripts/add.js"></script>
+</head>
+
+<body>
+	<h1>Edit event</h1>
+
+	<p>In all fields, please use English if possible. Fields in bold are required.</p>
+
+	{% for error in errors %}
+	<p class="error">{{ error }}</p>
+	{% endfor %}
+
+	<form method="post">
+		<ul>
+			<li>
+				<label for="name" class="required">Name</label>
+				<p>The name of the event. Try not to make it too long.</p>
+				<input
+					name="name"
+					id="name"
+					type="text"
+					required="required"
+					value="{{ form.name }}"
+				/>
+			</li>
+			<li>
+				<label for="details">Details</label>
+				<p>Any further details or description of the event, if you like.</p>
+				<textarea name="details" id="details">{{ form.details.as_deref().unwrap_or_default() }}</textarea>
+			</li>
+			<li>
+				<label for="links" class="required">Links</label>
+				<p>
+					One or more links to details of the event. Link to the specific event if possible, rather
+					than a list of events. If there is a Facebook event please include a link to it.
+				</p>
+				<fieldset>
+					<ul id="links_list">
+						{% for link in form.links %}
+						{% if loop.first %}
+						<li><input name="links" type="url" value="{{ link }}" required="required"/></li>
+						{% else %}
+						<li><input name="links" type="url" value="{{ link }}"/></li>
+						{% endif %}
+						{% endfor %}
+						{% if form.links.is_empty() %}
+						<li><input name="links" id="links" type="url" required="required"/></li>
+						{% else %}
+						<li><input name="links" id="links" type="url"/></li>
+						{% endif %}
+					</ul>
+				</fieldset>
+			</li>
+			<li>
+				<label for="country" class="required">Country</label>
+				<p>The country in which the event will take place.</p>
+				<input
+					name="country"
+					id="country"
+					type="text"
+					required="required"
+					list="countries"
+					value="{{ form.country }}"
+				/>
+				<datalist id="countries">
+					{% for country in countries %}
+					<option>{{ country.name }}</option>
+					{% endfor %}
+				</datalist>
+			</li>
+			<li>
+				<label for="state">State</label>
+				<p>
+					Leave blank if the country does not have states.
+				</p>
+				<input name="state" id="state" type="text" list="states" value="{{ form.state.as_deref().unwrap_or_default() }}"/>
+				<datalist id="states">
+					{% for country in countries %} {% for state in country.states %}
+					<option>{{ state.name }}</option>
+					{% endfor %} {% endfor %}
+				</datalist>
+			</li>
+			<li>
+				<label for="city" class="required">City</label>
+				<p>
+					The city or town in which (or near which) the event will take place.
+					If it's in the suburbs surrounding a large city then prefer the name
+					of that city rather than the suburb.
+				</p>
+
+				<input
+					name="city"
+					id="city"
+					type="text"
+					required="required"
+					list="cities"
+					value="{{ form.city }}"
+				/>
+				<datalist id="cities">
+					{% for country in countries %} {% for city in country.cities %}
+					<option>{{ city }}</option>
+					{% endfor %} {% endfor %}
+				</datalist>
+			</li>
+			<li>
+				<label for="with_time">Include time</label>
+				<input name="with_time" id="with_time" type="checkbox" value="true" {{ form.with_time()|checked_if_true }}/>
+			</li>
+			<li class="times">
+				<label for="start" class="required">Start time</label>
+				<input name="start" id="start" type="datetime-local" required="required" value="{{ form.start_string() }}"/>
+			</li>
+			<li class="times">
+				<label for="end" class="required">End time</label>
+				<input name="end" id="end" type="datetime-local" required="required" value="{{ form.end_string() }}"/>
+			</li>
+			<li class="times">
+				<label for="timezone" class="required">Timezone</label>
+				<select name="timezone" id="timezone" required="required">
+					{% for timezone in chrono_tz::TZ_VARIANTS %}
+					{% if Some(timezone.clone()) == form.timezone %}
+					<option value="{{ timezone }}" selected="selected">{{ timezone }}</option>
+					{% else %}
+					<option value="{{ timezone }}">{{ timezone }}</option>
+					{% endif %}
+					{% endfor %}
+				</select>
+			</li>
+			<li class="dates">
+				<label for="start_date" class="required">Start date</label>
+				<input name="start_date" id="start_date" type="date" required="required" value="{{ form.start_date_string() }}"/>
+			</li>
+			<li class="dates">
+				<label for="end_date" class="required">End date</label>
+				<input name="end_date" id="end_date" type="date" required="required" value="{{ form.end_date_string() }}"/>
+			</li>
+			<li>
+				<label class="required">Dance styles</label>
+				<fieldset class="styles">
+					<ul>
+						{% for style in crate::model::dancestyle::DanceStyle::values() %}
+						<li>
+							<input
+								type="checkbox"
+								name="styles"
+								id="styles_{{ style.tag() }}"
+								value="{{ style.tag() }}"
+								{{ form.styles.contains(style)|checked_if_true }}
+							/>
+							<label for="styles_{{ style.tag() }}" class="dance-style {{ style.tag() }}">
+								{{ style }}
+							</label>
+						</li>
+						{% endfor %}
+					</ul>
+				</fieldset>
+			</li>
+			<li>
+				<label for="workshop" class="required">Workshop</label>
+				<p>Does the event include some organised teaching such as a workshop, class or beginner lesson?</p>
+				<input name="workshop" id="workshop" type="checkbox" value="true" {{ form.workshop()|checked_if_true }}/>
+			</li>
+			<li>
+				<label for="social" class="required">Social</label>
+				<p>Does the event include social dancing (rather than just a workshop or practice)?</p>
+				<input name="social" id="social" type="checkbox" value="true" {{ form.social()|checked_if_true }}/>
+			</li>
+			<li>
+				<label for="bands">Bands</label>
+				<fieldset>
+					<ul id="bands_list">
+					{% for band in form.bands %}
+					<li><input name="bands" type="text" list="bands_datalist" value="{{ band }}"/></li>
+					{% endfor %}
+					<li><input name="bands" id="bands" type="text" list="bands_datalist"/></li>
+					</ul>
+				</fieldset>
+				<datalist id="bands_datalist">
+					{% for band in bands %}
+					<option>{{ band.name }}</option>
+					{% endfor %}
+				</datalist>
+			</li>
+			<li>
+				<label for="callers">Callers</label>
+				<p>
+					For styles like contra and ceilidh where there is a caller on stage with the band calling
+					the figures.
+				</p>
+				<fieldset>
+					<ul id="callers_list">
+						{% for caller in form.callers %}
+						<li><input name="callers" type="text" list="callers_datalist" value="{{ caller }}"/></li>
+						{% endfor %}
+						<li><input name="callers" id="callers" type="text" list="callers_datalist"/></li>
+					</ul>
+				</fieldset>
+				<datalist id="callers_datalist">
+					{% for caller in callers %}
+					<option>{{ caller.name }}</option>
+					{% endfor %}
+				</datalist>
+			</li>
+			<li>
+				<label for="price">Price</label>
+				<input
+					name="price"
+					id="price"
+					type="text"
+					list="price_datalist"
+					value="{{ form.price.as_deref().unwrap_or_default() }}"
+				/>
+				<datalist id="price_datalist">
+					<option>donation</option>
+					<option>free</option>
+				</datalist>
+			</li>
+			<li>
+				<label for="organisation">Organisation</label>
+				<p>The name of the group who organise the event.</p>
+				<input
+					name="organisation"
+					id="organisation"
+					type="text"
+					list="organisations"
+					value="{{ form.organisation.as_deref().unwrap_or_default() }}"
+				/>
+				<datalist id="organisations">
+					{% for organisation in organisations %}
+					<option>{{ organisation.name }}</option>
+					{% endfor %}
+				</datalist>
+			</li>
+			<li>
+				<label for="email">Submitter email</label>
+				<p>
+					Your email address, for credit and any clarifications about adding the event. This will
+					not be included on the website.
+				</p>
+				<input
+					name="email"
+					id="email"
+					type="email"
+					value="{{ form.email.as_deref().unwrap_or_default() }}"
+				/>
+			</li>
+		</ul>
+		<input type="submit" value="Submit"/>
+	</form>
+</body>
+
+</html>

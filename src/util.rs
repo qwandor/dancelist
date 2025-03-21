@@ -92,6 +92,16 @@ pub const DEFAULT_TIMEZONES: [((&str, Option<&str>), Tz); 74] = [
     (("USA", Some("WY")), Tz::US__Mountain),
 ];
 
+pub fn default_timezone_for(country: &str, state: Option<&str>) -> Option<Tz> {
+    DEFAULT_TIMEZONES.iter().find_map(|((c, s), timezone)| {
+        if *c == country && *s == state {
+            Some(*timezone)
+        } else {
+            None
+        }
+    })
+}
+
 pub fn to_fixed_offset(date_time: DateTime<Tz>) -> DateTime<FixedOffset> {
     let fixed_offset = date_time.offset().fix();
     date_time.with_timezone(&fixed_offset)

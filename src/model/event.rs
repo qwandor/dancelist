@@ -16,6 +16,7 @@ use super::dancestyle::DanceStyle;
 use chrono::{DateTime, Datelike, FixedOffset, NaiveDate, TimeDelta, TimeZone, Utc};
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize, Serializer};
+use sha1::{Digest, Sha1};
 use std::ops::Not;
 
 /// The prefix which Facebook event URLs start with.
@@ -451,6 +452,13 @@ impl Event {
             self.name.clone(),
             self.links.clone(),
         )
+    }
+
+    /// Returns a string with a SHA-1 hash of the event.
+    pub fn hash_string(&self) -> String {
+        let mut hasher = Sha1::new();
+        hasher.update(serde_json::to_string(self).unwrap());
+        format!("{:x}", hasher.finalize())
     }
 }
 

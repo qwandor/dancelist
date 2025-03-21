@@ -149,6 +149,11 @@ impl Events {
             .collect()
     }
 
+    /// Returns the event with the given SHA-1 hash, if any.
+    pub fn with_hash(&self, hash: &str) -> Option<&Event> {
+        self.events.iter().find(|event| event.hash_string() == hash)
+    }
+
     /// Gets all bands who play for at least one event, in alphabetical order.
     pub fn bands(&self) -> Vec<Band> {
         let mut bands: Vec<Band> =
