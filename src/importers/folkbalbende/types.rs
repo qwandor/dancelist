@@ -35,7 +35,7 @@ pub struct Event {
     pub dates: Vec<NaiveDate>,
     pub location: Location,
     pub prices: Vec<Price>,
-    pub thumbnail: String,
+    pub thumbnail: Option<String>,
     pub reservation_type: u32,
     pub reservation_url: String,
     pub websites: Vec<Website>,
@@ -205,7 +205,7 @@ pub struct Organisation {
     pub id: u32,
     pub name: String,
     pub websites: Vec<Website>,
-    pub thumbnail: String,
+    pub thumbnail: Option<String>,
     pub image: Option<String>,
     pub address: Option<Address>,
 }
