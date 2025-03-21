@@ -40,10 +40,15 @@
     <a class="dance-style {{ style.tag() }}" href="?style={{ style.tag() }}">{{ style }}</a>
     {% endfor %}
   </td>
+  {% if show_edit_link %}
+  <td>
+    <a href="/edit?hash={{ event.hash_string()|urlencode }}">Edit</a>
+  </td>
+  {% endif %}
 </tr>
 {% if !event.bands.is_empty() || !event.callers.is_empty() %}
 <tr class="details">
-  <td colspan="7">
+  <td colspan="{% if show_edit_link %}8{% else %}7{% endif %}">
     {% for band in event.bands %}
     <a href="?band={{ band|urlencode }}" class="band">{{ band }}</a>
     {% endfor %}
