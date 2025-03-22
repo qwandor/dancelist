@@ -302,6 +302,7 @@ async fn serve() -> Result<(), Report> {
         .route("/add", get(add::add))
         .route("/add", post(add::submit))
         .route("/edit", get(edit::edit))
+        .route("/edit", post(edit::submit))
         .route("/bands", get(bands::bands))
         .route("/callers", get(callers::callers))
         .route("/cities", get(cities::cities))

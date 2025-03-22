@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Submitted event edit</title>
+	<link rel="stylesheet" type="text/css" href="/stylesheets/main.css" />
+</head>
+
+<body>
+	<h1>Submitted event edit</h1>
+
+  {% match pr %}
+  {% when Some with (pr) %}
+	<p>Your edit has been <a href="{{ pr }}">submitted for review</a>.</p>
+  {% when None %}
+  <p>Your edit is valid, but submission failed.</p>
+  {% endmatch %}
+
+  {% let show_edit_link = false %}
+  <table>
+    {% include "shared/event.html" %}
+  </table>
+
+  <p><a href="/?show_edit_link=true">Edit another event</a></p>
+  <p><a href="/">Return to main page</a></p>
+</body>
+
+</html>

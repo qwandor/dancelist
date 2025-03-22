@@ -49,12 +49,14 @@ fn get_repo_pulls<'a>(
 /// Creates a branch for the PR to add the given event, and returns its name.
 async fn create_branch(
     repo: &RepoHandler<'_>,
+    prefix: &str,
     event: &Event,
     head_sha: &str,
 ) -> Result<String, InternalError> {
     // Create the branch, retrying with different suffixes if it already exists.
     let pr_branch_base = format!(
-        "add-{}-{}-{}",
+        "{}-{}-{}-{}",
+        prefix,
         to_safe_filename(&event.country),
         to_safe_filename(&event.city),
         to_safe_filename(&event.name),
@@ -105,7 +107,7 @@ pub async fn add_event_to_file(
     let (repo, pulls) = get_repo_pulls(&octocrab, config)?;
 
     let head_sha = sha_for_branch(&repo, &config.main_branch).await?;
-    let pr_branch = create_branch(&repo, &event, &head_sha).await?;
+    let pr_branch = create_branch(&repo, "add", &event, &head_sha).await?;
 
     let author = email.map(|email| CommitAuthor {
         name: "Add form user".to_string(),
@@ -159,6 +161,76 @@ pub async fn add_event_to_file(
         let create = create.send().await?;
         trace!("Create: {:?}", create);
     }
+
+    // Create PR for the branch.
+    let pr = pulls
+        .create(&commit_message, &pr_branch, &config.main_branch)
+        .body("Added from web form.")
+        .send()
+        .await?;
+    trace!("Made PR {:?}", pr);
+    let pr_url = pr
+        .html_url
+        .ok_or_else(|| InternalError::Internal(eyre!("PR missing html_url")))?;
+    Ok(pr_url)
+}
+
+/// Creates a PR to edit the given event in the given file.
+///
+/// Returns the URL of the new PR.
+pub async fn edit_event_in_file(
+    filename: &str,
+    original_event: &Event,
+    new_event: Event,
+    email: Option<&str>,
+    config: &GitHubConfig,
+) -> Result<Url, InternalError> {
+    let octocrab = build_octocrab(config).await?;
+    let (repo, pulls) = get_repo_pulls(&octocrab, config)?;
+
+    let head_sha = sha_for_branch(&repo, &config.main_branch).await?;
+    let pr_branch = create_branch(&repo, "edit", &new_event, &head_sha).await?;
+
+    let author = email.map(|email| CommitAuthor {
+        name: "Add form user".to_string(),
+        email: email.to_string(),
+        date: None,
+    });
+
+    // Create a commit to add or modify the file.
+    let commit_message = format!("Edit {} in {}", new_event.name, new_event.city);
+
+    // Find the existing file.
+    let contents = repo
+        .get_content()
+        .path(filename)
+        .r#ref(&pr_branch)
+        .send()
+        .await?;
+    let existing_file = &contents.items[0];
+    trace!("Got existing file, sha {}", existing_file.sha);
+    let existing_content = existing_file.decoded_content().unwrap();
+    let mut events = serde_yaml::from_str::<Events>(&existing_content)?;
+
+    // Replace the original event with the new version and sort.
+    for e in &mut events.events {
+        if e == original_event {
+            *e = new_event;
+            break;
+        }
+    }
+    events.sort();
+    let new_content = events.to_yaml_string().map_err(InternalError::Internal)?;
+
+    // Update the file
+    let mut update = repo
+        .update_file(filename, &commit_message, new_content, &existing_file.sha)
+        .branch(&pr_branch);
+    if let Some(author) = author {
+        update = update.author(author);
+    }
+    let update = update.send().await?;
+    trace!("Update: {:?}", update);
 
     // Create PR for the branch.
     let pr = pulls

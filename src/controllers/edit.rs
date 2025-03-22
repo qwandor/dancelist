@@ -14,16 +14,25 @@
 
 use super::event_form::EventForm;
 use crate::{
+    config::Config,
     errors::InternalError,
+    github::edit_event_in_file,
     model::{
+        event::Event,
         events::{Band, Caller, Country, Events, Organisation},
         filters::Filters,
     },
 };
 use askama::Template;
-use axum::{extract::Query, response::Html};
+use axum::{
+    extract::{Query, State},
+    response::Html,
+};
+use axum_extra::extract::Form;
 use eyre::eyre;
 use serde::{Deserialize, Serialize};
+use std::sync::Arc;
+use url::Url;
 
 pub async fn edit(
     events: Events,
@@ -34,6 +43,52 @@ pub async fn edit(
         .ok_or_else(|| InternalError::Internal(eyre!("Event not found")))?;
     let template = EditTemplate::new(&events, EventForm::from_event(event), vec![]);
     Ok(Html(template.render()?))
+}
+
+pub async fn submit(
+    State(config): State<Arc<Config>>,
+    events: Events,
+    Query(query): Query<EditQuery>,
+    Form(form): Form<EventForm>,
+) -> Result<Html<String>, InternalError> {
+    let original_event = events
+        .with_hash(&query.hash)
+        .ok_or_else(|| InternalError::Internal(eyre!("Event not found")))?;
+    match Event::try_from(form.clone()) {
+        Ok(mut event) => {
+            // Set source before checking whether event has been changed.
+            event.source = original_event.source.clone();
+            if &event == original_event {
+                let template = EditTemplate::new(&events, form, vec!["Event not changed"]);
+                Ok(Html(template.render()?))
+            } else {
+                let file = original_event
+                    .source
+                    .as_deref()
+                    .ok_or_else(|| InternalError::Internal(eyre!("Event missing source")))?;
+                let pr = if let Some(github) = &config.github {
+                    Some(
+                        edit_event_in_file(
+                            file,
+                            original_event,
+                            event.clone(),
+                            form.email.as_deref(),
+                            github,
+                        )
+                        .await?,
+                    )
+                } else {
+                    None
+                };
+                let template = SubmitTemplate { pr, event };
+                Ok(Html(template.render()?))
+            }
+        }
+        Err(errors) => {
+            let template = EditTemplate::new(&events, form, errors);
+            Ok(Html(template.render()?))
+        }
+    }
 }
 
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
@@ -67,6 +122,13 @@ impl EditTemplate {
             errors,
         }
     }
+}
+
+#[derive(Template)]
+#[template(path = "edit_submit.html")]
+struct SubmitTemplate {
+    pr: Option<Url>,
+    event: Event,
 }
 
 mod filters {
