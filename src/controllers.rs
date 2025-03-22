@@ -17,6 +17,7 @@ pub mod bands;
 pub mod callers;
 pub mod cities;
 pub mod edit;
+mod event_form;
 pub mod index;
 pub mod organisations;
 pub mod reload;

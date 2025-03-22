@@ -12,31 +12,27 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+use super::event_form::EventForm;
 use crate::{
     config::Config,
     errors::InternalError,
     github::{add_event_to_file, choose_file_for_event},
     model::{
-        dancestyle::DanceStyle,
-        event::{Event, EventTime},
+        event::Event,
         events::{Band, Caller, Country, Events, Organisation},
         filters::Filters,
     },
-    util::{default_timezone_for, local_datetime_to_fixed_offset},
 };
 use askama::Template;
 use axum::{extract::State, response::Html};
 use axum_extra::extract::Form;
-use chrono::{NaiveDate, NaiveDateTime};
-use chrono_tz::{TZ_VARIANTS, Tz};
-use serde::{Deserialize, Deserializer, de::IntoDeserializer};
 use std::sync::Arc;
 use url::Url;
 
 pub async fn add(events: Events) -> Result<Html<String>, InternalError> {
     let template = AddTemplate::new(
         &events,
-        AddForm {
+        EventForm {
             with_time: true,
             ..Default::default()
         },
@@ -48,7 +44,7 @@ pub async fn add(events: Events) -> Result<Html<String>, InternalError> {
 pub async fn submit(
     State(config): State<Arc<Config>>,
     events: Events,
-    Form(form): Form<AddForm>,
+    Form(form): Form<EventForm>,
 ) -> Result<Html<String>, InternalError> {
     match Event::try_from(form.clone()) {
         Ok(event) => match choose_file_for_event(&events, &event) {
@@ -93,12 +89,12 @@ struct AddTemplate {
     bands: Vec<Band>,
     callers: Vec<Caller>,
     organisations: Vec<Organisation>,
-    form: AddForm,
+    form: EventForm,
     errors: Vec<&'static str>,
 }
 
 impl AddTemplate {
-    fn new(events: &Events, form: AddForm, errors: Vec<&'static str>) -> Self {
+    fn new(events: &Events, form: EventForm, errors: Vec<&'static str>) -> Self {
         let countries = events.countries(&Filters::all());
         let bands = events.bands();
         let callers = events.callers();
@@ -110,209 +106,6 @@ impl AddTemplate {
             organisations,
             form,
             errors,
-        }
-    }
-}
-
-#[derive(Clone, Debug, Default, Deserialize, Eq, PartialEq)]
-pub struct AddForm {
-    #[serde(deserialize_with = "trim")]
-    pub name: String,
-    #[serde(deserialize_with = "trim_non_empty")]
-    pub details: Option<String>,
-    #[serde(deserialize_with = "trim_non_empty_vec")]
-    pub links: Vec<String>,
-    #[serde(default)]
-    pub with_time: bool,
-    #[serde(deserialize_with = "date_or_none")]
-    pub start_date: Option<NaiveDate>,
-    #[serde(deserialize_with = "date_or_none")]
-    pub end_date: Option<NaiveDate>,
-    #[serde(deserialize_with = "datetime_or_none")]
-    pub start: Option<NaiveDateTime>,
-    #[serde(deserialize_with = "datetime_or_none")]
-    pub end: Option<NaiveDateTime>,
-    pub timezone: Option<Tz>,
-    #[serde(deserialize_with = "trim")]
-    pub country: String,
-    #[serde(deserialize_with = "trim_non_empty")]
-    pub state: Option<String>,
-    #[serde(deserialize_with = "trim")]
-    pub city: String,
-    #[serde(default)]
-    pub styles: Vec<DanceStyle>,
-    #[serde(default)]
-    pub workshop: bool,
-    #[serde(default)]
-    pub social: bool,
-    #[serde(deserialize_with = "trim_non_empty_vec")]
-    pub bands: Vec<String>,
-    #[serde(deserialize_with = "trim_non_empty_vec")]
-    pub callers: Vec<String>,
-    #[serde(deserialize_with = "trim_non_empty")]
-    pub price: Option<String>,
-    #[serde(deserialize_with = "trim_non_empty")]
-    pub organisation: Option<String>,
-    #[serde(deserialize_with = "trim_non_empty")]
-    pub email: Option<String>,
-}
-
-impl AddForm {
-    pub fn workshop(&self) -> bool {
-        self.workshop
-    }
-
-    pub fn social(&self) -> bool {
-        self.social
-    }
-
-    pub fn with_time(&self) -> bool {
-        self.with_time
-    }
-
-    pub fn start_date_string(&self) -> String {
-        if let Some(start_date) = self.start_date {
-            start_date.to_string()
-        } else {
-            String::default()
-        }
-    }
-
-    pub fn end_date_string(&self) -> String {
-        if let Some(end_date) = self.end_date {
-            end_date.to_string()
-        } else {
-            String::default()
-        }
-    }
-
-    pub fn start_string(&self) -> String {
-        if let Some(start) = self.start {
-            start.to_string()
-        } else {
-            String::default()
-        }
-    }
-
-    pub fn end_string(&self) -> String {
-        if let Some(end) = self.end {
-            end.to_string()
-        } else {
-            String::default()
-        }
-    }
-
-    pub fn from_event(event: &Event) -> Self {
-        let (with_time, start_date, end_date, start, end, timezone) = match event.time {
-            EventTime::DateOnly {
-                start_date,
-                end_date,
-            } => (false, Some(start_date), Some(end_date), None, None, None),
-            EventTime::DateTime { start, end } => {
-                let timezone = default_timezone_for(&event.country, event.state.as_deref())
-                    .filter(|timezone| {
-                        // Check that timezone is plausible.
-                        local_datetime_to_fixed_offset(&start.naive_local(), *timezone)
-                            == Some(start)
-                    })
-                    .or_else(|| {
-                        //  Find a plausible timezone
-                        TZ_VARIANTS.into_iter().find(|timezone| {
-                            local_datetime_to_fixed_offset(&start.naive_local(), *timezone)
-                                == Some(start)
-                        })
-                    });
-                (
-                    true,
-                    None,
-                    None,
-                    Some(start.naive_local()),
-                    Some(end.naive_local()),
-                    timezone,
-                )
-            }
-        };
-
-        Self {
-            name: event.name.clone(),
-            details: event.details.clone(),
-            links: event.links.clone(),
-            with_time,
-            start_date,
-            end_date,
-            start,
-            end,
-            timezone,
-            country: event.country.clone(),
-            state: event.state.clone(),
-            city: event.city.clone(),
-            styles: event.styles.clone(),
-            workshop: event.workshop.clone(),
-            social: event.social.clone(),
-            bands: event.bands.clone(),
-            callers: event.callers.clone(),
-            price: event.price.clone(),
-            organisation: event.organisation.clone(),
-            email: None,
-        }
-    }
-}
-
-impl TryFrom<AddForm> for Event {
-    type Error = Vec<&'static str>;
-
-    fn try_from(form: AddForm) -> Result<Self, Self::Error> {
-        let time = if form.with_time {
-            let timezone = form.timezone.ok_or_else(|| vec!["Missing timezone"])?;
-            EventTime::DateTime {
-                start: local_datetime_to_fixed_offset(
-                    &form.start.ok_or_else(|| vec!["Missing start time"])?,
-                    timezone,
-                )
-                .ok_or_else(|| vec!["Invalid time for timezone"])?,
-                end: local_datetime_to_fixed_offset(
-                    &form.end.ok_or_else(|| vec!["Missing end time"])?,
-                    timezone,
-                )
-                .ok_or_else(|| vec!["Invalid time for timezone"])?,
-            }
-        } else {
-            EventTime::DateOnly {
-                start_date: form.start_date.ok_or_else(|| vec!["Missing start date"])?,
-                end_date: form.end_date.ok_or_else(|| vec!["Missing end date"])?,
-            }
-        };
-        let event = Self {
-            name: form.name,
-            details: form.details,
-            links: form.links,
-            time,
-            country: form.country,
-            state: form.state,
-            city: form.city,
-            styles: form.styles,
-            workshop: form.workshop,
-            social: form.social,
-            bands: form
-                .bands
-                .into_iter()
-                .filter_map(trimmed_non_empty)
-                .collect(),
-            callers: form
-                .callers
-                .into_iter()
-                .filter_map(trimmed_non_empty)
-                .collect(),
-            price: form.price,
-            organisation: form.organisation,
-            cancelled: false,
-            source: None,
-        };
-        let problems = event.validate();
-        if problems.is_empty() {
-            Ok(event)
-        } else {
-            Err(problems)
         }
     }
 }
@@ -330,57 +123,6 @@ struct SubmitFailedTemplate<'a> {
     event: &'a Event,
     existing_event: &'a Event,
     merged: &'a Event,
-}
-
-fn trim<'de, D: Deserializer<'de>>(deserializer: D) -> Result<String, D::Error> {
-    Ok(String::deserialize(deserializer)?.trim().to_string())
-}
-
-fn trimmed_non_empty(s: String) -> Option<String> {
-    let trimmed = s.trim();
-    if trimmed.is_empty() {
-        None
-    } else {
-        Some(trimmed.to_string())
-    }
-}
-
-fn trim_non_empty<'de, D: Deserializer<'de>>(deserializer: D) -> Result<Option<String>, D::Error> {
-    let s = Option::<String>::deserialize(deserializer)?;
-    Ok(s.and_then(trimmed_non_empty))
-}
-
-fn trim_non_empty_vec<'de, D: Deserializer<'de>>(deserializer: D) -> Result<Vec<String>, D::Error> {
-    let s = Vec::<String>::deserialize(deserializer)?;
-    Ok(s.into_iter().filter_map(trimmed_non_empty).collect())
-}
-
-fn date_or_none<'de, D: Deserializer<'de>>(deserializer: D) -> Result<Option<NaiveDate>, D::Error> {
-    if let Some(str) = Option::<String>::deserialize(deserializer)? {
-        if str.is_empty() {
-            Ok(None)
-        } else {
-            Ok(Some(NaiveDate::deserialize(str.into_deserializer())?))
-        }
-    } else {
-        Ok(None)
-    }
-}
-
-fn datetime_or_none<'de, D: Deserializer<'de>>(
-    deserializer: D,
-) -> Result<Option<NaiveDateTime>, D::Error> {
-    if let Some(str) = Option::<String>::deserialize(deserializer)? {
-        if str.is_empty() {
-            Ok(None)
-        } else {
-            Ok(Some(NaiveDateTime::deserialize(
-                format!("{}:00", str).into_deserializer(),
-            )?))
-        }
-    } else {
-        Ok(None)
-    }
 }
 
 mod filters {

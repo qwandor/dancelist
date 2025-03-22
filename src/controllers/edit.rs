@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use super::add::AddForm;
+use super::event_form::EventForm;
 use crate::{
     errors::InternalError,
     model::{
@@ -32,7 +32,7 @@ pub async fn edit(
     let event = events
         .with_hash(&query.hash)
         .ok_or_else(|| InternalError::Internal(eyre!("Event not found")))?;
-    let template = EditTemplate::new(&events, AddForm::from_event(event), vec![]);
+    let template = EditTemplate::new(&events, EventForm::from_event(event), vec![]);
     Ok(Html(template.render()?))
 }
 
@@ -48,12 +48,12 @@ struct EditTemplate {
     bands: Vec<Band>,
     callers: Vec<Caller>,
     organisations: Vec<Organisation>,
-    form: AddForm,
+    form: EventForm,
     errors: Vec<&'static str>,
 }
 
 impl EditTemplate {
-    fn new(events: &Events, form: AddForm, errors: Vec<&'static str>) -> Self {
+    fn new(events: &Events, form: EventForm, errors: Vec<&'static str>) -> Self {
         let countries = events.countries(&Filters::all());
         let bands = events.bands();
         let callers = events.callers();
