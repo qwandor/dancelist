@@ -26,13 +26,22 @@ use askama::Template;
 use axum::{extract::Query, response::Html};
 use axum_extra::{TypedHeader, headers::Host};
 use chrono::{Datelike, Months, NaiveDate};
+use serde::{Deserialize, Serialize};
 
 pub async fn index(
     events: Events,
-    Query(filters): Query<Filters>,
+    Query(query): Query<IndexQuery>,
     TypedHeader(host): TypedHeader<Host>,
 ) -> Result<Html<String>, InternalError> {
-    index_html(events, filters, host, false).await
+    index_html(events, query.filters, host, false, query.show_edit_link).await
+}
+
+#[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
+pub struct IndexQuery {
+    #[serde(flatten)]
+    filters: Filters,
+    #[serde(default)]
+    show_edit_link: bool,
 }
 
 pub async fn calendar(
@@ -40,7 +49,7 @@ pub async fn calendar(
     Query(filters): Query<Filters>,
     TypedHeader(host): TypedHeader<Host>,
 ) -> Result<Html<String>, InternalError> {
-    index_html(events, filters, host, true).await
+    index_html(events, filters, host, true, false).await
 }
 
 pub async fn index_html(
@@ -48,6 +57,7 @@ pub async fn index_html(
     mut filters: Filters,
     host: Host,
     calendar: bool,
+    show_edit_link: bool,
 ) -> Result<Html<String>, InternalError> {
     let has_filters = filters.has_some();
 
@@ -79,6 +89,7 @@ pub async fn index_html(
         cities,
         styles,
         calendar,
+        show_edit_link,
     };
     Ok(Html(template.render()?))
 }
@@ -139,6 +150,7 @@ struct IndexTemplate {
     cities: Vec<String>,
     styles: Vec<DanceStyle>,
     calendar: bool,
+    show_edit_link: bool,
 }
 
 struct Month {

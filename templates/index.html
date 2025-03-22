@@ -133,6 +133,9 @@
 			{% if calendar %}
 			<li><a href="/?{{ filters.to_query_string().unwrap()|safe }}">List</a></li>
 			<li><strong>Calendar</strong></li>
+			{% else if show_edit_link %}
+			<li><a href="/?{{ filters.to_query_string().unwrap()|safe }}">List</a></li>
+			<li><a href="/calendar?{{ filters.to_query_string().unwrap()|safe }}">Calendar</a></li>
 			{% else %}
 			<li><strong>List</strong></li>
 			<li><a href="/calendar?{{ filters.to_query_string().unwrap()|safe }}">Calendar</a></li>
@@ -143,7 +146,7 @@
 	<table>
 		{% for month in months %}
 		<tr>
-			<th colspan="7">{{ month.name() }}</th>
+			<th colspan="{% if show_edit_link %}8{% else %}7{% endif %}">{{ month.name() }}</th>
 		</tr>
 		{% if calendar %}
 		{% include "shared/calendar.html" %}
@@ -164,7 +167,10 @@
 
 	<p>
 		<a href="/add">Add an event</a> |
-		<a href="https://github.com/qwandor/dancelist-data">Add or correct events</a>
+		{% if !show_edit_link %}
+		<a href="/?show_edit_link=true&{{ filters.to_query_string().unwrap()|safe }}">Edit an event</a> |
+		{% endif %}
+		<a href="https://github.com/qwandor/dancelist-data">Add or edit multiple events</a>
 	</p>
 
 	<p>

@@ -1,4 +1,4 @@
-// Copyright 2022 the dancelist authors.
+// Copyright 2025 the dancelist authors.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@ use super::event_form::EventForm;
 use crate::{
     config::Config,
     errors::InternalError,
-    github::{add_event_to_file, choose_file_for_event},
+    github::edit_event_in_file,
     model::{
         event::Event,
         events::{Band, Caller, Country, Events, Organisation},
@@ -24,36 +24,54 @@ use crate::{
     },
 };
 use askama::Template;
-use axum::{extract::State, response::Html};
+use axum::{
+    extract::{Query, State},
+    response::Html,
+};
 use axum_extra::extract::Form;
+use eyre::eyre;
+use serde::{Deserialize, Serialize};
 use std::sync::Arc;
 use url::Url;
 
-pub async fn add(events: Events) -> Result<Html<String>, InternalError> {
-    let template = AddTemplate::new(
-        &events,
-        EventForm {
-            with_time: true,
-            ..Default::default()
-        },
-        vec![],
-    );
+pub async fn edit(
+    events: Events,
+    Query(query): Query<EditQuery>,
+) -> Result<Html<String>, InternalError> {
+    let event = events
+        .with_hash(&query.hash)
+        .ok_or_else(|| InternalError::Internal(eyre!("Event not found")))?;
+    let template = EditTemplate::new(&events, EventForm::from_event(event), vec![]);
     Ok(Html(template.render()?))
 }
 
 pub async fn submit(
     State(config): State<Arc<Config>>,
     events: Events,
+    Query(query): Query<EditQuery>,
     Form(form): Form<EventForm>,
 ) -> Result<Html<String>, InternalError> {
+    let original_event = events
+        .with_hash(&query.hash)
+        .ok_or_else(|| InternalError::Internal(eyre!("Event not found")))?;
     match Event::try_from(form.clone()) {
-        Ok(event) => match choose_file_for_event(&events, &event) {
-            Ok(chosen_file) => {
+        Ok(mut event) => {
+            // Set source before checking whether event has been changed.
+            event.source = original_event.source.clone();
+            if &event == original_event {
+                let template = EditTemplate::new(&events, form, vec!["Event not changed"]);
+                Ok(Html(template.render()?))
+            } else {
+                let file = original_event
+                    .source
+                    .as_deref()
+                    .ok_or_else(|| InternalError::Internal(eyre!("Event missing source")))?;
                 let pr = if let Some(github) = &config.github {
                     Some(
-                        add_event_to_file(
+                        edit_event_in_file(
+                            file,
+                            original_event,
                             event.clone(),
-                            &chosen_file,
                             form.email.as_deref(),
                             github,
                         )
@@ -62,29 +80,25 @@ pub async fn submit(
                 } else {
                     None
                 };
-
                 let template = SubmitTemplate { pr, event };
                 Ok(Html(template.render()?))
             }
-            Err(duplicate) => {
-                let template = SubmitFailedTemplate {
-                    event: &event,
-                    existing_event: &duplicate.existing,
-                    merged: &duplicate.merged,
-                };
-                Ok(Html(template.render()?))
-            }
-        },
+        }
         Err(errors) => {
-            let template = AddTemplate::new(&events, form, errors);
+            let template = EditTemplate::new(&events, form, errors);
             Ok(Html(template.render()?))
         }
     }
 }
 
+#[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
+pub struct EditQuery {
+    hash: String,
+}
+
 #[derive(Template)]
-#[template(path = "add.html")]
-struct AddTemplate {
+#[template(path = "edit.html")]
+struct EditTemplate {
     countries: Vec<Country>,
     bands: Vec<Band>,
     callers: Vec<Caller>,
@@ -93,7 +107,7 @@ struct AddTemplate {
     errors: Vec<&'static str>,
 }
 
-impl AddTemplate {
+impl EditTemplate {
     fn new(events: &Events, form: EventForm, errors: Vec<&'static str>) -> Self {
         let countries = events.countries(&Filters::all());
         let bands = events.bands();
@@ -111,18 +125,10 @@ impl AddTemplate {
 }
 
 #[derive(Template)]
-#[template(path = "add_submit.html")]
+#[template(path = "edit_submit.html")]
 struct SubmitTemplate {
     pr: Option<Url>,
     event: Event,
-}
-
-#[derive(Template)]
-#[template(path = "submit_failed.html")]
-struct SubmitFailedTemplate<'a> {
-    event: &'a Event,
-    existing_event: &'a Event,
-    merged: &'a Event,
 }
 
 mod filters {
