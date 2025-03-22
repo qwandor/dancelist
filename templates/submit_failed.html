@@ -35,7 +35,11 @@
   </table>
   {% endif %}
 
+  {% if merged == existing_event %}
   <p>This has not been submitted. Please <a href="https://github.com/qwandor/dancelist-data">submit the change manually</a>.</p>
+  {% else %}
+  <p>This has not been submitted. Please <a href="/edit?hash={{ existing_event.hash_string()|urlencode }}">edit the existing event</a> instead.</p>
+  {% endif %}
 
   <p><a href="/add">Add another event</a></p>
   <p><a href="/">Return to main page</a></p>
