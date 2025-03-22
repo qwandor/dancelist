@@ -115,3 +115,7 @@ pub fn local_datetime_to_fixed_offset(
         timezone.from_local_datetime(local).earliest()?,
     ))
 }
+
+pub fn checked_if_true(value: bool) -> askama::Result<&'static str> {
+    Ok(if value { "checked=\"checked\"" } else { "" })
+}

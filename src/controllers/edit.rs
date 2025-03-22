@@ -70,7 +70,5 @@ impl EditTemplate {
 }
 
 mod filters {
-    pub fn checked_if_true(value: bool) -> askama::Result<&'static str> {
-        Ok(if value { "checked=\"checked\"" } else { "" })
-    }
+    pub use crate::util::checked_if_true;
 }
