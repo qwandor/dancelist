@@ -128,7 +128,7 @@ pub async fn add_event_to_file(
         let existing_file = &contents.items[0];
         trace!("Got existing file, sha {}", existing_file.sha);
         let existing_content = existing_file.decoded_content().unwrap();
-        let mut events = serde_yaml::from_str::<Events>(&existing_content)?;
+        let mut events = Events::load_str(&existing_content).map_err(InternalError::Internal)?;
 
         // Append event to it and sort.
         events.events.push(event);
@@ -210,11 +210,13 @@ pub async fn edit_event_in_file(
     let existing_file = &contents.items[0];
     trace!("Got existing file, sha {}", existing_file.sha);
     let existing_content = existing_file.decoded_content().unwrap();
-    let mut events = serde_yaml::from_str::<Events>(&existing_content)?;
+    let mut events = Events::load_str(&existing_content).map_err(InternalError::Internal)?;
 
     // Replace the original event with the new version and sort.
+    let mut original_event_without_source = original_event.clone();
+    original_event_without_source.source = None;
     for e in &mut events.events {
-        if e == original_event {
+        if e == &original_event_without_source {
             *e = new_event;
             break;
         }

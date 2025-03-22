@@ -109,7 +109,7 @@ impl Events {
     /// Loads events from the given YAML string.
     ///
     /// Doesn't validate the events.
-    fn load_str(s: &str) -> Result<Self, Report> {
+    pub fn load_str(s: &str) -> Result<Self, Report> {
         let events = serde_yaml::from_str::<Events>(s)?;
         Ok(events)
     }
