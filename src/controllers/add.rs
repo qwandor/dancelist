@@ -111,7 +111,7 @@ impl AddTemplate {
 }
 
 #[derive(Template)]
-#[template(path = "submit.html")]
+#[template(path = "add_submit.html")]
 struct SubmitTemplate {
     pr: Option<Url>,
     event: Event,
