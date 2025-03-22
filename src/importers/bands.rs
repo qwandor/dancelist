@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 470] = [
+pub const BANDS: [&str; 472] = [
     "112 and Then Some",
     "A Fine Kettle of Fish",
     "A Joyful Noise",
@@ -228,6 +228,7 @@ pub const BANDS: [&str; 470] = [
     "Hot Toddy",
     "I Pizzicati",
     "Ice Cream Truckers",
+    "Idlewild",
     "Irish Diplomacy",
     "Javallon",
     "Jeroen Laureyssens",
@@ -350,6 +351,7 @@ pub const BANDS: [&str; 470] = [
     "Rhys Jones and the Imaginary Beings",
     "River Music",
     "River Road",
+    "Roguery",
     "Rokkende Vrouwen",
     "Root System",
     "Round Hill Ramblers",
