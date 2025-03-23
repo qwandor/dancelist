@@ -54,11 +54,11 @@ pub async fn submit(
     let original_event = events
         .with_hash(&query.hash)
         .ok_or_else(|| InternalError::Internal(eyre!("Event not found")))?;
+    let mut original_event_without_source = original_event.clone();
+    original_event_without_source.source = None;
     match Event::try_from(form.clone()) {
-        Ok(mut event) => {
-            // Set source before checking whether event has been changed.
-            event.source = original_event.source.clone();
-            if &event == original_event {
+        Ok(event) => {
+            if event == original_event_without_source {
                 let template = EditTemplate::new(&events, form, vec!["Event not changed"]);
                 Ok(Html(template.render()?))
             } else {
@@ -70,7 +70,7 @@ pub async fn submit(
                     Some(
                         edit_event_in_file(
                             file,
-                            original_event,
+                            &original_event_without_source,
                             event.clone(),
                             form.email.as_deref(),
                             github,

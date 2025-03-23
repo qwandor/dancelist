@@ -213,10 +213,8 @@ pub async fn edit_event_in_file(
     let mut events = Events::load_str(&existing_content).map_err(InternalError::Internal)?;
 
     // Replace the original event with the new version and sort.
-    let mut original_event_without_source = original_event.clone();
-    original_event_without_source.source = None;
     for e in &mut events.events {
-        if e == &original_event_without_source {
+        if e == original_event {
             *e = new_event;
             break;
         }
