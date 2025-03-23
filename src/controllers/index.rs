@@ -26,22 +26,21 @@ use askama::Template;
 use axum::{extract::Query, response::Html};
 use axum_extra::{TypedHeader, headers::Host};
 use chrono::{Datelike, Months, NaiveDate};
-use serde::{Deserialize, Serialize};
 
 pub async fn index(
     events: Events,
-    Query(query): Query<IndexQuery>,
+    Query(filters): Query<Filters>,
     TypedHeader(host): TypedHeader<Host>,
 ) -> Result<Html<String>, InternalError> {
-    index_html(events, query.filters, host, false, query.show_edit_link).await
+    index_html(events, filters, host, false, false).await
 }
 
-#[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
-pub struct IndexQuery {
-    #[serde(flatten)]
-    filters: Filters,
-    #[serde(default)]
-    show_edit_link: bool,
+pub async fn index_edit(
+    events: Events,
+    Query(filters): Query<Filters>,
+    TypedHeader(host): TypedHeader<Host>,
+) -> Result<Html<String>, InternalError> {
+    index_html(events, filters, host, false, true).await
 }
 
 pub async fn calendar(

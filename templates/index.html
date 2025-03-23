@@ -168,7 +168,7 @@
 	<p>
 		<a href="/add">Add an event</a> |
 		{% if !show_edit_link %}
-		<a href="/?show_edit_link=true&{{ filters.to_query_string().unwrap()|safe }}">Edit an event</a> |
+		<a href="/index_edit?{{ filters.to_query_string().unwrap()|safe }}">Edit an event</a> |
 		{% endif %}
 		<a href="https://github.com/qwandor/dancelist-data">Add or edit multiple events</a>
 	</p>

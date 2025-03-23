@@ -299,6 +299,7 @@ async fn serve() -> Result<(), Report> {
         .route("/index.toml", get(index::index_toml))
         .route("/index.yaml", get(index::index_yaml))
         .route("/calendar", get(index::calendar))
+        .route("/index_edit", get(index::index_edit))
         .route("/add", get(add::add))
         .route("/add", post(add::submit))
         .route("/edit", get(edit::edit))
