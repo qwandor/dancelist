@@ -544,4 +544,16 @@ mod tests {
             }
         );
     }
+
+    #[test]
+    fn deserialize_multiday() {
+        let query_string = "multiday=true";
+        assert_eq!(
+            serde_urlencoded::from_str::<Filters>(query_string).unwrap(),
+            Filters {
+                multiday: Some(true),
+                ..Default::default()
+            }
+        );
+    }
 }
