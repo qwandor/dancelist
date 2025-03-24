@@ -79,9 +79,9 @@ impl IcalendarSource for Dresden {
     }
 
     fn fix_before_parse(source: String) -> String {
-        let source = Regex::new("(u.a. mit.*|mit .*)\nORGANIZER")
+        let source = Regex::new("\n(u.a. mit.*|mit .*)\nORGANIZER")
             .unwrap()
-            .replace_all(&source, "DESCRIPTION:$1\nORGANIZER");
+            .replace_all(&source, "\nDESCRIPTION:$1\nORGANIZER");
         source.into_owned()
     }
 }
