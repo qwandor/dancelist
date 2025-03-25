@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 474] = [
+pub const BANDS: [&str; 475] = [
     "112 and Then Some",
     "A Fine Kettle of Fish",
     "A Joyful Noise",
@@ -196,6 +196,7 @@ pub const BANDS: [&str; 474] = [
     "Gammeldansk",
     "George Paul",
     "Geronimo",
+    "Ginger Jam",
     "Ginkgo",
     "Gisbert",
     "Go Figure",
