@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 473] = [
+pub const BANDS: [&str; 474] = [
     "112 and Then Some",
     "A Fine Kettle of Fish",
     "A Joyful Noise",
@@ -39,6 +39,7 @@ pub const BANDS: [&str; 473] = [
     "Appalachian Roots",
     "Artisjok",
     "Atlantic Crossing",
+    "Att Dansa",
     "Aubergine",
     "Aurélien Claranbaux",
     "Autour de Bâle",
