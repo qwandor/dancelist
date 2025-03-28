@@ -3,12 +3,11 @@
 {{ event.short_time() }}
 </td>
 <td class="event-name" title="{{ event.details.as_deref().unwrap_or_default() }}">
-{% match event.main_link() %}
-{% when Some with (link) %}
+{% if let Some(link) = event.main_link() %}
 <a href="{{ link }}">{{ event.name }}</a>
-{% when None %}
+{% else %}
 {{ event.name }}
-{% endmatch %}
+{% endif %}
 </td>
 <td class="event-links">
 {% for link in event.further_links() %}
@@ -20,11 +19,9 @@
 </td>
 <td class="event-location">
 <a href="https://folkdance.page/?country={{ event.country|urlencode }}&city={{ event.city|urlencode }}">{{ event.city }}</a>,
-{% match event.state %}
-{% when Some with (state) %}
+{% if let Some(state) = event.state %}
 <a href="https://folkdance.page/?country={{ event.country|urlencode }}&state={{ state|urlencode }}">{{ state }}</a>,
-{% when None %}
-{% endmatch %}
+{% endif %}
 <a href="https://folkdance.page/?country={{ event.country|urlencode }}">{{ event.country }}</a>
 </td>
 <td class="event-type">

@@ -9,12 +9,11 @@
 <body>
 	<h1>Submitted event</h1>
 
-  {% match pr %}
-  {% when Some with (pr) %}
+  {% if let Some(pr) = pr %}
 	<p>Your new event has been <a href="{{ pr }}">submitted for review</a>.</p>
-  {% when None %}
+  {% else %}
   <p>Your new event is valid, but submission failed.</p>
-  {% endmatch %}
+  {% endif %}
 
   {% let show_edit_link = false %}
   <table>

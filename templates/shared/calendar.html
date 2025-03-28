@@ -11,11 +11,9 @@
 <tr class="calendar">
     {% for day in week %}
     <td>
-        {% match day.day_of_month %}
-        {% when Some with (day_of_month) %}
+        {% if let Some(day_of_month) = day.day_of_month %}
         <strong>{{ day_of_month }}</strong>
-        {% when None %}
-        {% endmatch %}
+        {% endif %}
         {% for event in day.events %}
         {% include "shared/mini_event.html" %}
         {% endfor %}
