@@ -493,7 +493,7 @@ fn apply_fixes(event: &mut Event) {
             event.name = "English Country Dance".to_string();
             event.links.insert(0, "https://cdssp.org/".to_string());
         }
-        "English Country Dancing" if event.city == "Luray" => {
+        "English Country Dancing" if event.city == "Luray" || event.city == "Penn Laird" => {
             event.links.insert(
                 0,
                 "https://sites.google.com/corp/site/svcwed/home-1/2025-practice-schedule"
