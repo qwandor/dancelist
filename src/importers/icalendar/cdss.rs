@@ -659,6 +659,12 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://lenoxcontradance.org/sched.php".to_string());
         }
+        "Louisville Contra Dance" => {
+            event.links.insert(
+                0,
+                "https://www.louisvillecountrydancers.org/dance-with-us-1".to_string(),
+            );
+        }
         "Louisville English Country Dance" => {
             event
                 .links
