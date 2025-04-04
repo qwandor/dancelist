@@ -566,9 +566,10 @@ fn apply_fixes(event: &mut Event) {
             }
         }
         "Groton Grange Contra Dance" => {
-            event
-                .links
-                .insert(0, "https://grotongrange.org/contra-dance/".to_string());
+            event.links.insert(
+                0,
+                "https://grotongrange.org/events/contra-dance/".to_string(),
+            );
         }
         "Hartford Community Dance's 2nd Saturday Contra Dance"
         | "Hartford Community Dance’s 2nd Saturday Contra Dance" => {
@@ -616,7 +617,7 @@ fn apply_fixes(event: &mut Event) {
                 event.organisation = Some("Hudson Valley Country Dancers".to_string());
             }
         }
-        "Indy Contra Dance" => {
+        "Indy Contra Dance" | "Indy Family Folk Dance" => {
             event
                 .links
                 .insert(0, "https://www.indycontra.org/".to_string());
@@ -812,7 +813,8 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://www.princetoncountrydancers.org/".to_string());
         }
-        "Quiet Corner Contra Dance" => {
+        "Quiet Corner Contra Dance" | "Quiet Corner Contra Dance!" => {
+            event.name = "Quiet Corner Contra Dance".to_string();
             event
                 .links
                 .insert(0, "http://www.hcdance.org/quiet-corner-contra/".to_string());
@@ -884,6 +886,9 @@ fn apply_fixes(event: &mut Event) {
             event
                 .links
                 .insert(0, "https://nbcds.org/english-country-dance/".to_string());
+        }
+        "Second Saturday Contra" if event.city == "Mesa" => {
+            event.links.insert(0, "https://phxtmd.org/".to_string());
         }
         "Second Saturday BFMS Contra Dance"
         | "Second Saturday Baltimore Folk Music Society Contra Dance" => {
