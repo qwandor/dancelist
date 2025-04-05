@@ -1002,6 +1002,11 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://valleycontradance.org/".to_string());
         }
+        "Valparaiso Old Time Dance Society Contra Dance" => {
+            event
+                .links
+                .insert(0, "https://valpo.chicagobarndance.com/".to_string());
+        }
         "Verona, VA Monday Night Contra Dance" => {
             event.name = "Verona Monday Night Contra Dance".to_string();
             event.links.insert(
