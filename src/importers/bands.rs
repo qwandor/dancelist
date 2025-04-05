@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 477] = [
+pub const BANDS: [&str; 478] = [
     "112 and Then Some",
     "A Fine Kettle of Fish",
     "A Joyful Noise",
@@ -226,6 +226,7 @@ pub const BANDS: [&str; 477] = [
     "Hoggetowne Fancy",
     "Hoik",
     "Holiday Ball Orchestra",
+    "Hoosier Recruits",
     "Hot Coffee Breakdown",
     "Hot Griselda",
     "Hot Toddy",
