@@ -24,21 +24,38 @@ use crate::{
     },
 };
 use askama::Template;
-use axum::{extract::State, response::Html};
+use axum::{
+    extract::{Query, State},
+    response::Html,
+};
 use axum_extra::extract::Form;
+use eyre::eyre;
+use serde::{Deserialize, Serialize};
 use std::sync::Arc;
 use url::Url;
 
-pub async fn add(events: Events) -> Result<Html<String>, InternalError> {
-    let template = AddTemplate::new(
-        &events,
+pub async fn add(
+    events: Events,
+    Query(query): Query<AddQuery>,
+) -> Result<Html<String>, InternalError> {
+    let form = if let Some(hash) = &query.hash {
+        let event = events
+            .with_hash(hash)
+            .ok_or_else(|| InternalError::Internal(eyre!("Event not found")))?;
+        EventForm::from_event(event)
+    } else {
         EventForm {
             with_time: true,
             ..Default::default()
-        },
-        vec![],
-    );
+        }
+    };
+    let template = AddTemplate::new(&events, form, vec![]);
     Ok(Html(template.render()?))
+}
+
+#[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
+pub struct AddQuery {
+    hash: Option<String>,
 }
 
 pub async fn submit(
