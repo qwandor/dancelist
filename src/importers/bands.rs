@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 478] = [
+pub const BANDS: [&str; 480] = [
     "112 and Then Some",
     "A Fine Kettle of Fish",
     "A Joyful Noise",
@@ -250,6 +250,7 @@ pub const BANDS: [&str; 478] = [
     "Kaw Creek",
     "Kelten zonder Grenzen",
     "Kikker & Findus",
+    "KinFyre",
     "Kingfisher",
     "Klintetten",
     "Kördeböf",
@@ -427,6 +428,7 @@ pub const BANDS: [&str; 478] = [
     "The Syncopaths",
     "The Third Degree",
     "The Turning Stile",
+    "Thorn Among the Roses",
     "Threo",
     "TinnFelen",
     "Toad Holler",
