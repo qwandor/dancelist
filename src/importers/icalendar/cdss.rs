@@ -70,6 +70,7 @@ impl IcalendarSource for Cdss {
             || description_lower.contains("refresher session")
             || description_lower.contains("skills class")
             || description_lower.contains("skills session")
+            || description_lower.contains("teaching at")
             || description_lower.contains("workshop")
     }
 
