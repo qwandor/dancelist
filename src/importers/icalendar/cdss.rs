@@ -348,6 +348,16 @@ fn apply_fixes(event: &mut Event) {
                 "https://manylives-oneworld.com/dave-bateman/nhecds/".to_string(),
             );
         }
+        "Contra & Square Dance - Grand River Folk Art Society" => {
+            event.name = "Contra & Square Dance".to_string();
+            if matches!(event.organisation.as_deref(), None | Some("CDSS")) {
+                event.organisation = Some("Grand River Folk Art Society".to_string());
+            }
+            event.links.insert(
+                0,
+                "https://sites.google.com/view/grandriverfolkarts/dances".to_string(),
+            );
+        }
         "Contra Dance" if event.city == "Carrollton" && event.state.as_deref() == Some("TX") => {
             event.links.insert(0, "https://www.nttds.org/".to_string());
         }
