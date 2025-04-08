@@ -211,6 +211,17 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://3rdsaturday.thursdaycontra.com/".to_string());
         }
+        "3rd Saturdays Contra Dance, Grass Valley CA" => {
+            event.name = "3rd Saturdays Contra Dance".to_string();
+            event.links.insert(
+                0,
+                "https://www.kvmr.org/kvmr-event/third-saturdays-contra-dance-nevada-county/"
+                    .to_string(),
+            );
+            event
+                .links
+                .insert(0, "https://www.contradancenc.org/".to_string());
+        }
         "4th Saturday Kingston, NH, Contra Dance!" => {
             event.name = "Kingston Contra Dance".to_string();
         }
@@ -721,6 +732,17 @@ fn apply_fixes(event: &mut Event) {
             event.links.insert(
                 0,
                 "https://capitalcitygrange.org/dancing/contradancing/".to_string(),
+            );
+        }
+        "Monday Cincinnati Contra Dance" => {
+            event.price = Some("$2-$5".to_string());
+            if event.state.is_none() {
+                event.state = Some("OH".to_string());
+                event.country = "USA".to_string();
+            }
+            event.links.insert(
+                0,
+                "https://www.cincinnaticontradance.org/schedule.htm".to_string(),
             );
         }
         "Monday Contra Dance" if event.city == "Nelson" => {
