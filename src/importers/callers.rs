@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const CALLERS: [&str; 241] = [
+pub const CALLERS: [&str; 244] = [
     "Adam Hughes",
     "Adina Gordon",
     "Alan Rosenthal",
@@ -45,6 +45,7 @@ pub const CALLERS: [&str; 241] = [
     "Bob Frederking",
     "Bob Green",
     "Bob Isaacs",
+    "Bob Messer",
     "Bob Morgan",
     "Brad Foster",
     "Brian Hamshar",
@@ -133,6 +134,7 @@ pub const CALLERS: [&str; 241] = [
     "Jesse Partridge",
     "Jill Allen",
     "Jill Delaney",
+    "Jim Thaxter",
     "Joanna Reiner Wilkinson",
     "Joe Harrington",
     "John Krumm",
@@ -240,6 +242,7 @@ pub const CALLERS: [&str; 241] = [
     "Suzanne Farmer",
     "Tamara Loewenthal",
     "Tara Bolker",
+    "Ted Crane",
     "Ted Hodapp",
     "Terry Doyle",
     "Timothy Klein",

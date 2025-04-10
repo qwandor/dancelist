@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 481] = [
+pub const BANDS: [&str; 483] = [
     "112 and Then Some",
     "A Cat's Tale",
     "A Fine Kettle of Fish",
@@ -401,6 +401,7 @@ pub const BANDS: [&str; 481] = [
     "Sycamore",
     "Take a Dance",
     "Thalas",
+    "The 32 Bartenders",
     "The Atchisons",
     "The Black Cat Quadrille",
     "The Boom Chicks",
@@ -481,6 +482,7 @@ pub const BANDS: [&str; 481] = [
     "Whirled Peas",
     "Wild Asparagus",
     "Wild Notes",
+    "Wild Thistle",
     "Wild Wombats of the Chesapeake",
     "WillPower",
     "Wilma",
