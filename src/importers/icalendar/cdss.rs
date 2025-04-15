@@ -683,9 +683,7 @@ fn apply_fixes(event: &mut Event) {
                 .insert(0, "https://lenoxcontradance.org/sched.php".to_string());
         }
         "LITMA Smithtown Contradance" => {
-            event
-                .links
-                .insert(0, "LITMA Smithtown Contradance".to_string());
+            event.links.insert(0, "https://litma.org/".to_string());
         }
         "Louisville Contra Dance" | "Louisville Third-Saturday Contra Dance" => {
             event.links.insert(
