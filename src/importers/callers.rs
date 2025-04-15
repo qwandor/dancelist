@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const CALLERS: [&str; 244] = [
+pub const CALLERS: [&str; 246] = [
     "Adam Hughes",
     "Adina Gordon",
     "Alan Rosenthal",
@@ -47,6 +47,7 @@ pub const CALLERS: [&str; 244] = [
     "Bob Isaacs",
     "Bob Messer",
     "Bob Morgan",
+    "Bob Nicholson",
     "Brad Foster",
     "Brian Hamshar",
     "Bridget Whitehead",
@@ -98,6 +99,7 @@ pub const CALLERS: [&str; 244] = [
     "Diane Silver",
     "Dilip Sequeira",
     "Don Heinold",
+    "Don Stratton",
     "Don Veino",
     "Donna Hunt",
     "Dorothy Cummings",
