@@ -325,7 +325,7 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "http://www.centralillinoisecd.org/#sched".to_string());
         }
-        "Chicago Contra Dance" => {
+        "Chicago Contra Dance" | "Monday Night Contra & Square Dance" => {
             event
                 .links
                 .insert(0, "https://www.chicagobarndance.org/calendar/".to_string());
