@@ -453,6 +453,7 @@ fn apply_fixes(event: &mut Event) {
             );
         }
         "English Country Dance at Tapestry Folkdance Center" => {
+            event.workshop = false;
             event.links.insert(
                 0,
                 "https://www.tapestryfolkdance.org/english-country-dance".to_string(),
