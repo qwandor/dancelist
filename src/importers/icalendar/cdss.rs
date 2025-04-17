@@ -702,6 +702,12 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://www.mendoecd.org/events/".to_string());
         }
+        "Milford NH Contra Dance" => {
+            event.name = "Milford Contra Dance".to_string();
+            event
+                .links
+                .insert(0, "https://www.milfordnhcontradance.org/".to_string());
+        }
         "Missoula Folklore Society Contra Dance" => {
             event.links.insert(
                 0,
