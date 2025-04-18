@@ -36,13 +36,14 @@ use crate::{
     },
     util::{local_datetime_to_fixed_offset, to_fixed_offset},
 };
-use chrono::NaiveDate;
+use chrono::{NaiveDate, TimeZone};
 use eyre::{Report, WrapErr, bail, eyre};
 use icalendar::{
     Calendar, CalendarComponent, CalendarDateTime, Component, DatePerhapsTime, Event, EventLike,
 };
 use log::error;
 use regex::Regex;
+use rrule::RRule;
 use std::cmp::{max, min};
 
 trait IcalendarSource {
@@ -188,9 +189,9 @@ async fn import_new_events<S: IcalendarSource>() -> Result<Events, Report> {
         let timezone = calendar.get_timezone().or(S::DEFAULT_TIMEZONE);
         for component in calendar.iter() {
             if let CalendarComponent::Event(event) = component {
-                events
-                    .events
-                    .extend(convert::<S>(get_parts(event, timezone)?)?);
+                for parts in get_parts(event, timezone)? {
+                    events.events.extend(convert::<S>(parts)?);
+                }
             }
         }
     }
@@ -199,7 +200,7 @@ async fn import_new_events<S: IcalendarSource>() -> Result<Events, Report> {
     Ok(events)
 }
 
-fn get_parts(event: &Event, timezone: Option<&str>) -> Result<EventParts, Report> {
+fn get_parts(event: &Event, timezone: Option<&str>) -> Result<Vec<EventParts>, Report> {
     let url = event.get_url().map(|url| {
         if url.contains("://") {
             url.to_string()
@@ -209,7 +210,7 @@ fn get_parts(event: &Event, timezone: Option<&str>) -> Result<EventParts, Report
     });
     let summary = unescape(event.get_summary().unwrap_or_default());
     let description = unescape(event.get_description().unwrap_or_default());
-    let time = get_time(event, timezone)?;
+    let times = get_times(event, timezone)?;
     let location_parts = event.get_location().map(|location| {
         location
             .split(", ")
@@ -234,16 +235,19 @@ fn get_parts(event: &Event, timezone: Option<&str>) -> Result<EventParts, Report
     };
     let categories = get_categories(event);
     let uid = event.get_uid().map(ToOwned::to_owned);
-    Ok(EventParts {
-        url,
-        summary,
-        description,
-        time,
-        location_parts,
-        organiser,
-        categories,
-        uid,
-    })
+    Ok(times
+        .into_iter()
+        .map(|time| EventParts {
+            url: url.clone(),
+            summary: summary.clone(),
+            description: description.clone(),
+            time,
+            location_parts: location_parts.clone(),
+            organiser: organiser.clone(),
+            categories: categories.clone(),
+            uid: uid.clone(),
+        })
+        .collect())
 }
 
 fn get_categories(event: &Event) -> Option<Vec<String>> {
@@ -289,6 +293,10 @@ impl Default for EventParts {
     }
 }
 
+fn get_times(event: &Event, timezone: Option<&str>) -> Result<Vec<EventTime>, Report> {
+    Ok(vec![get_time(event, timezone)?])
+}
+
 fn get_time(event: &Event, timezone: Option<&str>) -> Result<EventTime, Report> {
     let start = event
         .get_start()
@@ -296,6 +304,39 @@ fn get_time(event: &Event, timezone: Option<&str>) -> Result<EventTime, Report> 
     let end = event
         .get_end()
         .ok_or_else(|| eyre!("Event {:?} missing end time.", event))?;
+
+    if let Some(rrule) = event.property_value("RRULE") {
+        println!("raw rrule: {}", rrule);
+        let rrule: RRule<_> = rrule.parse()?;
+        println!("parsed: {}", rrule);
+        match &start {
+            DatePerhapsTime::DateTime(CalendarDateTime::WithTimezone {
+                date_time: start,
+                tzid: start_tzid,
+            }) => {
+                let start_timezone: chrono_tz::Tz = start_tzid
+                    .parse()
+                    .map_err(|e| eyre!("Invalid timezone: {}", e))?;
+
+                let start = rrule::Tz::from(start_timezone)
+                    .from_local_datetime(&start)
+                    .earliest()
+                    .unwrap();
+                let rruleset = rrule.build(start)?;
+                println!("rruleset: {}", rruleset);
+                for instance in rruleset.into_iter() {
+                    println!("Instance: {}", instance);
+                }
+            }
+            _ => {
+                todo!(
+                    "RRule not supported for events without time or without timezone ({:?})",
+                    start
+                )
+            }
+        }
+    }
+
     Ok(match (start, end) {
         (DatePerhapsTime::Date(start_date), DatePerhapsTime::Date(end_date)) => {
             EventTime::DateOnly {
