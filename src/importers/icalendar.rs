@@ -34,16 +34,17 @@ use crate::{
         event::{self, EventTime},
         events::Events,
     },
-    util::{local_datetime_to_fixed_offset, to_fixed_offset},
+    util::to_fixed_offset,
 };
-use chrono::NaiveDate;
+use chrono::{DateTime, NaiveDate, TimeZone};
 use chrono_tz::Tz;
 use eyre::{Report, WrapErr, bail, eyre};
 use icalendar::{
     Calendar, CalendarComponent, CalendarDateTime, Component, DatePerhapsTime, Event, EventLike,
 };
-use log::error;
+use log::{debug, error};
 use regex::Regex;
+use rrule::RRule;
 use std::cmp::{max, min};
 
 trait IcalendarSource {
@@ -189,9 +190,9 @@ async fn import_new_events<S: IcalendarSource>() -> Result<Events, Report> {
         let timezone = calendar.get_timezone().or(S::DEFAULT_TIMEZONE);
         for component in calendar.iter() {
             if let CalendarComponent::Event(event) = component {
-                events
-                    .events
-                    .extend(convert::<S>(get_parts(event, timezone)?)?);
+                for parts in get_parts(event, timezone)? {
+                    events.events.extend(convert::<S>(parts)?);
+                }
             }
         }
     }
@@ -200,7 +201,7 @@ async fn import_new_events<S: IcalendarSource>() -> Result<Events, Report> {
     Ok(events)
 }
 
-fn get_parts(event: &Event, timezone: Option<&str>) -> Result<EventParts, Report> {
+fn get_parts(event: &Event, timezone: Option<&str>) -> Result<Vec<EventParts>, Report> {
     let url = event.get_url().map(|url| {
         if url.contains("://") {
             url.to_string()
@@ -210,7 +211,7 @@ fn get_parts(event: &Event, timezone: Option<&str>) -> Result<EventParts, Report
     });
     let summary = unescape(event.get_summary().unwrap_or_default());
     let description = unescape(event.get_description().unwrap_or_default());
-    let time = get_time(event, timezone)?;
+    let times = get_times(event, timezone)?;
     let location_parts = event.get_location().map(|location| {
         location
             .split(", ")
@@ -235,16 +236,19 @@ fn get_parts(event: &Event, timezone: Option<&str>) -> Result<EventParts, Report
     };
     let categories = get_categories(event);
     let uid = event.get_uid().map(ToOwned::to_owned);
-    Ok(EventParts {
-        url,
-        summary,
-        description,
-        time,
-        location_parts,
-        organiser,
-        categories,
-        uid,
-    })
+    Ok(times
+        .into_iter()
+        .map(|time| EventParts {
+            url: url.clone(),
+            summary: summary.clone(),
+            description: description.clone(),
+            time,
+            location_parts: location_parts.clone(),
+            organiser: organiser.clone(),
+            categories: categories.clone(),
+            uid: uid.clone(),
+        })
+        .collect())
 }
 
 fn get_categories(event: &Event) -> Option<Vec<String>> {
@@ -290,20 +294,54 @@ impl Default for EventParts {
     }
 }
 
-fn get_time(event: &Event, timezone: Option<&str>) -> Result<EventTime, Report> {
+fn datetime_instances(
+    rrule: Option<&str>,
+    start_with_tz: DateTime<Tz>,
+    end_with_tz: DateTime<Tz>,
+) -> Result<Vec<EventTime>, Report> {
+    if let Some(rrule) = rrule {
+        let duration = end_with_tz - start_with_tz;
+        debug!("raw rrule: {}", rrule);
+        let rrule: RRule<_> = rrule.parse()?;
+
+        let rruleset =
+            rrule.build(start_with_tz.with_timezone(&rrule::Tz::from(start_with_tz.timezone())))?;
+        debug!("rruleset: {}", rruleset);
+        rruleset
+            .into_iter()
+            .map(|instance| {
+                debug!("Instance: {}", instance);
+                Ok(EventTime::DateTime {
+                    start: to_fixed_offset(instance),
+                    end: to_fixed_offset(instance + duration),
+                })
+            })
+            .collect()
+    } else {
+        Ok(vec![EventTime::DateTime {
+            start: to_fixed_offset(start_with_tz),
+            end: to_fixed_offset(end_with_tz),
+        }])
+    }
+}
+
+fn get_times(event: &Event, timezone: Option<&str>) -> Result<Vec<EventTime>, Report> {
     let start = event
         .get_start()
         .ok_or_else(|| eyre!("Event {:?} missing start time.", event))?;
     let end = event
         .get_end()
         .ok_or_else(|| eyre!("Event {:?} missing end time.", event))?;
-    Ok(match (start, end) {
+    let rrule = event.property_value("RRULE");
+
+    match (start, end) {
         (DatePerhapsTime::Date(start_date), DatePerhapsTime::Date(end_date)) => {
-            EventTime::DateOnly {
+            // TODO: Support RRULE for date-only events too.
+            Ok(vec![EventTime::DateOnly {
                 start_date,
                 // iCalendar DTEND is non-inclusive, so subtract one day.
                 end_date: end_date.pred_opt().unwrap(),
-            }
+            }])
         }
         (
             DatePerhapsTime::DateTime(CalendarDateTime::WithTimezone {
@@ -321,12 +359,16 @@ fn get_time(event: &Event, timezone: Option<&str>) -> Result<EventTime, Report> 
             let end_timezone: Tz = end_tzid
                 .parse()
                 .map_err(|e| eyre!("Invalid timezone: {}", e))?;
-            EventTime::DateTime {
-                start: local_datetime_to_fixed_offset(&start, start_timezone)
-                    .ok_or_else(|| eyre!("Ambiguous start datetime for event {:?}", event))?,
-                end: local_datetime_to_fixed_offset(&end, end_timezone)
-                    .ok_or_else(|| eyre!("Ambiguous end datetime for event {:?}", event))?,
-            }
+            let start_with_tz = start_timezone
+                .from_local_datetime(&start)
+                .earliest()
+                .ok_or_else(|| eyre!("Ambiguous start datetime for event {:?}", event))?;
+            let end_with_tz = end_timezone
+                .from_local_datetime(&end)
+                .earliest()
+                .ok_or_else(|| eyre!("Ambiguous end datetime for event {:?}", event))?;
+
+            datetime_instances(rrule, start_with_tz, end_with_tz)
         }
         (
             DatePerhapsTime::DateTime(CalendarDateTime::Utc(start)),
@@ -341,10 +383,9 @@ fn get_time(event: &Event, timezone: Option<&str>) -> Result<EventTime, Report> 
             let timezone: Tz = timezone
                 .parse()
                 .map_err(|e| eyre!("Invalid timezone {}: {}", timezone, e))?;
-            EventTime::DateTime {
-                start: to_fixed_offset(start.with_timezone(&timezone)),
-                end: to_fixed_offset(end.with_timezone(&timezone)),
-            }
+            let start_with_tz = start.with_timezone(&timezone);
+            let end_with_tz = end.with_timezone(&timezone);
+            datetime_instances(rrule, start_with_tz, end_with_tz)
         }
         (
             DatePerhapsTime::DateTime(CalendarDateTime::Floating(start)),
@@ -359,22 +400,18 @@ fn get_time(event: &Event, timezone: Option<&str>) -> Result<EventTime, Report> 
             let timezone: Tz = timezone
                 .parse()
                 .map_err(|e| eyre!("Invalid timezone {}: {}", timezone, e))?;
-            EventTime::DateTime {
-                start: to_fixed_offset(
-                    start
-                        .and_local_timezone(timezone)
-                        .single()
-                        .ok_or_else(|| eyre!("Ambiguous local time {}", start))?,
-                ),
-                end: to_fixed_offset(
-                    end.and_local_timezone(timezone)
-                        .single()
-                        .ok_or_else(|| eyre!("Ambiguous local time {}", start))?,
-                ),
-            }
+            let start_with_tz = start
+                .and_local_timezone(timezone)
+                .single()
+                .ok_or_else(|| eyre!("Ambiguous local time {}", start))?;
+            let end_with_tz = end
+                .and_local_timezone(timezone)
+                .single()
+                .ok_or_else(|| eyre!("Ambiguous local time {}", start))?;
+            datetime_instances(rrule, start_with_tz, end_with_tz)
         }
         (start, end) => bail!("Mismatched start ({:?}) and end ({:?}) times.", start, end),
-    })
+    }
 }
 
 fn unescape(s: &str) -> String {
@@ -409,8 +446,8 @@ mod tests {
             .done();
 
         assert_eq!(
-            get_time(&event, None).unwrap(),
-            EventTime::DateTime {
+            get_times(&event, None).unwrap(),
+            vec![EventTime::DateTime {
                 start: FixedOffset::east_opt(7200)
                     .unwrap()
                     .with_ymd_and_hms(2022, 4, 1, 19, 0, 0)
@@ -421,7 +458,7 @@ mod tests {
                     .with_ymd_and_hms(2022, 4, 1, 19, 0, 0)
                     .single()
                     .unwrap(),
-            }
+            }]
         );
     }
 
@@ -435,8 +472,8 @@ mod tests {
             .done();
 
         assert_eq!(
-            get_time(&event, Some("Europe/Amsterdam")).unwrap(),
-            EventTime::DateTime {
+            get_times(&event, Some("Europe/Amsterdam")).unwrap(),
+            vec![EventTime::DateTime {
                 start: FixedOffset::east_opt(7200)
                     .unwrap()
                     .with_ymd_and_hms(2022, 4, 1, 19, 0, 0)
@@ -447,7 +484,143 @@ mod tests {
                     .with_ymd_and_hms(2022, 4, 1, 19, 0, 0)
                     .single()
                     .unwrap(),
-            }
+            }]
+        );
+    }
+
+    #[test]
+    fn parse_datetime_weekly_tzid() {
+        // Start before daylight savings starts, but recur into daylight savings time, including one
+        // event that spans the start.
+        let start = Property::new("DTSTART", "20220312T190000")
+            .add_parameter("TZID", "Europe/Amsterdam")
+            .done();
+        let end = Property::new("DTEND", "20220313T040000")
+            .add_parameter("TZID", "Europe/Amsterdam")
+            .done();
+        let event = Event::new()
+            .append_property(start)
+            .append_property(end)
+            .add_property("RRULE", "FREQ=WEEKLY;UNTIL=20220403T000000Z")
+            .done();
+
+        assert_eq!(
+            get_times(&event, None).unwrap(),
+            vec![
+                EventTime::DateTime {
+                    start: FixedOffset::east_opt(3600)
+                        .unwrap()
+                        .with_ymd_and_hms(2022, 3, 12, 19, 0, 0)
+                        .single()
+                        .unwrap(),
+                    end: FixedOffset::east_opt(3600)
+                        .unwrap()
+                        .with_ymd_and_hms(2022, 3, 13, 4, 0, 0)
+                        .single()
+                        .unwrap(),
+                },
+                EventTime::DateTime {
+                    start: FixedOffset::east_opt(3600)
+                        .unwrap()
+                        .with_ymd_and_hms(2022, 3, 19, 19, 0, 0)
+                        .single()
+                        .unwrap(),
+                    end: FixedOffset::east_opt(3600)
+                        .unwrap()
+                        .with_ymd_and_hms(2022, 3, 20, 4, 0, 0)
+                        .single()
+                        .unwrap(),
+                },
+                EventTime::DateTime {
+                    start: FixedOffset::east_opt(3600)
+                        .unwrap()
+                        .with_ymd_and_hms(2022, 3, 26, 19, 0, 0)
+                        .single()
+                        .unwrap(),
+                    end: FixedOffset::east_opt(7200)
+                        .unwrap()
+                        .with_ymd_and_hms(2022, 3, 27, 5, 0, 0)
+                        .single()
+                        .unwrap(),
+                },
+                EventTime::DateTime {
+                    start: FixedOffset::east_opt(7200)
+                        .unwrap()
+                        .with_ymd_and_hms(2022, 4, 2, 19, 0, 0)
+                        .single()
+                        .unwrap(),
+                    end: FixedOffset::east_opt(7200)
+                        .unwrap()
+                        .with_ymd_and_hms(2022, 4, 3, 4, 0, 0)
+                        .single()
+                        .unwrap(),
+                },
+            ]
+        );
+    }
+
+    #[test]
+    fn parse_datetime_weekly_utc() {
+        let start = Property::new("DTSTART", "20220312T180000Z").done();
+        let end = Property::new("DTEND", "20220313T030000Z").done();
+        let event = Event::new()
+            .append_property(start)
+            .append_property(end)
+            .add_property("RRULE", "FREQ=WEEKLY;UNTIL=20220403T000000Z")
+            .done();
+
+        assert_eq!(
+            get_times(&event, Some("Europe/Amsterdam")).unwrap(),
+            vec![
+                EventTime::DateTime {
+                    start: FixedOffset::east_opt(3600)
+                        .unwrap()
+                        .with_ymd_and_hms(2022, 3, 12, 19, 0, 0)
+                        .single()
+                        .unwrap(),
+                    end: FixedOffset::east_opt(3600)
+                        .unwrap()
+                        .with_ymd_and_hms(2022, 3, 13, 4, 0, 0)
+                        .single()
+                        .unwrap(),
+                },
+                EventTime::DateTime {
+                    start: FixedOffset::east_opt(3600)
+                        .unwrap()
+                        .with_ymd_and_hms(2022, 3, 19, 19, 0, 0)
+                        .single()
+                        .unwrap(),
+                    end: FixedOffset::east_opt(3600)
+                        .unwrap()
+                        .with_ymd_and_hms(2022, 3, 20, 4, 0, 0)
+                        .single()
+                        .unwrap(),
+                },
+                EventTime::DateTime {
+                    start: FixedOffset::east_opt(3600)
+                        .unwrap()
+                        .with_ymd_and_hms(2022, 3, 26, 19, 0, 0)
+                        .single()
+                        .unwrap(),
+                    end: FixedOffset::east_opt(7200)
+                        .unwrap()
+                        .with_ymd_and_hms(2022, 3, 27, 5, 0, 0)
+                        .single()
+                        .unwrap(),
+                },
+                EventTime::DateTime {
+                    start: FixedOffset::east_opt(7200)
+                        .unwrap()
+                        .with_ymd_and_hms(2022, 4, 2, 19, 0, 0)
+                        .single()
+                        .unwrap(),
+                    end: FixedOffset::east_opt(7200)
+                        .unwrap()
+                        .with_ymd_and_hms(2022, 4, 3, 4, 0, 0)
+                        .single()
+                        .unwrap(),
+                },
+            ]
         );
     }
 }
