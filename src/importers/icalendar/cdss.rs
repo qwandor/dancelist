@@ -780,7 +780,7 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://www.knoxvillecontra.org/schedule".to_string());
         }
-        "Monday Night Dance" if &event.city == "Knoxville" => {
+        "Monday Night Dance" | "Knoxville Monday Night Contra" if &event.city == "Knoxville" => {
             event
                 .links
                 .insert(0, "https://www.knoxvillecontra.org/schedule".to_string());
