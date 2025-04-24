@@ -579,6 +579,16 @@ fn apply_fixes(event: &mut Event) {
         "Gainesville Florida English Country Dance" => {
             event.name = "Gainesville English Country Dance".to_string();
         }
+        "Gentle English (Swarthmore PA)" => {
+            event.name = "Gentle English".to_string();
+            event
+                .links
+                .insert(0, "https://parkavenuecontra.org/GentleEnglish".to_string());
+            if event.state.as_deref() == Some("Swarthmore") {
+                event.state = Some("PA".to_string());
+                event.city = "Swarthmore".to_string();
+            }
+        }
         "Gentle English Country Dance" => {
             event
                 .links
