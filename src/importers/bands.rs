@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 485] = [
+pub const BANDS: [&str; 488] = [
     "112 and Then Some",
     "A Cat's Tale",
     "A Fine Kettle of Fish",
@@ -325,6 +325,7 @@ pub const BANDS: [&str; 485] = [
     "Noiranomis",
     "Nordic Exposure",
     "Northern Aire",
+    "Northwoods",
     "Notorious",
     "Nova",
     "Nozzy",
@@ -431,6 +432,7 @@ pub const BANDS: [&str; 485] = [
     "The Syncopaths",
     "The Third Degree",
     "The Turning Stile",
+    "The Usual Suspects",
     "Thorn Among the Roses",
     "Threo",
     "Thunderwing",
@@ -474,6 +476,7 @@ pub const BANDS: [&str; 485] = [
     "Wabi Sabi",
     "Wakarusa Roundabouts",
     "Warleggan Village Band",
+    "Warmoes",
     "Waterbound String Band",
     "Waverley Station",
     "Wee Merry Banshees",
