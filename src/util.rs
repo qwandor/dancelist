@@ -103,7 +103,7 @@ pub fn default_timezone_for(country: &str, state: Option<&str>) -> Option<Tz> {
     })
 }
 
-pub fn to_fixed_offset(date_time: DateTime<Tz>) -> DateTime<FixedOffset> {
+pub fn to_fixed_offset<T: TimeZone>(date_time: DateTime<T>) -> DateTime<FixedOffset> {
     let fixed_offset = date_time.offset().fix();
     date_time.with_timezone(&fixed_offset)
 }
