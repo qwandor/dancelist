@@ -24,7 +24,7 @@ jsonwebtoken = "9.3.1"
 log = "0.4.27"
 octocrab = "0.44.0"
 pretty_env_logger = "0.5.0"
-quick-xml = { version = "0.37.4", features = ["serialize"] }
+quick-xml = { version = "0.37.5", features = ["serialize"] }
 regex = "1.11.1"
 reqwest = "0.12.15"
 schemars = { version = "0.8.22", features = ["chrono"] }
