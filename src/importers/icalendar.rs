@@ -47,6 +47,8 @@ use regex::Regex;
 use rrule::RRule;
 use std::cmp::{max, min};
 
+const MAX_RECURRENCES: usize = 20;
+
 trait IcalendarSource {
     const URLS: &'static [&'static str];
     const DEFAULT_ORGANISATION: &'static str;
@@ -310,6 +312,7 @@ fn datetime_instances(
                 debug!("rruleset: {}", rruleset);
                 rruleset
                     .into_iter()
+                    .take(MAX_RECURRENCES)
                     .map(|instance| {
                         debug!("Instance: {}", instance);
                         Ok(EventTime::DateTime {
