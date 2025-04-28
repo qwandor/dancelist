@@ -304,19 +304,26 @@ fn datetime_instances(
         debug!("raw rrule: {}", rrule);
         let rrule: RRule<_> = rrule.parse()?;
 
-        let rruleset =
-            rrule.build(start_with_tz.with_timezone(&rrule::Tz::from(start_with_tz.timezone())))?;
-        debug!("rruleset: {}", rruleset);
-        rruleset
-            .into_iter()
-            .map(|instance| {
-                debug!("Instance: {}", instance);
-                Ok(EventTime::DateTime {
-                    start: to_fixed_offset(instance),
-                    end: to_fixed_offset(instance + duration),
-                })
-            })
-            .collect()
+        debug!("start: {}", start_with_tz);
+        match rrule.build(start_with_tz.with_timezone(&rrule::Tz::from(start_with_tz.timezone()))) {
+            Ok(rruleset) => {
+                debug!("rruleset: {}", rruleset);
+                rruleset
+                    .into_iter()
+                    .map(|instance| {
+                        debug!("Instance: {}", instance);
+                        Ok(EventTime::DateTime {
+                            start: to_fixed_offset(instance),
+                            end: to_fixed_offset(instance + duration),
+                        })
+                    })
+                    .collect()
+            }
+            Err(e) => {
+                error!("Error building rruleset: {}", e);
+                Ok(vec![])
+            }
+        }
     } else {
         Ok(vec![EventTime::DateTime {
             start: to_fixed_offset(start_with_tz),
