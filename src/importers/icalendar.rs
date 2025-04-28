@@ -36,7 +36,7 @@ use crate::{
     },
     util::to_fixed_offset,
 };
-use chrono::{DateTime, NaiveDate, TimeZone};
+use chrono::{DateTime, NaiveDate, TimeDelta, TimeZone, Utc};
 use chrono_tz::Tz;
 use eyre::{Report, WrapErr, bail, eyre};
 use icalendar::{
@@ -47,7 +47,7 @@ use regex::Regex;
 use rrule::RRule;
 use std::cmp::{max, min};
 
-const MAX_RECURRENCES: usize = 20;
+const MAX_FUTURE_RECURRENCES: TimeDelta = TimeDelta::days(366);
 
 trait IcalendarSource {
     const URLS: &'static [&'static str];
@@ -310,17 +310,21 @@ fn datetime_instances(
         match rrule.build(start_with_tz.with_timezone(&rrule::Tz::from(start_with_tz.timezone()))) {
             Ok(rruleset) => {
                 debug!("rruleset: {}", rruleset);
-                rruleset
+                let max_datetime = Utc::now() + MAX_FUTURE_RECURRENCES;
+                Ok(rruleset
                     .into_iter()
-                    .take(MAX_RECURRENCES)
-                    .map(|instance| {
+                    .map_while(|instance| {
                         debug!("Instance: {}", instance);
-                        Ok(EventTime::DateTime {
-                            start: to_fixed_offset(instance),
-                            end: to_fixed_offset(instance + duration),
-                        })
+                        if instance > max_datetime {
+                            None
+                        } else {
+                            Some(EventTime::DateTime {
+                                start: to_fixed_offset(instance),
+                                end: to_fixed_offset(instance + duration),
+                            })
+                        }
                     })
-                    .collect()
+                    .collect())
             }
             Err(e) => {
                 error!("Error building rruleset: {}", e);
