@@ -37,6 +37,7 @@ use crate::{
     util::{local_datetime_to_fixed_offset, to_fixed_offset},
 };
 use chrono::NaiveDate;
+use chrono_tz::Tz;
 use eyre::{Report, WrapErr, bail, eyre};
 use icalendar::{
     Calendar, CalendarComponent, CalendarDateTime, Component, DatePerhapsTime, Event, EventLike,
@@ -314,10 +315,10 @@ fn get_time(event: &Event, timezone: Option<&str>) -> Result<EventTime, Report> 
                 tzid: end_tzid,
             }),
         ) => {
-            let start_timezone = start_tzid
+            let start_timezone: Tz = start_tzid
                 .parse()
                 .map_err(|e| eyre!("Invalid timezone: {}", e))?;
-            let end_timezone = end_tzid
+            let end_timezone: Tz = end_tzid
                 .parse()
                 .map_err(|e| eyre!("Invalid timezone: {}", e))?;
             EventTime::DateTime {
@@ -337,7 +338,7 @@ fn get_time(event: &Event, timezone: Option<&str>) -> Result<EventTime, Report> 
                     event
                 )
             })?;
-            let timezone = timezone
+            let timezone: Tz = timezone
                 .parse()
                 .map_err(|e| eyre!("Invalid timezone {}: {}", timezone, e))?;
             EventTime::DateTime {
@@ -355,7 +356,7 @@ fn get_time(event: &Event, timezone: Option<&str>) -> Result<EventTime, Report> 
                     event
                 )
             })?;
-            let timezone = timezone
+            let timezone: Tz = timezone
                 .parse()
                 .map_err(|e| eyre!("Invalid timezone {}: {}", timezone, e))?;
             EventTime::DateTime {
