@@ -13,7 +13,7 @@ categories = ["web-programming"]
 askama = "0.14.0"
 axum = { version = "0.8.3", features = ["macros"] }
 axum-extra = { version = "0.10.1", features = ["form", "typed-header"] }
-chrono = { version = "0.4.40", features = ["serde"] }
+chrono = { version = "0.4.41", features = ["serde"] }
 chrono-tz = { version = "0.10.3", features = ["serde"] }
 clap = { version = "4.5.37", features = ["derive"] }
 color-backtrace = "0.7.0"
