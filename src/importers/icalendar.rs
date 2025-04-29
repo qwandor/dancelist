@@ -47,7 +47,7 @@ use regex::Regex;
 use rrule::RRule;
 use std::cmp::{max, min};
 
-const MAX_FUTURE_RECURRENCES: TimeDelta = TimeDelta::days(90);
+const MAX_FUTURE_RECURRENCES: TimeDelta = TimeDelta::days(200);
 
 trait IcalendarSource {
     const URLS: &'static [&'static str];
