@@ -1,0 +1,43 @@
+<tr class="event{% if event.multiday() %} multiday{% endif %}{% if event.cancelled %} cancelled{% endif %}">
+  <td class="event-dates">
+    {{ event.short_time() }}
+  </td>
+  <td class="event-name" title="{{ event.details.as_deref().unwrap_or_default() }}">
+    {{ event.name }}
+  </td>
+  <td class="event-price">
+    {{ event.price.as_deref().unwrap_or_default() }}
+  </td>
+  <td class="event-location">
+    {{ event.city }},
+    {% if let Some(state) = event.state %}
+    {{ state }},
+    {% endif %}
+    {{ event.country }}
+  </td>
+  <td class="event-type">
+    {% if event.social %}
+    <a href="?social=true" class="social" title="Social">S</a>
+    {% endif %}
+    {% if event.workshop %}
+    <a href="?workshop=true" class="workshop" title="Workshop">W</a>
+    {% endif %}
+  </td>
+  <td class="event-styles">
+    {% for style in event.styles %}
+    <a class="dance-style {{ style.tag() }}" href="?style={{ style.tag() }}">{{ style }}</a>
+    {% endfor %}
+  </td>
+</tr>
+{% if !event.bands.is_empty() || !event.callers.is_empty() %}
+<tr class="details">
+  <td colspan="6">
+    {% for band in event.bands %}
+    <a href="?band={{ band|urlencode }}" class="band">{{ band }}</a>
+    {% endfor %}
+    {% for caller in event.callers %}
+    <a href="?caller={{ caller|urlencode }}" class="caller">{{ caller }}</a>
+    {% endfor %}
+  </td>
+</tr>
+{% endif %}
