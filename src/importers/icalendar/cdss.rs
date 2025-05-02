@@ -392,6 +392,11 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://contradance.org/".to_string());
         }
+        "Culver City ECD" => {
+            event
+                .links
+                .insert(0, "https://culvercityecd.com/".to_string());
+        }
         "Denver Contra Dance" => {
             event
                 .links
@@ -882,6 +887,11 @@ fn apply_fixes(event: &mut Event) {
         }
         "Richmond Saturday Night Contra Dance" => {
             event.name = "Saturday Night Contra Dance".to_string();
+        }
+        "Richmond 2nd Sunday Afternoon Contra Dance" => {
+            event
+                .links
+                .insert(0, "https://tadamsva.org/dances/".to_string());
         }
         "Roseville CA First Sunday English Country Dance" => {
             event.name = "Roseville English Country Dance".to_string();
