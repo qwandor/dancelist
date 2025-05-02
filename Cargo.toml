@@ -13,12 +13,14 @@ categories = ["web-programming"]
 askama = "0.14.0"
 axum = { version = "0.8.4", features = ["macros"] }
 axum-extra = { version = "0.10.1", features = ["form", "typed-header"] }
+base64 = "0.22.1"
 chrono = { version = "0.4.41", features = ["serde"] }
 chrono-tz = { version = "0.10.3", features = ["serde"] }
 clap = { version = "4.5.40", features = ["derive"] }
 color-backtrace = "0.7.0"
 enum-iterator = "2.1.0"
 eyre = "0.6.12"
+fast_qr = { version = "0.13.0", features = ["image", "svg"] }
 icalendar = { version = "0.16.15", features = ["parser"] }
 jsonwebtoken = "9.3.1"
 log = "0.4.27"

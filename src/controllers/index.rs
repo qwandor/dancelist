@@ -25,7 +25,9 @@ use crate::{
 use askama::Template;
 use axum::{extract::Query, response::Html};
 use axum_extra::{TypedHeader, headers::Host};
+use base64::{Engine, engine::general_purpose::STANDARD};
 use chrono::{Datelike, Months, NaiveDate};
+use fast_qr::{QRBuilder, convert::image::ImageBuilder};
 
 pub async fn index(
     events: Events,
@@ -146,9 +148,17 @@ pub async fn flyer(
     events.truncate(12);
     let months = sort_and_group_by_month(events);
 
+    let qr_code = QRBuilder::new(format!(
+        "https://folkdance.page/?{}",
+        filters.to_query_string().map_err(InternalError::Internal)?
+    ))
+    .build()?;
+    let qr_code_image = ImageBuilder::default().to_bytes(&qr_code)?;
+
     let template = FlyerTemplate {
         filters,
         months,
+        qr_code_uri: format!("data:image/png;base64,{}", STANDARD.encode(qr_code_image)),
     };
     Ok(Html(template.render()?))
 }
@@ -172,6 +182,7 @@ struct IndexTemplate {
 struct FlyerTemplate {
     filters: Filters,
     months: Vec<Month>,
+    qr_code: String,
 }
 
 struct Month {
