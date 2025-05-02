@@ -138,6 +138,21 @@ pub async fn index_ics(
     Ok(Ics(calendar))
 }
 
+pub async fn flyer(
+    events: Events,
+    Query(filters): Query<Filters>,
+) -> Result<Html<String>, InternalError> {
+    let mut events = events.matching(&filters);
+    events.truncate(12);
+    let months = sort_and_group_by_month(events);
+
+    let template = FlyerTemplate {
+        filters,
+        months,
+    };
+    Ok(Html(template.render()?))
+}
+
 #[derive(Template)]
 #[template(path = "index.html")]
 struct IndexTemplate {
@@ -150,6 +165,13 @@ struct IndexTemplate {
     styles: Vec<DanceStyle>,
     calendar: bool,
     show_edit_link: bool,
+}
+
+#[derive(Template)]
+#[template(path = "flyer.html")]
+struct FlyerTemplate {
+    filters: Filters,
+    months: Vec<Month>,
 }
 
 struct Month {
