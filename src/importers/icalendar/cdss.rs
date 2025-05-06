@@ -847,6 +847,14 @@ fn apply_fixes(event: &mut Event) {
             event.city = "Westford".to_string();
             event.state = Some("MA".to_string());
         }
+        "Park Avenue Contra (Swarthmore PA)" => {
+            event.name = "Park Avenue Contra".to_string();
+            event.city = "Swarthmore".to_string();
+            event.state = Some("PA".to_string());
+            event
+                .links
+                .insert(0, "https://parkavenuecontra.org/".to_string());
+        }
         "Phoenix 4th Friday Contra Dance" => {
             event.links.insert(0, "https://phxtmd.org/".to_string());
         }
