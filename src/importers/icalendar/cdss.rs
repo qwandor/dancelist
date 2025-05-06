@@ -32,6 +32,7 @@ impl IcalendarSource for Cdss {
         "https://cdss.org/events/list/page/9/?ical=1",
         "https://cdss.org/events/list/page/10/?ical=1",
         "https://cdss.org/events/list/page/11/?ical=1",
+        "https://cdss.org/events/list/page/12/?ical=1",
         "https://cdss.org/events/list/?tribe_eventcategory%5B0%5D=143&ical=1",
         "https://cdss.org/events/list/?tribe_eventcategory%5B0%5D=162&ical=1",
     ];
