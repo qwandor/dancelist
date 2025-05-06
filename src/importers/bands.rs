@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 488] = [
+pub const BANDS: [&str; 490] = [
     "112 and Then Some",
     "A Cat's Tale",
     "A Fine Kettle of Fish",
@@ -309,6 +309,7 @@ pub const BANDS: [&str; 488] = [
     "Moab Community Dance Band",
     "Mockingbird",
     "Momiro",
+    "Monday Night All Stars",
     "Mook",
     "Moore & Moss",
     "Morceau de Breizh",
@@ -366,6 +367,7 @@ pub const BANDS: [&str; 488] = [
     "Sail Away Ladies",
     "Seattle Lilla Spelmanslag",
     "Seattle Skandia Spelmanslag",
+    "Senior Moment",
     "Serendipity",
     "Shandy",
     "Shillelagh",
