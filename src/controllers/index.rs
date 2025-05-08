@@ -27,7 +27,10 @@ use axum::{extract::Query, response::Html};
 use axum_extra::{TypedHeader, headers::Host};
 use base64::{Engine, engine::general_purpose::STANDARD};
 use chrono::{Datelike, Months, NaiveDate};
-use fast_qr::{QRBuilder, convert::image::ImageBuilder};
+use fast_qr::{
+    QRBuilder,
+    convert::{Builder, image::ImageBuilder},
+};
 
 pub async fn index(
     events: Events,
@@ -153,12 +156,13 @@ pub async fn flyer(
         filters.to_query_string().map_err(InternalError::Internal)?
     ))
     .build()?;
-    let qr_code_image = ImageBuilder::default().to_bytes(&qr_code)?;
+    let qr_code_image = ImageBuilder::default().margin(0).to_bytes(&qr_code)?;
 
     let template = FlyerTemplate {
         filters,
         months,
         qr_code_uri: format!("data:image/png;base64,{}", STANDARD.encode(qr_code_image)),
+        qr_code_size: qr_code.size,
     };
     Ok(Html(template.render()?))
 }
@@ -182,7 +186,8 @@ struct IndexTemplate {
 struct FlyerTemplate {
     filters: Filters,
     months: Vec<Month>,
-    qr_code: String,
+    qr_code_uri: String,
+    qr_code_size: usize,
 }
 
 struct Month {
