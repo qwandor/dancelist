@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 491] = [
+pub const BANDS: [&str; 493] = [
     "112 and Then Some",
     "A Cat's Tale",
     "A Fine Kettle of Fish",
@@ -299,6 +299,7 @@ pub const BANDS: [&str; 491] = [
     "Matt Norman & Edward Wallace",
     "Matt Norman & Hannah Cummings",
     "Mavro Meli",
+    "Meadowhawk",
     "Merriment",
     "MetroGnomes",
     "Mevilish Merry",
@@ -444,6 +445,7 @@ pub const BANDS: [&str; 491] = [
     "Toad in the Hole",
     "Tom & Aurélie",
     "Tooth Pickers",
+    "Toppish",
     "Topspin",
     "Torrent",
     "Toss the Possum",
