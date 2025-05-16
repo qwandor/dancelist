@@ -106,6 +106,9 @@ impl IcalendarSource for Skandia {
         if name_lower.contains("free") && event.price.is_none() {
             event.price = Some("free".to_string());
         }
+        if event.name == "Nordic dance classes" {
+            event.name = "Nordic dance class".to_string();
+        }
 
         event
             .links
