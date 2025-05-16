@@ -13,7 +13,11 @@
 // limitations under the License.
 
 use super::{EventParts, IcalendarSource};
-use crate::model::{dancestyle::DanceStyle, event::Event};
+use crate::model::{
+    dancestyle::DanceStyle,
+    event::{Event, EventTime},
+};
+use chrono::Timelike;
 use eyre::Report;
 
 pub struct Spreefolk;
@@ -74,6 +78,12 @@ impl IcalendarSource for Spreefolk {
                     event.price = Some("donation".to_string());
                 } else if details.contains("Der Eintritt ist frei") {
                     event.price = Some("free".to_string());
+                }
+            }
+
+            if let EventTime::DateTime { start, .. } = &mut event.time {
+                if details.starts_with("19:00 Uhr") && start.hour() == 20 {
+                    *start = start.with_hour(19).unwrap();
                 }
             }
         }
