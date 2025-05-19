@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 493] = [
+pub const BANDS: [&str; 494] = [
     "112 and Then Some",
     "A Cat's Tale",
     "A Fine Kettle of Fish",
@@ -211,6 +211,7 @@ pub const BANDS: [&str; 493] = [
     "Grand Picnic",
     "Gray & Friends",
     "GrayScale",
+    "Green Willow",
     "Gribouille",
     "Griff Trio",
     "Groove Factory",
