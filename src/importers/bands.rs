@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 494] = [
+pub const BANDS: [&str; 495] = [
     "112 and Then Some",
     "A Cat's Tale",
     "A Fine Kettle of Fish",
@@ -94,6 +94,7 @@ pub const BANDS: [&str; 494] = [
     "Cardboard Cabin",
     "Carin Greve",
     "Cecilia",
+    "Celtic Connection",
     "Chablis",
     "Chaotic Good",
     "Chicken Feathers",
