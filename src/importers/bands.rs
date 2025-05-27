@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 495] = [
+pub const BANDS: [&str; 497] = [
     "112 and Then Some",
     "A Cat's Tale",
     "A Fine Kettle of Fish",
@@ -233,6 +233,7 @@ pub const BANDS: [&str; 495] = [
     "Hot Coffee Breakdown",
     "Hot Griselda",
     "Hot Toddy",
+    "Hypergolic",
     "I Pizzicati",
     "Ice Cream Truckers",
     "Idlewild",
@@ -482,6 +483,7 @@ pub const BANDS: [&str; 495] = [
     "Viola Voilá",
     "Wabi Sabi",
     "Wakarusa Roundabouts",
+    "Wake Up Robin",
     "Warleggan Village Band",
     "Warmoes",
     "Waterbound String Band",
