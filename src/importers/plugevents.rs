@@ -103,6 +103,7 @@ fn convert(event: &Event, default_style: DanceStyle) -> Result<Option<event::Eve
             | InterestTag::SalsaDance
             | InterestTag::Tango
             | InterestTag::Teacher
+            | InterestTag::TradMusic
             | InterestTag::WestCoastSwing
             | InterestTag::Zouk => {}
         }

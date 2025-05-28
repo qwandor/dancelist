@@ -106,6 +106,8 @@ pub enum InterestTag {
     SwedishTraditionalMusic,
     Tango,
     Teacher,
+    #[serde(rename = "Trad Music")]
+    TradMusic,
     #[serde(rename = "West Coast Swing")]
     WestCoastSwing,
     Workshop,
