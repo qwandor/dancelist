@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 497] = [
+pub const BANDS: [&str; 498] = [
     "112 and Then Some",
     "A Cat's Tale",
     "A Fine Kettle of Fish",
@@ -240,6 +240,7 @@ pub const BANDS: [&str; 497] = [
     "Irish Diplomacy",
     "Javallon",
     "Jeroen Laureyssens",
+    "Jet Bridge",
     "Joachim Montbord",
     "Joanna Hyde & Tadhg O Meachair",
     "Jormsons Kapell",
