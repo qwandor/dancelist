@@ -448,6 +448,12 @@ fn apply_fixes(event: &mut Event) {
                 "http://burlingtoncountrydancers.org/english-country-dance-series/".to_string(),
             );
         }
+        "English Country Dance - Country Dance Kalamazoo" => {
+            event.name = "CDK English Country Dance ".to_string();
+            event
+                .links
+                .insert(0, "https://www.countrydancinginkalamazoo.com/".to_string());
+        }
         "English Country Dance - Norwich, VT" => {
             event.name = "English Country Dance".to_string();
         }
