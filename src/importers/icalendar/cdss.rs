@@ -449,7 +449,7 @@ fn apply_fixes(event: &mut Event) {
             );
         }
         "English Country Dance - Country Dance Kalamazoo" => {
-            event.name = "CDK English Country Dance ".to_string();
+            event.name = "CDK English Country Dance".to_string();
             event
                 .links
                 .insert(0, "https://www.countrydancinginkalamazoo.com/".to_string());
