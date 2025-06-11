@@ -1020,7 +1020,9 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://folkproject.org/swingin-tern/".to_string());
         }
-        "Syracuse English Country Dance" => {
+        "Syracuse Country Dancers ECD"
+        | "Syracuse Country Dancers Contra Dance"
+        | "Syracuse English Country Dance" => {
             event.links.insert(
                 0,
                 "https://syracusecountrydancers.org/upcoming-dances/".to_string(),
