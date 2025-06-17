@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 502] = [
+pub const BANDS: [&str; 504] = [
     "112 and Then Some",
     "A Cat's Tale",
     "A Fine Kettle of Fish",
@@ -48,6 +48,7 @@ pub const BANDS: [&str; 502] = [
     "Avourneen",
     "ba.fnu",
     "Back Row Band",
+    "Bal à Sept",
     "Bal O'Gadjo",
     "Balbuzar",
     "Ball Noir",
@@ -486,6 +487,7 @@ pub const BANDS: [&str; 502] = [
     "Vandiekomsa",
     "Viadeyra",
     "Viola Voilá",
+    "Vionelles",
     "Wabi Sabi",
     "Wakarusa Roundabouts",
     "Wake Up Robin",
