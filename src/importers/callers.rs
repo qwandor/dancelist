@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const CALLERS: [&str; 255] = [
+pub const CALLERS: [&str; 257] = [
     "Adam Hughes",
     "Adina Gordon",
     "Alan Rosenthal",
@@ -101,6 +101,7 @@ pub const CALLERS: [&str; 255] = [
     "Dereck Kalish",
     "Devin Pohly",
     "Diane Silver",
+    "Dianne Palmer-Quay",
     "Dilip Sequeira",
     "Don Heinold",
     "Don Stratton",
@@ -263,6 +264,7 @@ pub const CALLERS: [&str; 255] = [
     "Tom Mack",
     "Val Medve",
     "Vicki Morrison",
+    "Victor Gascon",
     "Walter Zagorski",
     "Wendy Graham",
     "Will Mentor",
