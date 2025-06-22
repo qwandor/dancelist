@@ -51,6 +51,11 @@ assets = [
 		"755",
 	],
 	[
+		"public/robots.txt",
+		"/usr/share/dancelist/robots.txt",
+		"644",
+	],
+	[
 		"public/scripts/*",
 		"/usr/share/dancelist/scripts/",
 		"644",

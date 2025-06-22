@@ -57,7 +57,7 @@ use std::{
     sync::{Arc, Mutex},
 };
 use tokio::net::TcpListener;
-use tower_http::services::ServeDir;
+use tower_http::services::{ServeDir, ServeFile};
 
 #[derive(Clone, Debug, Parser)]
 struct Args {
@@ -309,6 +309,10 @@ async fn serve() -> Result<(), Report> {
         .route("/cities", get(cities::cities))
         .route("/organisations", get(organisations::organisations))
         .route("/reload", post(reload::reload))
+        .route_service(
+            "/robots.txt",
+            get_service(ServeFile::new(config.public_dir.join("robots.txt"))),
+        )
         .nest_service(
             "/scripts",
             get_service(ServeDir::new(config.public_dir.join("scripts")))
