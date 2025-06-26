@@ -816,9 +816,10 @@ fn apply_fixes(event: &mut Event) {
                 .insert(0, "https://www.knoxvillecontra.org/schedule".to_string());
         }
         "Mystic Contra Dance" | "Mystic Pie Dance" | "Mystic Pie Dance!" => {
-            event
-                .links
-                .insert(0, "https://www.mysticpiedance.org/".to_string());
+            event.links.insert(
+                0,
+                "https://mysticpiedance.wixsite.com/mystic-pie-dance".to_string(),
+            );
             if event.price.as_deref() == Some("$3-$10") {
                 event.price = Some("$7-$10".to_string());
             }
