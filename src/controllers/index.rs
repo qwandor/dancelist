@@ -25,7 +25,12 @@ use crate::{
 use askama::Template;
 use axum::{extract::Query, response::Html};
 use axum_extra::{TypedHeader, headers::Host};
+use base64::{Engine, engine::general_purpose::STANDARD};
 use chrono::{Datelike, Months, NaiveDate};
+use fast_qr::{
+    QRBuilder,
+    convert::{Builder, image::ImageBuilder},
+};
 
 pub async fn index(
     events: Events,
@@ -138,6 +143,31 @@ pub async fn index_ics(
     Ok(Ics(calendar))
 }
 
+pub async fn flyer(
+    events: Events,
+    Query(mut filters): Query<Filters>,
+) -> Result<Html<String>, InternalError> {
+    let events = events.matching(&filters);
+    let months = sort_and_group_by_month(events);
+
+    filters.limit = None;
+    let qr_code_link = format!(
+        "https://folkdance.page/?{}",
+        filters.to_query_string().map_err(InternalError::Internal)?
+    );
+    let qr_code = QRBuilder::new(qr_code_link.clone()).build()?;
+    let qr_code_image = ImageBuilder::default().margin(0).to_bytes(&qr_code)?;
+
+    let template = FlyerTemplate {
+        filters,
+        months,
+        qr_code_uri: format!("data:image/png;base64,{}", STANDARD.encode(qr_code_image)),
+        qr_code_size: qr_code.size,
+        qr_code_link,
+    };
+    Ok(Html(template.render()?))
+}
+
 #[derive(Template)]
 #[template(path = "index.html")]
 struct IndexTemplate {
@@ -150,6 +180,16 @@ struct IndexTemplate {
     styles: Vec<DanceStyle>,
     calendar: bool,
     show_edit_link: bool,
+}
+
+#[derive(Template)]
+#[template(path = "flyer.html")]
+struct FlyerTemplate {
+    filters: Filters,
+    months: Vec<Month>,
+    qr_code_uri: String,
+    qr_code_size: usize,
+    qr_code_link: String,
 }
 
 struct Month {

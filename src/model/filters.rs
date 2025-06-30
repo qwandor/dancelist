@@ -66,6 +66,7 @@ pub struct Filters {
     pub caller: Option<String>,
     pub organisation: Option<String>,
     pub cancelled: Option<bool>,
+    pub limit: Option<usize>,
 }
 
 fn styles_ser<S: Serializer>(
@@ -152,6 +153,7 @@ impl Filters {
             || self.caller.is_some()
             || self.organisation.is_some()
             || self.cancelled.is_some()
+            || self.limit.is_some()
     }
 
     pub fn to_query_string(&self) -> Result<String, Report> {
@@ -232,9 +234,9 @@ impl Filters {
         true
     }
 
-    /// Make a page title for this set of filters.
-    pub fn make_title(&self) -> String {
-        let style = if self.styles.is_empty() {
+    /// Returns a list of the styles, or "Folk dance".
+    pub fn styles_string(&self) -> String {
+        if self.styles.is_empty() {
             "Folk dance".to_string()
         } else {
             let mut styles: Vec<_> = self.styles.iter().collect();
@@ -245,7 +247,12 @@ impl Filters {
                 .map(|style| uppercase_first_letter(style.name()))
                 .collect();
             join_words(&styles)
-        };
+        }
+    }
+
+    /// Make a page title for this set of filters.
+    pub fn make_title(&self) -> String {
+        let style = self.styles_string();
         let countries = if self.country.is_empty() {
             None
         } else {

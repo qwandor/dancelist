@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>{{ filters.make_title() }}</title>
+	<link rel="stylesheet" type="text/css" href="/stylesheets/main.css" />
+</head>
+
+<body>
+	<h1>{{ filters.styles_string() }} events</h1>
+
+	<table>
+		{% for month in months %}
+		<tr>
+			<th colspan="6">{{ month.name() }}</th>
+		</tr>
+		{% for event in month.events %}
+		{% include "shared/flyer_event.html" %}
+		{% endfor %}
+		{% endfor %}
+	</table>
+
+	<p>See <strong>folkdance.page</strong> for more.</p>
+	<a href="{{ qr_code_link }}">
+		<img src="{{ qr_code_uri }}" width="{{ qr_code_size * 4 }}" height="{{ qr_code_size * 4 }}" class="qr"/>
+	</a>
+</body>
+
+</html>

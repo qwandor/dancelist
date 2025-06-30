@@ -75,6 +75,10 @@
   text-decoration: line-through;
 }
 
+img.qr {
+  image-rendering: pixelated;
+}
+
 /*--- Layout ---*/
 
 table {
