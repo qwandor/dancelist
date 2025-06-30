@@ -145,12 +145,12 @@ pub async fn index_ics(
 
 pub async fn flyer(
     events: Events,
-    Query(filters): Query<Filters>,
+    Query(mut filters): Query<Filters>,
 ) -> Result<Html<String>, InternalError> {
-    let mut events = events.matching(&filters);
-    events.truncate(12);
+    let events = events.matching(&filters);
     let months = sort_and_group_by_month(events);
 
+    filters.limit = None;
     let qr_code = QRBuilder::new(format!(
         "https://folkdance.page/?{}",
         filters.to_query_string().map_err(InternalError::Internal)?

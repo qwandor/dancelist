@@ -66,6 +66,7 @@ pub struct Filters {
     pub caller: Option<String>,
     pub organisation: Option<String>,
     pub cancelled: Option<bool>,
+    pub limit: Option<usize>,
 }
 
 fn styles_ser<S: Serializer>(
@@ -152,6 +153,7 @@ impl Filters {
             || self.caller.is_some()
             || self.organisation.is_some()
             || self.cancelled.is_some()
+            || self.limit.is_some()
     }
 
     pub fn to_query_string(&self) -> Result<String, Report> {

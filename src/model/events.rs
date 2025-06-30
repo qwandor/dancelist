@@ -146,6 +146,7 @@ impl Events {
         self.events
             .iter()
             .filter(|event| filters.matches(event, now))
+            .take(filters.limit.unwrap_or(usize::MAX))
             .collect()
     }
 
