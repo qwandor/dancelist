@@ -270,29 +270,29 @@ impl Filters {
         };
 
         match (countries, states, cities) {
-            (None, None, None) => format!("{} events", style),
+            (None, None, None) => format!("{style} events"),
             (Some(countries), None, None) => {
                 if countries == "UK" || countries == "USA" {
-                    format!("{} events in the {}", style, countries)
+                    format!("{style} events in the {countries}")
                 } else {
-                    format!("{} events in {}", style, countries)
+                    format!("{style} events in {countries}")
                 }
             }
-            (None, None, Some(cities)) => format!("{} events in {}", style, cities),
+            (None, None, Some(cities)) => format!("{style} events in {cities}"),
             (None, Some(states), None) => {
-                format!("{} events in {}", style, states)
+                format!("{style} events in {states}")
             }
             (None, Some(states), Some(cities)) => {
-                format!("{} events in {}, {}", style, cities, states)
+                format!("{style} events in {cities}, {states}")
             }
             (Some(country), None, Some(cities)) => {
-                format!("{} events in {}, {}", style, cities, country)
+                format!("{style} events in {cities}, {country}")
             }
             (Some(country), Some(states), None) => {
-                format!("{} events in {}, {}", style, states, country)
+                format!("{style} events in {states}, {country}")
             }
             (Some(country), Some(states), Some(cities)) => {
-                format!("{} events in {}, {}, {}", style, cities, states, country)
+                format!("{style} events in {cities}, {states}, {country}")
             }
         }
     }

@@ -130,7 +130,7 @@ impl IcalendarSource for BalfolkNl {
                 8 => location_parts[3].trim().to_string(),
                 4.. => location_parts[2].trim().to_string(),
                 _ => {
-                    warn!("Invalid location \"{:?}\"", location_parts,);
+                    warn!("Invalid location \"{location_parts:?}\"",);
                     "".to_string()
                 }
             }
@@ -160,7 +160,7 @@ impl IcalendarSource for BalfolkNl {
         if let Some(details) = &event.details {
             // Remove name from start of details.
             let details = details
-                .trim_start_matches(&format!("{}, ", raw_name))
+                .trim_start_matches(&format!("{raw_name}, "))
                 .trim()
                 .to_owned();
             event.details = Some(details);

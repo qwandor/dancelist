@@ -20,7 +20,7 @@ pub fn events_to_calendar(events: &[&Event], name: &str) -> Calendar {
 fn event_to_event(event: &Event) -> icalendar::Event {
     let mut description = String::new();
     if let Some(details) = &event.details {
-        writeln!(description, "{}", details).unwrap();
+        writeln!(description, "{details}").unwrap();
     }
     writeln!(
         description,
@@ -51,10 +51,10 @@ fn event_to_event(event: &Event) -> icalendar::Event {
         writeln!(description, "Callers: {}", event.callers.join(", ")).unwrap();
     }
     if let Some(price) = &event.price {
-        writeln!(description, "Price: {}", price).unwrap();
+        writeln!(description, "Price: {price}").unwrap();
     }
     for link in &event.links {
-        writeln!(description, "{}", link).unwrap();
+        writeln!(description, "{link}").unwrap();
     }
 
     let categories = event

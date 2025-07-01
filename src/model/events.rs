@@ -62,7 +62,7 @@ impl Events {
             } else if filename.extension() == Some(OsStr::new("yaml")) {
                 Self::load_file(&filename)?
             } else {
-                trace!("Not reading events from {:?}", filename);
+                trace!("Not reading events from {filename:?}");
                 continue;
             };
             events.extend(file_events.events);
@@ -72,11 +72,11 @@ impl Events {
 
     /// Load and validate events from the given YAML file.
     pub fn load_file(filename: &Path) -> Result<Self, Report> {
-        trace!("Reading events from {:?}", filename);
+        trace!("Reading events from {filename:?}");
         let contents =
-            read_to_string(filename).wrap_err_with(|| format!("Reading {:?}", filename))?;
+            read_to_string(filename).wrap_err_with(|| format!("Reading {filename:?}"))?;
         let mut events =
-            Self::load_str(&contents).wrap_err_with(|| format!("Reading {:?}", filename))?;
+            Self::load_str(&contents).wrap_err_with(|| format!("Reading {filename:?}"))?;
         events.validate()?;
 
         // Fill in the source with the filename, if the event doesn't already have one.
@@ -94,14 +94,14 @@ impl Events {
     /// Loads events from the given YAML file, but doesn't validate them or add sources.
     pub fn load_file_without_validation(filename: &Path) -> Result<Self, Report> {
         let contents =
-            read_to_string(filename).wrap_err_with(|| format!("Reading {:?}", filename))?;
-        Self::load_str(&contents).wrap_err_with(|| format!("Reading {:?}", filename))
+            read_to_string(filename).wrap_err_with(|| format!("Reading {filename:?}"))?;
+        Self::load_str(&contents).wrap_err_with(|| format!("Reading {filename:?}"))
     }
 
     /// Loads events from the given YAML URL and validates them.
     pub async fn load_url(url: &str) -> Result<Self, Report> {
         let contents = reqwest::get(url).await?.text().await?;
-        let events = Self::load_str(&contents).wrap_err_with(|| format!("Reading {}", url))?;
+        let events = Self::load_str(&contents).wrap_err_with(|| format!("Reading {url}"))?;
         events.validate()?;
         Ok(events)
     }

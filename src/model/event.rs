@@ -208,7 +208,7 @@ impl Event {
                     if a == b {
                         Some(a.clone())
                     } else {
-                        Some(format!("{}\n{}", a, b))
+                        Some(format!("{a}\n{b}"))
                     }
                 }
             };

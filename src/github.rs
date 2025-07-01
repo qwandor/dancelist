@@ -67,9 +67,9 @@ async fn create_branch(
         let branch_name = if suffix == 0 {
             pr_branch_base.clone()
         } else {
-            format!("{}{}", pr_branch_base, suffix)
+            format!("{pr_branch_base}{suffix}")
         };
-        trace!("Creating branch \"{}\"", branch_name);
+        trace!("Creating branch \"{branch_name}\"");
         if let Err(e) = repo
             .create_ref(&Reference::Branch(branch_name.clone()), head_sha)
             .await
@@ -87,10 +87,7 @@ async fn create_branch(
         }
     }
 
-    warn!(
-        "Failed to create PR branch {} after trying all suffixes: {}",
-        pr_branch_base, last_error
-    );
+    warn!("Failed to create PR branch {pr_branch_base} after trying all suffixes: {last_error}");
     Err(InternalError::Internal(last_error))
 }
 
@@ -143,7 +140,7 @@ pub async fn add_event_to_file(
             update = update.author(author);
         }
         let update = update.send().await?;
-        trace!("Update: {:?}", update);
+        trace!("Update: {update:?}");
     } else {
         // File doesn't exist, create it.
         let new_events = Events {
@@ -159,7 +156,7 @@ pub async fn add_event_to_file(
             create = create.author(author);
         }
         let create = create.send().await?;
-        trace!("Create: {:?}", create);
+        trace!("Create: {create:?}");
     }
 
     // Create PR for the branch.
@@ -168,7 +165,7 @@ pub async fn add_event_to_file(
         .body("Added from web form.")
         .send()
         .await?;
-    trace!("Made PR {:?}", pr);
+    trace!("Made PR {pr:?}");
     let pr_url = pr
         .html_url
         .ok_or_else(|| InternalError::Internal(eyre!("PR missing html_url")))?;
@@ -230,7 +227,7 @@ pub async fn edit_event_in_file(
         update = update.author(author);
     }
     let update = update.send().await?;
-    trace!("Update: {:?}", update);
+    trace!("Update: {update:?}");
 
     // Create PR for the branch.
     let pr = pulls
@@ -238,7 +235,7 @@ pub async fn edit_event_in_file(
         .body("Added from web form.")
         .send()
         .await?;
-    trace!("Made PR {:?}", pr);
+    trace!("Made PR {pr:?}");
     let pr_url = pr
         .html_url
         .ok_or_else(|| InternalError::Internal(eyre!("PR missing html_url")))?;
@@ -315,9 +312,9 @@ pub fn choose_file_for_event(events: &Events, event: &Event) -> Result<String, D
         )
     };
 
-    trace!("Possible files for organisation: {:?}", organisation_files);
-    trace!("Possible files for city: {:?}", city_files);
-    trace!("Chosen file: {}", chosen_file);
+    trace!("Possible files for organisation: {organisation_files:?}");
+    trace!("Possible files for city: {city_files:?}");
+    trace!("Chosen file: {chosen_file}");
 
     Ok(chosen_file)
 }

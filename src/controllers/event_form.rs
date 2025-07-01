@@ -269,7 +269,7 @@ fn datetime_or_none<'de, D: Deserializer<'de>>(
             Ok(None)
         } else {
             Ok(Some(NaiveDateTime::deserialize(
-                format!("{}:00", str).into_deserializer(),
+                format!("{str}:00").into_deserializer(),
             )?))
         }
     } else {

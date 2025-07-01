@@ -26,8 +26,7 @@ use eyre::{Report, eyre};
 
 pub async fn events(token: &str) -> Result<Vec<Event>, Report> {
     let json = reqwest::get(format!(
-        "https://api1.plug.events/api1/embed/embed1?token={}",
-        token
+        "https://api1.plug.events/api1/embed/embed1?token={token}"
     ))
     .await?
     .text()
@@ -256,11 +255,11 @@ fn format_price(event: &Event) -> Option<String> {
             let mut price = price.replace(" ", "");
             let currency = price.chars().next().unwrap();
             if "$£€".contains(currency) {
-                price = price.replace("-", &format!("-{}", currency));
+                price = price.replace("-", &format!("-{currency}"));
             }
             price = price.replace(".00", "");
             if let Some(stripped) = price.strip_prefix("zł") {
-                price = format!("{} PLN", stripped);
+                price = format!("{stripped} PLN");
             }
             price
         })

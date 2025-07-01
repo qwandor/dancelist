@@ -146,9 +146,9 @@ fn convert(event: &Event) -> Vec<event::Event> {
             Some(if *min_price == -1 {
                 "donation".to_string()
             } else if min_price == max_price {
-                format!("€{}", min_price)
+                format!("€{min_price}")
             } else {
-                format!("€{}-€{}", min_price, max_price)
+                format!("€{min_price}-€{max_price}")
             })
         } else {
             None

@@ -164,13 +164,13 @@ fn convert(event: &EventRecord) -> Option<Event> {
     styles.dedup();
 
     if styles.is_empty() {
-        eprintln!("Dropping {} with no styles.", name);
+        eprintln!("Dropping {name} with no styles.");
         None
     } else if city == "Zoom" {
-        eprintln!("Dropping {} on Zoom.", name);
+        eprintln!("Dropping {name} on Zoom.");
         None
     } else if city == "Cecil Sharp House, Camden" {
-        eprintln!("Dropping {} at Cecil Sharp House.", name);
+        eprintln!("Dropping {name} at Cecil Sharp House.");
         None
     } else {
         Some(Event {

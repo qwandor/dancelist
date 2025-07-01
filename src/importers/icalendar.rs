@@ -90,7 +90,7 @@ fn convert<S: IcalendarSource>(parts: EventParts) -> Result<Option<event::Event>
     let workshop = S::workshop(&parts);
     let social = S::social(&parts);
     let Some((country, state, city)) =
-        S::location(&parts).wrap_err_with(|| format!("For event {:?}", parts))?
+        S::location(&parts).wrap_err_with(|| format!("For event {parts:?}"))?
     else {
         error!(
             "Invalid location {:?} for {:?} '{}'",
@@ -164,12 +164,11 @@ fn get_price(description: &str) -> Result<Option<String>, Report> {
         if min_price == u32::MAX {
             continue;
         } else if min_price == max_price {
-            return Ok(Some(format!("{}{}", currency, min_price)));
+            return Ok(Some(format!("{currency}{min_price}")));
         } else {
-            return Ok(Some(format!(
-                "{}{}-{}{}",
-                currency, min_price, currency, max_price,
-            )));
+            return Ok(Some(
+                format!("{currency}{min_price}-{currency}{max_price}",),
+            ));
         }
     }
     Ok(None)
@@ -209,7 +208,7 @@ fn get_parts(event: &Event, timezone: Option<&str>) -> Result<Vec<EventParts>, R
         if url.contains("://") {
             url.to_string()
         } else {
-            format!("http://{}", url)
+            format!("http://{url}")
         }
     });
     let summary = unescape(event.get_summary().unwrap_or_default());
@@ -304,18 +303,18 @@ fn datetime_instances(
 ) -> Result<Vec<EventTime>, Report> {
     if let Some(rrule) = rrule {
         let duration = end_with_tz - start_with_tz;
-        debug!("raw rrule: {}", rrule);
+        debug!("raw rrule: {rrule}");
         let rrule: RRule<_> = rrule.parse()?;
 
-        debug!("start: {}", start_with_tz);
+        debug!("start: {start_with_tz}");
         match rrule.build(start_with_tz.with_timezone(&rrule::Tz::from(start_with_tz.timezone()))) {
             Ok(rruleset) => {
-                debug!("rruleset: {}", rruleset);
+                debug!("rruleset: {rruleset}");
                 let max_datetime = Utc::now() + MAX_FUTURE_RECURRENCES;
                 Ok(rruleset
                     .into_iter()
                     .map_while(|instance| {
-                        debug!("Instance: {}", instance);
+                        debug!("Instance: {instance}");
                         if instance > max_datetime {
                             None
                         } else {
@@ -328,7 +327,7 @@ fn datetime_instances(
                     .collect())
             }
             Err(e) => {
-                error!("Error building rruleset: {}", e);
+                error!("Error building rruleset: {e}");
                 Ok(vec![])
             }
         }

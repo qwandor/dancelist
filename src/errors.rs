@@ -49,7 +49,7 @@ pub async fn internal_error<E: Debug>(e: E) -> Response {
 fn internal_error_response<E: Debug>(e: E) -> Response {
     (
         StatusCode::INTERNAL_SERVER_ERROR,
-        format!("Internal error: {:?}", e),
+        format!("Internal error: {e:?}"),
     )
         .into_response()
 }

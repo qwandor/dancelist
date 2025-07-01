@@ -210,7 +210,7 @@ async fn diff(path_a: &str, path_b: &str) -> Result<(), Report> {
     let events_b = Events::load_events(path_b).await?.events;
 
     let markdown = diff_markdown(events_a, events_b)?;
-    println!("{}", markdown);
+    println!("{markdown}");
 
     Ok(())
 }
