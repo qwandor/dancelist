@@ -90,6 +90,7 @@ fn convert(event: &Event, default_style: DanceStyle) -> Result<Option<event::Eve
             | InterestTag::Bachata
             | InterestTag::BalfolkNL
             | InterestTag::BluesDance
+            | InterestTag::CommunityService
             | InterestTag::CoupleDance
             | InterestTag::Dance
             | InterestTag::DancingBodies
@@ -148,6 +149,7 @@ fn convert(event: &Event, default_style: DanceStyle) -> Result<Option<event::Eve
             | EventFormat::Party
             | EventFormat::Piano
             | EventFormat::Social
+            | EventFormat::SocialDance
             | EventFormat::SocialDancing => {
                 social = true;
             }

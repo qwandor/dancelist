@@ -81,6 +81,8 @@ pub enum InterestTag {
     BalfolkNL,
     #[serde(rename = "Blues Dance")]
     BluesDance,
+    #[serde(rename = "Community Service")]
+    CommunityService,
     #[serde(rename = "Contra Dance")]
     ContraDance,
     #[serde(rename = "Couple dance")]
@@ -167,6 +169,8 @@ pub enum EventFormat {
     Social,
     #[serde(rename = "Social Class")]
     SocialClass,
+    #[serde(rename = "Social dance")]
+    SocialDance,
     #[serde(rename = "Social Dancing")]
     SocialDancing,
     Sociales,
