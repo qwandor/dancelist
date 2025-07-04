@@ -82,8 +82,8 @@ pub async fn index_html(
     } else {
         vec![]
     };
-    let events = events.matching(&filters);
-    let months = sort_and_group_by_month(events);
+    let events = events.sorted_matching(&filters);
+    let months = group_by_month(events.events);
     let template = IndexTemplate {
         filters,
         months,
@@ -102,9 +102,7 @@ pub async fn index_json(
     events: Events,
     Query(filters): Query<Filters>,
 ) -> Result<String, InternalError> {
-    let mut events = events.matching(&filters);
-    events.sort_by_key(|event| event.time.start_time_sort_key());
-    let events = Events::cloned(events);
+    let events = events.sorted_matching(&filters);
     Ok(serde_json::to_string(&events)?)
 }
 
@@ -112,9 +110,7 @@ pub async fn index_toml(
     events: Events,
     Query(filters): Query<Filters>,
 ) -> Result<String, InternalError> {
-    let mut events = events.matching(&filters);
-    events.sort_by_key(|event| event.time.start_time_sort_key());
-    let events = Events::cloned(events);
+    let events = events.sorted_matching(&filters);
     Ok(toml::to_string(&events)?)
 }
 
@@ -122,9 +118,7 @@ pub async fn index_yaml(
     events: Events,
     Query(filters): Query<Filters>,
 ) -> Result<String, InternalError> {
-    let mut events = events.matching(&filters);
-    events.sort_by_key(|event| event.time.start_time_sort_key());
-    let events = Events::cloned(events);
+    let events = events.sorted_matching(&filters);
     Ok(serde_yaml::to_string(&events)?)
 }
 
@@ -137,9 +131,8 @@ pub async fn index_ics(
         filters.cancelled = Some(false);
     }
 
-    let mut events = events.matching(&filters);
-    events.sort_by_key(|event| event.time.start_time_sort_key());
-    let calendar = events_to_calendar(&events, &filters.make_title());
+    let events = events.sorted_matching(&filters);
+    let calendar = events_to_calendar(&events.events, &filters.make_title());
     Ok(Ics(calendar))
 }
 
@@ -147,8 +140,8 @@ pub async fn flyer(
     events: Events,
     Query(mut filters): Query<Filters>,
 ) -> Result<Html<String>, InternalError> {
-    let events = events.matching(&filters);
-    let months = sort_and_group_by_month(events);
+    let events = events.sorted_matching(&filters);
+    let months = group_by_month(events.events);
 
     filters.limit = None;
     let qr_code_link = format!(
@@ -228,10 +221,8 @@ struct Day {
     events: Vec<Event>,
 }
 
-/// Given a list of events in arbitrary order, sort them in ascending order of start date, then group them by starting month.
-fn sort_and_group_by_month(mut events: Vec<&Event>) -> Vec<Month> {
-    events.sort_by_key(|event| event.time.start_time_sort_key());
-
+/// Given a list of events sorted in ascending order of start date, groups them by starting month.
+fn group_by_month(events: Vec<Event>) -> Vec<Month> {
     let mut months = vec![];
     let mut month = Month {
         start: NaiveDate::MIN,
@@ -239,14 +230,14 @@ fn sort_and_group_by_month(mut events: Vec<&Event>) -> Vec<Month> {
     };
     for event in events {
         if event.start_year() == month.start.year() && event.start_month() == month.start.month() {
-            month.events.push(event.to_owned());
+            month.events.push(event);
         } else {
             if !month.events.is_empty() {
                 months.push(month);
             }
             month = Month {
                 start: NaiveDate::from_ymd_opt(event.start_year(), event.start_month(), 1).unwrap(),
-                events: vec![event.to_owned()],
+                events: vec![event],
             };
         }
     }

@@ -140,14 +140,19 @@ impl Events {
         self.events.sort_by_key(Event::date_location_sort_key);
     }
 
-    /// Get all events matching the given filters.
-    pub fn matching(&self, filters: &Filters) -> Vec<&Event> {
+    /// Get all events matching the given filters, sorted by start time then location.
+    pub fn sorted_matching(self, filters: &Filters) -> Self {
         let now = Utc::now();
-        self.events
-            .iter()
-            .filter(|event| filters.matches(event, now))
-            .take(filters.limit.unwrap_or(usize::MAX))
-            .collect()
+        let mut events = Self {
+            events: self
+                .events
+                .into_iter()
+                .filter(|event| filters.matches(event, now))
+                .collect(),
+        };
+        events.sort();
+        events.events.truncate(filters.limit.unwrap_or(usize::MAX));
+        events
     }
 
     /// Returns the event with the given SHA-1 hash, if any.
@@ -615,20 +620,132 @@ mod tests {
             events: vec![past_event.clone(), future_event.clone()],
         };
 
-        assert_eq!(events.matching(&Filters::default()), vec![&future_event]);
         assert_eq!(
-            events.matching(&Filters {
+            events.clone().sorted_matching(&Filters::default()),
+            Events {
+                events: vec![future_event.clone()]
+            }
+        );
+        assert_eq!(
+            events.clone().sorted_matching(&Filters {
                 date: DateFilter::Past,
                 ..Filters::default()
             }),
-            vec![&past_event]
+            Events {
+                events: vec![past_event.clone()]
+            }
         );
         assert_eq!(
-            events.matching(&Filters {
+            events.clone().sorted_matching(&Filters {
                 date: DateFilter::All,
                 ..Filters::default()
             }),
-            vec![&past_event, &future_event]
+            Events {
+                events: vec![past_event.clone(), future_event.clone()]
+            }
+        );
+    }
+
+    #[test]
+    fn limit() {
+        let a = Event {
+            name: "A".to_string(),
+            time: EventTime::DateOnly {
+                start_date: NaiveDate::from_ymd_opt(2000, 1, 1).unwrap(),
+                end_date: NaiveDate::from_ymd_opt(2000, 1, 1).unwrap(),
+            },
+            details: None,
+            links: vec![],
+            country: "Test".to_string(),
+            state: None,
+            city: "Test".to_string(),
+            styles: vec![DanceStyle::EnglishCountryDance],
+            workshop: true,
+            social: false,
+            bands: vec![],
+            callers: vec![],
+            price: None,
+            organisation: None,
+            cancelled: false,
+            source: None,
+        };
+        let b = Event {
+            name: "B".to_string(),
+            time: EventTime::DateOnly {
+                start_date: NaiveDate::from_ymd_opt(2000, 2, 1).unwrap(),
+                end_date: NaiveDate::from_ymd_opt(2000, 2, 5).unwrap(),
+            },
+            details: None,
+            links: vec![],
+            country: "Test".to_string(),
+            state: None,
+            city: "Test".to_string(),
+            styles: vec![DanceStyle::EnglishCountryDance],
+            workshop: true,
+            social: false,
+            bands: vec![],
+            callers: vec![],
+            price: None,
+            organisation: None,
+            cancelled: false,
+            source: None,
+        };
+        let c = Event {
+            name: "C".to_string(),
+            time: EventTime::DateOnly {
+                start_date: NaiveDate::from_ymd_opt(2000, 2, 2).unwrap(),
+                end_date: NaiveDate::from_ymd_opt(2000, 2, 3).unwrap(),
+            },
+            details: None,
+            links: vec![],
+            country: "Test".to_string(),
+            state: None,
+            city: "Test".to_string(),
+            styles: vec![DanceStyle::EnglishCountryDance],
+            workshop: true,
+            social: false,
+            bands: vec![],
+            callers: vec![],
+            price: None,
+            organisation: None,
+            cancelled: false,
+            source: None,
+        };
+        let d = Event {
+            name: "D".to_string(),
+            time: EventTime::DateOnly {
+                start_date: NaiveDate::from_ymd_opt(2000, 2, 3).unwrap(),
+                end_date: NaiveDate::from_ymd_opt(2000, 3, 1).unwrap(),
+            },
+            details: None,
+            links: vec![],
+            country: "Test".to_string(),
+            state: None,
+            city: "Test".to_string(),
+            styles: vec![DanceStyle::EnglishCountryDance],
+            workshop: true,
+            social: false,
+            bands: vec![],
+            callers: vec![],
+            price: None,
+            organisation: None,
+            cancelled: false,
+            source: None,
+        };
+
+        let events = Events {
+            events: vec![a.clone(), d.clone(), c.clone(), b.clone()],
+        };
+
+        assert_eq!(
+            events.sorted_matching(&Filters {
+                limit: Some(3),
+                date: DateFilter::All,
+                ..Default::default()
+            }),
+            Events {
+                events: vec![a, b, c]
+            }
         );
     }
 }
