@@ -93,7 +93,7 @@ impl DanceStyle {
             Self::Reeling => "Scottish reeling",
             Self::ScottishCeilidh => "Scottish cèilidh",
             Self::ScottishCountryDance => "SCD",
-            Self::Scandinavian => "scandi",
+            Self::Scandinavian => "Scandi",
         }
     }
 }
