@@ -118,6 +118,7 @@ tr.details td {
   grid-area: type;
 }
 .event-styles {
+  max-width: 10em;
   grid-area: styles;
 }
 
