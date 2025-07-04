@@ -260,6 +260,68 @@ a:hover:not([class]) {
   margin-right: 0;
 }
 
+/*-- Print theme --*/
+
+@media print {
+  .dance-style,
+  .workshop,
+  .social,
+  .band,
+  .caller {
+    background-color: transparent !important;
+    text-shadow: none;
+  }
+  .dance-style.contra {
+    color: gold;
+  }
+  .dance-style.balfolk {
+    color: violet;
+  }
+  .dance-style.e-ceilidh {
+    color: gray;
+  }
+  .dance-style.ceili {
+    color: greenyellow;
+  }
+  .dance-style.irish-set {
+    color: lightgreen;
+  }
+  .dance-style.italian {
+    color: pink;
+  }
+  .dance-style.ecd {
+    color: orange;
+  }
+  .dance-style.polish {
+    color: red;
+  }
+  .dance-style.reeling {
+    color: peachpuff;
+  }
+  .dance-style.s-ceilidh {
+    color: thistle;
+  }
+  .dance-style.scd {
+    color: wheat;
+  }
+  .dance-style.scandi {
+    color: lightblue;
+  }
+
+  .workshop {
+    color: darkmagenta;
+  }
+  .social {
+    color: darkolivegreen;
+  }
+  .band {
+    color: darkseagreen;
+  }
+  .caller {
+    color: tan;
+  }
+}
+
 /*--- Add event form layout ---*/
 
 form > ul {
