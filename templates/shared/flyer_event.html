@@ -15,14 +15,6 @@
     {% endif %}
     {{ event.country }}
   </td>
-  <td class="event-type">
-    {% if event.social %}
-    <a href="?social=true" class="social" title="Social">S</a>
-    {% endif %}
-    {% if event.workshop %}
-    <a href="?workshop=true" class="workshop" title="Workshop">W</a>
-    {% endif %}
-  </td>
   <td class="event-styles">
     {% for style in event.styles %}
     <a class="dance-style {{ style.tag() }}" href="?style={{ style.tag() }}">{{ style }}</a>

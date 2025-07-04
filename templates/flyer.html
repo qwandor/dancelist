@@ -12,7 +12,7 @@
 	<table>
 		{% for month in months %}
 		<tr>
-			<th colspan="6">{{ month.name() }}</th>
+			<th colspan="5">{{ month.name() }}</th>
 		</tr>
 		{% for event in month.events %}
 		{% include "shared/flyer_event.html" %}
