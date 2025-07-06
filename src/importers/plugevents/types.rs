@@ -114,6 +114,8 @@ pub enum InterestTag {
     WestCoastSwing,
     Workshop,
     Zouk,
+    #[serde(rename = "Zzz- not cleaned")]
+    Zzz,
 }
 
 #[derive(Clone, Debug, Default, Deserialize, Eq, PartialEq)]
@@ -188,8 +190,8 @@ pub struct FeaturedParticipant {
     pub create_date_iso: DateTime<Utc>,
     pub readable_create_date: String,
     pub event_readable_time: String,
-    pub image_url: String,
-    pub thumb_image_url: String,
+    pub image_url: Option<String>,
+    pub thumb_image_url: Option<String>,
     pub status: u8,
     pub plug_url: Option<String>,
 }

@@ -105,7 +105,8 @@ fn convert(event: &Event, default_style: DanceStyle) -> Result<Option<event::Eve
             | InterestTag::Teacher
             | InterestTag::TradMusic
             | InterestTag::WestCoastSwing
-            | InterestTag::Zouk => {}
+            | InterestTag::Zouk
+            | InterestTag::Zzz => {}
         }
     }
     for subinterest in event.subinterests.clone().unwrap_or_default() {
