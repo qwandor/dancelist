@@ -14,7 +14,7 @@
 
 use super::{EventParts, IcalendarSource};
 use crate::model::{dancestyle::DanceStyle, event::Event};
-use eyre::Report;
+use eyre::{Report, bail};
 
 pub struct Burghausen;
 
@@ -37,11 +37,13 @@ impl IcalendarSource for Burghausen {
     }
 
     fn location(parts: &EventParts) -> Result<Option<(String, Option<String>, String)>, Report> {
-        let city = parts.location_parts.as_ref().unwrap()[2]
-            .split_once(' ')
-            .unwrap()
-            .1
-            .to_string();
+        let location_parts = parts.location_parts.as_ref().unwrap();
+        let postcode_and_city = match location_parts.len() {
+            2 | 3 => &location_parts[1],
+            4 => &location_parts[2],
+            _ => bail!("Unexpected location format {:?}", location_parts),
+        };
+        let city = postcode_and_city.split_once(' ').unwrap().1.to_string();
         Ok(Some(("Germany".to_string(), None, city)))
     }
 
