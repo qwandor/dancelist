@@ -100,6 +100,7 @@ pub enum InterestTag {
     NeoTrad,
     #[serde(rename = "Salsa Dance")]
     SalsaDance,
+    Singing,
     #[serde(rename = "Social Dance")]
     SocialDance,
     #[serde(rename = "Swedish Folk Dance")]
