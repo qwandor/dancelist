@@ -830,7 +830,8 @@ fn apply_fixes(event: &mut Event) {
                 event.price = Some("$7-$10".to_string());
             }
         }
-        "Nashville English Country Dance" => {
+        "Nashville English Country Dance"
+        | "Nashville Monday Night English Country Dance Class" => {
             event.links.insert(
                 0,
                 "https://www.nashvillecountrydancers.org/english-country-dances".to_string(),
