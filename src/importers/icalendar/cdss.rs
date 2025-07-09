@@ -39,8 +39,10 @@ impl IcalendarSource for Cdss {
     const DEFAULT_ORGANISATION: &'static str = "CDSS";
 
     fn workshop(parts: &EventParts) -> bool {
+        let summary_lower = parts.summary.to_lowercase();
         let description_lower = parts.description.to_lowercase();
-        (description_lower.contains("lesson") && !description_lower.contains("no lesson"))
+        summary_lower.contains("class")
+            || (description_lower.contains("lesson") && !description_lower.contains("no lesson"))
             || description_lower.contains("“learn the ropes")
             || description_lower.contains("[learn the ropes")
             || description_lower.contains("basics session")
@@ -76,8 +78,9 @@ impl IcalendarSource for Cdss {
             || description_lower.contains("workshop")
     }
 
-    fn social(_parts: &EventParts) -> bool {
-        true
+    fn social(parts: &EventParts) -> bool {
+        let summary_lower = parts.summary.to_lowercase();
+        !summary_lower.contains("class")
     }
 
     fn styles(parts: &EventParts) -> Vec<DanceStyle> {
