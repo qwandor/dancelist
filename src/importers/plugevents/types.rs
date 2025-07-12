@@ -71,8 +71,10 @@ pub struct Interest {
 
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq)]
 pub enum InterestTag {
+    Accordion,
     Art,
     Bachata,
+    Bagpipes,
     Balfolk,
     #[serde(rename = "Balfolk dance")]
     Balfolkdance,

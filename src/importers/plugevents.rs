@@ -86,8 +86,10 @@ fn convert(event: &Event, default_style: DanceStyle) -> Result<Option<event::Eve
                 styles.push(DanceStyle::Contra);
                 social = true;
             }
-            InterestTag::Art
+            InterestTag::Accordion
+            | InterestTag::Art
             | InterestTag::Bachata
+            | InterestTag::Bagpipes
             | InterestTag::BalfolkNL
             | InterestTag::BluesDance
             | InterestTag::CommunityService
