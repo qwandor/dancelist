@@ -230,7 +230,8 @@ fn convert_style(style: Style) -> Option<DanceStyle> {
         | Style::DanceBarnDanceSpace
         | Style::DanceCajun
         | Style::DanceCajunZydecoIrishSetFrenchBretonMix
-        | Style::DanceFolkDance => None, // TODO
+        | Style::DanceFolkDance
+        | Style::DanceZydeco => None, // TODO
         Style::DanceIrishSet => Some(DanceStyle::IrishSet),
         Style::DanceSwedish => Some(DanceStyle::Scandinavian),
     }

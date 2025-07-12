@@ -197,6 +197,8 @@ pub enum Style {
     DancePlayford,
     #[serde(rename = "Dance.Swedish")]
     DanceSwedish,
+    #[serde(rename = "Dance.Zydeco")]
+    DanceZydeco,
 }
 
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
