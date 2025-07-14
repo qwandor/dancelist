@@ -210,6 +210,10 @@ fn convert(event: &Event, default_style: DanceStyle) -> Result<Option<event::Eve
         "Folktańcówka" => {
             social = true;
         }
+        "BALFOLK MET MUSAC" => {
+            name = "Balfolk".to_string();
+            social = true;
+        }
         _ => {}
     }
 
