@@ -856,6 +856,12 @@ fn apply_fixes(event: &mut Event) {
         "North Alabama Country Dance Society - NACDS Contra Dance" => {
             event.name = "NACDS Contra Dance".to_string();
         }
+        "North Jersey English Country Dancers" => {
+            event.links.insert(
+                0,
+                "https://www.northjerseyenglishcountrydancers.org/".to_string(),
+            );
+        }
         "Orlando Contra Dance" => {
             event.links.insert(
                 0,
