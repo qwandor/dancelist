@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const CALLERS: [&str; 259] = [
+pub const CALLERS: [&str; 260] = [
     "Adam Hughes",
     "Adina Gordon",
     "Alan Rosenthal",
@@ -85,6 +85,7 @@ pub const CALLERS: [&str; 259] = [
     "Dan Blim",
     "Dan Kappus",
     "Dan Seppeler",
+    "Daniel Popowich",
     "Darlene Hamilton",
     "Darlene Underwood",
     "Dave Bateman",
