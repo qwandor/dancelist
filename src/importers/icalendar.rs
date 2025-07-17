@@ -43,10 +43,13 @@ use eyre::{Report, WrapErr, bail, eyre};
 use icalendar::{
     Calendar, CalendarComponent, CalendarDateTime, Component, DatePerhapsTime, Event, EventLike,
 };
-use log::{debug, error};
+use log::{debug, error, warn};
 use regex::Regex;
 use rrule::RRule;
-use std::cmp::{max, min};
+use std::{
+    cmp::{max, min},
+    collections::HashMap,
+};
 
 const MAX_FUTURE_RECURRENCES: TimeDelta = TimeDelta::days(365);
 
@@ -190,9 +193,9 @@ async fn import_new_events<S: IcalendarSource>() -> Result<Events, Report> {
             .parse::<Calendar>()
             .map_err(|e| eyre!("Error parsing iCalendar file: {}", e))?;
         let timezone = calendar.get_timezone().or(S::DEFAULT_TIMEZONE);
-        for component in calendar.iter() {
-            if let CalendarComponent::Event(event) = component {
-                for parts in get_parts(event, timezone)? {
+        for uid_events in events_by_uid(&calendar).values() {
+            for event in uid_events {
+                for parts in get_parts(event, timezone, &uid_events)? {
                     events.events.extend(convert::<S>(parts)?);
                 }
             }
@@ -203,7 +206,25 @@ async fn import_new_events<S: IcalendarSource>() -> Result<Events, Report> {
     Ok(events)
 }
 
-fn get_parts(event: &Event, timezone: Option<&str>) -> Result<Vec<EventParts>, Report> {
+/// Given a calendar, builds a map of UID to all events with that UID.
+fn events_by_uid(calendar: &Calendar) -> HashMap<Option<&str>, Vec<&Event>> {
+    let mut events_by_uid: HashMap<Option<&str>, Vec<&Event>> = HashMap::new();
+    for component in calendar.iter() {
+        if let CalendarComponent::Event(event) = component {
+            events_by_uid
+                .entry(event.get_uid())
+                .or_default()
+                .push(event);
+        }
+    }
+    events_by_uid
+}
+
+fn get_parts(
+    event: &Event,
+    timezone: Option<&str>,
+    uid_events: &[&Event],
+) -> Result<Vec<EventParts>, Report> {
     let url = event.get_url().map(|url| {
         if url.contains("://") {
             url.to_string()
@@ -213,7 +234,7 @@ fn get_parts(event: &Event, timezone: Option<&str>) -> Result<Vec<EventParts>, R
     });
     let summary = unescape(event.get_summary().unwrap_or_default());
     let description = unescape(event.get_description().unwrap_or_default());
-    let times = get_times(event, timezone)?;
+    let times = get_times(event, timezone, uid_events)?;
     let location_parts = event.get_location().map(|location| {
         location
             .split(", ")
@@ -300,6 +321,7 @@ fn datetime_instances(
     rrule: Option<&str>,
     start_with_tz: DateTime<Tz>,
     end_with_tz: DateTime<Tz>,
+    uid_events: &[&Event],
 ) -> Result<Vec<EventTime>, Report> {
     if let Some(rrule) = rrule {
         let duration = end_with_tz - start_with_tz;
@@ -313,6 +335,7 @@ fn datetime_instances(
                 let max_datetime = Utc::now() + MAX_FUTURE_RECURRENCES;
                 Ok(rruleset
                     .into_iter()
+                    .filter(|instance| !specific_recurrence_exists(instance, uid_events))
                     .map_while(|instance| {
                         debug!("Instance: {instance}");
                         if instance > max_datetime {
@@ -339,7 +362,32 @@ fn datetime_instances(
     }
 }
 
-fn get_times(event: &Event, timezone: Option<&str>) -> Result<Vec<EventTime>, Report> {
+/// Returns whether the given list of events contains one with a `RECURRENCE-ID` matching the given
+/// instance.
+fn specific_recurrence_exists(instance: &DateTime<rrule::Tz>, uid_events: &[&Event]) -> bool {
+    let instance_utc = instance.to_utc();
+    uid_events.iter().any(|other_event| {
+        let Some(recurrence_id) = other_event.properties().get("RECURRENCE-ID") else {
+            return false;
+        };
+        let Some(DatePerhapsTime::DateTime(recurrence_datetime)) =
+            DatePerhapsTime::from_property(recurrence_id)
+        else {
+            warn!("recurrence-id unsupported type: {:?}", recurrence_id);
+            return false;
+        };
+        let recurrence_utc = recurrence_datetime
+            .try_into_utc()
+            .expect("Couldn't convert recurrence date-time to UTC");
+        recurrence_utc == instance_utc
+    })
+}
+
+fn get_times(
+    event: &Event,
+    timezone: Option<&str>,
+    uid_events: &[&Event],
+) -> Result<Vec<EventTime>, Report> {
     let start = event
         .get_start()
         .ok_or_else(|| eyre!("Event {:?} missing start time.", event))?;
@@ -382,7 +430,7 @@ fn get_times(event: &Event, timezone: Option<&str>) -> Result<Vec<EventTime>, Re
                 .earliest()
                 .ok_or_else(|| eyre!("Ambiguous end datetime for event {:?}", event))?;
 
-            datetime_instances(rrule, start_with_tz, end_with_tz)
+            datetime_instances(rrule, start_with_tz, end_with_tz, uid_events)
         }
         (
             DatePerhapsTime::DateTime(CalendarDateTime::Utc(start)),
@@ -399,7 +447,7 @@ fn get_times(event: &Event, timezone: Option<&str>) -> Result<Vec<EventTime>, Re
                 .map_err(|e| eyre!("Invalid timezone {}: {}", timezone, e))?;
             let start_with_tz = start.with_timezone(&timezone);
             let end_with_tz = end.with_timezone(&timezone);
-            datetime_instances(rrule, start_with_tz, end_with_tz)
+            datetime_instances(rrule, start_with_tz, end_with_tz, uid_events)
         }
         (
             DatePerhapsTime::DateTime(CalendarDateTime::Floating(start)),
@@ -422,7 +470,7 @@ fn get_times(event: &Event, timezone: Option<&str>) -> Result<Vec<EventTime>, Re
                 .and_local_timezone(timezone)
                 .single()
                 .ok_or_else(|| eyre!("Ambiguous local time {}", start))?;
-            datetime_instances(rrule, start_with_tz, end_with_tz)
+            datetime_instances(rrule, start_with_tz, end_with_tz, uid_events)
         }
         (start, end) => bail!("Mismatched start ({:?}) and end ({:?}) times.", start, end),
     }
@@ -460,7 +508,7 @@ mod tests {
             .done();
 
         assert_eq!(
-            get_times(&event, None).unwrap(),
+            get_times(&event, None, &[&event]).unwrap(),
             vec![EventTime::DateTime {
                 start: FixedOffset::east_opt(7200)
                     .unwrap()
@@ -486,7 +534,7 @@ mod tests {
             .done();
 
         assert_eq!(
-            get_times(&event, Some("Europe/Amsterdam")).unwrap(),
+            get_times(&event, Some("Europe/Amsterdam"), &[&event]).unwrap(),
             vec![EventTime::DateTime {
                 start: FixedOffset::east_opt(7200)
                     .unwrap()
@@ -519,7 +567,7 @@ mod tests {
             .done();
 
         assert_eq!(
-            get_times(&event, None).unwrap(),
+            get_times(&event, None, &[&event]).unwrap(),
             vec![
                 EventTime::DateTime {
                     start: FixedOffset::east_opt(3600)
@@ -584,7 +632,7 @@ mod tests {
             .done();
 
         assert_eq!(
-            get_times(&event, Some("Europe/Amsterdam")).unwrap(),
+            get_times(&event, Some("Europe/Amsterdam"), &[&event]).unwrap(),
             vec![
                 EventTime::DateTime {
                     start: FixedOffset::east_opt(3600)
@@ -635,6 +683,92 @@ mod tests {
                         .unwrap(),
                 },
             ]
+        );
+    }
+
+    #[test]
+    fn recur_with_special_cases() {
+        let start = Property::new("DTSTART", "20220312T180000Z").done();
+        let end = Property::new("DTEND", "20220313T030000Z").done();
+        let event_base = Event::new()
+            .uid("foo")
+            .append_property(start)
+            .append_property(end)
+            .add_property("RRULE", "FREQ=WEEKLY;UNTIL=20220403T000000Z")
+            .done();
+        // This special instance starts half an hour later.
+        let event_special = Event::new()
+            .uid("foo")
+            .append_property(Property::new("DTSTART", "20220319T183000Z").done())
+            .append_property(Property::new("DTEND", "20220320T030000Z").done())
+            .append_property(Property::new("RECURRENCE-ID", "20220319T180000Z").done())
+            .done();
+
+        assert_eq!(
+            get_times(
+                &event_base,
+                Some("Europe/Amsterdam"),
+                &[&event_base, &event_special]
+            )
+            .unwrap(),
+            vec![
+                EventTime::DateTime {
+                    start: FixedOffset::east_opt(3600)
+                        .unwrap()
+                        .with_ymd_and_hms(2022, 3, 12, 19, 0, 0)
+                        .single()
+                        .unwrap(),
+                    end: FixedOffset::east_opt(3600)
+                        .unwrap()
+                        .with_ymd_and_hms(2022, 3, 13, 4, 0, 0)
+                        .single()
+                        .unwrap(),
+                },
+                EventTime::DateTime {
+                    start: FixedOffset::east_opt(3600)
+                        .unwrap()
+                        .with_ymd_and_hms(2022, 3, 26, 19, 0, 0)
+                        .single()
+                        .unwrap(),
+                    end: FixedOffset::east_opt(7200)
+                        .unwrap()
+                        .with_ymd_and_hms(2022, 3, 27, 5, 0, 0)
+                        .single()
+                        .unwrap(),
+                },
+                EventTime::DateTime {
+                    start: FixedOffset::east_opt(7200)
+                        .unwrap()
+                        .with_ymd_and_hms(2022, 4, 2, 19, 0, 0)
+                        .single()
+                        .unwrap(),
+                    end: FixedOffset::east_opt(7200)
+                        .unwrap()
+                        .with_ymd_and_hms(2022, 4, 3, 4, 0, 0)
+                        .single()
+                        .unwrap(),
+                },
+            ]
+        );
+        assert_eq!(
+            get_times(
+                &event_special,
+                Some("Europe/Amsterdam"),
+                &[&event_base, &event_special]
+            )
+            .unwrap(),
+            vec![EventTime::DateTime {
+                start: FixedOffset::east_opt(3600)
+                    .unwrap()
+                    .with_ymd_and_hms(2022, 3, 19, 19, 30, 0)
+                    .single()
+                    .unwrap(),
+                end: FixedOffset::east_opt(3600)
+                    .unwrap()
+                    .with_ymd_and_hms(2022, 3, 20, 4, 0, 0)
+                    .single()
+                    .unwrap(),
+            },]
         );
     }
 }
