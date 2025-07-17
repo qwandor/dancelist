@@ -745,6 +745,11 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://www.mendoecd.org/events/".to_string());
         }
+        "Midway Community Contra Dance" => {
+            event
+                .links
+                .insert(0, "https://www.midwaycommunitydance.com/".to_string());
+        }
         "Milford NH Contra Dance" => {
             event.name = "Milford Contra Dance".to_string();
             event
