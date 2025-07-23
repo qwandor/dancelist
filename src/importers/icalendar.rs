@@ -367,12 +367,10 @@ fn datetime_instances(
 fn specific_recurrence_exists(instance: &DateTime<rrule::Tz>, uid_events: &[&Event]) -> bool {
     let instance_utc = instance.to_utc();
     uid_events.iter().any(|other_event| {
-        let Some(recurrence_id) = other_event.properties().get("RECURRENCE-ID") else {
+        let Some(recurrence_id) = other_event.get_recurrence_id() else {
             return false;
         };
-        let Some(DatePerhapsTime::DateTime(recurrence_datetime)) =
-            DatePerhapsTime::from_property(recurrence_id)
-        else {
+        let DatePerhapsTime::DateTime(recurrence_datetime) = recurrence_id else {
             warn!("recurrence-id unsupported type: {:?}", recurrence_id);
             return false;
         };
