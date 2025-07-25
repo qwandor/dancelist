@@ -114,6 +114,7 @@ pub async fn add_event_to_file(
 
     // Create a commit to add or modify the file.
     let commit_message = format!("Add {} in {}", event.name, event.city);
+    trace!("Checking whether {filename} already exists");
     if let Ok(contents) = repo
         .get_content()
         .path(filename)
@@ -142,6 +143,7 @@ pub async fn add_event_to_file(
         let update = update.send().await?;
         trace!("Update: {update:?}");
     } else {
+        trace!("{filename} doesn't exist, creating it.");
         // File doesn't exist, create it.
         let new_events = Events {
             events: vec![event.clone()],
