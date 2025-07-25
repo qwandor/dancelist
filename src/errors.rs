@@ -17,7 +17,10 @@ use axum::{
     response::{IntoResponse, Response},
 };
 use eyre::Report;
-use std::{error::Error, fmt::Debug};
+use std::{
+    error::Error,
+    fmt::{Debug, Display},
+};
 
 /// Newtype wrapper around `Report` which implements `IntoResponse`.
 #[derive(Debug)]
@@ -42,14 +45,14 @@ impl IntoResponse for InternalError {
 }
 
 /// Converts an error into an 'internal server error' response.
-pub async fn internal_error<E: Debug>(e: E) -> Response {
+pub async fn internal_error<E: Display>(e: E) -> Response {
     internal_error_response(e)
 }
 
-fn internal_error_response<E: Debug>(e: E) -> Response {
+fn internal_error_response<E: Display>(e: E) -> Response {
     (
         StatusCode::INTERNAL_SERVER_ERROR,
-        format!("Internal error: {e:?}"),
+        format!("Internal error: {e}"),
     )
         .into_response()
 }
