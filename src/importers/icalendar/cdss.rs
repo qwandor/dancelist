@@ -235,6 +235,12 @@ fn apply_fixes(event: &mut Event) {
         "4th Saturday Kingston, NH, Contra Dance!" => {
             event.name = "Kingston Contra Dance".to_string();
         }
+        "4th Sunday Monthly Albuquerque, NM Contra Dance" => {
+            event.name = "4th Sunday Albuquerque Contra Dance".to_string();
+            event
+                .links
+                .insert(0, "https://folkmads.org/events/".to_string());
+        }
         "All-Ages Community Barn Dance" => {
             event.links.insert(
                 0,
