@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 508] = [
+pub const BANDS: [&str; 509] = [
     "112 and Then Some",
     "A Cat's Tale",
     "A Fine Kettle of Fish",
@@ -492,6 +492,7 @@ pub const BANDS: [&str; 508] = [
     "Viadeyra",
     "Viola Voilá",
     "Vionelles",
+    "Virginia Creepers",
     "Wabi Sabi",
     "Wakarusa Roundabouts",
     "Wake Up Robin",
