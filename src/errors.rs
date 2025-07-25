@@ -17,6 +17,7 @@ use axum::{
     response::{IntoResponse, Response},
 };
 use eyre::Report;
+use log::warn;
 use std::{
     error::Error,
     fmt::{Debug, Display},
@@ -38,7 +39,10 @@ impl<E: Error + Send + Sync + 'static> From<E> for InternalError {
 impl IntoResponse for InternalError {
     fn into_response(self) -> Response {
         match self {
-            Self::Internal(report) => internal_error_response(report),
+            Self::Internal(report) => {
+                warn!("Internal error: {}", report);
+                internal_error_response(report)
+            }
             Self::Unauthorised => StatusCode::UNAUTHORIZED.into_response(),
         }
     }
