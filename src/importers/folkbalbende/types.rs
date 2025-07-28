@@ -83,6 +83,7 @@ pub struct Address {
     pub zip: String,
     pub lat: f32,
     pub lng: f32,
+    pub region: String,
 }
 
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
