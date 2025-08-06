@@ -347,6 +347,12 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "http://www.centralillinoisecd.org/#sched".to_string());
         }
+        "Chicagoland English Country Dance" => {
+            event.links.insert(
+                0,
+                "https://chicagolandecd.org/chicagoland-west-ecd/".to_string(),
+            );
+        }
         "Chicago Contra Dance" | "Monday Night Contra & Square Dance" => {
             event
                 .links
