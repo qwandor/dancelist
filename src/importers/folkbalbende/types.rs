@@ -182,6 +182,7 @@ pub struct Band {
     pub musicians: Vec<Musician>,
     pub image: Option<String>,
     pub duplicate_of: Option<String>,
+    pub editable: bool,
 }
 
 #[derive(Clone, Debug, Default, Deserialize, Eq, PartialEq, Serialize)]
