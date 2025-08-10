@@ -348,10 +348,18 @@ fn apply_fixes(event: &mut Event) {
                 .insert(0, "http://www.centralillinoisecd.org/#sched".to_string());
         }
         "Chicagoland English Country Dance" => {
-            event.links.insert(
-                0,
-                "https://chicagolandecd.org/chicagoland-west-ecd/".to_string(),
-            );
+            if event.city == "Glenview" {
+                event.links.insert(
+                    0,
+                    "https://chicagolandecd.org/local-dancing/evanston-ecd/".to_string(),
+                );
+                event.state = Some("IL".to_string());
+            } else {
+                event.links.insert(
+                    0,
+                    "https://chicagolandecd.org/chicagoland-west-ecd/".to_string(),
+                );
+            }
         }
         "Chicago Contra Dance" | "Monday Night Contra & Square Dance" => {
             event
