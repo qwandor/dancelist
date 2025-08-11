@@ -929,6 +929,7 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://www.princetoncountrydancers.org/".to_string());
             event.workshop = true;
+            event.name = "Princeton Country Dancers' Combination Dance".to_string();
         }
         "Princeton Country Dancers’ Contra Dance" => {
             event
