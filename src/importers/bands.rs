@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 511] = [
+pub const BANDS: [&str; 512] = [
     "112 and Then Some",
     "A Cat's Tale",
     "A Fine Kettle of Fish",
@@ -188,6 +188,7 @@ pub const BANDS: [&str; 511] = [
     "Flying Cat",
     "Flying Romanos",
     "Folie du Nord",
+    "Folk Knock",
     "Folk Voice Band",
     "Folkinger",
     "Folkschwestern Biese",
