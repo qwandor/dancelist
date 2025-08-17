@@ -154,7 +154,8 @@ fn convert(event: &Event, default_style: DanceStyle) -> Result<Option<event::Eve
             | EventFormat::Piano
             | EventFormat::Social
             | EventFormat::SocialDance
-            | EventFormat::SocialDancing => {
+            | EventFormat::SocialDancing
+            | EventFormat::VrijDansen => {
                 social = true;
             }
             EventFormat::Practica => {
