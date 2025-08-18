@@ -38,7 +38,8 @@ impl IcalendarSource for Skandia {
 
     fn social(parts: &EventParts) -> bool {
         let summary_lower = parts.summary.to_lowercase();
-        summary_lower.contains("free dance")
+        summary_lower.contains("dance at the swedish club")
+            || summary_lower.contains("free dance")
             || summary_lower.contains("gala")
             || summary_lower.contains("jullekstuga")
             || summary_lower.contains("live")
@@ -110,8 +111,14 @@ impl IcalendarSource for Skandia {
             "Beginner Scandinavia dance classes near UW" => {
                 event.name = "Beginner Scandinavian dance classes".to_string();
             }
-            "Nordic dance classes" => {
+            "Nordic dance classes" | "Nordic dance classes in Sept" => {
                 event.name = "Nordic dance class".to_string();
+            }
+            "NEW dance at the Swedish Club" => {
+                event.name = "Dance at the Swedish Club".to_string();
+            }
+            "FREE Scandinavian dance beginner class" => {
+                event.name = "Scandinavian dance beginner class".to_string()
             }
             _ => {}
         }
