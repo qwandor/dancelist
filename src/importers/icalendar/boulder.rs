@@ -43,6 +43,9 @@ impl IcalendarSource for Boulder {
 
     fn social(parts: &EventParts) -> bool {
         parts.summary == "Boulder Scandinavian Weekend"
+            || parts
+                .summary
+                .starts_with("Scandinavian Beginning Class & Weekly Dance")
             || parts.summary == "Scandinavian Christmas Dance"
             || parts.summary.starts_with("Scandinavian Monthly Dance")
             || parts.summary.starts_with("Scandinavian Weekly Dance")
@@ -119,7 +122,9 @@ impl IcalendarSource for Boulder {
             "Colorado Friends of Old Time Music and Dance,  Dance Community Contra Dance" => {
                 event.name = "CFOOTMAD Community Contra Dance".to_string();
             }
-            "Scandinavian Weekly Dance" | "Scandinavian Basics Class" => {
+            "Scandinavian Beginning Class & Weekly Dance"
+            | "Scandinavian Weekly Dance"
+            | "Scandinavian Basics Class" => {
                 if event.price.is_none() {
                     event.price = Some("$7".to_string());
                 }
