@@ -1089,10 +1089,6 @@ fn apply_fixes(event: &mut Event) {
         }
         "The Asheville Monday Night Contra Dance" => {
             event.name = "Asheville Monday Night Contra Dance".to_string();
-            event.links.insert(
-                0,
-                "https://themondaynightdance.wixsite.com/home/about".to_string(),
-            );
         }
         "Third Sunday English Regency Dancing" => {
             event.links.insert(
