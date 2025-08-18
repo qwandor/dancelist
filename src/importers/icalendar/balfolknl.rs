@@ -87,6 +87,7 @@ impl IcalendarSource for BalfolkNl {
             || parts.summary.starts_with("Drakenbal")
             || parts.summary.starts_with("Fest Noz")
             || parts.summary.starts_with("Festibal")
+            || parts.summary.starts_with("Folk Inferno")
             || parts.summary.starts_with("Folkbal")
             || parts.summary.starts_with("Folkwoods")
             || parts.summary.starts_with("Halloweenbal")
