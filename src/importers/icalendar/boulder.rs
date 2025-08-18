@@ -116,6 +116,9 @@ impl IcalendarSource for Boulder {
                     event.price = Some("$5".to_string());
                 }
             }
+            "Colorado Friends of Old Time Music and Dance,  Dance Community Contra Dance" => {
+                event.name = "CFOOTMAD Community Contra Dance".to_string();
+            }
             "Scandinavian Weekly Dance" | "Scandinavian Basics Class" => {
                 if event.price.is_none() {
                     event.price = Some("$7".to_string());
