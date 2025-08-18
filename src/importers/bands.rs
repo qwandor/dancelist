@@ -154,7 +154,7 @@ pub const BANDS: [&str; 512] = [
     "Duo Nello",
     "Duo NoLa",
     "Duo Pacher-Roblin",
-    "Duo Roblin-Thebaut",
+    "Duo Roblin-Thébaut",
     "Duo Thézé",
     "Duo Torv",
     "Duo Wolff-Moschcau",
