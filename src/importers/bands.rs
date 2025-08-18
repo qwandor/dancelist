@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 512] = [
+pub const BANDS: [&str; 513] = [
     "112 and Then Some",
     "A Cat's Tale",
     "A Fine Kettle of Fish",
@@ -468,6 +468,7 @@ pub const BANDS: [&str; 512] = [
     "Tralala Lovers",
     "Treble Play",
     "Tref",
+    "Triaz",
     "Tribal Jâze",
     "Trillium",
     "Trio Baftig",
