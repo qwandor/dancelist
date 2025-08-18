@@ -49,7 +49,8 @@ impl IcalendarSource for Dresden {
 
     fn workshop(parts: &EventParts) -> bool {
         let summary_lower = parts.summary.to_lowercase();
-        summary_lower.contains("tanzfest")
+        let description_lower = parts.description.to_lowercase();
+        summary_lower.contains("tanzfest") || description_lower.contains("einführungsstunde")
     }
 
     fn social(_parts: &EventParts) -> bool {
