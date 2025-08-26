@@ -171,7 +171,10 @@ fn convert(event: &Event) -> Vec<event::Event> {
     };
 
     let organisation = if let Some(organisation) = &event.organisation {
-        Some(organisation.name.to_owned())
+        Some(match organisation.name.as_str() {
+            "Frisse Folk Vzw-asbl" => "Frisse Folk Vzw/asbl".to_owned(),
+            _ => organisation.name.to_owned(),
+        })
     } else if links.iter().any(|link| link.contains("eledanse.be")) {
         Some("EléDanse ASBL".to_owned())
     } else if links
