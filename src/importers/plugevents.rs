@@ -58,12 +58,15 @@ fn convert(event: &Event, default_style: DanceStyle) -> Result<Option<event::Eve
         .ok_or_else(|| eyre!("venueLocale only has one part: \"{}\"", venue_locale))?
         .to_string();
 
-    let city = if locale_parts.len() > 3 {
+    let mut city = if locale_parts.len() > 3 {
         locale_parts[1]
     } else {
         locale_parts[0]
     }
     .to_string();
+    if city == "Helpman" {
+        city = "Groningen".to_string();
+    }
 
     let mut workshop = false;
     let mut social = false;
@@ -183,9 +186,6 @@ fn convert(event: &Event, default_style: DanceStyle) -> Result<Option<event::Eve
         styles.sort();
         styles.dedup();
     }
-    if event.name.contains("warsztatów") || event.description.contains("warsztaty") {
-        workshop = true;
-    }
 
     let name_lower = event.name.to_lowercase();
     let description_lower = event.description.to_lowercase();
@@ -199,7 +199,11 @@ fn convert(event: &Event, default_style: DanceStyle) -> Result<Option<event::Eve
     bands.sort();
     bands.dedup();
 
-    if name_lower.contains("warsztaty") {
+    if name_lower.contains("warsztatów")
+        || name_lower.contains("warsztaty")
+        || event.description.contains("warsztaty")
+        || event.description.contains("dansworkshop")
+    {
         workshop = true;
     }
     let mut name = event.name.clone();
