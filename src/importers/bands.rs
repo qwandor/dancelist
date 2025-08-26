@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 513] = [
+pub const BANDS: [&str; 514] = [
     "112 and Then Some",
     "A Cat's Tale",
     "A Fine Kettle of Fish",
@@ -350,6 +350,7 @@ pub const BANDS: [&str; 513] = [
     "Paracetamol",
     "Paradocs",
     "Parasol",
+    "Penny Farthing",
     "Persons of Quality",
     "Peter Michealsen & Joe Finn",
     "PFM!",
