@@ -98,6 +98,7 @@ pub enum InterestTag {
     #[serde(rename = "Forró Dance")]
     ForroDance,
     Fusion,
+    History,
     Music,
     NeoTrad,
     #[serde(rename = "Salsa Dance")]
