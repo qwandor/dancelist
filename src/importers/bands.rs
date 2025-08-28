@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 517] = [
+pub const BANDS: [&str; 519] = [
     "112 and Then Some",
     "A Cat's Tale",
     "A Fine Kettle of Fish",
@@ -136,6 +136,7 @@ pub const BANDS: [&str; 517] = [
     "Djîga",
     "Dodging Pheasants",
     "Dogtown",
+    "Dos en Trío",
     "Doxatunes",
     "Dragon Fire",
     "Dreamy Folk Flow",
@@ -359,6 +360,7 @@ pub const BANDS: [&str; 517] = [
     "PFM!",
     "Philu",
     "Pimento Mori",
+    "Plan B",
     "Playing with Fyre",
     "Pont Ondulé",
     "Portland Megaband",
