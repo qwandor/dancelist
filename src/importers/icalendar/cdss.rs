@@ -274,7 +274,7 @@ fn apply_fixes(event: &mut Event) {
                 "http://www.heatherandrose.org/activities/ongoing.shtml".to_string(),
             );
         }
-        "Austin Third Saturday Contra Dance" => {
+        "Austin English Country Dance" | "Austin Third Saturday Contra Dance" => {
             event
                 .links
                 .insert(0, "https://taada.us/wp/events/".to_string());
