@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 519] = [
+pub const BANDS: [&str; 520] = [
     "112 and Then Some",
     "A Cat's Tale",
     "A Fine Kettle of Fish",
@@ -23,6 +23,7 @@ pub const BANDS: [&str; 519] = [
     "Achterband",
     "Adam Rich-Griffin & Nicola McConkey ",
     "AdHoc Orkest",
+    "Adriano Sangineto",
     "Aérokorda",
     "Air de Famille",
     "Airboxes",
