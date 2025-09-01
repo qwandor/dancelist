@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 520] = [
+pub const BANDS: [&str; 521] = [
     "112 and Then Some",
     "A Cat's Tale",
     "A Fine Kettle of Fish",
@@ -220,6 +220,7 @@ pub const BANDS: [&str; 520] = [
     "Gray & Friends",
     "GrayScale",
     "Green Willow",
+    "Greg & Aiden Boardman",
     "Gribouille",
     "Griff Trio",
     "Groove Factory",
