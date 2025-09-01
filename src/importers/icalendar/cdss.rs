@@ -521,6 +521,16 @@ fn apply_fixes(event: &mut Event) {
                 "https://www.guidingstargrange.org/events.html".to_string(),
             );
         }
+        "Contra Caller Workshop" if event.city == "Nashville" => {
+            event.links.insert(
+                0,
+                "https://www.nashvillecountrydancers.org/contra-dances".to_string(),
+            );
+            event.social = false;
+            if event.price.is_none() {
+                event.price = Some("free".to_string());
+            }
+        }
         "Contra for a Cause"
         | "Contra for a Cause!"
         | "Contra Dance for a Cause"
@@ -745,6 +755,12 @@ fn apply_fixes(event: &mut Event) {
             event
                 .links
                 .insert(0, "https://lenoxcontradance.org/sched.php".to_string());
+        }
+        "Lewiston Contra Dance" => {
+            event.links.insert(
+                0,
+                "https://sites.google.com/view/lewistoncontradance/home".to_string(),
+            );
         }
         "LITMA Smithtown Contradance" => {
             event.links.insert(0, "https://litma.org/".to_string());
