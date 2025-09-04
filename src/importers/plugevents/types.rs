@@ -91,12 +91,19 @@ pub enum InterestTag {
     CoupleDance,
     Dance,
     DancingBodies,
+    #[serde(rename = "Dutch Folk")]
+    DutchFolk,
+    #[serde(rename = "European Folk")]
+    EuropeanFolk,
     #[serde(rename = "Folk Dance")]
     FolkDance,
     #[serde(rename = "Folk Music")]
     FolkMusic,
     #[serde(rename = "Forró Dance")]
     ForroDance,
+    France,
+    #[serde(rename = "French Folk")]
+    FrenchFolk,
     Fusion,
     History,
     #[serde(rename = "Italian Folk")]
