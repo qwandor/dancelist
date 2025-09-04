@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 522] = [
+pub const BANDS: [&str; 523] = [
     "112 and Then Some",
     "A Cat's Tale",
     "A Fine Kettle of Fish",
@@ -131,6 +131,7 @@ pub const BANDS: [&str; 522] = [
     "Dead Sea Squirrels",
     "Definitely Contraband",
     "Devilish Mary",
+    "Die Dudelsacksen",
     "Die Hayner",
     "Die ZWEI",
     "DJ TacoShel",
