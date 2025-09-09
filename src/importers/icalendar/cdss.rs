@@ -274,7 +274,9 @@ fn apply_fixes(event: &mut Event) {
                 "http://www.heatherandrose.org/activities/ongoing.shtml".to_string(),
             );
         }
-        "Austin English Country Dance" | "Austin Third Saturday Contra Dance" => {
+        "Austin English Country Dance"
+        | "Austin Third Saturday Contra Dance"
+        | "3rd Saturday Contra Dance in Austin" => {
             event
                 .links
                 .insert(0, "https://taada.us/wp/events/".to_string());
@@ -1116,6 +1118,11 @@ fn apply_fixes(event: &mut Event) {
             event
                 .links
                 .insert(0, "https://thursdaycontra.com/".to_string());
+        }
+        "Toronto Contra Dance" => {
+            event
+                .links
+                .insert(0, "https://www.tcdance.org/".to_string());
         }
         "Tucson Contra Dance" => {
             event
