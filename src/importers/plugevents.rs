@@ -230,6 +230,9 @@ fn convert(event: &Event, default_style: DanceStyle) -> Result<Option<event::Eve
             name = "Balfolk".to_string();
             social = true;
         }
+        "Balfolksessie Den Bosch" => {
+            return Ok(None);
+        }
         _ => {}
     }
 
