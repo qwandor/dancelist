@@ -107,6 +107,7 @@ fn convert(event: &Event, default_style: DanceStyle) -> Result<Option<event::Eve
             | InterestTag::DancingBodies
             | InterestTag::DutchFolk
             | InterestTag::EuropeanFolk
+            | InterestTag::FlemishFolk
             | InterestTag::FolkDance
             | InterestTag::FolkMusic
             | InterestTag::ForroDance
