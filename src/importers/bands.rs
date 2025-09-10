@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 524] = [
+pub const BANDS: [&str; 531] = [
     "112 and Then Some",
     "A Cat's Tale",
     "A Fine Kettle of Fish",
@@ -50,6 +50,7 @@ pub const BANDS: [&str; 524] = [
     "ba.fnu",
     "Back Row Band",
     "Bal à Sept",
+    "Bal Affaire",
     "Bal O'Gadjo",
     "Balbuzar",
     "Ball Noir",
@@ -160,6 +161,7 @@ pub const BANDS: [&str; 524] = [
     "Duo NoLa",
     "Duo Pacher-Roblin",
     "Duo Roblin-Thébaut",
+    "Duo Super Nova",
     "Duo Thézé",
     "Duo Torv",
     "Duo Wolff-Moschcau",
@@ -172,6 +174,7 @@ pub const BANDS: [&str; 524] = [
     "EmBRUN",
     "Emelie Waldken",
     "Emily & The Simons",
+    "Emma & Jonas",
     "Engine Room",
     "English Contra Dance Band",
     "Erik en Martijn",
@@ -185,6 +188,7 @@ pub const BANDS: [&str; 524] = [
     "Fiddlechicks",
     "Filippo Gambetta",
     "Fior",
+    "Firletanz",
     "First Time Stringband",
     "Fjellerkene",
     "Flatland Consort",
@@ -234,6 +238,7 @@ pub const BANDS: [&str; 524] = [
     "Headwaters",
     "Here on the Hill",
     "High Drive",
+    "High Strung",
     "Hijinks",
     "Hoggetowne Fancy",
     "Hoik",
@@ -290,6 +295,7 @@ pub const BANDS: [&str; 524] = [
     "Le Mange Bal",
     "Les Bottines Artistiques",
     "Les Kickeuses",
+    "Les Quatre Patates",
     "Les QuetscheKaschde",
     "Les Zéoles",
     "Leveret",
@@ -365,6 +371,7 @@ pub const BANDS: [&str; 524] = [
     "Pimento Mori",
     "Plan B",
     "Playing with Fyre",
+    "Plönk",
     "Pont Ondulé",
     "Portland Megaband",
     "Portmanteau",
