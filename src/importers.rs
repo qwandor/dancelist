@@ -100,10 +100,13 @@ fn lowercase_matches(needles: &[&str], a: &str, b: &str) -> Vec<String> {
         .filter_map(|needle| {
             let needle_lower = needle.to_lowercase();
             let needle_and = needle_lower.replace("&", "and");
+            let needle_und = needle_lower.replace("&", "und");
             if a.contains(&needle_lower)
                 || b.contains(&needle_lower)
                 || a.contains(&needle_and)
                 || b.contains(&needle_and)
+                || a.contains(&needle_und)
+                || b.contains(&needle_und)
             {
                 Some(needle.to_string())
             } else {
