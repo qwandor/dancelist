@@ -1137,6 +1137,17 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://www.bfms.org/squarecontra.php".to_string());
         }
+        "Weekly Austin Contra Dance" => {
+            event
+                .links
+                .insert(0, "https://taada.us/wp/events/".to_string());
+            event
+                .links
+                .insert(0, "https://austinbarndancers.org/".to_string());
+            if event.price.is_none() {
+                event.price = Some("free".to_string());
+            }
+        }
         "Williamsburg Tuesday Night English Dance" => {
             event
                 .links
