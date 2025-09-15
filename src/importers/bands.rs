@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 533] = [
+pub const BANDS: [&str; 534] = [
     "112 and Then Some",
     "A Cat's Tale",
     "A Fine Kettle of Fish",
@@ -448,6 +448,7 @@ pub const BANDS: [&str; 533] = [
     "The Contra Rebels",
     "The Dam Beavers",
     "The English Muffins",
+    "The Evil Twins",
     "The Faux Paws",
     "The Fiddling Thomsons",
     "The Flying Elbows",
