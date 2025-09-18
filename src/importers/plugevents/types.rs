@@ -16,7 +16,7 @@ use chrono::{DateTime, Utc};
 use chrono_tz::Tz;
 use serde::Deserialize;
 
-#[derive(Clone, Debug, Deserialize, Eq, PartialEq)]
+#[derive(Clone, Debug, Deserialize, PartialEq)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct EventList {
     pub events: Vec<Event>,
@@ -25,7 +25,7 @@ pub struct EventList {
     pub event_list_url: String,
 }
 
-#[derive(Clone, Debug, Default, Deserialize, Eq, PartialEq)]
+#[derive(Clone, Debug, Default, Deserialize, PartialEq)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct Event {
     pub slug: String,
@@ -42,10 +42,14 @@ pub struct Event {
     pub plug_url: String,
     pub banner_image_url: Option<String>,
     pub name: String,
+    pub name2: Option<String>,
     pub description: String,
     pub venue_name: Option<String>,
     pub venue_address: Option<String>,
     pub venue_locale: Option<String>,
+    pub venue_locale_parts: VenueLocaleParts,
+    pub venue_lat: f64,
+    pub venue_lon: f64,
     pub low_price: Option<u32>,
     pub high_price: Option<u32>,
     pub low_price2: Option<u32>,
@@ -60,6 +64,16 @@ pub struct Event {
     pub interests: Vec<Interest>,
     pub featured_participants: Vec<FeaturedParticipant>,
     pub subinterests: Option<Vec<EventFormat>>,
+}
+
+#[derive(Clone, Debug, Default, Deserialize, Eq, PartialEq)]
+#[serde(deny_unknown_fields)]
+pub struct VenueLocaleParts {
+    pub name3: Option<String>,
+    pub name6: String,
+    pub name9: String,
+    pub name12: String,
+    pub code12: String,
 }
 
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq)]
