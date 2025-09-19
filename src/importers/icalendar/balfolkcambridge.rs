@@ -23,15 +23,18 @@ impl IcalendarSource for BalfolkCambridge {
     const DEFAULT_ORGANISATION: &'static str = "Balfolk Cambridge";
 
     fn workshop(parts: &EventParts) -> bool {
-        parts.summary.to_lowercase().contains("workshop")
+        let summary_lower = parts.summary.to_lowercase();
+        summary_lower.contains("workshop")
     }
 
     fn social(parts: &EventParts) -> bool {
-        parts.summary.to_lowercase().contains("social")
+        let summary_lower = parts.summary.to_lowercase();
+        summary_lower.contains("clandestine mazurka") || summary_lower.contains("social")
     }
 
     fn styles(parts: &EventParts) -> Vec<DanceStyle> {
-        if parts.summary.to_lowercase().contains("swedish") {
+        let summary_lower = parts.summary.to_lowercase();
+        if summary_lower.contains("swedish") {
             vec![DanceStyle::Scandinavian]
         } else {
             vec![DanceStyle::Balfolk]
