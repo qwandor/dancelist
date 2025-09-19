@@ -26,12 +26,16 @@ impl IcalendarSource for BalfolkCambridge {
         parts.summary.to_lowercase().contains("workshop")
     }
 
-    fn social(_parts: &EventParts) -> bool {
-        true
+    fn social(parts: &EventParts) -> bool {
+        parts.summary.to_lowercase().contains("social")
     }
 
-    fn styles(_parts: &EventParts) -> Vec<DanceStyle> {
-        vec![DanceStyle::Balfolk]
+    fn styles(parts: &EventParts) -> Vec<DanceStyle> {
+        if parts.summary.to_lowercase().contains("swedish") {
+            vec![DanceStyle::Scandinavian]
+        } else {
+            vec![DanceStyle::Balfolk]
+        }
     }
 
     fn location(_parts: &EventParts) -> Result<Option<(String, Option<String>, String)>, Report> {
