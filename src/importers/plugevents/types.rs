@@ -90,6 +90,8 @@ pub enum InterestTag {
     Bachata,
     Bagpipes,
     Balfolk,
+    #[serde(rename = "Balfolk Amsterdam")]
+    BalfolkAmsterdam,
     #[serde(rename = "Balfolk dance")]
     Balfolkdance,
     #[serde(rename = "Balfolk Music")]
@@ -97,6 +99,7 @@ pub enum InterestTag {
     BalfolkNL,
     #[serde(rename = "Blues Dance")]
     BluesDance,
+    Boeuf,
     #[serde(rename = "Community Service")]
     CommunityService,
     #[serde(rename = "Contra Dance")]
@@ -121,13 +124,16 @@ pub enum InterestTag {
     #[serde(rename = "French Folk")]
     FrenchFolk,
     Fusion,
+    Guitar,
     History,
     #[serde(rename = "Italian Folk")]
     ItalianFolk,
+    Jam,
     Music,
     NeoTrad,
     #[serde(rename = "Salsa Dance")]
     SalsaDance,
+    Session,
     Singing,
     #[serde(rename = "Social Dance")]
     SocialDance,
@@ -139,6 +145,7 @@ pub enum InterestTag {
     Teacher,
     #[serde(rename = "Trad Music")]
     TradMusic,
+    Violin,
     #[serde(rename = "West Coast Swing")]
     WestCoastSwing,
     Workshop,

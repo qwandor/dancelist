@@ -80,6 +80,7 @@ fn convert(event: &Event, default_style: DanceStyle) -> Result<Option<event::Eve
                 workshop = true;
             }
             InterestTag::Balfolk
+            | InterestTag::BalfolkAmsterdam
             | InterestTag::Balfolkdance
             | InterestTag::BalfolkMusic
             | InterestTag::FrenchFolk => {
@@ -101,6 +102,7 @@ fn convert(event: &Event, default_style: DanceStyle) -> Result<Option<event::Eve
             | InterestTag::Bagpipes
             | InterestTag::BalfolkNL
             | InterestTag::BluesDance
+            | InterestTag::Boeuf
             | InterestTag::CommunityService
             | InterestTag::CoupleDance
             | InterestTag::Dance
@@ -113,14 +115,18 @@ fn convert(event: &Event, default_style: DanceStyle) -> Result<Option<event::Eve
             | InterestTag::ForroDance
             | InterestTag::France
             | InterestTag::Fusion
+            | InterestTag::Guitar
             | InterestTag::History
+            | InterestTag::Jam
             | InterestTag::Music
             | InterestTag::NeoTrad
             | InterestTag::SalsaDance
+            | InterestTag::Session
             | InterestTag::Singing
             | InterestTag::Tango
             | InterestTag::Teacher
             | InterestTag::TradMusic
+            | InterestTag::Violin
             | InterestTag::WestCoastSwing
             | InterestTag::Zouk
             | InterestTag::Zzz => {}
