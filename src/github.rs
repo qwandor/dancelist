@@ -108,7 +108,7 @@ pub async fn add_event_to_file(
 
     let author = email.map(|email| CommitAuthor {
         name: "Add form user".to_string(),
-        email: email.to_string(),
+        email: Some(email.to_string()),
         date: None,
     });
 
@@ -192,7 +192,7 @@ pub async fn edit_event_in_file(
 
     let author = email.map(|email| CommitAuthor {
         name: "Add form user".to_string(),
-        email: email.to_string(),
+        email: Some(email.to_string()),
         date: None,
     });
 
