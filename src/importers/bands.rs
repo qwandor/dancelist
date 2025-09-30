@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 538] = [
+pub const BANDS: [&str; 539] = [
     "112 and Then Some",
     "A Cat's Tale",
     "A Fine Kettle of Fish",
@@ -384,6 +384,7 @@ pub const BANDS: [&str; 538] = [
     "QuiVive",
     "Ragged Robin",
     "Ratatouille",
+    "Raven & Goose",
     "Red Case Band",
     "Red Dog Riley",
     "Reelplay",
