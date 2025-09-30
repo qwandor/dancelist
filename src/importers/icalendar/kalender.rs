@@ -135,6 +135,12 @@ impl IcalendarSource for Kalender {
             event.name = "KA-Balfolk".to_string();
         }
 
+        if event.organisation.as_deref()
+            == Some("Anja von Richthofen\\, 015733150873\\, anjavonrichthofen@web.de")
+        {
+            event.organisation = Some("Anja von Richthofen".to_string());
+        }
+
         Some(event)
     }
 }
