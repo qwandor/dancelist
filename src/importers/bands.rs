@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 535] = [
+pub const BANDS: [&str; 538] = [
     "112 and Then Some",
     "A Cat's Tale",
     "A Fine Kettle of Fish",
@@ -33,6 +33,7 @@ pub const BANDS: [&str; 535] = [
     "Amarillis & Anders",
     "Amberwing",
     "Andrea Capezzuoli",
+    "Andrea Hoag",
     "Andreas Neumann",
     "Androneda",
     "Andy Cutting",
@@ -182,6 +183,7 @@ pub const BANDS: [&str; 535] = [
     "Ewout & Anouk",
     "Exqueezit",
     "Fahrenheit",
+    "Fat Fiddles",
     "Feather and Fox",
     "Fiddle Hellions Big Band",
     "Fiddle Hellions",
@@ -349,6 +351,7 @@ pub const BANDS: [&str; 535] = [
     "Night Heron",
     "Noiranomis",
     "Nordic Exposure",
+    "Norrsken",
     "Northern Aire",
     "Northwoods",
     "Notorious",
