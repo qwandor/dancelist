@@ -32,6 +32,7 @@ impl IcalendarSource for Skandia {
             || summary_lower.contains("free class")
             || summary_lower.contains("dance class")
             || summary_lower.contains("dance review")
+            || summary_lower.contains("workshop")
             || description_lower.contains("class")
             || description_lower.contains("dance workshop")
     }
