@@ -43,6 +43,7 @@ impl IcalendarSource for Boulder {
 
     fn social(parts: &EventParts) -> bool {
         parts.summary == "Boulder Scandinavian Weekend"
+            || parts.summary == "English Country Dance"
             || parts
                 .summary
                 .starts_with("Scandinavian Beginning Class & Weekly Dance")
