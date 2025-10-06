@@ -325,6 +325,13 @@ fn apply_fixes(event: &mut Event) {
             event.state = Some("CO".to_string());
             event.city = "Buena Vista".to_string();
         }
+        "Buena Vista Community Contra Dance" => {
+            event
+                .links
+                .insert(0, "http://www.arkvalleymusicanddance.org/".to_string());
+            event.state = Some("CO".to_string());
+            event.city = "Buena Vista".to_string();
+        }
         "Capital English Country Dancers" => {
             event.links.insert(
                 0,
