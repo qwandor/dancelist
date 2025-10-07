@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 541] = [
+pub const BANDS: [&str; 543] = [
     "112 and Then Some",
     "A Cat's Tale",
     "A Fine Kettle of Fish",
@@ -37,6 +37,7 @@ pub const BANDS: [&str; 541] = [
     "Andreas Neumann",
     "Androneda",
     "Andy Cutting",
+    "Angelika Hudler & Laurenz Schiffermüller",
     "Antanjo",
     "Anytime English Players",
     "Appalachian Roots",
@@ -205,6 +206,7 @@ pub const BANDS: [&str; 541] = [
     "Folkschwestern Biese",
     "Fourpence",
     "French Toast",
+    "Friends of Virgil",
     "Froghammer",
     "Full Tilt",
     "Fyndus",
