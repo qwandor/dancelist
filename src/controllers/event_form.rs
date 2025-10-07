@@ -235,7 +235,7 @@ fn trimmed_non_empty(s: String) -> Option<String> {
     if trimmed.is_empty() {
         None
     } else {
-        Some(trimmed.to_string())
+        Some(trimmed.replace("\r\n", "\n"))
     }
 }
 
