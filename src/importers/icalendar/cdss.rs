@@ -1173,6 +1173,11 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://www.woosterdance.com/contra".to_string());
         }
+        "Wooster English Country Dance" => {
+            event
+                .links
+                .insert(0, "https://www.woosterdance.com/".to_string());
+        }
         "Worcester Contra Dance" | "Worcester Contra Dance!" => {
             event.name = "Worcester Contra Dance".to_string();
             event
