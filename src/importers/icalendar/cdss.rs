@@ -908,11 +908,12 @@ fn apply_fixes(event: &mut Event) {
                 "https://www.nashvillecountrydancers.org/english-country-dances".to_string(),
             );
         }
-        "North Alabama Country Dance Society - Contra Dance" => {
+        "North Alabama Country Dance Society - Contra Dance"
+        | "North Alabama Country Dance Society - NACDS Contra Dance" => {
             event.name = "NACDS Contra Dance".to_string();
-        }
-        "North Alabama Country Dance Society - NACDS Contra Dance" => {
-            event.name = "NACDS Contra Dance".to_string();
+            event
+                .links
+                .insert(0, "http://huntsvillecontra.dance/nacds/".to_string());
         }
         "North Jersey English Country Dancers"
         | "North Jersey English Country Dancers, 2nd and 4th Sundays" => {
