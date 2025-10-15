@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 544] = [
+pub const BANDS: [&str; 545] = [
     "112 and Then Some",
     "A Cat's Tale",
     "A Fine Kettle of Fish",
@@ -29,6 +29,7 @@ pub const BANDS: [&str; 544] = [
     "Airboxes",
     "Akleja",
     "Alchemy",
+    "All Keyed Up",
     "AlleMonOh Stringband",
     "Amarillis & Anders",
     "Amberwing",
