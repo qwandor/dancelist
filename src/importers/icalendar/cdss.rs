@@ -747,7 +747,7 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://lambertvillecountrydancers.org/".to_string());
         }
-        "Lancaster Contra Dance" => {
+        "Lancaster Contra Dance" | "Lancaster Monthly Contra Dance" => {
             event
                 .links
                 .insert(0, "https://lancastercontra.org/".to_string());
@@ -778,7 +778,7 @@ fn apply_fixes(event: &mut Event) {
                 "https://sites.google.com/view/lewistoncontradance/home".to_string(),
             );
         }
-        "LITMA Smithtown Contradance" => {
+        "LITMA Contradance" | "LITMA Smithtown Contradance" => {
             event.links.insert(0, "https://litma.org/".to_string());
         }
         "Louisville Contra Dance" | "Louisville Third-Saturday Contra Dance" => {
