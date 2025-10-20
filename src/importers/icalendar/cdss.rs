@@ -741,7 +741,8 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://seattledance.org/contra/lakecity/".to_string());
         }
-        "Lambertville Country Dancers (English Country Dance in Newtown, PA)" => {
+        "Lambertville Country Dancers (English Country Dance in Newtown, PA)"
+        | "Lambertville Country Dancers (English Country Dance in Princeton, NJ)" => {
             event.name = "Lambertville Country Dancers".to_string();
             event
                 .links
