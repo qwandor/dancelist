@@ -893,6 +893,7 @@ fn apply_fixes(event: &mut Event) {
                 0,
                 "https://mysticpiedance.wixsite.com/mystic-pie-dance".to_string(),
             );
+            event.name = event.name.trim_end_matches('!').to_string();
             if event.price.as_deref() == Some("$3-$10") {
                 event.price = Some("$7-$10".to_string());
             }
