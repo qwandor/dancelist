@@ -43,7 +43,7 @@ struct Dresden;
 
 impl IcalendarSource for Dresden {
     const URLS: &'static [&'static str] =
-        &["https://www.gugelhupf-dresden.de/tanz-in-dresden/calendar/icslist/calendar.ics"];
+        &["https://www.gugelhupf-dresden.de/share/gugelhupf-tanzen-in-dresden.ics"];
     const DEFAULT_ORGANISATION: &'static str = ORGANISATION;
     const DEFAULT_TIMEZONE: Option<&'static str> = Some("Europe/Berlin");
 
@@ -95,7 +95,7 @@ struct DresdenWeekly;
 
 impl IcalendarSource for DresdenWeekly {
     const URLS: &'static [&'static str] =
-        &["https://www.gugelhupf-dresden.de/tanz-am-dienstag/calendar/icslist/calendar.ics"];
+        &["https://www.gugelhupf-dresden.de/share/gugelhupf-tanzen-am-dienstag.ics"];
     const DEFAULT_ORGANISATION: &'static str = ORGANISATION;
     const DEFAULT_TIMEZONE: Option<&'static str> = Some("Europe/Berlin");
 
