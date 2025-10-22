@@ -549,6 +549,55 @@ mod tests {
     }
 
     #[test]
+    fn parse_datetime_local() {
+        let start = Property::new("DTSTART", "20251025T200000").done();
+        let end = Property::new("DTEND", "20251025T225900").done();
+        let event = Event::new()
+            .append_property(start)
+            .append_property(end)
+            .done();
+
+        assert_eq!(
+            get_times(&event, Some("Europe/Berlin"), &[&event]).unwrap(),
+            vec![EventTime::DateTime {
+                start: FixedOffset::east_opt(7200)
+                    .unwrap()
+                    .with_ymd_and_hms(2025, 10, 25, 20, 0, 0)
+                    .single()
+                    .unwrap(),
+                end: FixedOffset::east_opt(7200)
+                    .unwrap()
+                    .with_ymd_and_hms(2025, 10, 25, 22, 59, 0)
+                    .single()
+                    .unwrap(),
+            }]
+        );
+
+        let start = Property::new("DTSTART", "20251129T200000").done();
+        let end = Property::new("DTEND", "20251129T210000").done();
+        let event = Event::new()
+            .append_property(start)
+            .append_property(end)
+            .done();
+
+        assert_eq!(
+            get_times(&event, Some("Europe/Berlin"), &[&event]).unwrap(),
+            vec![EventTime::DateTime {
+                start: FixedOffset::east_opt(3600)
+                    .unwrap()
+                    .with_ymd_and_hms(2025, 11, 29, 20, 0, 0)
+                    .single()
+                    .unwrap(),
+                end: FixedOffset::east_opt(3600)
+                    .unwrap()
+                    .with_ymd_and_hms(2025, 11, 29, 21, 0, 0)
+                    .single()
+                    .unwrap(),
+            }]
+        );
+    }
+
+    #[test]
     fn parse_datetime_weekly_tzid() {
         // Start before daylight savings starts, but recur into daylight savings time, including one
         // event that spans the start.
