@@ -15,14 +15,8 @@
 use super::{EventParts, IcalendarSource, import_new_events};
 use crate::{
     importers::combine_events,
-    model::{
-        dancestyle::DanceStyle,
-        event::{Event, EventTime},
-        events::Events,
-    },
-    util::local_datetime_to_fixed_offset,
+    model::{dancestyle::DanceStyle, event::Event, events::Events},
 };
-use chrono_tz::Tz;
 use eyre::Report;
 use regex::Regex;
 
@@ -135,16 +129,7 @@ impl IcalendarSource for DresdenWeekly {
     }
 }
 
-fn common_fixup(event: &mut Event) {
-    event.organisation = Some(ORGANISATION.to_string());
-    if let EventTime::DateTime { start, end } = &mut event.time {
-        // Fix times, they claim to be in UTC but are actually local time.
-        *start = local_datetime_to_fixed_offset(&start.naive_utc(), Tz::Europe__Berlin)
-            .expect("Error fixing start time");
-        *end = local_datetime_to_fixed_offset(&end.naive_utc(), Tz::Europe__Berlin)
-            .expect("Error fixing end time");
-    }
-}
+fn common_fixup(_event: &mut Event) {}
 
 #[cfg(test)]
 mod tests {
