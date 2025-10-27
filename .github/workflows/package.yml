@@ -39,7 +39,7 @@ jobs:
         run: cargo deb
 
       - name: Upload package
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: debian-packages
           path: target/debian/*.deb
