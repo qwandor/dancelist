@@ -1150,6 +1150,12 @@ fn apply_fixes(event: &mut Event) {
                 .insert(0, "https://tucsoncontradancers.org/".to_string());
             event.price = Some("$5-$10".to_string());
         }
+        "Village Green English Country Dancers' Weekly Classes" => {
+            event.links.insert(
+                0,
+                "https://villagegreenenglishdancers.org/membership-and-classes/".to_string(),
+            );
+        }
         "Wednesday Night Contra Dance" | "Wednesday Night Contra Dance BFMS"
             if event.city == "Baltimore" =>
         {
