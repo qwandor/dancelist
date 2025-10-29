@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const CALLERS: [&str; 273] = [
+pub const CALLERS: [&str; 274] = [
     "Abigail Hobart",
     "Ada Diane Blanken",
     "Adam Hughes",
@@ -25,6 +25,7 @@ pub const CALLERS: [&str; 273] = [
     "Alyssa Adkins",
     "Amy Letson",
     "Andrea Nettleton",
+    "Andrew Stout",
     "Andrew Swaine",
     "Angela DeCarlis",
     "Ann Carter",
