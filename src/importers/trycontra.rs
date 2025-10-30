@@ -116,6 +116,16 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
 
     let organisation = if links[0].contains("dancingfish.dance") {
         "Dancing Fish"
+    } else if links[0].contains("neffa.org") {
+        "NEFFA"
+    } else if links[0].contains("phxtmd.org") {
+        "Phoenix Traditional Music & Dance"
+    } else if links[0].contains("shedances.org") {
+        "SheDances"
+    } else if links[0].contains("tadamsva.org") {
+        "TADAMS (Traditional American Dance and Music Society)"
+    } else if links[0].contains("tropicaldancevacation.com") {
+        "Tropical Dance Vacation"
     } else {
         "TryContra"
     };
