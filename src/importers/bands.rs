@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 549] = [
+pub const BANDS: [&str; 550] = [
     "112 and Then Some",
     "A Cat's Tale",
     "A Fine Kettle of Fish",
@@ -494,6 +494,7 @@ pub const BANDS: [&str; 549] = [
     "Toad Holler",
     "Toad in the Hole",
     "Tom & Aurélie",
+    "Toot, Squeeze & Co.",
     "Tooth Pickers",
     "Toppish",
     "Topspin",
