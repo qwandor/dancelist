@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 551] = [
+pub const BANDS: [&str; 552] = [
     "112 and Then Some",
     "A Cat's Tale",
     "A Fine Kettle of Fish",
@@ -21,7 +21,7 @@ pub const BANDS: [&str; 551] = [
     "Accentricity",
     "Accords Perdus",
     "Achterband",
-    "Adam Rich-Griffin & Nicola McConkey ",
+    "Adam Rich-Griffin & Nicola McConkey",
     "AdHoc Orkest",
     "Adriano Sangineto",
     "Aérokorda",
@@ -494,6 +494,7 @@ pub const BANDS: [&str; 551] = [
     "TinnFelen",
     "Toad Holler",
     "Toad in the Hole",
+    "Toil and Treble",
     "Tom & Aurélie",
     "Toot, Squeeze & Co.",
     "Tooth Pickers",
