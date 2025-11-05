@@ -682,9 +682,10 @@ fn apply_fixes(event: &mut Event) {
         "Hartford Community Dance's 2nd Saturday Contra Dance"
         | "Hartford Community Dance’s 2nd Saturday Contra Dance" => {
             event.name = "Hartfort Community Dance Contra".to_string();
-            event
-                .links
-                .insert(0, "http://www.hcdance.org/contra-dance/".to_string());
+            event.links.insert(
+                0,
+                "https://www.hcdance.org/quiet-corner-contra/".to_string(),
+            );
         }
         "Hayward Contra Dance" => {
             event
@@ -983,9 +984,10 @@ fn apply_fixes(event: &mut Event) {
         }
         "Quiet Corner Contra Dance" | "Quiet Corner Contra Dance!" => {
             event.name = "Quiet Corner Contra Dance".to_string();
-            event
-                .links
-                .insert(0, "http://www.hcdance.org/quiet-corner-contra/".to_string());
+            event.links.insert(
+                0,
+                "https://www.hcdance.org/quiet-corner-contra/".to_string(),
+            );
         }
         "Richmond English Country Dance" | "Richmond Wednesday English Country Dance" => {
             event.links.insert(
