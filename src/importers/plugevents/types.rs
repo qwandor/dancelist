@@ -131,6 +131,8 @@ pub enum InterestTag {
     Jam,
     Music,
     NeoTrad,
+    #[serde(rename = "Polish Dance")]
+    PolishDance,
     #[serde(rename = "Salsa Dance")]
     SalsaDance,
     Session,

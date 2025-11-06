@@ -96,6 +96,9 @@ fn convert(event: &Event, default_style: DanceStyle) -> Result<Option<event::Eve
             InterestTag::ItalianFolk => {
                 styles.push(DanceStyle::Italian);
             }
+            InterestTag::PolishDance => {
+                styles.push(DanceStyle::Polish);
+            }
             InterestTag::Accordion
             | InterestTag::Art
             | InterestTag::Bachata
