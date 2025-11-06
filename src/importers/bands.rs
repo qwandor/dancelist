@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 552] = [
+pub const BANDS: [&str; 553] = [
     "112 and Then Some",
     "A Cat's Tale",
     "A Fine Kettle of Fish",
@@ -303,6 +303,7 @@ pub const BANDS: [&str; 552] = [
     "Le Carillon",
     "Le Driadi",
     "Le Mange Bal",
+    "Leben & Schwarz",
     "Les Bottines Artistiques",
     "Les Kickeuses",
     "Les Quatre Patates",
