@@ -45,6 +45,7 @@ impl IcalendarSource for Cdss {
             || (description_lower.contains("lesson") && !description_lower.contains("no lesson"))
             || description_lower.contains("“learn the ropes")
             || description_lower.contains("[learn the ropes")
+            || description_lower.contains("basic instruction at")
             || description_lower.contains("basics session")
             || description_lower.contains("basics/review session")
             || description_lower.contains("beginner class")
