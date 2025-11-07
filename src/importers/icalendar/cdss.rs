@@ -1131,10 +1131,17 @@ fn apply_fixes(event: &mut Event) {
         "The Asheville Monday Night Contra Dance" => {
             event.name = "Asheville Monday Night Contra Dance".to_string();
         }
+        "Third Sunday English Regency Dancing & Tea in Van Nuys, CA" => {
+            event.name = "Third Sunday English Regency Dancing & Tea".to_string();
+            event.links.insert(
+                0,
+                "https://www.valleyareaenglishregencysociety.org/about.html".to_string(),
+            );
+        }
         "Third Sunday English Regency Dancing" => {
             event.links.insert(
                 0,
-                "https://www.valleyareaenglishregencysociety.org/".to_string(),
+                "https://www.valleyareaenglishregencysociety.org/about.html".to_string(),
             );
         }
         "Thursday Contra Dance" if event.city == "Philadelphia" => {
