@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 553] = [
+pub const BANDS: [&str; 554] = [
     "112 and Then Some",
     "A Cat's Tale",
     "A Fine Kettle of Fish",
@@ -362,6 +362,7 @@ pub const BANDS: [&str; 553] = [
     "Noiranomis",
     "Nordic Exposure",
     "Norrsken",
+    "North Dixie Boom Chicks",
     "Northern Aire",
     "Northwoods",
     "Notorious",
