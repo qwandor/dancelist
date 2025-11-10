@@ -1051,7 +1051,8 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://scissortail.org/calendar/".to_string());
         }
-        "Scissortail English Country Dance in Oklahoma City" => {
+        "Scissortail English Country Dance in Oklahoma City"
+        | "Scissortail English Country Dance in Norman, OK" => {
             event.name = "Scissortail English Country Dance".to_string();
             event
                 .links
@@ -1138,7 +1139,7 @@ fn apply_fixes(event: &mut Event) {
                 "https://www.valleyareaenglishregencysociety.org/about.html".to_string(),
             );
         }
-        "Third Sunday English Regency Dancing" => {
+        "Third Sunday English Regency Dancing" | "Third Thursday English Regency Dancing" => {
             event.links.insert(
                 0,
                 "https://www.valleyareaenglishregencysociety.org/about.html".to_string(),
