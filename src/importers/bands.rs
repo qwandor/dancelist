@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 556] = [
+pub const BANDS: [&str; 558] = [
     "112 and Then Some",
     "A Cat's Tale",
     "A Fine Kettle of Fish",
@@ -51,6 +51,7 @@ pub const BANDS: [&str; 556] = [
     "Avalance",
     "Avourneen",
     "ba.fnu",
+    "Baby Corns",
     "Back Row Band",
     "Bal à Sept",
     "Bal Affaire",
@@ -117,6 +118,7 @@ pub const BANDS: [&str; 556] = [
     "Constellation",
     "Contra Banditos",
     "Contra Intuitive",
+    "Contra Sutra",
     "ContraForce",
     "Contrary Faeries",
     "Contrasaurus",
