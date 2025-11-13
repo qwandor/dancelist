@@ -75,6 +75,7 @@ impl IcalendarSource for Cdss {
             || description_lower.contains("newcomers")
             || description_lower.contains("orientation session")
             || description_lower.contains("refresher session")
+            || description_lower.contains("review of contra dance basics")
             || description_lower.contains("skills class")
             || description_lower.contains("skills session")
             || description_lower.contains("teaching at")
