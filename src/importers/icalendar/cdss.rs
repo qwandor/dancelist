@@ -433,6 +433,11 @@ fn apply_fixes(event: &mut Event) {
                 .insert(0, "https://www.tapestryfolkdance.org/contra".to_string());
             event.workshop = true;
         }
+        "Techno Contra Dance at Tapestry Folkdance Center" => {
+            event
+                .links
+                .insert(0, "https://www.tapestryfolkdance.org/contra".to_string());
+        }
         "ContraATL Weekly Dance" => {
             event.workshop = true;
             event
