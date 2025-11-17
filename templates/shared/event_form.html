@@ -219,6 +219,13 @@
         {% endfor %}
       </datalist>
     </li>
+    {% if show_cancelled %}
+    <li>
+      <label for="cancelled" class="required">Cancelled</label>
+      <p>Is the event no longer happening after all?</p>
+      <input name="cancelled" id="cancelled" type="checkbox" value="true" {{ *form.cancelled|checked_if_true }}/>
+    </li>
+    {% endif %}
     <li>
       <label for="email">Submitter email</label>
       <p>

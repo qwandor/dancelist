@@ -62,6 +62,8 @@ pub struct EventForm {
     pub price: Option<String>,
     #[serde(deserialize_with = "trim_non_empty")]
     pub organisation: Option<String>,
+    #[serde(default)]
+    pub cancelled: bool,
     #[serde(deserialize_with = "trim_non_empty")]
     pub email: Option<String>,
 }
@@ -150,6 +152,7 @@ impl EventForm {
             callers: event.callers.clone(),
             price: event.price.clone(),
             organisation: event.organisation.clone(),
+            cancelled: event.cancelled,
             email: None,
         }
     }
@@ -202,7 +205,7 @@ impl TryFrom<EventForm> for Event {
                 .collect(),
             price: form.price,
             organisation: form.organisation,
-            cancelled: false,
+            cancelled: form.cancelled,
             source: None,
         };
         let problems = event.validate();
