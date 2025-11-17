@@ -62,23 +62,13 @@ pub struct EventForm {
     pub price: Option<String>,
     #[serde(deserialize_with = "trim_non_empty")]
     pub organisation: Option<String>,
+    #[serde(default)]
+    pub cancelled: bool,
     #[serde(deserialize_with = "trim_non_empty")]
     pub email: Option<String>,
 }
 
 impl EventForm {
-    pub fn workshop(&self) -> bool {
-        self.workshop
-    }
-
-    pub fn social(&self) -> bool {
-        self.social
-    }
-
-    pub fn with_time(&self) -> bool {
-        self.with_time
-    }
-
     pub fn start_date_string(&self) -> String {
         if let Some(start_date) = self.start_date {
             start_date.to_string()
@@ -162,6 +152,7 @@ impl EventForm {
             callers: event.callers.clone(),
             price: event.price.clone(),
             organisation: event.organisation.clone(),
+            cancelled: event.cancelled,
             email: None,
         }
     }
@@ -214,7 +205,7 @@ impl TryFrom<EventForm> for Event {
                 .collect(),
             price: form.price,
             organisation: form.organisation,
-            cancelled: false,
+            cancelled: form.cancelled,
             source: None,
         };
         let problems = event.validate();
