@@ -67,18 +67,6 @@ pub struct EventForm {
 }
 
 impl EventForm {
-    pub fn workshop(&self) -> bool {
-        self.workshop
-    }
-
-    pub fn social(&self) -> bool {
-        self.social
-    }
-
-    pub fn with_time(&self) -> bool {
-        self.with_time
-    }
-
     pub fn start_date_string(&self) -> String {
         if let Some(start_date) = self.start_date {
             start_date.to_string()

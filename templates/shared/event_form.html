@@ -92,7 +92,7 @@
     </li>
     <li>
       <label for="with_time">Include time</label>
-      <input name="with_time" id="with_time" type="checkbox" value="true" {{ form.with_time()|checked_if_true }}/>
+      <input name="with_time" id="with_time" type="checkbox" value="true" {{ *form.with_time|checked_if_true }}/>
     </li>
     <li class="times">
       <label for="start" class="required">Start time</label>
@@ -146,12 +146,12 @@
     <li>
       <label for="workshop" class="required">Workshop</label>
       <p>Does the event include some organised teaching such as a workshop, class or beginner lesson?</p>
-      <input name="workshop" id="workshop" type="checkbox" value="true" {{ form.workshop()|checked_if_true }}/>
+      <input name="workshop" id="workshop" type="checkbox" value="true" {{ *form.workshop|checked_if_true }}/>
     </li>
     <li>
       <label for="social" class="required">Social</label>
       <p>Does the event include social dancing (rather than just a workshop or practice)?</p>
-      <input name="social" id="social" type="checkbox" value="true" {{ form.social()|checked_if_true }}/>
+      <input name="social" id="social" type="checkbox" value="true" {{ *form.social|checked_if_true }}/>
     </li>
     <li>
       <label for="bands">Bands</label>
