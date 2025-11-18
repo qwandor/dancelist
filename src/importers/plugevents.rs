@@ -120,6 +120,7 @@ fn convert(event: &Event, default_style: DanceStyle) -> Result<Option<event::Eve
             | InterestTag::Fusion
             | InterestTag::Guitar
             | InterestTag::History
+            | InterestTag::IrishDance
             | InterestTag::Jam
             | InterestTag::Music
             | InterestTag::NeoTrad

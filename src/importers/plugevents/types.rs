@@ -126,6 +126,8 @@ pub enum InterestTag {
     Fusion,
     Guitar,
     History,
+    #[serde(rename = "Irish Dance")]
+    IrishDance,
     #[serde(rename = "Italian Folk")]
     ItalianFolk,
     Jam,
