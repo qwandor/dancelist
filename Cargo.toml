@@ -22,7 +22,7 @@ enum-iterator = "2.3.0"
 eyre = "0.6.12"
 fast_qr = { version = "0.13.1", features = ["image"] }
 icalendar = { version = "0.17.5", features = ["chrono-tz", "parser"] }
-jsonwebtoken = "9.3.1"
+jsonwebtoken = "10.2.0"
 log = "0.4.28"
 octocrab = "0.48.0"
 pretty_env_logger = "0.5.0"
