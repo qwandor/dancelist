@@ -658,6 +658,9 @@ fn apply_fixes(event: &mut Event) {
         }
         "Gainesville Florida English Country Dance" => {
             event.name = "Gainesville English Country Dance".to_string();
+            event.country = "USA".to_string();
+            event.state = Some("FL".to_string());
+            event.city = "Gainesville".to_string();
         }
         "Gentle English (Swarthmore PA)" => {
             event.name = "Gentle English".to_string();
@@ -1137,6 +1140,15 @@ fn apply_fixes(event: &mut Event) {
         }
         "The Asheville Monday Night Contra Dance" => {
             event.name = "Asheville Monday Night Contra Dance".to_string();
+        }
+        "Gainesville Old Time Dance Society Contra Dance" => {
+            event.name = "Third Friday Gainesville Old Time Dance Society Contra Dance".to_string();
+            event.links.insert(0, "https://godsdance.org/".to_string());
+            event.country = "USA".to_string();
+            event.state = Some("FL".to_string());
+            event.city = "Gainesville".to_string();
+            event.workshop = true;
+            event.price = Some("$5-$10".to_string());
         }
         "Third Sunday English Regency Dancing & Tea in Van Nuys, CA" => {
             event.name = "Third Sunday English Regency Dancing & Tea".to_string();
