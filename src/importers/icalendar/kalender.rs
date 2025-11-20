@@ -35,6 +35,7 @@ const GERMANY_CITIES: &[(&str, &str)] = &[
     ("Schwäbisch Gmünd", "Schwäbisch Gmünd"),
     ("Stuttgart", "Stuttgart"),
     ("Tübingen", "Tübingen"),
+    ("Überlingen", "Überlingen"),
     ("VHS Metzingen", "Metzingen"),
     ("VHS Rottenburg", "Rottenburg am Neckar"),
 ];
