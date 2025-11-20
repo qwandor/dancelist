@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 562] = [
+pub const BANDS: [&str; 564] = [
     "112 and Then Some",
     "A Cat's Tale",
     "A Fine Kettle of Fish",
@@ -33,6 +33,7 @@ pub const BANDS: [&str; 562] = [
     "AlleMonOh Stringband",
     "Amarillis & Anders",
     "Amberwing",
+    "Anadama",
     "Andrea Capezzuoli",
     "Andrea Hoag",
     "Andreas Neumann",
@@ -117,6 +118,7 @@ pub const BANDS: [&str; 562] = [
     "Cojiro",
     "Constellation",
     "Contra Banditos",
+    "Contra Fusion",
     "Contra Intuitive",
     "Contra Sutra",
     "ContraForce",
