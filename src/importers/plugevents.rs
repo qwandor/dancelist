@@ -110,7 +110,9 @@ fn convert(event: &Event, default_style: DanceStyle) -> Result<Option<event::Eve
             | InterestTag::CoupleDance
             | InterestTag::Dance
             | InterestTag::DancingBodies
+            | InterestTag::DiatonicAccordeon
             | InterestTag::DutchFolk
+            | InterestTag::ElectricGuitar
             | InterestTag::EuropeanFolk
             | InterestTag::FlemishFolk
             | InterestTag::FolkDance
@@ -130,7 +132,9 @@ fn convert(event: &Event, default_style: DanceStyle) -> Result<Option<event::Eve
             | InterestTag::Tango
             | InterestTag::TangoArgentino
             | InterestTag::Teacher
+            | InterestTag::TraditionalMusic
             | InterestTag::TradMusic
+            | InterestTag::Trance
             | InterestTag::Violin
             | InterestTag::WestCoastSwing
             | InterestTag::Zouk

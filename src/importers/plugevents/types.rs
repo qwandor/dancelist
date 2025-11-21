@@ -108,8 +108,12 @@ pub enum InterestTag {
     CoupleDance,
     Dance,
     DancingBodies,
+    #[serde(rename = "Diatonic accordeon")]
+    DiatonicAccordeon,
     #[serde(rename = "Dutch Folk")]
     DutchFolk,
+    #[serde(rename = "Electric Guitar")]
+    ElectricGuitar,
     #[serde(rename = "European Folk")]
     EuropeanFolk,
     #[serde(rename = "Flemish Folk")]
@@ -149,8 +153,11 @@ pub enum InterestTag {
     #[serde(rename = "Tango Argentino")]
     TangoArgentino,
     Teacher,
+    #[serde(rename = "Traditional music")]
+    TraditionalMusic,
     #[serde(rename = "Trad Music")]
     TradMusic,
+    Trance,
     Violin,
     #[serde(rename = "West Coast Swing")]
     WestCoastSwing,
