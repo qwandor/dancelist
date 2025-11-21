@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 564] = [
+pub const BANDS: [&str; 565] = [
     "112 and Then Some",
     "A Cat's Tale",
     "A Fine Kettle of Fish",
@@ -97,6 +97,7 @@ pub const BANDS: [&str; 564] = [
     "Broes",
     "Brook Farm String Band",
     "Brooklyn Swing Ensemble",
+    "Budweis-Wunderlich",
     "Bunny Bread Bandits",
     "Calico",
     "Calliope",
