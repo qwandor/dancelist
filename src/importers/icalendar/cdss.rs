@@ -507,6 +507,15 @@ fn apply_fixes(event: &mut Event) {
         "English Country Dance - Norwich, VT" => {
             event.name = "English Country Dance".to_string();
         }
+        "English Country Dance on Mondays in Gainesville" => {
+            event.name = "Gainesville English Country Dance".to_string();
+            event.country = "USA".to_string();
+            event.state = Some("FL".to_string());
+            event.city = "Gainesville".to_string();
+            if event.price.as_deref() == Some("$5") {
+                event.price = Some("$10".to_string());
+            }
+        }
         "First Saturday Contra at Guiding Star Grange"
         | "Third Saturday Contra at Guiding Star Grange"
         | "Third Friday Contra at Guiding Star Grange"
