@@ -735,6 +735,11 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://hatds.org/ecd#hatds".to_string());
         }
+        "Hudson Valley Contra Dance" => {
+            event
+                .links
+                .insert(0, "https://www.hudsonvalleydance.org/contra".to_string());
+        }
         "Hudson Valley Country Dancers - Port Ewen English Country Dance" => {
             event.name = "Port Ewen English Country Dance".to_string();
             event.links.insert(
@@ -1216,6 +1221,15 @@ fn apply_fixes(event: &mut Event) {
             event
                 .links
                 .insert(0, "https://williamsburgheritagedancers.org/".to_string());
+        }
+        "Williamstown, MA Contra Dance" => {
+            event.name = "Williamstown Contra Dance".to_string();
+            event
+                .links
+                .insert(0, "https://northberkshiredance.org/".to_string());
+            if event.price.is_none() {
+                event.price = Some("$12-$20".to_string());
+            }
         }
         "Wooster Contra Dance" => {
             event
