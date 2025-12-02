@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const CALLERS: [&str; 279] = [
+pub const CALLERS: [&str; 281] = [
     "Abigail Hobart",
     "Ada Diane Blanken",
     "Adam Hughes",
@@ -205,6 +205,7 @@ pub const CALLERS: [&str; 279] = [
     "Lydia Molineaux",
     "Mae Wilson",
     "Maeve Devlin",
+    "Maggie McRae",
     "Maia McCormick",
     "Malcolm Jowett",
     "Marc Airhart",
@@ -284,6 +285,7 @@ pub const CALLERS: [&str; 279] = [
     "Tom Mack",
     "Tom Roby",
     "Val Medve",
+    "Valerie Helbert",
     "Vicki Morrison",
     "Victor Gascon",
     "Walter Zagorski",

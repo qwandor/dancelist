@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 568] = [
+pub const BANDS: [&str; 569] = [
     "112 and Then Some",
     "A Cat's Tale",
     "A Fine Kettle of Fish",
@@ -358,6 +358,7 @@ pub const BANDS: [&str; 568] = [
     "Mook",
     "Moore & Moss",
     "Morceau de Breizh",
+    "Morrison Brothers",
     "Mound City Slickers",
     "Mr Folxlide",
     "Musac",
