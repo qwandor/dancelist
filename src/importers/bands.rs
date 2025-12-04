@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 569] = [
+pub const BANDS: [&str; 570] = [
     "112 and Then Some",
     "A Cat's Tale",
     "A Fine Kettle of Fish",
@@ -43,6 +43,7 @@ pub const BANDS: [&str; 569] = [
     "Antanjo",
     "Anytime English Players",
     "Appalachian Roots",
+    "Arcotones",
     "Artisjok",
     "Atlantic Crossing",
     "Att Dansa",
