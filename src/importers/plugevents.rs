@@ -82,6 +82,7 @@ fn convert(event: &Event, default_style: DanceStyle) -> Result<Option<event::Eve
             InterestTag::Balfolk
             | InterestTag::BalfolkAmsterdam
             | InterestTag::Balfolkdance
+            | InterestTag::BalfolkLimburg
             | InterestTag::BalfolkMusic
             | InterestTag::FrenchFolk => {
                 styles.push(DanceStyle::Balfolk);
@@ -114,6 +115,7 @@ fn convert(event: &Event, default_style: DanceStyle) -> Result<Option<event::Eve
             | InterestTag::DutchFolk
             | InterestTag::ElectricGuitar
             | InterestTag::EuropeanFolk
+            | InterestTag::Fantasy
             | InterestTag::FlemishFolk
             | InterestTag::FolkDance
             | InterestTag::FolkMusic
@@ -121,9 +123,11 @@ fn convert(event: &Event, default_style: DanceStyle) -> Result<Option<event::Eve
             | InterestTag::France
             | InterestTag::Fusion
             | InterestTag::Guitar
+            | InterestTag::HistoricalDance
             | InterestTag::History
             | InterestTag::IrishDance
             | InterestTag::Jam
+            | InterestTag::Larp
             | InterestTag::Music
             | InterestTag::NeoTrad
             | InterestTag::SalsaDance

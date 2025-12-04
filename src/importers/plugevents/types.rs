@@ -94,6 +94,8 @@ pub enum InterestTag {
     BalfolkAmsterdam,
     #[serde(rename = "Balfolk dance")]
     Balfolkdance,
+    #[serde(rename = "Balfolk limburg")]
+    BalfolkLimburg,
     #[serde(rename = "Balfolk Music")]
     BalfolkMusic,
     BalfolkNL,
@@ -116,6 +118,7 @@ pub enum InterestTag {
     ElectricGuitar,
     #[serde(rename = "European Folk")]
     EuropeanFolk,
+    Fantasy,
     #[serde(rename = "Flemish Folk")]
     FlemishFolk,
     #[serde(rename = "Folk Dance")]
@@ -129,12 +132,15 @@ pub enum InterestTag {
     FrenchFolk,
     Fusion,
     Guitar,
+    #[serde(rename = "Historical dance")]
+    HistoricalDance,
     History,
     #[serde(rename = "Irish Dance")]
     IrishDance,
     #[serde(rename = "Italian Folk")]
     ItalianFolk,
     Jam,
+    Larp,
     Music,
     NeoTrad,
     #[serde(rename = "Polish Dance")]
