@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 570] = [
+pub const BANDS: [&str; 571] = [
     "112 and Then Some",
     "A Cat's Tale",
     "A Fine Kettle of Fish",
@@ -363,6 +363,7 @@ pub const BANDS: [&str; 570] = [
     "Mound City Slickers",
     "Mr Folxlide",
     "Musac",
+    "Mystic Gorillas",
     "Nachtmuziek",
     "Naragonia Quartet",
     "Naragonia",
