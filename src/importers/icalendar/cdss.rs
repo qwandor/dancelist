@@ -1171,7 +1171,9 @@ fn apply_fixes(event: &mut Event) {
                 "https://www.valleyareaenglishregencysociety.org/about.html".to_string(),
             );
         }
-        "Third Sunday English Regency Dancing" | "Third Thursday English Regency Dancing" => {
+        "Third Sunday English Regency Dancing"
+        | "Third Thursday English Regency Dancing"
+        | "Third Thursday English Regency Dancing in Simi Valley" => {
             event.links.insert(
                 0,
                 "https://www.valleyareaenglishregencysociety.org/about.html".to_string(),
