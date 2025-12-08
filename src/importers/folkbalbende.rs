@@ -217,6 +217,7 @@ fn convert(event: &Event) -> Vec<event::Event> {
         "Brussel" => "Brussels",
         "Bruxelles" => "Brussels",
         "Courtrai" => "Kortrijk",
+        "Grandvoir" => "Neufchâteau",
         "Elsene" => "Brussels",
         "Etterbeek" => "Brussels",
         "Forest" => "Brussels",
