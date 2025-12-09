@@ -1111,7 +1111,8 @@ fn apply_fixes(event: &mut Event) {
                 "https://www.guidingstargrange.org/events.html".to_string(),
             );
         }
-        "South Florida Contradance" => {
+        "South Florida Contradance" | "South Florida Contra Dances" => {
+            event.name = "South Florida Contradance".to_string();
             event
                 .links
                 .insert(0, "https://southfloridacontradance.com/".to_string());
