@@ -869,10 +869,9 @@ fn apply_fixes(event: &mut Event) {
                 .insert(0, "https://www.knoxvillecontra.org/schedule".to_string());
         }
         "Montpelier Contra Dance" => {
-            event.links.insert(
-                0,
-                "https://capitalcitygrange.org/dancing/contradancing/".to_string(),
-            );
+            event
+                .links
+                .insert(0, "https://www.montpeliercontradance.org/".to_string());
         }
         "Monday Cincinnati Contra Dance" => {
             event.price = Some("$2-$5".to_string());
