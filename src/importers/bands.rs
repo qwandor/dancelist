@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 572] = [
+pub const BANDS: [&str; 573] = [
     "112 and Then Some",
     "A Cat's Tale",
     "A Fine Kettle of Fish",
@@ -325,6 +325,7 @@ pub const BANDS: [&str; 572] = [
     "Local On-Call Orchestra",
     "Lone Star Pirates",
     "Long Forgotten String Band",
+    "Loose Shoes",
     "Lovely Lane String Band",
     "Luca Fiorini",
     "Lys&Co",
