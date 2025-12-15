@@ -141,6 +141,8 @@ pub enum InterestTag {
     ItalianFolk,
     Jam,
     Larp,
+    #[serde(rename = "Live music")]
+    LiveMusic,
     Music,
     NeoTrad,
     #[serde(rename = "Polish Dance")]
