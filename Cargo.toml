@@ -21,7 +21,7 @@ color-backtrace = "0.7.2"
 enum-iterator = "2.3.0"
 eyre = "0.6.12"
 fast_qr = { version = "0.13.1", features = ["image"] }
-icalendar = { version = "0.17.5", features = ["chrono-tz", "parser"] }
+icalendar = { version = "0.17.6", features = ["chrono-tz", "parser"] }
 jsonwebtoken = "10.2.0"
 log = "0.4.29"
 octocrab = "0.48.1"
