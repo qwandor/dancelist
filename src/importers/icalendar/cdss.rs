@@ -632,6 +632,10 @@ fn apply_fixes(event: &mut Event) {
                 "https://www.guidingstargrange.org/events.html".to_string(),
             );
         }
+        "Fourth Saturday Contras with Loose Shoes" => {
+            event.name = "Fourth Saturday Contra".to_string();
+            event.workshop = true;
+        }
         "Friday Contra Dance, Nashville TN" => {
             event.name = "Friday Contra Dance".to_string();
             event.links.insert(
