@@ -885,7 +885,7 @@ fn apply_fixes(event: &mut Event) {
             }
             event.links.insert(
                 0,
-                "https://www.cincinnaticontradance.org/schedule.htm".to_string(),
+                "https://www.cincinnaticontradance.org/dance-schedule".to_string(),
             );
         }
         "Monday Contra Dance" if event.city == "Nelson" => {
