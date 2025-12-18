@@ -316,10 +316,9 @@ fn apply_fixes(event: &mut Event) {
             event.workshop = true;
         }
         "Bloomington Contra Dance" => {
-            event.links.insert(
-                0,
-                "https://bloomingtoncontra.org/wednesday-dances/".to_string(),
-            );
+            event
+                .links
+                .insert(0, "https://bloomingtoncontra.org/events/".to_string());
         }
         "Buena Vista 1st Saturday Community Contra & Band Jam" => {
             event.name = "Buena Vista Community Contra & Band Jam".to_string();
