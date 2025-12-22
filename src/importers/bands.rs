@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 576] = [
+pub const BANDS: [&str; 577] = [
     "112 and Then Some",
     "A Cat's Tale",
     "A Fine Kettle of Fish",
@@ -164,6 +164,7 @@ pub const BANDS: [&str; 576] = [
     "Duo Brotto Milleret",
     "Duo Clercx",
     "Duo Coudroy Genet",
+    "Duo du Balcon",
     "Duo FA",
     "Duo Gielen-Buscan",
     "Duo l'Hêtre Heureux",
