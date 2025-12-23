@@ -10,10 +10,10 @@
 	<h1>Folk dance callers</h1>
 
 	<ul>
-		{% for caller in callers %}
+		{% for caller_info in callers %}
 		<li>
-			<a href="/?caller={{ caller.name|urlencode }}">{{ caller.name }}</a>
-			({{ caller.event_count }} event{% if caller.event_count != 1 %}s{% endif %})
+			<a href="/?caller={{ caller_info.name|urlencode }}">{{ caller_info.name }}</a>
+			({{ caller_info.event_count }} event{% if caller_info.event_count != 1 %}s{% endif %})
 		</li>
 		{% endfor %}
 	</ul>

@@ -177,15 +177,15 @@
       </p>
       <fieldset>
         <ul id="callers_list">
-          {% for caller in form.callers %}
-          <li><input name="callers" type="text" list="callers_datalist" value="{{ caller }}"/></li>
+          {% for caller_name in form.callers %}
+          <li><input name="callers" type="text" list="callers_datalist" value="{{ caller_name }}"/></li>
           {% endfor %}
           <li><input name="callers" id="callers" type="text" list="callers_datalist"/></li>
         </ul>
       </fieldset>
       <datalist id="callers_datalist">
-        {% for caller in callers %}
-        <option>{{ caller.name }}</option>
+        {% for caller_info in callers %}
+        <option>{{ caller_info.name }}</option>
         {% endfor %}
       </datalist>
     </li>

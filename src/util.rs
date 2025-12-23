@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use askama::Values;
+use askama::{Values, filter_fn};
 use chrono::{DateTime, FixedOffset, NaiveDateTime, Offset, TimeZone};
 use chrono_tz::Tz;
 
@@ -117,6 +117,7 @@ pub fn local_datetime_to_fixed_offset(
     ))
 }
 
+#[filter_fn]
 pub fn checked_if_true(value: bool, _values: &dyn Values) -> askama::Result<&'static str> {
     Ok(if value { "checked=\"checked\"" } else { "" })
 }
