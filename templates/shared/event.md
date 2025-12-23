@@ -44,8 +44,8 @@
 {% for band in event.bands %}
 <a href="https://folkdance.page/?band={{ band|urlencode }}" class="band">{{ band }}</a>
 {% endfor %}
-{% for caller in event.callers %}
-<a href="https://folkdance.page/?caller={{ caller|urlencode }}" class="caller">{{ caller }}</a>
+{% for caller_name in event.callers %}
+<a href="https://folkdance.page/?caller={{ caller_name|urlencode }}" class="caller">{{ caller_name }}</a>
 {% endfor %}
 </td>
 </tr>
