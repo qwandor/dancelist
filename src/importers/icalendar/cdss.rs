@@ -347,6 +347,11 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://carolinaenglishcountrydance.com/".to_string());
         }
+        "Carrboro First Saturday Contra Dance" => {
+            event
+                .links
+                .insert(0, "https://firstsaturdaycontra.com/".to_string());
+        }
         "CDK Contra Dance"
         | "CDK Contra & Square Dance"
         | "Just For Fun - Country Dance Kalamazoo" => {
