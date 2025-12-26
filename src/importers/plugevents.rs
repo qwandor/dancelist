@@ -208,6 +208,7 @@ fn convert(event: &Event, default_style: DanceStyle) -> Result<Option<event::Eve
             | EventFormat::Optreden
             | EventFormat::Overig
             | EventFormat::Performance
+            | EventFormat::SocialEvening
             | EventFormat::Teacher => {}
         }
     }

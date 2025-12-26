@@ -233,6 +233,8 @@ pub enum EventFormat {
     #[serde(rename = "Social Dancing")]
     SocialDancing,
     Sociales,
+    #[serde(rename = "Social evening")]
+    SocialEvening,
     Teacher,
     #[serde(rename = "Vrij dansen")]
     VrijDansen,
