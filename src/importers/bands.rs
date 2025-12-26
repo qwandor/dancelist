@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 577] = [
+pub const BANDS: [&str; 578] = [
     "112 and Then Some",
     "A Cat's Tale",
     "A Fine Kettle of Fish",
@@ -219,6 +219,7 @@ pub const BANDS: [&str; 577] = [
     "Folkinger",
     "Folkschwestern Biese",
     "Fourpence",
+    "Free Association",
     "French Toast",
     "Friends of Virgil",
     "Froghammer",
