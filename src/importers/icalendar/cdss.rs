@@ -1088,6 +1088,11 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://scissortail.org/calendar/".to_string());
         }
+        "Seacoast Contra Dance" => {
+            event
+                .links
+                .insert(0, "https://seacoastcontra.com/".to_string());
+        }
         "Sebastopol 1st and 3rd Sunday English Dance"
         | "Sebastopol 5th Sunday Advanced English Dance" => {
             event
