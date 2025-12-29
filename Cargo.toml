@@ -10,7 +10,7 @@ keywords = ["folk", "dance", "balfolk", "website"]
 categories = ["web-programming"]
 
 [dependencies]
-askama = "0.15.0"
+askama = "0.15.1"
 axum = { version = "0.8.8", features = ["macros"] }
 axum-extra = { version = "0.12.3", features = ["form", "typed-header"] }
 base64 = "0.22.1"
