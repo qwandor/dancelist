@@ -303,6 +303,13 @@ fn apply_fixes(event: &mut Event) {
                 "https://louisianacontrasandsquares.com/events.html".to_string(),
             );
         }
+        "St. Alban's Contra Dance in Baton Rouge" => {
+            event.name = "St. Alban's Contra Dance".to_string();
+            event.links.insert(
+                0,
+                "https://louisianacontrasandsquares.com/events.html".to_string(),
+            );
+        }
         "Berea 4th Saturday English Country Dance" => {
             event.links.insert(
                 0,
