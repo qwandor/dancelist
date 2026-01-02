@@ -193,7 +193,8 @@ async fn validate(path: Option<&str>) -> Result<(), Report> {
 }
 
 async fn concatenate(path: Option<&str>) -> Result<(), Report> {
-    let events = load_events(path).await?;
+    let mut events = load_events(path).await?;
+    events.sort();
     print!("{}", serde_yaml::to_string(&events)?);
     Ok(())
 }
