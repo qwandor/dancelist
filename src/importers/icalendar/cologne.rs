@@ -32,7 +32,9 @@ impl IcalendarSource for Cologne {
 
     fn social(parts: &EventParts) -> bool {
         let summary_lower = parts.summary.to_lowercase();
-        summary_lower.contains("ball") || summary_lower.contains("tanznachmittag")
+        summary_lower.contains("ball")
+            || summary_lower.contains("balfolk in")
+            || summary_lower.contains("tanznachmittag")
     }
 
     fn styles(_parts: &EventParts) -> Vec<DanceStyle> {
