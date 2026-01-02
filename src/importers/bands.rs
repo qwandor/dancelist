@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 578] = [
+pub const BANDS: [&str; 579] = [
     "112 and Then Some",
     "A Cat's Tale",
     "A Fine Kettle of Fish",
@@ -205,6 +205,7 @@ pub const BANDS: [&str; 578] = [
     "Fiddlechicks",
     "Filippo Gambetta",
     "Fior",
+    "Firecrest",
     "Firletanz",
     "First Time Stringband",
     "Fjellerkene",
