@@ -141,9 +141,7 @@ impl IcalendarSource for Cdss {
         let (state, city) = if ["Canada", "USA"].contains(&country.as_str()) {
             if location_parts[location_parts.len() - 2]
                 .chars()
-                .next()
-                .unwrap()
-                .is_numeric()
+                .any(|c| c.is_numeric())
             {
                 // Skip postcode
                 (
@@ -1449,7 +1447,7 @@ mod tests {
                     "Address".to_string(),
                     "Asheville".to_string(),
                     "NC".to_string(),
-                    "United States".to_string()
+                    "United States".to_string(),
                 ]),
                 ..Default::default()
             })
@@ -1458,6 +1456,43 @@ mod tests {
                 "USA".to_string(),
                 Some("NC".to_string()),
                 "Asheville".to_string()
+            ))
+        );
+        assert_eq!(
+            Cdss::location(&EventParts {
+                location_parts: Some(vec![
+                    "Venue Name".to_string(),
+                    "Address".to_string(),
+                    "Toronto".to_string(),
+                    "Ontario".to_string(),
+                    "Canada".to_string(),
+                ]),
+                ..Default::default()
+            })
+            .unwrap(),
+            Some((
+                "Canada".to_string(),
+                Some("Ontario".to_string()),
+                "Toronto".to_string()
+            ))
+        );
+        assert_eq!(
+            Cdss::location(&EventParts {
+                location_parts: Some(vec![
+                    "Venue Name".to_string(),
+                    "Address".to_string(),
+                    "Toronto".to_string(),
+                    "Ontario".to_string(),
+                    "M4M 1H3".to_string(),
+                    "Canada".to_string(),
+                ]),
+                ..Default::default()
+            })
+            .unwrap(),
+            Some((
+                "Canada".to_string(),
+                Some("Ontario".to_string()),
+                "Toronto".to_string()
             ))
         );
     }
