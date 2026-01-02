@@ -43,7 +43,10 @@ impl IcalendarSource for Cologne {
         Ok(Some(("Germany".to_string(), None, "Cologne".to_string())))
     }
 
-    fn fixup(event: Event) -> Option<Event> {
+    fn fixup(mut event: Event) -> Option<Event> {
+        if event.name.contains("fällt aus") {
+            event.cancelled = true;
+        }
         Some(event)
     }
 }
