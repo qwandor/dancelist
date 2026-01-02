@@ -19,6 +19,7 @@ pub mod bristolcontra;
 pub mod burghausen;
 pub mod cdss;
 pub mod ceilidhclub;
+pub mod cologne;
 pub mod contrabridge;
 pub mod dresden;
 pub mod freiburg;
