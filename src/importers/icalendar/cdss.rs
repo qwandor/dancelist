@@ -139,10 +139,23 @@ impl IcalendarSource for Cdss {
             country = "UK".to_owned();
         }
         let (state, city) = if ["Canada", "USA"].contains(&country.as_str()) {
-            (
-                Some(location_parts[location_parts.len() - 3].to_owned()),
-                location_parts[location_parts.len() - 4].to_owned(),
-            )
+            if location_parts[location_parts.len() - 2]
+                .chars()
+                .next()
+                .unwrap()
+                .is_numeric()
+            {
+                // Skip postcode
+                (
+                    Some(location_parts[location_parts.len() - 3].to_owned()),
+                    location_parts[location_parts.len() - 4].to_owned(),
+                )
+            } else {
+                (
+                    Some(location_parts[location_parts.len() - 2].to_owned()),
+                    location_parts[location_parts.len() - 3].to_owned(),
+                )
+            }
         } else {
             (None, location_parts[location_parts.len() - 3].to_owned())
         };
@@ -1428,6 +1441,24 @@ mod tests {
             })
             .unwrap(),
             Some(("UK".to_string(), None, "London".to_string()))
+        );
+        assert_eq!(
+            Cdss::location(&EventParts {
+                location_parts: Some(vec![
+                    "Venue Name".to_string(),
+                    "Address".to_string(),
+                    "Asheville".to_string(),
+                    "NC".to_string(),
+                    "United States".to_string()
+                ]),
+                ..Default::default()
+            })
+            .unwrap(),
+            Some((
+                "USA".to_string(),
+                Some("NC".to_string()),
+                "Asheville".to_string()
+            ))
         );
     }
 }
