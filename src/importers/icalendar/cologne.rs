@@ -21,7 +21,7 @@ pub struct Cologne;
 impl IcalendarSource for Cologne {
     const URLS: &'static [&'static str] =
         &["https://www.balfolk-koeln.de/veranstaltungen/kategorie/lernabend/ical"];
-    const DEFAULT_ORGANISATION: &'static str = "BalFolk Köln";
+    const DEFAULT_ORGANISATION: &'static str = "Balfolk Köln";
 
     fn workshop(parts: &EventParts) -> bool {
         let summary_lower = parts.summary.to_lowercase();
