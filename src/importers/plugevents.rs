@@ -125,6 +125,7 @@ fn convert(event: &Event, default_style: DanceStyle) -> Result<Option<event::Eve
             | InterestTag::Guitar
             | InterestTag::HistoricalDance
             | InterestTag::History
+            | InterestTag::HurdyGurdy
             | InterestTag::IrishDance
             | InterestTag::Jam
             | InterestTag::Larp
@@ -132,6 +133,7 @@ fn convert(event: &Event, default_style: DanceStyle) -> Result<Option<event::Eve
             | InterestTag::Music
             | InterestTag::NeoTrad
             | InterestTag::SalsaDance
+            | InterestTag::Saxophone
             | InterestTag::Session
             | InterestTag::Singing
             | InterestTag::Tango

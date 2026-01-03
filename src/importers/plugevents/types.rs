@@ -135,6 +135,8 @@ pub enum InterestTag {
     #[serde(rename = "Historical dance")]
     HistoricalDance,
     History,
+    #[serde(rename = "Hurdy-gurdy")]
+    HurdyGurdy,
     #[serde(rename = "Irish Dance")]
     IrishDance,
     #[serde(rename = "Italian Folk")]
@@ -149,6 +151,7 @@ pub enum InterestTag {
     PolishDance,
     #[serde(rename = "Salsa Dance")]
     SalsaDance,
+    Saxophone,
     Session,
     Singing,
     #[serde(rename = "Social Dance")]
