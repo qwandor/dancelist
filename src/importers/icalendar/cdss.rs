@@ -275,6 +275,13 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://aactmad.org/english-country".to_string());
         }
+        "Asheville English Country Dance for All" => {
+            event.name = "English Country Dance for All".to_string();
+            event.links.insert(
+                0,
+                "https://oldfarmersball.com/english-country-dance/".to_string(),
+            );
+        }
         "Asheville Sunday Afternoon English Country Dance"
         | "Asheville Wednesday Evening English Country Dance" => {
             event.name = "English Country Dance".to_string();
@@ -326,6 +333,15 @@ fn apply_fixes(event: &mut Event) {
                 0,
                 "https://www.berea-folk-circle.org/english-country-dance".to_string(),
             );
+        }
+        "Birdsboro Contra Dance" => {
+            event
+                .links
+                .insert(0, "https://birdsborocontra.org/our-schedule/".to_string());
+            event.workshop = true;
+            if event.price.is_none() {
+                event.price = Some("$10-$20".to_string());
+            }
         }
         "Blacksburg Contra Dance" => {
             event.links.insert(
