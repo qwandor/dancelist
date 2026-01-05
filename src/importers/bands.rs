@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 579] = [
+pub const BANDS: [&str; 580] = [
     "112 and Then Some",
     "A Cat's Tale",
     "A Fine Kettle of Fish",
@@ -433,6 +433,7 @@ pub const BANDS: [&str; 579] = [
     "Seattle Skandia Spelmanslag",
     "Senior Moment",
     "Serendipity",
+    "Sessie Rotterdam",
     "Shandy",
     "Shillelagh",
     "Sigmar Gothe",
