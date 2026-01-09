@@ -139,6 +139,7 @@ fn convert(event: &Event, default_style: DanceStyle) -> Result<Option<event::Eve
             | InterestTag::Tango
             | InterestTag::TangoArgentino
             | InterestTag::Teacher
+            | InterestTag::TraditionalDance
             | InterestTag::TraditionalMusic
             | InterestTag::TradMusic
             | InterestTag::Trance

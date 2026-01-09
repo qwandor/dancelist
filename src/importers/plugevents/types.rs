@@ -164,6 +164,8 @@ pub enum InterestTag {
     #[serde(rename = "Tango Argentino")]
     TangoArgentino,
     Teacher,
+    #[serde(rename = "Traditional dance")]
+    TraditionalDance,
     #[serde(rename = "Traditional music")]
     TraditionalMusic,
     #[serde(rename = "Trad Music")]
