@@ -1108,6 +1108,12 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://www.cccds.org/schedule/".to_string());
         }
+        "Santa Fe Contra Dance" => {
+            event
+                .links
+                .insert(0, "https://folkmads.org/events/".to_string());
+            event.price = Some("$10".to_string());
+        }
         "Scissortail Contra Dance in Oklahoma City"
         | "Scissortail Contra Dance in Norman, OK"
         | "Scissortail Contra Dance in Tulsa, OK" => {
@@ -1151,7 +1157,8 @@ fn apply_fixes(event: &mut Event) {
                 "https://www.guidingstargrange.org/events.html".to_string(),
             );
         }
-        "Second/Fourth Wednesday English Country Dance at Guiding Star Grange" => {
+        "Second/Fourth Wednesday English Country Dance at Guiding Star Grange"
+        | "Wednesday English Country Dance at Guiding Star Grange" => {
             event.name = "English Country Dance at Guiding Star Grange".to_string();
             event.links.insert(
                 0,
