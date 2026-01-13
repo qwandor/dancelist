@@ -399,6 +399,14 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "http://www.centralillinoisecd.org/#sched".to_string());
         }
+        "Chattanooga Contra Dance" => {
+            event
+                .links
+                .insert(0, "https://www.contranooga.dance/".to_string());
+            if event.price.is_none() {
+                event.price = Some("$10-$15".to_string());
+            }
+        }
         "Chicagoland English Country Dance" => {
             if event.city == "Glenview" {
                 event.links.insert(
@@ -1063,6 +1071,12 @@ fn apply_fixes(event: &mut Event) {
         }
         "Richmond Saturday Night Contra Dance" => {
             event.name = "Saturday Night Contra Dance".to_string();
+        }
+        "Richmond Saturday Evening Contra Dance, Sponsored by TADAMS" => {
+            event.name = "Richmond Saturday Evening Contra Dance".to_string();
+            event
+                .links
+                .insert(0, "https://tadamsva.org/dances/".to_string());
         }
         "Richmond 2nd Sunday Afternoon Contra Dance" => {
             event
