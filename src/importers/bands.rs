@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 582] = [
+pub const BANDS: [&str; 583] = [
     "112 and Then Some",
     "A Cat's Tale",
     "A Fine Kettle of Fish",
@@ -459,6 +459,7 @@ pub const BANDS: [&str; 582] = [
     "SpringTide",
     "Starling",
     "StatiK",
+    "Steam Machine",
     "Steam!",
     "Stefano Baldan",
     "Steppin' Stones",
