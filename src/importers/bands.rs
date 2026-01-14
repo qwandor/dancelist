@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 583] = [
+pub const BANDS: [&str; 584] = [
     "112 and Then Some",
     "A Cat's Tale",
     "A Fine Kettle of Fish",
@@ -359,6 +359,7 @@ pub const BANDS: [&str; 583] = [
     "Midnight on the Water",
     "Mieneke",
     "Millserati",
+    "Minimum Syndical",
     "Miriquidi",
     "Moab Community Dance Band",
     "Mockingbird",
