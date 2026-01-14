@@ -51,6 +51,7 @@ impl IcalendarSource for Boulder {
             || parts.summary.starts_with("Scandinavian Monthly Dance")
             || parts.summary.starts_with("Scandinavian Weekly Dance")
             || parts.summary.contains("Contra")
+            || parts.summary.contains("Saturday Scandinavian Dance")
     }
 
     fn styles(parts: &EventParts) -> Vec<DanceStyle> {
