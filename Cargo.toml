@@ -14,7 +14,7 @@ askama = "0.15.1"
 axum = { version = "0.8.8", features = ["macros"] }
 axum-extra = { version = "0.12.5", features = ["form", "typed-header"] }
 base64 = "0.22.1"
-chrono = { version = "0.4.42", features = ["serde"] }
+chrono = { version = "0.4.43", features = ["serde"] }
 chrono-tz = { version = "0.10.4", features = ["serde"] }
 clap = { version = "4.5.54", features = ["derive"] }
 color-backtrace = "0.7.2"
