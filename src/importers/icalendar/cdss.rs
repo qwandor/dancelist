@@ -811,7 +811,7 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://sites.google.com/view/indyecd/".to_string());
         }
-        "Jax Contra Dance" => {
+        "Jax Contra Dance" | "Jax Contra" => {
             event.links.insert(0, "https://jaxcontra.org/".to_string());
         }
         "Lake City Contra Dance" => {
