@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const CALLERS: [&str; 288] = [
+pub const CALLERS: [&str; 290] = [
     "Abigail Hobart",
     "Ada Diane Blanken",
     "Adam Hughes",
@@ -44,6 +44,7 @@ pub const CALLERS: [&str; 288] = [
     "Beth Molaro",
     "Bev Bernbaum",
     "Beverly Francis",
+    "Bill Olson",
     "Billy Fischer",
     "Bob Devaty",
     "Bob Fabinski",
@@ -117,6 +118,7 @@ pub const CALLERS: [&str; 288] = [
     "Drew Delaware",
     "Drew Thomas",
     "Dudley Laufman",
+    "Dugan Murphy",
     "Earl McGill",
     "Elijah Jaime",
     "Elizabeth Estep",

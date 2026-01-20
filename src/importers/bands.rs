@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 585] = [
+pub const BANDS: [&str; 587] = [
     "112 and Then Some",
     "A Cat's Tale",
     "A Fine Kettle of Fish",
@@ -408,6 +408,7 @@ pub const BANDS: [&str; 585] = [
     "PFM!",
     "Philu",
     "Pimento Mori",
+    "Pine Tree Flyers",
     "Plan B",
     "Playing with Fyre",
     "Plönk",
@@ -433,6 +434,7 @@ pub const BANDS: [&str; 585] = [
     "Round Hill Ramblers",
     "Rum & Onions",
     "Sail Away Ladies",
+    "Scrod Pudding",
     "Seattle Lilla Spelmanslag",
     "Seattle Skandia Spelmanslag",
     "Senior Moment",
