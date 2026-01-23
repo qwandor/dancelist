@@ -1211,7 +1211,7 @@ fn apply_fixes(event: &mut Event) {
                 "https://syracusecountrydancers.org/upcoming-dances/".to_string(),
             );
         }
-        "Tallahassee Contra Dance" => {
+        "Tallahassee Contra Dance" | "Tally Contra Dance" => {
             event
                 .links
                 .insert(0, "http://www.tallydancer.com/".to_string());
