@@ -743,7 +743,8 @@ fn apply_fixes(event: &mut Event) {
                 event.price = Some("$3-$8".to_string());
             }
         }
-        "Groton Grange Contra Dance" => {
+        "Groton Grange Contra Dance" | "Groton Grange Contra Dance!" => {
+            event.name = "Groton Grange Contra Dance".to_string();
             event.links.insert(
                 0,
                 "https://grotongrange.org/events/contra-dance/".to_string(),
@@ -981,7 +982,9 @@ fn apply_fixes(event: &mut Event) {
                 "https://www.nashvillecountrydancers.org/english-country-dances".to_string(),
             );
         }
-        "Nashville Second Sunday English Country Dances" => {
+        "Nashville Second Sunday English Country Dances"
+        | "Nashville’s Second Sunday English Country Dance" => {
+            event.name = "Nashville Second Sunday English Country Dances".to_string();
             event.links.insert(
                 0,
                 "https://www.nashvillecountrydancers.org/english-country-dances".to_string(),
