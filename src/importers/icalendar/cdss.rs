@@ -1157,7 +1157,7 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://nbcds.org/english-country-dance/".to_string());
         }
-        "Second Saturday Contra" if event.city == "Mesa" => {
+        "Second Saturday Contra" if event.city == "Chandler" || event.city == "Mesa" => {
             event.links.insert(0, "https://phxtmd.org/".to_string());
         }
         "Second Saturday BFMS Contra Dance"
