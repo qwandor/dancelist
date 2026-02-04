@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 593] = [
+pub const BANDS: [&str; 594] = [
     "112 and Then Some",
     "A Cat's Tale",
     "A Fine Kettle of Fish",
@@ -430,6 +430,7 @@ pub const BANDS: [&str; 593] = [
     "Rémi Geffroy",
     "Rest 'n' Peas",
     "Rhys Jones and the Imaginary Beings",
+    "Rhythmajigs",
     "River Music",
     "River Road",
     "Roguery",
