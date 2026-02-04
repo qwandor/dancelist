@@ -1081,6 +1081,12 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://tadamsva.org/dances/".to_string());
         }
+        "Richmond Sunday Afternoon Contra Dance, Sponsored by TADAMS" => {
+            event.name = "Richmond Sunday Afternoon Contra Dance".to_string();
+            event
+                .links
+                .insert(0, "https://tadamsva.org/dances/".to_string());
+        }
         "Richmond 2nd Sunday Afternoon Contra Dance" => {
             event
                 .links
