@@ -94,6 +94,8 @@ pub enum InterestTag {
     BalfolkAmsterdam,
     #[serde(rename = "Balfolk dance")]
     Balfolkdance,
+    #[serde(rename = "Balfolk Fusion")]
+    BalfolkFusion,
     #[serde(rename = "Balfolk limburg")]
     BalfolkLimburg,
     #[serde(rename = "Balfolk Music")]
@@ -186,6 +188,8 @@ pub enum InterestTag {
 #[derive(Clone, Debug, Default, Deserialize, Eq, PartialEq)]
 pub enum EventFormat {
     #[default]
+    #[serde(rename = "Accordion Workshop")]
+    AccordionWorkshop,
     Advanced,
     Bal,
     Balfolk,
@@ -237,6 +241,8 @@ pub enum EventFormat {
     #[serde(rename = "Social Class")]
     SocialClass,
     #[serde(rename = "Social dance")]
+    Socialdance,
+    #[serde(rename = "Social Dance")]
     SocialDance,
     #[serde(rename = "Social Dancing")]
     SocialDancing,

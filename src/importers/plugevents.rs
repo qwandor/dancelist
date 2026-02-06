@@ -82,6 +82,7 @@ fn convert(event: &Event, default_style: DanceStyle) -> Result<Option<event::Eve
             InterestTag::Balfolk
             | InterestTag::BalfolkAmsterdam
             | InterestTag::Balfolkdance
+            | InterestTag::BalfolkFusion
             | InterestTag::BalfolkLimburg
             | InterestTag::BalfolkMusic
             | InterestTag::FrenchFolk => {
@@ -192,20 +193,20 @@ fn convert(event: &Event, default_style: DanceStyle) -> Result<Option<event::Eve
             | EventFormat::LiveMuziek
             | EventFormat::Party
             | EventFormat::Piano
+            | EventFormat::Practica
             | EventFormat::Social
+            | EventFormat::Socialdance
             | EventFormat::SocialDance
             | EventFormat::SocialDancing
             | EventFormat::VrijDansen => {
-                social = true;
-            }
-            EventFormat::Practica => {
                 social = true;
             }
             EventFormat::SocialClass | EventFormat::Sociales => {
                 workshop = true;
                 social = true;
             }
-            EventFormat::BalmuziekLeren
+            EventFormat::AccordionWorkshop
+            | EventFormat::BalmuziekLeren
             | EventFormat::Buurtvereniging
             | EventFormat::CommunityAssociation
             | EventFormat::DancingBodies
