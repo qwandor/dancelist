@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 595] = [
+pub const BANDS: [&str; 599] = [
     "112 and Then Some",
     "A Cat's Tale",
     "A Fine Kettle of Fish",
@@ -92,6 +92,7 @@ pub const BANDS: [&str; 595] = [
     "Bourrée Party Crackers",
     "Bouton",
     "Bowrider",
+    "Box & String",
     "Box and String Trio",
     "Box of Frogs",
     "Boxwood",
@@ -530,6 +531,7 @@ pub const BANDS: [&str; 595] = [
     "The Turning Stile",
     "The Usual Suspects",
     "Thorn Among the Roses",
+    "Three Bits",
     "Threo",
     "Thunderwing",
     "TinnFelen",
@@ -563,11 +565,13 @@ pub const BANDS: [&str; 595] = [
     "Trouveur Valdoten",
     "Tunebuggy",
     "Turnip the Beet",
+    "TWeLve",
     "Two Catch a Raindrop",
     "Two Hats",
     "Ultra Tagada",
     "Unbowed",
     "Unipot",
+    "Unstrung String Band",
     "Uppsala",
     "Ute+Michael",
     "Vagalan",
