@@ -28,6 +28,7 @@ pub mod lancastercontra;
 pub mod marburg;
 pub mod skandia;
 pub mod spreefolk;
+pub mod stroud;
 
 use super::{bands::BANDS, callers::CALLERS, combine_events, lowercase_matches};
 use crate::{
