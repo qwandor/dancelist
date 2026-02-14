@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 600] = [
+pub const BANDS: [&str; 605] = [
     "112 and Then Some",
     "A Cat's Tale",
     "A Fine Kettle of Fish",
@@ -121,6 +121,7 @@ pub const BANDS: [&str; 600] = [
     "Ciac Boum",
     "Ciona",
     "CLARABAL",
+    "Cock and Bull Band",
     "Cojiro",
     "Constellation",
     "Contra Banditos",
@@ -151,6 +152,7 @@ pub const BANDS: [&str; 600] = [
     "Die ZWEI",
     "DJ TacoShel",
     "Djîga",
+    "Dobunni",
     "Dodging Pheasants",
     "Dogtown",
     "Dos en Trío",
@@ -405,6 +407,7 @@ pub const BANDS: [&str; 600] = [
     "OMGDude",
     "Ormuz",
     "Pamplemousse",
+    "Panjandrum",
     "Paracetamol",
     "Paradocs",
     "Parasol",
@@ -482,6 +485,7 @@ pub const BANDS: [&str; 600] = [
     "Strings on Wings",
     "Stromlosplus",
     "Sture und Sigmar",
+    "Sunbird",
     "Supertrad",
     "Swartematerie",
     "Swinco",
@@ -495,6 +499,7 @@ pub const BANDS: [&str; 600] = [
     "Thalas",
     "The 32 Bartenders",
     "The Atchisons",
+    "The Bismarcks",
     "The Black Cat Quadrille",
     "The Boom Chicks",
     "The Brickersons",
