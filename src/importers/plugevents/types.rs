@@ -115,6 +115,8 @@ pub enum InterestTag {
     DancingBodies,
     #[serde(rename = "Diatonic accordeon")]
     DiatonicAccordeon,
+    #[serde(rename = "Double Bass")]
+    DoubleBass,
     #[serde(rename = "Dutch Folk")]
     DutchFolk,
     #[serde(rename = "Electric Guitar")]
@@ -148,6 +150,7 @@ pub enum InterestTag {
     Larp,
     #[serde(rename = "Live music")]
     LiveMusic,
+    Melodica,
     Music,
     NeoTrad,
     Partnerdance,
@@ -179,6 +182,7 @@ pub enum InterestTag {
     Violin,
     #[serde(rename = "West Coast Swing")]
     WestCoastSwing,
+    Whistle,
     Workshop,
     Zouk,
     #[serde(rename = "Zzz- not cleaned")]
