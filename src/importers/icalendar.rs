@@ -104,7 +104,7 @@ fn convert<S: IcalendarSource>(parts: EventParts) -> Result<Option<event::Event>
         return Ok(None);
     };
     let links = S::links(&parts);
-    let price = get_price(&parts.description)?;
+    let price = get_price(&parts.description)?.or(get_price(&parts.summary)?);
     let description_lower = parts.description.to_lowercase();
     let summary_lower = parts.summary.to_lowercase();
     let bands = lowercase_matches(&BANDS, &description_lower, &summary_lower);
@@ -171,9 +171,7 @@ fn get_price(description: &str) -> Result<Option<String>, Report> {
         } else if min_price == max_price {
             return Ok(Some(format!("{currency}{min_price}")));
         } else {
-            return Ok(Some(
-                format!("{currency}{min_price}-{currency}{max_price}",),
-            ));
+            return Ok(Some(format!("{currency}{min_price}-{currency}{max_price}")));
         }
     }
     Ok(None)
