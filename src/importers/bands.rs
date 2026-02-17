@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 606] = [
+pub const BANDS: [&str; 609] = [
     "112 and Then Some",
     "A Cat's Tale",
     "A Fine Kettle of Fish",
@@ -191,6 +191,7 @@ pub const BANDS: [&str; 606] = [
     "Eins68",
     "Elba Connection",
     "Elegant Echoes",
+    "Elise, Mira & Pat",
     "Elixir",
     "Eloise & Co.",
     "EmBRUN",
@@ -268,6 +269,7 @@ pub const BANDS: [&str; 606] = [
     "High Drive",
     "High Strung",
     "Hijinks",
+    "Hjarta Herring",
     "Hoggetowne Fancy",
     "Hoik",
     "Holiday Ball Orchestra",
@@ -465,6 +467,7 @@ pub const BANDS: [&str; 606] = [
     "Snorty Horse",
     "Soldo",
     "Solid Ghost",
+    "Sølvstål | Silversteel",
     "Southwind",
     "Sparv",
     "Spintuition",
