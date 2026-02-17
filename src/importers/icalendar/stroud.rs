@@ -54,7 +54,14 @@ impl IcalendarSource for Stroud {
     fn fixup(mut event: Event) -> Option<Event> {
         let organisation_regex = Regex::new(r"presented by (.+) Â£").unwrap();
         if let Some(capture) = organisation_regex.captures(&event.name) {
-            event.organisation = Some(capture.get(1).unwrap().as_str().to_owned());
+            event.organisation = Some(
+                capture
+                    .get(1)
+                    .unwrap()
+                    .as_str()
+                    .trim_end_matches('!')
+                    .to_owned(),
+            );
         }
         if event.details.is_none() {
             event.details = Some(event.name.clone());
