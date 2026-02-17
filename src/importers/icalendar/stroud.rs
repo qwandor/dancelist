@@ -38,7 +38,7 @@ impl IcalendarSource for Stroud {
     fn styles(parts: &EventParts) -> Vec<DanceStyle> {
         let summary_lower = parts.summary.to_lowercase();
         let mut styles = Vec::new();
-        if summary_lower.contains("balfolk") {
+        if summary_lower.contains("balfolk") | summary_lower.contains("french dance") {
             styles.push(DanceStyle::Balfolk);
         }
         if summary_lower.contains("ceilidh") || styles.is_empty() {
