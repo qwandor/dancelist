@@ -15,11 +15,15 @@
 use super::{EventParts, IcalendarSource};
 use crate::model::{dancestyle::DanceStyle, event::Event};
 use eyre::Report;
+use regex::Regex;
 
 pub struct Stroud;
 
 impl IcalendarSource for Stroud {
-    const URLS: &'static [&'static str] = &["https://stroud.dance/ceilidh/events/all.ics"];
+    const URLS: &'static [&'static str] = &[
+        "https://stroud.dance/ceilidh/events/all.ics",
+        "https://balfolkstroud.uk/events/all.ics",
+    ];
     const DEFAULT_ORGANISATION: &'static str = "New Stroud Ceilidhs";
     const DEFAULT_TIMEZONE: Option<&'static str> = Some("Europe/London");
 
@@ -48,9 +52,20 @@ impl IcalendarSource for Stroud {
     }
 
     fn fixup(mut event: Event) -> Option<Event> {
+        let organisation_regex = Regex::new(r"presented by (.+) Â£").unwrap();
+        if let Some(capture) = organisation_regex.captures(&event.name) {
+            event.organisation = Some(capture.get(1).unwrap().as_str().to_owned());
+        }
         if event.details.is_none() {
             event.details = Some(event.name.clone());
-            event.name = "Stroud Ceilidh".to_owned();
+            event.name = match event.organisation.as_deref().unwrap() {
+                "New Stroud Ceilidhs" => "Stroud Ceilidh",
+                "Balfolk Stroud/New Stroud Ceilidhs" | "New Stroud Ceilidhs/Balfolk Stroud" => {
+                    "Balfolk Stroud"
+                }
+                organisation => organisation,
+            }
+            .to_owned();
         }
         Some(event)
     }
