@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 610] = [
+pub const BANDS: [&str; 613] = [
     "112 and Then Some",
     "A Cat's Tale",
     "A Fine Kettle of Fish",
@@ -123,6 +123,7 @@ pub const BANDS: [&str; 610] = [
     "CLARABAL",
     "Cock and Bull Band",
     "Cojiro",
+    "Confluence",
     "Constellation",
     "Contra Banditos",
     "Contra Fusion",
@@ -265,6 +266,7 @@ pub const BANDS: [&str; 610] = [
     "Hartwin Dhoore",
     "Havok",
     "Headwaters",
+    "Helen Gentile & Lewis Wood",
     "Here on the Hill",
     "High Drive",
     "High Strung",
@@ -588,6 +590,7 @@ pub const BANDS: [&str; 610] = [
     "Vagalan",
     "Valentin Barray",
     "Vandiekomsa",
+    "Venn",
     "Viadeyra",
     "Viola Voilá",
     "Vionelles",
