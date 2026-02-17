@@ -38,7 +38,7 @@ serde_yaml = "0.8.26"
 sha1 = "0.10.6"
 stable-eyre = "0.2.2"
 tokio = { version = "1.49.0", features = ["macros", "rt-multi-thread"] }
-toml = "1.0.1"
+toml = "1.0.2"
 tower-http = { version = "0.6.8", features = ["fs"] }
 url = "2.5.8"
 
