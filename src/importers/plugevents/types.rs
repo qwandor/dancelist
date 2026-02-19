@@ -115,6 +115,8 @@ pub enum InterestTag {
     DancingBodies,
     #[serde(rename = "Diatonic accordeon")]
     DiatonicAccordeon,
+    #[serde(rename = "Dog Training")]
+    DogTraining,
     #[serde(rename = "Double Bass")]
     DoubleBass,
     #[serde(rename = "Dutch Folk")]
@@ -140,6 +142,9 @@ pub enum InterestTag {
     #[serde(rename = "Historical dance")]
     HistoricalDance,
     History,
+    Historyland,
+    Hondenschool,
+    Hondentraining,
     #[serde(rename = "Hurdy-gurdy")]
     HurdyGurdy,
     #[serde(rename = "Irish Dance")]
@@ -154,6 +159,7 @@ pub enum InterestTag {
     Music,
     NeoTrad,
     Partnerdance,
+    Permacultuur,
     #[serde(rename = "Polish Dance")]
     PolishDance,
     #[serde(rename = "Salsa Dance")]
@@ -184,6 +190,7 @@ pub enum InterestTag {
     WestCoastSwing,
     Whistle,
     Workshop,
+    Zeisles,
     Zouk,
     #[serde(rename = "Zzz- not cleaned")]
     Zzz,
@@ -254,6 +261,7 @@ pub enum EventFormat {
     #[serde(rename = "Social evening")]
     SocialEvening,
     Teacher,
+    Tuinderij,
     #[serde(rename = "Vrij dansen")]
     VrijDansen,
     Workshop,

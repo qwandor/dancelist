@@ -114,6 +114,7 @@ fn convert(event: &Event, default_style: DanceStyle) -> Result<Option<event::Eve
             | InterestTag::Dance
             | InterestTag::DancingBodies
             | InterestTag::DiatonicAccordeon
+            | InterestTag::DogTraining
             | InterestTag::DoubleBass
             | InterestTag::DutchFolk
             | InterestTag::ElectricGuitar
@@ -128,6 +129,9 @@ fn convert(event: &Event, default_style: DanceStyle) -> Result<Option<event::Eve
             | InterestTag::Guitar
             | InterestTag::HistoricalDance
             | InterestTag::History
+            | InterestTag::Historyland
+            | InterestTag::Hondenschool
+            | InterestTag::Hondentraining
             | InterestTag::HurdyGurdy
             | InterestTag::IrishDance
             | InterestTag::Jam
@@ -137,6 +141,7 @@ fn convert(event: &Event, default_style: DanceStyle) -> Result<Option<event::Eve
             | InterestTag::Music
             | InterestTag::NeoTrad
             | InterestTag::Partnerdance
+            | InterestTag::Permacultuur
             | InterestTag::SalsaDance
             | InterestTag::Saxophone
             | InterestTag::Session
@@ -152,6 +157,7 @@ fn convert(event: &Event, default_style: DanceStyle) -> Result<Option<event::Eve
             | InterestTag::Violin
             | InterestTag::WestCoastSwing
             | InterestTag::Whistle
+            | InterestTag::Zeisles
             | InterestTag::Zouk
             | InterestTag::Zzz => {}
         }
@@ -219,7 +225,8 @@ fn convert(event: &Event, default_style: DanceStyle) -> Result<Option<event::Eve
             | EventFormat::Overig
             | EventFormat::Performance
             | EventFormat::SocialEvening
-            | EventFormat::Teacher => {}
+            | EventFormat::Teacher
+            | EventFormat::Tuinderij => {}
         }
     }
     if styles.is_empty() {
