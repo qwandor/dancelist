@@ -23,6 +23,7 @@ pub struct EventList {
     pub powered_by_message: String,
     pub plug_logo_url: String,
     pub event_list_url: String,
+    pub message: Option<String>,
 }
 
 #[derive(Clone, Debug, Default, Deserialize, PartialEq)]
