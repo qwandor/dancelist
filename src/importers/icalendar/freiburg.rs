@@ -28,6 +28,7 @@ impl IcalendarSource for Freiburg {
         let description_lower = parts.description.to_lowercase();
         summary_lower.contains("montagstanzen")
             || summary_lower.contains("monstagstanzen")
+            || description_lower.contains("tanzkurs")
             || description_lower.contains("workshop")
     }
 
