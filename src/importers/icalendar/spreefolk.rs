@@ -30,7 +30,8 @@ impl IcalendarSource for Spreefolk {
     fn workshop(parts: &EventParts) -> bool {
         let summary_lower = parts.summary.to_lowercase();
         let description_lower = parts.description.to_lowercase();
-        description_lower.contains("tanzworkshop")
+        description_lower.contains("crash-kurs balfolk")
+            || description_lower.contains("tanzworkshop")
             || description_lower.contains("tanz-workshop")
             || description_lower.contains("tanzeinführungsworkshop")
             || description_lower.contains("tanzeinführung")
