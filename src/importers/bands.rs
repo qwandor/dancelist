@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 615] = [
+pub const BANDS: [&str; 616] = [
     "112 and Then Some",
     "A Cat's Tale",
     "A Fine Kettle of Fish",
@@ -447,6 +447,7 @@ pub const BANDS: [&str; 615] = [
     "Roguery",
     "Rokkende Vrouwen",
     "Root System",
+    "Rosenthorns",
     "Round Hill Ramblers",
     "Rum & Onions",
     "Sail Away Ladies",
