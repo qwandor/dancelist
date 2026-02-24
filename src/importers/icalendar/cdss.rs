@@ -65,6 +65,7 @@ impl IcalendarSource for Cdss {
             || description_lower.contains("class on the basics")
             || description_lower.contains("dance instruction")
             || description_lower.contains("dance workshop")
+            || description_lower.contains("instruction at")
             || description_lower.contains("intro session")
             || description_lower.contains("intro/refresher workshop")
             || description_lower.contains("introduction or review")
