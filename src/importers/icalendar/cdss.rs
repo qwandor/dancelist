@@ -759,7 +759,7 @@ fn apply_fixes(event: &mut Event) {
                 "https://www.hcdance.org/quiet-corner-contra/".to_string(),
             );
         }
-        "Hayward Contra Dance" => {
+        "Hayward Contra" | "Hayward Contra Dance" => {
             event
                 .links
                 .insert(0, "https://sfbaycontra.org/".to_string());
