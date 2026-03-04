@@ -12,7 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const CALLERS: [&str; 303] = [
+pub const CALLERS: [&str; 307] = [
+    "Abigail Golden",
     "Abigail Hobart",
     "Ada Diane Blanken",
     "Adam Hughes",
@@ -89,6 +90,7 @@ pub const CALLERS: [&str; 303] = [
     "Claire Takemori",
     "Colette Mrozek",
     "Courtney Cartwright",
+    "Craig Wolfe",
     "Daisy Black",
     "Dan Blim",
     "Dan Kappus",
@@ -189,6 +191,7 @@ pub const CALLERS: [&str; 303] = [
     "Kate Nealley",
     "Katie Zanders",
     "Katy Heine",
+    "Kelly Tabor",
     "Kelsey Hartman",
     "Ken Gall",
     "Kenny Greer",
@@ -254,6 +257,7 @@ pub const CALLERS: [&str; 303] = [
     "Rebecca Anger",
     "Rhi Davies",
     "Rhodri Davies",
+    "Ric Goldman",
     "Rich Goss",
     "Rich MacMath",
     "Rich Sbardella",

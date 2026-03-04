@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 617] = [
+pub const BANDS: [&str; 622] = [
     "112 and Then Some",
     "A Cat's Tale",
     "A Fine Kettle of Fish",
@@ -129,6 +129,7 @@ pub const BANDS: [&str; 617] = [
     "Contra Banditos",
     "Contra Fusion",
     "Contra Intuitive",
+    "Contra Quartet",
     "Contra Sutra",
     "ContraForce",
     "Contrary Faeries",
@@ -180,6 +181,7 @@ pub const BANDS: [&str; 617] = [
     "Duo Montanaro-Cavez",
     "Duo Nello",
     "Duo NoLa",
+    "Duo Noordwest",
     "Duo Obsessie",
     "Duo Pacher-Roblin",
     "Duo Roblin-Thébaut",
@@ -420,6 +422,7 @@ pub const BANDS: [&str; 617] = [
     "Parasol",
     "Penny Farthing",
     "Persons of Quality",
+    "Peter and the Wolf Tones",
     "Peter Michealsen & Joe Finn",
     "PFM!",
     "Philu",
@@ -517,6 +520,7 @@ pub const BANDS: [&str; 617] = [
     "The Contra Rebels",
     "The Dam Beavers",
     "The English Muffins",
+    "The Euphemists",
     "The Evil Twins",
     "The Faux Paws",
     "The Fiddling Thomsons",
@@ -544,6 +548,7 @@ pub const BANDS: [&str; 617] = [
     "The Tater Bugs",
     "The Third Degree",
     "The Turning Stile",
+    "The Underdogs",
     "The Usual Suspects",
     "Thorn Among the Roses",
     "Three Bits",
