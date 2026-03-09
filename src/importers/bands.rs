@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 622] = [
+pub const BANDS: [&str; 623] = [
     "112 and Then Some",
     "A Cat's Tale",
     "A Fine Kettle of Fish",
@@ -223,6 +223,7 @@ pub const BANDS: [&str; 622] = [
     "Flatland Consort",
     "Floating Sofa Quartet",
     "Floris & the Flames",
+    "Flos",
     "Flour City Doughboys",
     "Flying Cat",
     "Flying Romanos",
