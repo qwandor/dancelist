@@ -156,6 +156,7 @@ pub enum InterestTag {
     Larp,
     #[serde(rename = "Live music")]
     LiveMusic,
+    Mandolin,
     Melodica,
     Music,
     NeoTrad,
@@ -171,6 +172,8 @@ pub enum InterestTag {
     #[serde(rename = "Social Dance")]
     SocialDance,
     Spirituality,
+    #[serde(rename = "Swedish Folk")]
+    SwedishFolk,
     #[serde(rename = "Swedish Folk Dance")]
     SwedishFolkDance,
     #[serde(rename = "Swedish Traditional Music")]
