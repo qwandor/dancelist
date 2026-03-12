@@ -148,6 +148,7 @@ pub enum InterestTag {
     Hondentraining,
     #[serde(rename = "Hurdy-gurdy")]
     HurdyGurdy,
+    Improvisation,
     #[serde(rename = "Irish Dance")]
     IrishDance,
     #[serde(rename = "Italian Folk")]
@@ -158,6 +159,7 @@ pub enum InterestTag {
     LiveMusic,
     Mandolin,
     Melodica,
+    Middeleeuwen,
     Music,
     NeoTrad,
     Partnerdance,

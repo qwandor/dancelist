@@ -135,12 +135,14 @@ fn convert(event: &Event, default_style: DanceStyle) -> Result<Option<event::Eve
             | InterestTag::Hondenschool
             | InterestTag::Hondentraining
             | InterestTag::HurdyGurdy
+            | InterestTag::Improvisation
             | InterestTag::IrishDance
             | InterestTag::Jam
             | InterestTag::Larp
             | InterestTag::LiveMusic
             | InterestTag::Mandolin
             | InterestTag::Melodica
+            | InterestTag::Middeleeuwen
             | InterestTag::Music
             | InterestTag::NeoTrad
             | InterestTag::Partnerdance
