@@ -276,6 +276,10 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://aactmad.org/english-country".to_string());
         }
+        "Annapolis English Country Dance: delightful live music, excellent callers and friendly community" =>
+        {
+            event.name = "Annapolis English Country Dance".to_string();
+        }
         "Asheville English Country Dance for All" => {
             event.name = "English Country Dance for All".to_string();
             event.links.insert(
