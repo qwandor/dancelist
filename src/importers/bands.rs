@@ -178,6 +178,7 @@ pub const BANDS: [&str; 623] = [
     "Duo Gielen-Buscan",
     "Duo l'Hêtre Heureux",
     "Duo Mackie/Hendrix",
+    "Duo Mistral",
     "Duo Montanaro-Cavez",
     "Duo Nello",
     "Duo NoLa",
