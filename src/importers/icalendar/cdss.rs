@@ -1045,6 +1045,11 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://pittsburghcontra.org/".to_string());
         }
+        "Port Townsend Community Dance" => {
+            event
+                .links
+                .insert(0, "https://ptcommunitydance.org/".to_string());
+        }
         "Princeton Country Dancers' Combination Contra and English Country Dance" => {
             event
                 .links
