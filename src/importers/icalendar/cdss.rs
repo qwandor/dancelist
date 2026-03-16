@@ -339,6 +339,12 @@ fn apply_fixes(event: &mut Event) {
                 "https://www.berea-folk-circle.org/english-country-dance".to_string(),
             );
         }
+        "Berkeley Experienced English Dance 4th Sat" => {
+            event.links.insert(
+                0,
+                "https://bacds.org/series/english/berkeley_sat/".to_string(),
+            );
+        }
         "Birdsboro Contra Dance" => {
             event
                 .links
