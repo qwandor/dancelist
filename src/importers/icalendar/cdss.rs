@@ -1283,6 +1283,16 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://www.tcdance.org/".to_string());
         }
+        "Traditional Dancing in Norfolk, VA" => {
+            event.name = "Traditional Dancing in Norfolk".to_string();
+            event
+                .links
+                .insert(0, "https://norfolkcontradance.com/".to_string());
+            event.workshop = true;
+            if event.price.is_none() {
+                event.price = Some("$12-$15".to_string());
+            }
+        }
         "Tucson Contra Dance" => {
             event
                 .links
