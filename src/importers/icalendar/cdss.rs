@@ -459,6 +459,11 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://www.commonfloorcontra.dance/".to_string());
         }
+        "Community Contra Dance" if event.city == "Heber City" => {
+            event
+                .links
+                .insert(0, "https://www.sleepysunstudios.net/".to_string());
+        }
         "Concord NH English Country Dance"
         | "Concord NH 1st Sunday English Country Dance series" => {
             event.name = "Concord English Country Dance".to_string();
