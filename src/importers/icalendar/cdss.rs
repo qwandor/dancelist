@@ -386,6 +386,10 @@ fn apply_fixes(event: &mut Event) {
                 0,
                 "https://www.danceflurry.org/series/capital-english-country-dancers/".to_string(),
             );
+            if event.state.as_deref() == Some("Troy") {
+                event.state = Some("NY".to_string());
+                event.city = "Troy".to_string();
+            }
         }
         "Carolina English Country Dancers Saturday Dance" => {
             event.name = "Carolina English Country Dancers".to_string();
