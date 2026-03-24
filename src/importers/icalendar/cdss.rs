@@ -467,6 +467,16 @@ fn apply_fixes(event: &mut Event) {
                 "https://manylives-oneworld.com/dave-bateman/nhecds/".to_string(),
             );
         }
+        "Contra, Scottish and English dance for all!" => {
+            event.name = "Contra, Scottish and English dance for all".to_string();
+            event
+                .links
+                .insert(0, "https://cdny.org/calendar-events".to_string());
+            event.styles.push(DanceStyle::ScottishCountryDance);
+            if event.price.as_deref() == Some("$10-$20") {
+                event.price = Some("$10-$25".to_string());
+            }
+        }
         "Contra & Square Dance - Grand River Folk Art Society" => {
             event.name = "Contra & Square Dance".to_string();
             if matches!(event.organisation.as_deref(), None | Some("CDSS")) {
@@ -572,6 +582,14 @@ fn apply_fixes(event: &mut Event) {
             event.city = "Gainesville".to_string();
             if event.price.as_deref() == Some("$5") {
                 event.price = Some("$10".to_string());
+            }
+        }
+        "English Country Dance for all" if event.city == "New York" => {
+            event
+                .links
+                .insert(0, "https://cdny.org/calendar-events".to_string());
+            if event.price.as_deref() == Some("$10-$20") {
+                event.price = Some("$10-$25".to_string());
             }
         }
         "First Saturday Contra at Guiding Star Grange"
