@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 625] = [
+pub const BANDS: [&str; 627] = [
     "112 and Then Some",
     "A Cat's Tale",
     "A Fine Kettle of Fish",
@@ -511,6 +511,7 @@ pub const BANDS: [&str; 625] = [
     "Taranteira",
     "Tea & Whiskey",
     "Tea for Three",
+    "Tetra",
     "Thalas",
     "The 32 Bartenders",
     "The Atchisons",
@@ -618,6 +619,7 @@ pub const BANDS: [&str; 625] = [
     "Wee Merry Banshees",
     "Weirdstrings",
     "Wergleyberg",
+    "Westminster Society Players",
     "Westside Warblers",
     "Wheels of the World",
     "Whirled Peas",

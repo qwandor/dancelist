@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const CALLERS: [&str; 308] = [
+pub const CALLERS: [&str; 310] = [
     "Abigail Golden",
     "Abigail Hobart",
     "Ada Diane Blanken",
@@ -303,6 +303,7 @@ pub const CALLERS: [&str; 308] = [
     "Tara Bolker",
     "Ted Crane",
     "Ted Hodapp",
+    "Ted Rudofker",
     "Terry Doyle",
     "Thea Nettleton",
     "Timothy Klein",
@@ -311,6 +312,7 @@ pub const CALLERS: [&str; 308] = [
     "Tom Greene",
     "Tom Mack",
     "Tom Roby",
+    "Tom Spilsbury",
     "Val Medve",
     "Valerie Helbert",
     "Vicki Morrison",
