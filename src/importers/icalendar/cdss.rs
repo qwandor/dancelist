@@ -510,6 +510,13 @@ fn apply_fixes(event: &mut Event) {
                 .insert(0, "https://www.tapestryfolkdance.org/contra".to_string());
             event.workshop = true;
         }
+        "Contra for all!" if event.city == "New York" => {
+            event.name = "Contra for all".to_string();
+            event
+                .links
+                .insert(0, "https://cdny.org/calendar-events".to_string());
+            event.workshop = true;
+        }
         "Techno Contra Dance at Tapestry Folkdance Center" => {
             event
                 .links
