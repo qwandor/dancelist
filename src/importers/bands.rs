@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 627] = [
+pub const BANDS: [&str; 628] = [
     "112 and Then Some",
     "A Cat's Tale",
     "A Fine Kettle of Fish",
@@ -191,6 +191,7 @@ pub const BANDS: [&str; 627] = [
     "Duo Torv",
     "Duo Vandenabeele-Knapen",
     "Duo Wolff-Moschcau",
+    "DuOblique",
     "DURRbanda",
     "Edentia",
     "Eins68",
