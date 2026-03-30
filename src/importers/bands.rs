@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 628] = [
+pub const BANDS: [&str; 630] = [
     "112 and Then Some",
     "A Cat's Tale",
     "A Fine Kettle of Fish",
@@ -239,6 +239,7 @@ pub const BANDS: [&str; 628] = [
     "French Toast",
     "Friends of Virgil",
     "Froghammer",
+    "Full Moon Country Dance Orchestra",
     "Full Tilt",
     "Fyndus",
     "Fyr Freya",
@@ -521,6 +522,7 @@ pub const BANDS: [&str; 628] = [
     "The Boom Chicks",
     "The Brickersons",
     "The Campeau Creek Boys",
+    "The Cat Wranglers",
     "The Chivalrous Crickets",
     "The Contra Rebels",
     "The Dam Beavers",

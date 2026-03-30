@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const CALLERS: [&str; 310] = [
+pub const CALLERS: [&str; 312] = [
     "Abigail Golden",
     "Abigail Hobart",
     "Ada Diane Blanken",
@@ -179,6 +179,7 @@ pub const CALLERS: [&str; 310] = [
     "John Notgrass",
     "Jordan Kammeyer",
     "Joseph Pimentel",
+    "Joy Greenwolfe",
     "Judi Rivkin",
     "Julian Blechner",
     "Julie Esch",
@@ -197,6 +198,7 @@ pub const CALLERS: [&str; 310] = [
     "Ken Gall",
     "Kenny Greer",
     "Kim Forry",
+    "Kim Thompson",
     "Koren Wake",
     "Kris Rosar",
     "Laura Beraha",
