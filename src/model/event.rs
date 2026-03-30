@@ -456,9 +456,7 @@ impl Event {
 
     /// Returns a string with a SHA-1 hash of the event.
     pub fn hash_string(&self) -> String {
-        let mut hasher = Sha1::new();
-        hasher.update(serde_json::to_string(self).unwrap());
-        format!("{:x}", hasher.finalize())
+        hex::encode(Sha1::digest(serde_json::to_string(self).unwrap()))
     }
 }
 
@@ -587,6 +585,43 @@ mod tests {
 start: "2024-01-02T09:00:00+00:00"
 end: "2024-01-02T13:00:00+00:00"
 "#
+        );
+    }
+
+    #[test]
+    fn hash() {
+        let event = Event {
+            name: "Test event".to_string(),
+            details: None,
+            links: vec![],
+            time: EventTime::DateTime {
+                start: FixedOffset::east_opt(0)
+                    .unwrap()
+                    .with_ymd_and_hms(2020, 1, 2, 19, 0, 0)
+                    .single()
+                    .unwrap(),
+                end: FixedOffset::east_opt(0)
+                    .unwrap()
+                    .with_ymd_and_hms(2020, 1, 3, 4, 0, 0)
+                    .single()
+                    .unwrap(),
+            },
+            country: "Country".to_string(),
+            state: None,
+            city: "City".to_string(),
+            styles: vec![],
+            workshop: false,
+            social: true,
+            bands: vec![],
+            callers: vec![],
+            price: None,
+            organisation: None,
+            cancelled: false,
+            source: None,
+        };
+        assert_eq!(
+            event.hash_string(),
+            "5b002f08ede9bae9d4186b4ea1d14847b4d1f1ff"
         );
     }
 }

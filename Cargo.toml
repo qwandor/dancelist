@@ -21,6 +21,7 @@ color-backtrace = "0.7.2"
 enum-iterator = "2.3.0"
 eyre = "0.6.12"
 fast_qr = { version = "0.13.1", features = ["image"] }
+hex = "0.4.3"
 icalendar = { version = "0.17.6", features = ["chrono-tz", "parser"] }
 jsonwebtoken = "10.3.0"
 log = "0.4.29"
@@ -35,7 +36,7 @@ serde = { version = "1.0.228", features = ["derive"] }
 serde_json = "1.0.149"
 serde_urlencoded = "0.7.1"
 serde_yaml = "0.8.26"
-sha1 = "0.10.6"
+sha1 = "0.11.0"
 stable-eyre = "0.2.2"
 tokio = { version = "1.50.0", features = ["macros", "rt-multi-thread"] }
 toml = "1.1.0"
