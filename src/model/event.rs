@@ -456,9 +456,7 @@ impl Event {
 
     /// Returns a string with a SHA-1 hash of the event.
     pub fn hash_string(&self) -> String {
-        let mut hasher = Sha1::new();
-        hasher.update(serde_json::to_string(self).unwrap());
-        format!("{:x}", hasher.finalize())
+        hex::encode(Sha1::digest(serde_json::to_string(self).unwrap()))
     }
 }
 
