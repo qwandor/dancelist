@@ -1028,8 +1028,9 @@ fn apply_fixes(event: &mut Event) {
             );
         }
         "Nashville Second Sunday English Country Dances"
-        | "Nashville’s Second Sunday English Country Dance" => {
-            event.name = "Nashville Second Sunday English Country Dances".to_string();
+        | "Nashville’s Second Sunday English Country Dance"
+        | "2nd Sunday English Country Dance in Nashville" => {
+            event.name = "Nashville Second Sunday English Country Dance".to_string();
             event.links.insert(
                 0,
                 "https://www.nashvillecountrydancers.org/english-country-dances".to_string(),
