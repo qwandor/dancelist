@@ -782,7 +782,8 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://bfms.org/gentleEnglish.php".to_string());
         }
-        "Goshen Community Contra Dance" => {
+        "Goshen, IN Contra Dance" | "Goshen Community Contra Dance" => {
+            event.name = "Goshen Community Contra Dance".to_string();
             event.links.insert(0, "http://godancing.org/".to_string());
             if event.price.as_deref() == Some("$3-$18") {
                 event.price = Some("$3-$8".to_string());
