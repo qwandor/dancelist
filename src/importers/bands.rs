@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 631] = [
+pub const BANDS: [&str; 633] = [
     "112 and Then Some",
     "A Cat's Tale",
     "A Fine Kettle of Fish",
@@ -422,6 +422,7 @@ pub const BANDS: [&str; 631] = [
     "Ormuz",
     "Pamplemousse",
     "Panjandrum",
+    "Pantonim",
     "Paracetamol",
     "Paradocs",
     "Parasol",
@@ -611,6 +612,7 @@ pub const BANDS: [&str; 631] = [
     "Viadeyra",
     "Viola Voilá",
     "Vionelles",
+    "Viorel",
     "Virginia Creepers",
     "Vlier",
     "Wabi Sabi",
