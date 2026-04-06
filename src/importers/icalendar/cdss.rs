@@ -941,7 +941,7 @@ fn apply_fixes(event: &mut Event) {
                 "https://www.missoulafolk.org/dance-schedule-vizne".to_string(),
             );
         }
-        "Missoula Folklore Society English Country Dance" => {
+        "Missoula Folklore Society English Country Dance" | "English Country Dance in Missoula" => {
             event.links.insert(
                 0,
                 "https://www.missoulafolk.org/english-country-dancing".to_string(),
@@ -1301,9 +1301,14 @@ fn apply_fixes(event: &mut Event) {
                 "https://www.valleyareaenglishregencysociety.org/about.html".to_string(),
             );
         }
-        "Third Sunday English Regency Dancing"
-        | "Third Thursday English Regency Dancing"
-        | "Third Thursday English Regency Dancing in Simi Valley" => {
+        "Third Sunday English Regency Dancing" | "Third Thursday English Regency Dancing" => {
+            event.links.insert(
+                0,
+                "https://www.valleyareaenglishregencysociety.org/about.html".to_string(),
+            );
+        }
+        "Third Thursday English Regency Dancing in Simi Valley" => {
+            event.name = "Third Thursday English Regency Dancing".to_string();
             event.links.insert(
                 0,
                 "https://www.valleyareaenglishregencysociety.org/about.html".to_string(),
