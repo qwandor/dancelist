@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 633] = [
+pub const BANDS: [&str; 634] = [
     "112 and Then Some",
     "A Cat's Tale",
     "A Fine Kettle of Fish",
@@ -150,6 +150,7 @@ pub const BANDS: [&str; 633] = [
     "De Trekvogels",
     "Dead Sea Squirrels",
     "Definitely Contraband",
+    "Deux Sans Frontières",
     "Devilish Mary",
     "Die Dudelsacksen",
     "Die Hayner",
