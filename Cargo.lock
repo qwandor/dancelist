@@ -1438,9 +1438,9 @@ dependencies = [
 
 [[package]]
 name = "icalendar"
-version = "0.17.9"
+version = "0.17.10"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a6a754971b4738c32084c945ba64d186a61eb0bce95c522dfd3244aa584cd44b"
+checksum = "264fe856964b7a84076dec2d8ea29fce7c9b422968c9a2f404d4aa3771ae2179"
 dependencies = [
  "chrono",
  "chrono-tz",
@@ -2243,7 +2243,7 @@ dependencies = [
  "quinn-udp",
  "rustc-hash",
  "rustls",
- "socket2 0.5.10",
+ "socket2 0.6.3",
  "thiserror 2.0.17",
  "tokio",
  "tracing",
@@ -2281,7 +2281,7 @@ dependencies = [
  "cfg_aliases",
  "libc",
  "once_cell",
- "socket2 0.5.10",
+ "socket2 0.6.3",
  "tracing",
  "windows-sys 0.59.0",
 ]
