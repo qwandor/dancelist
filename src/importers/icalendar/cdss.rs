@@ -935,7 +935,8 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://www.milfordnhcontradance.org/".to_string());
         }
-        "Missoula Folklore Society Contra Dance" => {
+        "Missoula Folklore Society Contra Dance" | "3rd Saturday Contra Dance - Missoula" => {
+            event.name = "Missoula Folklore Society Contra Dance".to_string();
             event.links.insert(
                 0,
                 "https://www.missoulafolk.org/dance-schedule-vizne".to_string(),
