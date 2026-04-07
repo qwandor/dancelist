@@ -918,6 +918,12 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://www.louisvilleecd.org/".to_string());
         }
+        "Marin English Dance (Mill Valley CA)" => {
+            event.name = "Marin English Dance".to_string();
+            event
+                .links
+                .insert(0, "https://nbcds.org/english-country-dance/".to_string());
+        }
         "Mendocino English Country Dance" => {
             event
                 .links
