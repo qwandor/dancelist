@@ -94,9 +94,23 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
     let Some(date_end) = &event.date_end else {
         return Ok(None);
     };
+    let start_date = match NaiveDate::parse_from_str(&event.date, DATE_FORMAT) {
+        Ok(date) => date,
+        Err(e) => {
+            warn!("Invalid start date {} for {name}: {e}", event.date);
+            return Ok(None);
+        }
+    };
+    let end_date = match NaiveDate::parse_from_str(date_end, DATE_FORMAT) {
+        Ok(date) => date,
+        Err(e) => {
+            warn!("Invalid end date {date_end} for {name}: {e}");
+            return Ok(None);
+        }
+    };
     let time = event::EventTime::DateOnly {
-        start_date: NaiveDate::parse_from_str(&event.date, DATE_FORMAT)?,
-        end_date: NaiveDate::parse_from_str(date_end, DATE_FORMAT)?,
+        start_date,
+        end_date,
     };
 
     let initial_the = Regex::new(r"^the ").unwrap();
