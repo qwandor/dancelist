@@ -121,6 +121,7 @@ fn convert(event: &Event) -> Result<Option<event::Event>, Report> {
             initial_the
                 .replace(band, "The ")
                 .trim()
+                .replace("The Dead Sea Squirrels", "Dead Sea Squirrels")
                 .replace("The Engine Room", "Engine Room")
                 .replace("The Fiddle Hellions", "Fiddle Hellions")
                 .replace("The Ice Cream Truckers", "Ice Cream Truckers")
