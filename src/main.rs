@@ -274,7 +274,13 @@ async fn find_duplicates() -> Result<(), Report> {
     for i in 1..events.events.len() {
         let a = &events.events[i - 1];
         let b = &events.events[i];
-        if a.merge(b).is_some() {
+        if a.merge(b).is_some()
+            && a.styles
+                .iter()
+                .filter(|style| b.styles.contains(style))
+                .next()
+                .is_some()
+        {
             println!(
                 "Found possible duplicate, {:?} in {}, {}:",
                 a.time, a.country, a.city
