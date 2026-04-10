@@ -270,6 +270,7 @@ async fn find_duplicates() -> Result<(), Report> {
 
     // Sort by date then location, so that possible duplicates are next to each other.
     events.sort();
+    let mut duplicate_count = 0;
     for i in 1..events.events.len() {
         let a = &events.events[i - 1];
         let b = &events.events[i];
@@ -288,8 +289,11 @@ async fn find_duplicates() -> Result<(), Report> {
                 b.name,
                 b.source.as_deref().unwrap_or("unknown file")
             );
+            duplicate_count += 1;
         }
     }
+
+    println!("Found {duplicate_count} possible duplicates.");
 
     Ok(())
 }
