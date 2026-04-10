@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 637] = [
+pub const BANDS: [&str; 638] = [
     "112 and Then Some",
     "A Cat's Tale",
     "A Fine Kettle of Fish",
@@ -257,6 +257,7 @@ pub const BANDS: [&str; 637] = [
     "Golders Green",
     "Good Company",
     "Good Intentions",
+    "Good Time Old Time",
     "Gott Folk!",
     "Göze",
     "Grace Haaland",
