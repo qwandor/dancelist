@@ -53,10 +53,13 @@ fn convert(event: &Event, default_style: DanceStyle) -> Result<Option<event::Eve
         return Ok(None);
     };
     let locale_parts: Vec<_> = venue_locale.split(", ").collect();
-    let country = locale_parts
+    let mut country = locale_parts
         .last()
         .ok_or_else(|| eyre!("venueLocale only has one part: \"{}\"", venue_locale))?
         .to_string();
+    if country == "United Kingdom" {
+        country = "UK".to_string();
+    }
 
     let mut city = if locale_parts.len() > 3 {
         locale_parts[1]
