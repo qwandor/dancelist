@@ -1289,6 +1289,11 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://www.tecda.ca/weekly_dances.html".to_string());
         }
+        "TFOOTD (Tampa) Contra Dance" => {
+            event
+                .links
+                .insert(0, "https://tampabaycontra.com/".to_string());
+        }
         "The Asheville Monday Night Contra Dance" => {
             event.name = "Asheville Monday Night Contra Dance".to_string();
         }
