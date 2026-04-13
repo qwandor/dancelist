@@ -116,6 +116,8 @@ pub enum InterestTag {
     DancingBodies,
     #[serde(rename = "Diatonic accordeon")]
     DiatonicAccordeon,
+    #[serde(rename = "Diatonic Accordion")]
+    DiatonicAccordion,
     #[serde(rename = "Dog Training")]
     DogTraining,
     #[serde(rename = "Double Bass")]

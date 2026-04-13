@@ -118,6 +118,7 @@ fn convert(event: &Event, default_style: DanceStyle) -> Result<Option<event::Eve
             | InterestTag::CoupleDance
             | InterestTag::Dance
             | InterestTag::DancingBodies
+            | InterestTag::DiatonicAccordion
             | InterestTag::DiatonicAccordeon
             | InterestTag::DogTraining
             | InterestTag::DoubleBass
