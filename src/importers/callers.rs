@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const CALLERS: [&str; 314] = [
+pub const CALLERS: [&str; 317] = [
     "Abigail Golden",
     "Abigail Hobart",
     "Ada Diane Blanken",
@@ -58,6 +58,7 @@ pub const CALLERS: [&str; 314] = [
     "Bob Morgan",
     "Bob Nicholson",
     "Brad Foster",
+    "Brenda Sledgianowski",
     "Brian Hamshar",
     "Bridget Whitehead",
     "Bronwyn Chelette",
@@ -158,6 +159,7 @@ pub const CALLERS: [&str; 314] = [
     "Jane Bird",
     "Janet Shepherd",
     "Janine Smith",
+    "Jay Rauch",
     "Jen Jasenski",
     "Jen Morgan",
     "Jenna Simpson",
@@ -310,6 +312,7 @@ pub const CALLERS: [&str; 314] = [
     "Ted Rudofker",
     "Terry Doyle",
     "Thea Nettleton",
+    "Tiffany Okerman",
     "Timothy Klein",
     "Tod Whittemore",
     "Tom Callwell",
