@@ -34,7 +34,7 @@ use crate::{
             balfolkcambridge::BalfolkCambridge, balfolknl::BalfolkNl, boulder::Boulder,
             bristolcontra::BristolContra, burghausen::Burghausen, cdss::Cdss,
             ceilidhclub::CeilidhClub, cologne::Cologne, contrabridge::Contrabridge, dresden,
-            freiburg::Freiburg, import_events, kalender::Kalender,
+            freiburg::Freiburg, fridayfolk::FridayFolk, import_events, kalender::Kalender,
             lancastercontra::LancasterContra, marburg::Marburg, skandia::Skandia,
             spreefolk::Spreefolk, stroud::Stroud,
         },
@@ -132,6 +132,8 @@ enum ImportSource {
     Dresden,
     /// Imports events from 7schritt.de.
     Freiburg,
+    /// Imports events from fridayfolk.org.uk.
+    FridayFolk,
     /// Imports events from Balfolk-Orga-Kalender.
     Kalender,
     /// Imports events from lancastercontra.org.uk.
@@ -235,12 +237,13 @@ async fn import(source: ImportSource, filename: &Path) -> Result<(), Report> {
         ImportSource::Boulder => import_events::<Boulder>(old_events).await?,
         ImportSource::BristolContra => import_events::<BristolContra>(old_events).await?,
         ImportSource::Burghausen => import_events::<Burghausen>(old_events).await?,
-        ImportSource::CeilidhClub => import_events::<CeilidhClub>(old_events).await?,
         ImportSource::Cdss => import_events::<Cdss>(old_events).await?,
+        ImportSource::CeilidhClub => import_events::<CeilidhClub>(old_events).await?,
         ImportSource::Cologne => import_events::<Cologne>(old_events).await?,
         ImportSource::Contrabridge => import_events::<Contrabridge>(old_events).await?,
         ImportSource::Dresden => dresden::import_events(old_events).await?,
         ImportSource::Freiburg => import_events::<Freiburg>(old_events).await?,
+        ImportSource::FridayFolk => import_events::<FridayFolk>(old_events).await?,
         ImportSource::Kalender => import_events::<Kalender>(old_events).await?,
         ImportSource::Marburg => import_events::<Marburg>(old_events).await?,
         ImportSource::Skandia => import_events::<Skandia>(old_events).await?,

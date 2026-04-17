@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const BANDS: [&str; 641] = [
+pub const BANDS: &[&str] = &[
     "112 and Then Some",
     "A Cat's Tale",
     "A Fine Kettle of Fish",
@@ -110,6 +110,7 @@ pub const BANDS: [&str; 641] = [
     "Calliope",
     "Cardboard Cabin",
     "Carin Greve",
+    "Carousel Band",
     "Cecilia",
     "Celtic Connection",
     "Celtic Constellation",
@@ -124,6 +125,7 @@ pub const BANDS: [&str; 641] = [
     "Ciac Boum",
     "Ciona",
     "CLARABAL",
+    "Cloudburst",
     "Cock and Bull Band",
     "Cojiro",
     "Confluence",
@@ -240,6 +242,7 @@ pub const BANDS: [&str; 641] = [
     "Fourpence",
     "Free Association",
     "French Toast",
+    "Friday Folk Band",
     "Friends of Virgil",
     "Froghammer",
     "Full Moon Country Dance Orchestra",
@@ -454,6 +457,7 @@ pub const BANDS: [&str; 641] = [
     "Raven & Goose",
     "Red Case Band",
     "Red Dog Riley",
+    "Red River Band",
     "Reelplay",
     "Rémi Geffroy",
     "Rest 'n' Peas",
@@ -496,6 +500,7 @@ pub const BANDS: [&str; 641] = [
     "Spintuition",
     "Sprida Ut",
     "Spring Chickens",
+    "Spring Greens",
     "SpringTide",
     "Starling",
     "StatiK",

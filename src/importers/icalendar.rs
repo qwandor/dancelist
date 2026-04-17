@@ -23,6 +23,7 @@ pub mod cologne;
 pub mod contrabridge;
 pub mod dresden;
 pub mod freiburg;
+pub mod fridayfolk;
 pub mod kalender;
 pub mod lancastercontra;
 pub mod marburg;
