@@ -113,6 +113,7 @@ fn convert(event: &Event, default_style: DanceStyle) -> Result<Option<event::Eve
             | InterestTag::BalfolkNL
             | InterestTag::BluesDance
             | InterestTag::Boeuf
+            | InterestTag::Campfire
             | InterestTag::Community
             | InterestTag::CommunityService
             | InterestTag::CoupleDance
@@ -149,13 +150,16 @@ fn convert(event: &Event, default_style: DanceStyle) -> Result<Option<event::Eve
             | InterestTag::Middeleeuwen
             | InterestTag::Music
             | InterestTag::NeoTrad
+            | InterestTag::Outdoor
             | InterestTag::Partnerdance
             | InterestTag::Permacultuur
+            | InterestTag::Potluck
             | InterestTag::SalsaDance
             | InterestTag::Saxophone
             | InterestTag::Session
             | InterestTag::Singing
             | InterestTag::Spirituality
+            | InterestTag::StringInstruments
             | InterestTag::Tango
             | InterestTag::TangoArgentino
             | InterestTag::Teacher

@@ -105,6 +105,7 @@ pub enum InterestTag {
     #[serde(rename = "Blues Dance")]
     BluesDance,
     Boeuf,
+    Campfire,
     Community,
     #[serde(rename = "Community Service")]
     CommunityService,
@@ -164,10 +165,12 @@ pub enum InterestTag {
     Middeleeuwen,
     Music,
     NeoTrad,
+    Outdoor,
     Partnerdance,
     Permacultuur,
     #[serde(rename = "Polish Dance")]
     PolishDance,
+    Potluck,
     #[serde(rename = "Salsa Dance")]
     SalsaDance,
     Saxophone,
@@ -176,6 +179,8 @@ pub enum InterestTag {
     #[serde(rename = "Social Dance")]
     SocialDance,
     Spirituality,
+    #[serde(rename = "String instruments")]
+    StringInstruments,
     #[serde(rename = "Swedish Folk")]
     SwedishFolk,
     #[serde(rename = "Swedish Folk Dance")]
