@@ -407,6 +407,7 @@ pub const BANDS: &[&str] = &[
     "Naragonia",
     "Naredi",
     "Nebel",
+    "Neon Creek",
     "New Hoosier Broadcasters",
     "Night Heron",
     "No Bad Ideas",
