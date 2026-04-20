@@ -279,6 +279,7 @@ pub const CALLERS: &[&str] = &[
     "Rich Goss",
     "Rich MacMath",
     "Rich Sbardella",
+    "Richard Ades",
     "Rick Mohr",
     "Rick Szumski",
     "River Abel",
