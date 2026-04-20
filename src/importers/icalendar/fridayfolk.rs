@@ -57,6 +57,11 @@ impl IcalendarSource for FridayFolk {
                 event.name = "Friday Folk".to_string();
             }
         }
+
+        for link in &mut event.links {
+            *link = link.replace("http:", "https:");
+        }
+
         Some(event)
     }
 }
