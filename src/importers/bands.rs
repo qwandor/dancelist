@@ -350,6 +350,7 @@ pub const BANDS: &[&str] = &[
     "Les Kickeuses",
     "Les Quatre Patates",
     "Les QuetscheKaschde",
+    "Les Soeurettes",
     "Les Zéoles",
     "Leveret",
     "Liberty String Band",
