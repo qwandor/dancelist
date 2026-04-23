@@ -582,6 +582,12 @@ fn apply_fixes(event: &mut Event) {
                 "http://burlingtoncountrydancers.org/english-country-dance-series/".to_string(),
             );
         }
+        "English Country Dancing in Brunswick, Maine" => {
+            event.name = "English Country Dancing in Brunswick".to_string();
+            event
+                .links
+                .insert(0, "https://folkdancers.org/BrunswickECD.html".to_string());
+        }
         "English Country Dance - Country Dance Kalamazoo" => {
             event.name = "CDK English Country Dance".to_string();
             event
