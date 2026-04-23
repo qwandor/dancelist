@@ -496,6 +496,7 @@ pub const BANDS: &[&str] = &[
     "Soldo",
     "Solid Ghost",
     "Sølvstål | Silversteel",
+    "Sonoma Crossing",
     "Southwind",
     "Sparv",
     "Spintuition",
