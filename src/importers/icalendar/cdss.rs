@@ -553,9 +553,10 @@ fn apply_fixes(event: &mut Event) {
         }
         "Dover English Country Dancers - Monthly Dance" => {
             event.name = "Dover Monthly English Country Dance".to_string();
-            event
-                .links
-                .insert(0, "http://www.doverdancers.org/".to_string());
+            event.links.insert(
+                0,
+                "https://sites.google.com/view/dover-ecd/home".to_string(),
+            );
             event.state = Some("DE".to_string());
             event.country = "USA".to_string();
         }
@@ -796,7 +797,7 @@ fn apply_fixes(event: &mut Event) {
         }
         "Goshen, IN Contra Dance" | "Goshen Community Contra Dance" => {
             event.name = "Goshen Community Contra Dance".to_string();
-            event.links.insert(0, "http://godancing.org/".to_string());
+            event.links.insert(0, "https://godancing.org/".to_string());
             if event.price.as_deref() == Some("$3-$18") {
                 event.price = Some("$3-$8".to_string());
             }
@@ -1299,7 +1300,7 @@ fn apply_fixes(event: &mut Event) {
         "Tallahassee Contra Dance" | "Tally Contra Dance" => {
             event
                 .links
-                .insert(0, "http://www.tallydancer.com/".to_string());
+                .insert(0, "https://www.tallydancer.com/".to_string());
         }
         "TECDA Friday Evening Dance" | "TECDA Tuesday Evening English Country Dance" => {
             event
@@ -1448,7 +1449,7 @@ fn apply_fixes(event: &mut Event) {
                 .insert(0, "https://wasatchcontras.org/".to_string());
         }
         "York Region English Country Dancers" => {
-            event.links.insert(0, "http://www.yrecd.ca/".to_string());
+            event.links.insert(0, "https://www.yrecd.ca/".to_string());
         }
         _ => {}
     }
