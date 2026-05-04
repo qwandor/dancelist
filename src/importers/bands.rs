@@ -574,6 +574,7 @@ pub const BANDS: &[&str] = &[
     "The Outsiders",
     "The Pegasus Collective",
     "The Rafter Ringers",
+    "The Rhythm Raptors",
     "The Rythmajigs",
     "The Star Charters",
     "The String Bean Serenaders",
