@@ -168,10 +168,7 @@ pub async fn add_event_to_file(
         .send()
         .await?;
     trace!("Made PR {pr:?}");
-    let pr_url = pr
-        .html_url
-        .ok_or_else(|| InternalError::Internal(eyre!("PR missing html_url")))?;
-    Ok(pr_url)
+    Ok(pr.html_url)
 }
 
 /// Creates a PR to edit the given event in the given file.
@@ -238,10 +235,7 @@ pub async fn edit_event_in_file(
         .send()
         .await?;
     trace!("Made PR {pr:?}");
-    let pr_url = pr
-        .html_url
-        .ok_or_else(|| InternalError::Internal(eyre!("PR missing html_url")))?;
-    Ok(pr_url)
+    Ok(pr.html_url)
 }
 
 /// Returns the SHA for the current head of the given branch.
