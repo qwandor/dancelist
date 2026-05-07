@@ -40,7 +40,7 @@ sha1 = "0.11.0"
 stable-eyre = "0.2.2"
 tokio = { version = "1.52.2", features = ["macros", "rt-multi-thread"] }
 toml = "1.1.2"
-tower-http = { version = "0.6.9", features = ["fs"] }
+tower-http = { version = "0.6.10", features = ["fs"] }
 url = "2.5.8"
 
 [package.metadata.deb]
