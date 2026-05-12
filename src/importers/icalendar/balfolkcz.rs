@@ -29,11 +29,9 @@ impl IcalendarSource for BalfolkCz {
 
     fn workshop(parts: &EventParts) -> bool {
         let summary_lower = parts.summary.to_lowercase();
-        summary_lower.contains("andělu")
-            || summary_lower.contains("biomechanika kruhových tanců")
+        summary_lower.contains("biomechanika kruhových tanců")
             || summary_lower.contains("párové tance v balfolku")
             || summary_lower.contains("prague balfolk weekend")
-            || summary_lower.contains("vyšehradě")
             || summary_lower.contains("workshop")
     }
 
