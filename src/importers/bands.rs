@@ -179,6 +179,7 @@ pub const BANDS: &[&str] = &[
     "Duo Baftig",
     "Duo Bottasso",
     "Duo Brotto Milleret",
+    "Duo Cardamon",
     "Duo Clercx",
     "Duo Coudroy Genet",
     "Duo De Schepper-Sanczuk",
