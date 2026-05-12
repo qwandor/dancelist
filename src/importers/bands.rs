@@ -222,6 +222,7 @@ pub const BANDS: &[&str] = &[
     "Fat Fiddles",
     "Feather and Fox",
     "Feephifolk",
+    "Festnoz42",
     "Fiddle Hellions Big Band",
     "Fiddle Hellions",
     "Fiddlechicks",
