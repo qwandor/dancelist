@@ -158,7 +158,7 @@ pub struct Ball {
     pub performances: Vec<Performance>,
 }
 
-#[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
+#[derive(Clone, Debug, Default, Deserialize, Eq, PartialEq, Serialize)]
 #[serde(deny_unknown_fields)]
 pub struct Performance {
     pub start: Option<NaiveTime>,

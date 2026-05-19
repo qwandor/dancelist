@@ -413,12 +413,12 @@ mod tests {
                     Performance {
                         start: NaiveTime::from_hms_opt(20, 0, 0),
                         end: NaiveTime::from_hms_opt(21, 0, 0),
-                        band: Default::default(),
+                        ..Default::default()
                     },
                     Performance {
                         start: NaiveTime::from_hms_opt(21, 0, 0),
                         end: NaiveTime::from_hms_opt(23, 0, 0),
-                        band: Default::default(),
+                        ..Default::default()
                     },
                 ],
                 ..Default::default()
@@ -446,12 +446,12 @@ mod tests {
                     Performance {
                         start: NaiveTime::from_hms_opt(22, 0, 0),
                         end: NaiveTime::from_hms_opt(1, 0, 0),
-                        band: Default::default(),
+                        ..Default::default()
                     },
                     Performance {
                         start: NaiveTime::from_hms_opt(2, 0, 0),
                         end: NaiveTime::from_hms_opt(6, 0, 0),
-                        band: Default::default(),
+                        ..Default::default()
                     },
                 ],
                 ..Default::default()
