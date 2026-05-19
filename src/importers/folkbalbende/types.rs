@@ -164,6 +164,8 @@ pub struct Performance {
     pub start: Option<NaiveTime>,
     pub end: Option<NaiveTime>,
     pub band: Band,
+    #[serde(with = "bool_as_int")]
+    pub tbd: bool,
 }
 
 #[derive(Clone, Debug, Default, Deserialize, Eq, PartialEq, Serialize)]
