@@ -622,6 +622,7 @@ pub const BANDS: &[&str] = &[
     "Triptych",
     "Trouveur Valdoten",
     "Tunebuggy",
+    "Turning Stile",
     "Turnip the Beet",
     "TWeLve",
     "Two Catch a Raindrop",
