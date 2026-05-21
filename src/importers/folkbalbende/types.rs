@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-mod bool_as_int;
 mod int_as_string;
 
 use chrono::{NaiveDate, NaiveTime};
@@ -26,11 +25,8 @@ pub struct Event {
     pub recurrence: u32,
     #[serde(rename = "type")]
     pub event_type: EventType,
-    #[serde(with = "bool_as_int")]
     pub cancelled: bool,
-    #[serde(with = "bool_as_int")]
     pub deleted: bool,
-    #[serde(with = "bool_as_int")]
     pub checked: bool,
     pub dates: Vec<NaiveDate>,
     pub location: Location,
@@ -49,8 +45,8 @@ pub struct Event {
     pub tags: Vec<String>,
     pub image: Option<String>,
     pub organisation: Option<Organisation>,
-    #[serde(with = "bool_as_int")]
     pub hidden: bool,
+    pub creator: String,
 }
 
 #[derive(Copy, Clone, Debug, Default, Deserialize, Eq, PartialEq, Serialize)]
@@ -92,7 +88,7 @@ pub struct Price {
     pub name: String,
     #[serde(with = "int_as_string")]
     pub price: i32,
-    pub free_contribution: u32,
+    pub free_contribution: bool,
 }
 
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
@@ -164,7 +160,6 @@ pub struct Performance {
     pub start: Option<NaiveTime>,
     pub end: Option<NaiveTime>,
     pub band: Band,
-    #[serde(with = "bool_as_int")]
     pub tbd: bool,
 }
 
@@ -177,7 +172,6 @@ pub struct Band {
     pub fr: String,
     pub en: String,
     pub country: Country,
-    #[serde(with = "bool_as_int")]
     pub placeholder: bool,
     pub websites: Vec<Website>,
     pub tags: Vec<String>,
