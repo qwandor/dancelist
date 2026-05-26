@@ -29,7 +29,7 @@ octocrab = "0.51.0"
 pretty_env_logger = "0.5.0"
 quick-xml = { version = "0.40.1", features = ["serialize"] }
 regex = "1.12.3"
-reqwest = "0.13.3"
+reqwest = "0.13.4"
 rrule = "0.14.0"
 schemars = { version = "0.8.22", features = ["chrono"] }
 serde = { version = "1.0.228", features = ["derive"] }
