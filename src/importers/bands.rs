@@ -91,6 +91,7 @@ pub const BANDS: &[&str] = &[
     "Boccadoro",
     "Bodarc",
     "Bokpojkarna",
+    "Bone Shakers",
     "Bosnick & Bittel",
     "Bougnat Sound",
     "Bourrée Party Crackers",
