@@ -59,6 +59,7 @@ pub const BANDS: &[&str] = &[
     "ba.fnu",
     "Baby Corns",
     "Back Row Band",
+    "Baftig Collectief",
     "Bal à Sept",
     "Bal Affaire",
     "Bal O'Gadjo",
