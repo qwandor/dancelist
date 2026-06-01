@@ -159,7 +159,7 @@ pub struct Ball {
 pub struct Performance {
     pub start: Option<NaiveTime>,
     pub end: Option<NaiveTime>,
-    pub band: Band,
+    pub band: Option<Band>,
     pub tbd: bool,
 }
 

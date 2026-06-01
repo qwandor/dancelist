@@ -159,10 +159,11 @@ fn convert(event: &Event) -> Vec<event::Event> {
         ball.performances
             .iter()
             .filter_map(|performance| {
-                if performance.band.placeholder || performance.band.name.contains("Practica") {
+                let band = performance.band.as_ref()?;
+                if band.placeholder || band.name.contains("Practica") {
                     None
                 } else {
-                    Some(performance.band.name.trim().to_owned())
+                    Some(band.name.trim().to_owned())
                 }
             })
             .collect()
