@@ -77,11 +77,10 @@ impl IcalendarSource for Dresden {
         let source = Regex::new("\n(u.a. mit.*|mit .*)\nORGANIZER")
             .unwrap()
             .replace_all(&source, "\nDESCRIPTION:$1\nORGANIZER");
-        let source = source.replace(
+        source.replace(
             "Dudelsacksen\nund\nAnna&Frank",
             "Dudelsacksen und Anna&Frank",
-        );
-        source
+        )
     }
 }
 

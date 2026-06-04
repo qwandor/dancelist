@@ -106,13 +106,14 @@ impl IcalendarSource for Boulder {
                 *organisation = "Boulder Scandinavian Dancers".to_string();
             }
         }
+        #[expect(clippy::collapsible_match)]
         match event.name.as_str() {
             "Boulder Scottish Country Dance" | "Scottish Country Dance" => {
                 event.name = "Scottish Country Dance".to_string();
-                if let EventTime::DateTime { start, end } = &mut event.time {
-                    if end == start {
-                        *end = *start + TimeDelta::try_hours(2).unwrap();
-                    }
+                if let EventTime::DateTime { start, end } = &mut event.time
+                    && end == start
+                {
+                    *end = *start + TimeDelta::try_hours(2).unwrap();
                 }
                 event
                     .links

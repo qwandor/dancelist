@@ -136,16 +136,11 @@ pub struct Location {
     pub value: Option<String>,
 }
 
-#[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
+#[derive(Clone, Debug, Default, Deserialize, Eq, PartialEq, Serialize)]
 pub enum Status {
     Unrecognised,
+    #[default]
     Recognised,
-}
-
-impl Default for Status {
-    fn default() -> Self {
-        Self::Unrecognised
-    }
 }
 
 #[derive(Copy, Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]

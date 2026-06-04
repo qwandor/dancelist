@@ -115,10 +115,10 @@ fn convert(event: &Event) -> Vec<event::Event> {
     let details = format!("{:?}", event.event_type);
 
     let mut workshop = event.event_type == EventType::Course || !event.courses.is_empty();
-    if let Some(ball) = &event.ball {
-        if ball.initiation_start.is_some() || !ball.initiators.is_empty() {
-            workshop = true;
-        }
+    if let Some(ball) = &event.ball
+        && (ball.initiation_start.is_some() || !ball.initiators.is_empty())
+    {
+        workshop = true;
     }
 
     let social = match event.event_type {
@@ -326,13 +326,13 @@ fn make_time(
     start_time: Option<NaiveTime>,
     end_time: Option<NaiveTime>,
 ) -> EventTime {
-    if let (Some(start_time), Some(end_time)) = (start_time, end_time) {
-        if let (Some(start), Some(end)) = (
+    if let (Some(start_time), Some(end_time)) = (start_time, end_time)
+        && let (Some(start), Some(end)) = (
             combine_date_time(date, start_time),
             combine_date_time(date, end_time),
-        ) {
-            return EventTime::DateTime { start, end };
-        }
+        )
+    {
+        return EventTime::DateTime { start, end };
     }
 
     EventTime::DateOnly {

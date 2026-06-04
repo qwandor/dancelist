@@ -283,8 +283,7 @@ async fn find_duplicates() -> Result<(), Report> {
         if a.merge(b).is_some()
             && a.styles
                 .iter()
-                .filter(|style| b.styles.contains(style))
-                .next()
+                .find(|style| b.styles.contains(style))
                 .is_some()
         {
             println!(

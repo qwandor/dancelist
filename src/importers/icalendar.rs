@@ -109,8 +109,8 @@ fn convert<S: IcalendarSource>(parts: EventParts) -> Result<Option<event::Event>
     let price = get_price(&parts.description)?.or(get_price(&parts.summary)?);
     let description_lower = parts.description.to_lowercase();
     let summary_lower = parts.summary.to_lowercase();
-    let bands = lowercase_matches(&BANDS, &description_lower, &summary_lower);
-    let callers = lowercase_matches(&CALLERS, &description_lower, &summary_lower);
+    let bands = lowercase_matches(BANDS, &description_lower, &summary_lower);
+    let callers = lowercase_matches(CALLERS, &description_lower, &summary_lower);
 
     let details = parts.description.trim().to_owned();
     let details = if details.is_empty() {
@@ -197,7 +197,7 @@ async fn import_new_events<S: IcalendarSource>() -> Result<Events, Report> {
         let timezone = calendar.get_timezone().or(S::DEFAULT_TIMEZONE);
         for uid_events in events_by_uid(&calendar).values() {
             for event in uid_events {
-                for parts in get_parts(event, timezone, &uid_events)? {
+                for parts in get_parts(event, timezone, uid_events)? {
                     events.events.extend(convert::<S>(parts)?);
                 }
             }
@@ -243,6 +243,7 @@ fn get_parts(
             .map(ToOwned::to_owned)
             .collect::<Vec<_>>()
     });
+    #[expect(clippy::manual_map)]
     let organiser = if let Some(organiser) = event.properties().get("ORGANIZER") {
         let organiser_name = organiser
             .params()

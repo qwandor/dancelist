@@ -82,10 +82,11 @@ impl IcalendarSource for Spreefolk {
                 }
             }
 
-            if let EventTime::DateTime { start, .. } = &mut event.time {
-                if details.starts_with("19:00 Uhr") && start.hour() == 20 {
-                    *start = start.with_hour(19).unwrap();
-                }
+            if let EventTime::DateTime { start, .. } = &mut event.time
+                && details.starts_with("19:00 Uhr")
+                && start.hour() == 20
+            {
+                *start = start.with_hour(19).unwrap();
             }
         }
 

@@ -249,10 +249,10 @@ impl Events {
         let now = Utc::now();
         let mut states = vec![];
         for event in &self.events {
-            if filters.matches(event, now) {
-                if let Some(state) = event.state.as_ref() {
-                    states.push(state.to_owned());
-                }
+            if filters.matches(event, now)
+                && let Some(state) = event.state.as_ref()
+            {
+                states.push(state.to_owned());
             }
         }
         states.sort();

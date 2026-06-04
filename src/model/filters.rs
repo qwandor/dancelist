@@ -99,12 +99,13 @@ fn strings_de<'de, D: Deserializer<'de>>(deserializer: D) -> Result<HashSet<Stri
     Ok(string.split(',').map(|item| item.to_owned()).collect())
 }
 
-#[derive(Copy, Clone, Debug, Deserialize, Eq, PartialEq, Sequence, Serialize)]
+#[derive(Copy, Clone, Debug, Default, Deserialize, Eq, PartialEq, Sequence, Serialize)]
 #[serde(rename_all = "snake_case")]
 pub enum DateFilter {
     /// Include only events which started before the current day.
     Past,
     /// Include only events which finish on or after the current day.
+    #[default]
     Future,
     /// Include all events, past and future.
     All,
@@ -113,12 +114,6 @@ pub enum DateFilter {
 impl DateFilter {
     pub fn values() -> impl Iterator<Item = Self> {
         all::<DateFilter>()
-    }
-}
-
-impl Default for DateFilter {
-    fn default() -> Self {
-        Self::Future
     }
 }
 
@@ -195,40 +190,40 @@ impl Filters {
         {
             return false;
         }
-        if let Some(multiday) = self.multiday {
-            if event.multiday() != multiday {
-                return false;
-            }
+        if let Some(multiday) = self.multiday
+            && event.multiday() != multiday
+        {
+            return false;
         }
-        if let Some(workshop) = self.workshop {
-            if event.workshop != workshop {
-                return false;
-            }
+        if let Some(workshop) = self.workshop
+            && event.workshop != workshop
+        {
+            return false;
         }
-        if let Some(social) = self.social {
-            if event.social != social {
-                return false;
-            }
+        if let Some(social) = self.social
+            && event.social != social
+        {
+            return false;
         }
-        if let Some(band) = &self.band {
-            if !event.bands.contains(band) {
-                return false;
-            }
+        if let Some(band) = &self.band
+            && !event.bands.contains(band)
+        {
+            return false;
         }
-        if let Some(caller) = &self.caller {
-            if !event.callers.contains(caller) {
-                return false;
-            }
+        if let Some(caller) = &self.caller
+            && !event.callers.contains(caller)
+        {
+            return false;
         }
-        if let Some(organisation) = &self.organisation {
-            if event.organisation.as_deref().unwrap_or_default() != organisation {
-                return false;
-            }
+        if let Some(organisation) = &self.organisation
+            && event.organisation.as_deref().unwrap_or_default() != organisation
+        {
+            return false;
         }
-        if let Some(cancelled) = self.cancelled {
-            if event.cancelled != cancelled {
-                return false;
-            }
+        if let Some(cancelled) = self.cancelled
+            && event.cancelled != cancelled
+        {
+            return false;
         }
 
         true

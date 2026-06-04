@@ -43,13 +43,13 @@ async fn events() -> Result<Vec<EventRecord>, Report> {
         if event.canonical_date.isoformat.contains('-') {
             eprintln!("{}", event.canonical_date.isoformat);
         }
-        if let Some(text_date) = &event.text_date {
-            if event.canonical_date.isoformat != text_date.isoformat {
-                eprintln!(
-                    "{} != {}",
-                    event.canonical_date.isoformat, text_date.isoformat
-                );
-            }
+        if let Some(text_date) = &event.text_date
+            && event.canonical_date.isoformat != text_date.isoformat
+        {
+            eprintln!(
+                "{} != {}",
+                event.canonical_date.isoformat, text_date.isoformat
+            );
         }
     }
     Ok(events)

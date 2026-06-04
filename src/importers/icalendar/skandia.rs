@@ -54,6 +54,7 @@ impl IcalendarSource for Skandia {
         vec![DanceStyle::Scandinavian]
     }
 
+    #[expect(clippy::get_first)]
     fn location(parts: &EventParts) -> Result<Option<(String, Option<String>, String)>, Report> {
         let Some(location_parts) = parts.location_parts.as_ref() else {
             warn!("Event missing location on {:?}.", parts.time);

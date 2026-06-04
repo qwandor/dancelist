@@ -11,7 +11,7 @@ use std::fmt::Write;
 pub fn events_to_calendar(events: &[Event], name: &str) -> Calendar {
     events
         .iter()
-        .map(|event| event_to_event(event))
+        .map(event_to_event)
         .collect::<Calendar>()
         .name(name)
         .done()

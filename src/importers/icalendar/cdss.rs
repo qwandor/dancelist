@@ -121,6 +121,7 @@ impl IcalendarSource for Cdss {
         styles
     }
 
+    #[expect(clippy::get_first)]
     fn location(parts: &EventParts) -> Result<Option<(String, Option<String>, String)>, Report> {
         let Some(location_parts) = parts.location_parts.as_ref() else {
             warn!("Event missing location.");
@@ -218,6 +219,7 @@ fn apply_fixes(event: &mut Event) {
         }
     }
 
+    #[expect(clippy::single_match)]
     match (event.city.as_str(), event.state.as_deref()) {
         ("Henrico", Some("VA")) => {
             event.city = "Richmond".to_string();

@@ -251,7 +251,7 @@ fn convert(event: &Event, default_style: DanceStyle) -> Result<Option<event::Eve
 
     let name_lower = event.name.to_lowercase();
     let description_lower = event.description.to_lowercase();
-    let mut bands = lowercase_matches(&BANDS, &description_lower, &name_lower);
+    let mut bands = lowercase_matches(BANDS, &description_lower, &name_lower);
     bands.extend(
         event
             .featured_participants

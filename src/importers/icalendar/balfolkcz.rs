@@ -58,7 +58,7 @@ impl IcalendarSource for BalfolkCz {
     fn fixup(mut event: Event) -> Option<Event> {
         // Override bands from standard importer, as description is bogus.
         let name_lower = event.name.to_lowercase();
-        event.bands = lowercase_matches(&BANDS, &name_lower, "");
+        event.bands = lowercase_matches(BANDS, &name_lower, "");
         event.details = None;
 
         Some(event)

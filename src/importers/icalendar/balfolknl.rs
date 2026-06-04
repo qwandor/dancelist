@@ -168,6 +168,7 @@ impl IcalendarSource for BalfolkNl {
         }
         event.name = shorten_name(raw_name);
 
+        #[expect(clippy::single_match)]
         match event.city.as_str() {
             "Lent" => event.city = "Nijmegen".to_string(),
             _ => {}
