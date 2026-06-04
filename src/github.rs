@@ -3,7 +3,7 @@ use crate::{
     errors::InternalError,
     model::{event::Event, events::Events},
 };
-use eyre::eyre;
+use eyre::{OptionExt, eyre};
 use jsonwebtoken::EncodingKey;
 use log::{trace, warn};
 use octocrab::{
@@ -168,7 +168,9 @@ pub async fn add_event_to_file(
         .send()
         .await?;
     trace!("Made PR {pr:?}");
-    Ok(pr.html_url)
+    pr.html_url
+        .ok_or_eyre("html_url missing on PR")
+        .map_err(InternalError::Internal)
 }
 
 /// Creates a PR to edit the given event in the given file.
@@ -235,7 +237,9 @@ pub async fn edit_event_in_file(
         .send()
         .await?;
     trace!("Made PR {pr:?}");
-    Ok(pr.html_url)
+    pr.html_url
+        .ok_or_eyre("html_url missing on PR")
+        .map_err(InternalError::Internal)
 }
 
 /// Returns the SHA for the current head of the given branch.
