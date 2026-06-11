@@ -808,6 +808,12 @@ fn apply_fixes(event: &mut Event) {
                 event.price = Some("$3-$8".to_string());
             }
         }
+        "Grand Junction ECD" => {
+            event.links.insert(
+                0,
+                "https://www.fifthreelmusicanddance.com/items/english-country-dance".to_string(),
+            );
+        }
         "Groton Grange Contra Dance" | "Groton Grange Contra Dance!" => {
             event.name = "Groton Grange Contra Dance".to_string();
             event.links.insert(
