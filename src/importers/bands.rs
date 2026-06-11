@@ -421,6 +421,7 @@ pub const BANDS: &[&str] = &[
     "Nebel",
     "Neon Creek",
     "New Hoosier Broadcasters",
+    "New Reliables",
     "Night Heron",
     "No Bad Ideas",
     "Noiranomis",
