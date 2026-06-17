@@ -1003,8 +1003,8 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://www.montpeliercontradance.org/".to_string());
         }
-        "Monday Cincinnati Contra Dance" => {
-            event.price = Some("$2-$5".to_string());
+        "Monday Cincinnati Contra Dance" | "Cincinnati Monday Night Contra" => {
+            event.price = Some("$10".to_string());
             if event.state.is_none() {
                 event.state = Some("OH".to_string());
                 event.country = "USA".to_string();
