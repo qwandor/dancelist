@@ -66,6 +66,7 @@ impl IcalendarSource for Cdss {
             || description_lower.contains("dance instruction")
             || description_lower.contains("dance workshop")
             || description_lower.contains("instruction at")
+            || description_lower.contains("intro class")
             || description_lower.contains("intro session")
             || description_lower.contains("intro/refresher workshop")
             || description_lower.contains("introduction or review")
@@ -1220,6 +1221,12 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://folkmads.org/events/".to_string());
             event.price = Some("$10".to_string());
+        }
+        "Saturday Contra in Cincinnati" => {
+            event.links.insert(
+                0,
+                "https://www.cincinnaticontradance.org/dance-schedule".to_string(),
+            );
         }
         "Scissortail Contra Dance in Oklahoma City"
         | "Scissortail Contra Dance in Norman, OK"
