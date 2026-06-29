@@ -112,6 +112,7 @@ pub const BANDS: &[&str] = &[
     "Bunny Bread Bandits",
     "Calico",
     "Calliope",
+    "Cambia",
     "Cardboard Cabin",
     "Carin Greve",
     "Carousel Band",
