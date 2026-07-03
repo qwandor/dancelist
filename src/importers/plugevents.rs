@@ -119,8 +119,8 @@ fn convert(event: &Event, default_style: DanceStyle) -> Result<Option<event::Eve
             | InterestTag::CoupleDance
             | InterestTag::Dance
             | InterestTag::DancingBodies
-            | InterestTag::DiatonicAccordion
             | InterestTag::DiatonicAccordeon
+            | InterestTag::DiatonicAccordion
             | InterestTag::DogTraining
             | InterestTag::DoubleBass
             | InterestTag::DutchFolk
@@ -130,6 +130,7 @@ fn convert(event: &Event, default_style: DanceStyle) -> Result<Option<event::Eve
             | InterestTag::FlemishFolk
             | InterestTag::FolkDance
             | InterestTag::FolkMusic
+            | InterestTag::FolkSinging
             | InterestTag::ForroDance
             | InterestTag::France
             | InterestTag::Fusion

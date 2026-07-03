@@ -136,6 +136,8 @@ pub enum InterestTag {
     FolkDance,
     #[serde(rename = "Folk Music")]
     FolkMusic,
+    #[serde(rename = "Folk Singing")]
+    FolkSinging,
     #[serde(rename = "Forró Dance")]
     ForroDance,
     France,
