@@ -39,12 +39,14 @@ impl IcalendarSource for Skandia {
 
     fn social(parts: &EventParts) -> bool {
         let summary_lower = parts.summary.to_lowercase();
-        summary_lower.contains("dance at the swedish club")
+        summary_lower.contains("ball")
+            || summary_lower.contains("dance at the swedish club")
             || summary_lower.contains("free dance")
             || summary_lower.contains("gala")
             || summary_lower.contains("jullekstuga")
             || summary_lower.contains("live")
             || summary_lower.contains("midsommarfest")
+            || summary_lower.contains("pancake dance")
             || summary_lower.contains("third friday dance")
             || summary_lower.contains("valdres week")
             || summary_lower.contains("vinterdans")
