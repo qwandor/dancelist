@@ -25,7 +25,7 @@ hex = "0.4.3"
 icalendar = { version = "0.17.11", features = ["chrono-tz", "parser"] }
 jsonwebtoken = "10.4.0"
 log = "0.4.32"
-octocrab = "0.53.1"
+octocrab = "0.54.0"
 pretty_env_logger = "0.5.0"
 quick-xml = { version = "0.41.0", features = ["serialize"] }
 regex = "1.12.4"
