@@ -489,6 +489,7 @@ pub const BANDS: &[&str] = &[
     "Round Hill Ramblers",
     "Rum & Onions",
     "Sail Away Ladies",
+    "ScenicRoots",
     "Scrod Pudding",
     "Seattle Lilla Spelmanslag",
     "Seattle Skandia Spelmanslag",
