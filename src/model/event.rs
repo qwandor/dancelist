@@ -443,6 +443,7 @@ impl Event {
         String,
         String,
         Vec<String>,
+        Option<String>,
     ) {
         (
             self.time.start_time_sort_key(),
@@ -451,6 +452,7 @@ impl Event {
             self.city.clone(),
             self.name.clone(),
             self.links.clone(),
+            self.details.clone(),
         )
     }
 
