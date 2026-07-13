@@ -189,6 +189,7 @@ pub const BANDS: &[&str] = &[
     "Duo du Balcon",
     "Duo FA",
     "Duo Gielen-Buscan",
+    "Duo Kouran Der",
     "Duo l'Hêtre Heureux",
     "Duo Mackie/Hendrix",
     "Duo Mistral",
