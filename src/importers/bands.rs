@@ -521,6 +521,7 @@ pub const BANDS: &[&str] = &[
     "Spring Chickens",
     "Spring Greens",
     "SpringTide",
+    "Stampij",
     "Starling",
     "StatiK",
     "Steam Machine",
