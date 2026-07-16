@@ -524,6 +524,7 @@ pub const BANDS: &[&str] = &[
     "Starling",
     "StatiK",
     "Steam Machine",
+    "Steam Packet",
     "Steam!",
     "Stefano Baldan",
     "Steppin' Stones",
