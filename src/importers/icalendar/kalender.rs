@@ -38,6 +38,7 @@ const GERMANY_CITIES: &[(&str, &str)] = &[
     ("Überlingen", "Überlingen"),
     ("VHS Metzingen", "Metzingen"),
     ("VHS Rottenburg", "Rottenburg am Neckar"),
+    ("Viernheim", "Viernheim"),
 ];
 
 /// Importer for Balfolk-Orga-Kalender.
