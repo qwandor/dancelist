@@ -1085,6 +1085,14 @@ fn apply_fixes(event: &mut Event) {
                 "https://www.northjerseyenglishcountrydancers.org/".to_string(),
             );
         }
+        "Old Farmers Ball Contra Dance" => {
+            event
+                .links
+                .insert(0, "https://oldfarmersball.com/thursday-dance/".to_string());
+            if event.price.is_none() {
+                event.price = Some("$10-$12".to_string());
+            }
+        }
         "Orlando Contra Dance" => {
             event.links.insert(
                 0,
