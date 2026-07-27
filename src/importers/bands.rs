@@ -613,6 +613,7 @@ pub const BANDS: &[&str] = &[
     "Topspin",
     "Torrent",
     "Toss the Possum",
+    "TRADplus",
     "TradTöchter",
     "Tralala Lovers",
     "Treble Play",
