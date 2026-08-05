@@ -133,6 +133,7 @@ pub const BANDS: &[&str] = &[
     "Cloudburst",
     "Cock and Bull Band",
     "Cojiro",
+    "Concepdance",
     "Confluence",
     "Constellation",
     "Contra Banditos",
