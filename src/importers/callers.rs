@@ -329,6 +329,7 @@ pub const CALLERS: &[&str] = &[
     "Ted Crane",
     "Ted Hodapp",
     "Ted Rudofker",
+    "Terry Bachmann",
     "Terry Doyle",
     "Thea Nettleton",
     "Tiffany Okerman",
