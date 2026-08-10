@@ -248,6 +248,7 @@ pub const BANDS: &[&str] = &[
     "Flying Romanos",
     "Folie du Nord",
     "Folk Knock",
+    "Folk My Life!",
     "Folk Voice Band",
     "Folkinger",
     "Folkschwestern Biese",
