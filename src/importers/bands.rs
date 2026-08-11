@@ -490,6 +490,7 @@ pub const BANDS: &[&str] = &[
     "Root System",
     "Rosenthorns",
     "Round Hill Ramblers",
+    "Roundtuit",
     "Rum & Onions",
     "Sail Away Ladies",
     "ScenicRoots",
