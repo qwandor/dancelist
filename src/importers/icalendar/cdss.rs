@@ -1001,6 +1001,13 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://www.knoxvillecontra.org/schedule".to_string());
         }
+        "Monthly Contra Dance in Harrisburg, PA" => {
+            event.name = "Harrisburg Contra Dance".to_owned();
+            event.links.insert(
+                0,
+                "https://www.harrisburgcontra.org/schedule.html".to_owned(),
+            );
+        }
         "Montpelier Contra Dance" => {
             event
                 .links
