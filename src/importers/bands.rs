@@ -455,6 +455,7 @@ pub const BANDS: &[&str] = &[
     "Pantonim",
     "Paracetamol",
     "Paradocs",
+    "Paradox",
     "Parasol",
     "Penny Farthing",
     "Persons of Quality",
