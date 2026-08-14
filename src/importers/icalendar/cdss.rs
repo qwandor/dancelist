@@ -947,6 +947,9 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://www.louisvilleecd.org/".to_string());
         }
+        "Macatawa, Michigan Contra Dance" => {
+            event.name = "Macatawa Contra Dance".to_owned();
+        }
         "Marin English Dance (Mill Valley CA)" => {
             event.name = "Marin English Dance".to_string();
             event
