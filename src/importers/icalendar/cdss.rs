@@ -384,7 +384,8 @@ fn apply_fixes(event: &mut Event) {
             event.state = Some("CO".to_string());
             event.city = "Buena Vista".to_string();
         }
-        "Buena Vista Community Contra Dance" => {
+        "Community Contra Dance in Buena Vista, CO" | "Buena Vista Community Contra Dance" => {
+            event.name = "Buena Vista Community Contra Dance".to_owned();
             event
                 .links
                 .insert(0, "http://www.arkvalleymusicanddance.org/".to_string());
@@ -509,7 +510,7 @@ fn apply_fixes(event: &mut Event) {
         "Contra Dance" if event.city == "Carrollton" && event.state.as_deref() == Some("TX") => {
             event.links.insert(0, "https://www.nttds.org/".to_string());
         }
-        "Contra Dance" if event.city == "Colorado Springs" => {
+        "Contra Dance" | "Colorado Springs Contra Dance" if event.city == "Colorado Springs" => {
             event
                 .links
                 .insert(0, "https://www.pptdcontra.com/".to_string());
