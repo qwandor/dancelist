@@ -349,6 +349,11 @@ fn apply_fixes(event: &mut Event) {
                 "https://www.berea-folk-circle.org/english-country-dance".to_string(),
             );
         }
+        "Big Scioty Contra Dance" => {
+            event
+                .links
+                .insert(0, "https://bigscioty.com/dance-schedule/".to_owned());
+        }
         "Berkeley Experienced English Dance 4th Sat" => {
             event.links.insert(
                 0,
