@@ -113,6 +113,7 @@ pub const BANDS: &[&str] = &[
     "Calico",
     "Calliope",
     "Cambia",
+    "Canterbury Country Dance Orchestra",
     "Cardboard Cabin",
     "Carin Greve",
     "Carousel Band",
