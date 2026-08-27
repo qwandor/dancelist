@@ -28,6 +28,7 @@ pub mod fridayfolk;
 pub mod kalender;
 pub mod lancastercontra;
 pub mod marburg;
+pub mod oxfolk;
 pub mod skandia;
 pub mod spreefolk;
 pub mod stroud;
