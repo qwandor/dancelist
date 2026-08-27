@@ -23,8 +23,9 @@ impl IcalendarSource for Oxfolk {
 
     const DEFAULT_ORGANISATION: &'static str = "Oxfolk";
 
-    fn workshop(_parts: &EventParts) -> bool {
-        false
+    fn workshop(parts: &EventParts) -> bool {
+        let description_lower = parts.description.to_lowercase();
+        description_lower.contains("lesson")
     }
 
     fn social(_parts: &EventParts) -> bool {
