@@ -48,7 +48,7 @@ pub struct Event {
     pub venue_name: Option<String>,
     pub venue_address: Option<String>,
     pub venue_locale: Option<String>,
-    pub venue_locale_parts: VenueLocaleParts,
+    pub venue_locale_parts: Option<VenueLocaleParts>,
     pub venue_lat: Option<f64>,
     pub venue_lon: Option<f64>,
     pub low_price: Option<u32>,
