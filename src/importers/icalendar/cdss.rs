@@ -485,12 +485,10 @@ fn apply_fixes(event: &mut Event) {
                 .insert(0, "https://www.sleepysunstudios.net/".to_string());
         }
         "Concord NH English Country Dance"
-        | "Concord NH 1st Sunday English Country Dance series" => {
+        | "Concord NH 1st Sunday English Country Dance series"
+        | "Concord NH 3rd Sunday English Country Dance series" => {
             event.name = "Concord English Country Dance".to_string();
-            event.links.insert(
-                0,
-                "https://manylives-oneworld.com/dave-bateman/nhecds/".to_string(),
-            );
+            event.links.insert(0, "https://nhecds.free.nf/".to_string());
         }
         "Contra, Scottish and English dance for all!" => {
             event.name = "Contra, Scottish and English dance for all".to_string();
