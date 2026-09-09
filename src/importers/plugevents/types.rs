@@ -130,6 +130,8 @@ pub enum InterestTag {
     #[serde(rename = "European Folk")]
     EuropeanFolk,
     Fantasy,
+    #[serde(rename = "Fest Noz")]
+    FestNoz,
     #[serde(rename = "Flemish Folk")]
     FlemishFolk,
     #[serde(rename = "Folk Dance")]

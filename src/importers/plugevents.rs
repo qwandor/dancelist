@@ -88,6 +88,7 @@ fn convert(event: &Event, default_style: DanceStyle) -> Result<Option<event::Eve
             | InterestTag::BalfolkFusion
             | InterestTag::BalfolkLimburg
             | InterestTag::BalfolkMusic
+            | InterestTag::FestNoz
             | InterestTag::FrenchFolk => {
                 styles.push(DanceStyle::Balfolk);
             }
