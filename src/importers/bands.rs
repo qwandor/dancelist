@@ -119,6 +119,7 @@ pub const BANDS: &[&str] = &[
     "Cardboard Cabin",
     "Carin Greve",
     "Carousel Band",
+    "Cask & Chisel",
     "Cecilia",
     "Celtic Connection",
     "Celtic Constellation",
