@@ -508,6 +508,7 @@ pub const BANDS: &[&str] = &[
     "Roundtuit",
     "Rum & Onions",
     "Sail Away Ladies",
+    "Sans Rivages",
     "ScenicRoots",
     "Scrod Pudding",
     "Seattle Lilla Spelmanslag",
