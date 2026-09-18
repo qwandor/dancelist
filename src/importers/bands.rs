@@ -163,6 +163,7 @@ pub const BANDS: &[&str] = &[
     "De Houtzagerij",
     "De Trekvogels",
     "Dead Sea Squirrels",
+    "Deep Roots",
     "Definitely Contraband",
     "Deux Sans Frontières",
     "Devilish Mary",
