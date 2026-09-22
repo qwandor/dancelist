@@ -202,6 +202,7 @@ fn shorten_name(name: &str) -> String {
         .trim_end_matches(", Vermont")
         .replace("Berkeley, CA", "Berkeley")
         .replace("Dover NH", "Dover")
+        .replace("Dover, NH", "Dover")
         .replace("Richmond VA", "Richmond")
         .replace("Richmond, VA", "Richmond")
         .replace("Rochester, NY", "Rochester")
@@ -573,6 +574,11 @@ fn apply_fixes(event: &mut Event) {
             );
             event.state = Some("DE".to_string());
             event.country = "USA".to_string();
+        }
+        "Dover Contradance" => {
+            event
+                .links
+                .insert(0, "https://doverdance.free.nf/?i=1".to_string());
         }
         "East Derry Contra Dance!" => {
             event
