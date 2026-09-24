@@ -1143,6 +1143,10 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://parkavenuecontra.org/".to_string());
         }
+        "Fourth Friday Contra Dance in Phoenix" => {
+            event.name = "Fourth Friday Contra Dance".to_string();
+            event.links.insert(0, "https://phxtmd.org/".to_string());
+        }
         "Phoenix 4th Friday Contra Dance" => {
             event.links.insert(0, "https://phxtmd.org/".to_string());
         }
@@ -1521,6 +1525,10 @@ fn apply_fixes(event: &mut Event) {
         ("9 Genevieve Circle", Some("Asheville")) => {
             event.city = "Asheville".to_string();
             event.state = Some("NC".to_string());
+        }
+        ("1316 E Cheery Lynn Rd", Some("Phoenix")) => {
+            event.city = "Phoenix".to_string();
+            event.state = Some("AZ".to_string());
         }
         _ => {}
     }
