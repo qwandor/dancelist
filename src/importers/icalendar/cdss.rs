@@ -1150,6 +1150,10 @@ fn apply_fixes(event: &mut Event) {
         "Phoenix 4th Friday Contra Dance" => {
             event.links.insert(0, "https://phxtmd.org/".to_string());
         }
+        "Second Saturday Contra in Phoenix" => {
+            event.name = "Second Saturday Contra".to_string();
+            event.links.insert(0, "https://phxtmd.org/".to_string());
+        }
         "Phoenix English Country Dancers" => {
             event
                 .links
