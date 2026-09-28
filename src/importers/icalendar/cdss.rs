@@ -237,6 +237,14 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://portlandcountrydance.org/upcoming/".to_string());
         }
+        "3rd Friday Contra Dance in Old Mesilla" => {
+            event.name = "3rd Friday Contra Dance".to_string();
+            event
+                .links
+                .insert(0, "https://www.snmmds.org/snmmds-schedule.html".to_string());
+            event.workshop = true;
+            event.price = Some("$8-$10".to_string());
+        }
         "3rd Friday Hot Springs NC Contradance" => {
             event.name = "Hot Springs Contradance".to_string();
         }
@@ -1340,6 +1348,12 @@ fn apply_fixes(event: &mut Event) {
                 "https://spacecoastcontra.org/calendar-upcoming-contra-dances/".to_string(),
             );
         }
+        "Spokane Folklore Society's 1st, 3rd, and 5th Wednesday Contra Dances" => {
+            event.name = "Spokane Folklore Society Contra Dance".to_string();
+            event
+                .links
+                .insert(0, "https://spokanefolklore.org/".to_string());
+        }
         "Sunday Afternoon Dancing Planet Contra Dance" => {
             event.name = "Dancing Planet Contra Dance".to_string();
             event.links.insert(
@@ -1533,6 +1547,10 @@ fn apply_fixes(event: &mut Event) {
         ("1316 E Cheery Lynn Rd", Some("Phoenix")) => {
             event.city = "Phoenix".to_string();
             event.state = Some("AZ".to_string());
+        }
+        ("1428 W. 9th Ave", Some("Spokane")) => {
+            event.city = "Spokane".to_string();
+            event.state = Some("WA".to_string());
         }
         _ => {}
     }
