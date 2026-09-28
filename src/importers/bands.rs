@@ -481,6 +481,7 @@ pub const BANDS: &[&str] = &[
     "Playing with Fyre",
     "Plönk",
     "Pont Ondulé",
+    "Portland Duo",
     "Portland Megaband",
     "Portmanteau",
     "Quicksilver",
