@@ -874,6 +874,11 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://hatds.org/ecd#hatds".to_string());
         }
+        "Houston English Country Dance" => {
+            event
+                .links
+                .insert(0, "https://hatds.org/ecd#hatds".to_string());
+        }
         "English Country Dance in Houston" => {
             event.name = "English Country Dance".to_string();
             event
