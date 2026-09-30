@@ -463,6 +463,7 @@ pub const BANDS: &[&str] = &[
     "OMGDude",
     "Oraj",
     "Ormuz",
+    "Pablo Golder",
     "Pamplemousse",
     "Panjandrum",
     "Pantonim",
