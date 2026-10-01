@@ -274,6 +274,12 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://folkmads.org/events/".to_string());
         }
+        "Albany Contra Dance" => {
+            event.links.insert(
+                0,
+                "https://www.danceflurry.org/series/albany-contra/".to_string(),
+            );
+        }
         "All-Ages Community Barn Dance" => {
             event.links.insert(
                 0,
