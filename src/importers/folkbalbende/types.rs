@@ -118,6 +118,7 @@ pub enum WebsiteType {
     Websites,
     Wikipedia,
     Youtube,
+    YouTube,
 }
 
 #[derive(Clone, Debug, Default, Deserialize, Eq, PartialEq, Serialize)]
