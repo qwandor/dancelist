@@ -639,6 +639,9 @@ fn apply_fixes(event: &mut Event) {
         "English Country Dance - Norwich, VT" => {
             event.name = "English Country Dance".to_string();
         }
+        "English Country Dance Class in Norwich, VT" => {
+            event.name = "English Country Dance Class".to_string();
+        }
         "English Country Dance on Mondays in Gainesville" => {
             event.name = "Gainesville English Country Dance".to_string();
             event.country = "USA".to_string();
