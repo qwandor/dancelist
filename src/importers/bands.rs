@@ -500,6 +500,7 @@ pub const BANDS: &[&str] = &[
     "Rest 'n' Peas",
     "Reverie",
     "Rhys Jones and the Imaginary Beings",
+    "Rhythm Blazers",
     "Rhythmajigs",
     "River Music",
     "River Road",
