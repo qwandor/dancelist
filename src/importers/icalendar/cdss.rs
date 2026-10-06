@@ -256,11 +256,6 @@ fn apply_fixes(event: &mut Event) {
         }
         "3rd Saturdays Contra Dance, Grass Valley CA" => {
             event.name = "3rd Saturdays Contra Dance".to_string();
-            event.links.insert(
-                0,
-                "https://www.kvmr.org/kvmr-event/third-saturdays-contra-dance-nevada-county/"
-                    .to_string(),
-            );
             event
                 .links
                 .insert(0, "https://www.contradancenc.org/".to_string());
