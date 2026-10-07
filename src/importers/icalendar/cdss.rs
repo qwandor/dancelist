@@ -1129,6 +1129,13 @@ fn apply_fixes(event: &mut Event) {
                 "https://www.northjerseyenglishcountrydancers.org/".to_string(),
             );
         }
+        "Norwich 2nd Saturday Contradance" => {
+            event.links.insert(
+                0,
+                "https://muskegmusic.org/norwich-contra-dancing".to_string(),
+            );
+            event.price = Some("$10-$20".to_string());
+        }
         "Old Farmers Ball Contra Dance" => {
             event
                 .links
