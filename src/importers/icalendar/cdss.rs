@@ -211,7 +211,9 @@ fn shorten_name(name: &str) -> String {
         .replace("Hayward CA", "Hayward")
         .replace("Hayward, CA", "Hayward")
         .replace("Lancaster, PA", "Lancaster")
+        .replace("Norwich, VT", "Norwich")
         .replace("Williamsburg (VA)", "Williamsburg")
+        .replace("Vancouver, BC Canada", "Vancouver")
         .to_owned()
 }
 
@@ -632,10 +634,10 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://www.countrydancinginkalamazoo.com/".to_string());
         }
-        "English Country Dance - Norwich, VT" => {
+        "English Country Dance - Norwich" => {
             event.name = "English Country Dance".to_string();
         }
-        "English Country Dance Class in Norwich, VT" => {
+        "English Country Dance Class in Norwich" => {
             event.name = "English Country Dance Class".to_string();
         }
         "English Country Dance on Mondays in Gainesville" => {
@@ -735,7 +737,7 @@ fn apply_fixes(event: &mut Event) {
             event.workshop = true;
             event.social = false;
         }
-        "English Country Dance in Norwich, VT" => {
+        "English Country Dance in Norwich" => {
             event.name = "English Country Dance".to_string();
             event.links.insert(
                 0,
