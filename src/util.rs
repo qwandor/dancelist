@@ -16,9 +16,14 @@ use askama::{Values, filter_fn};
 use chrono::{DateTime, FixedOffset, NaiveDateTime, Offset, TimeZone};
 use chrono_tz::Tz;
 
-pub const DEFAULT_TIMEZONES: [((&str, Option<&str>), Tz); 74] = [
+pub const DEFAULT_TIMEZONES: &[((&str, Option<&str>), Tz)] = &[
+    (("Australia", Some("ACT")), Tz::Australia__Canberra),
+    (("Australia", Some("NSW")), Tz::Australia__Sydney),
+    (("Australia", Some("NT")), Tz::Australia__Darwin),
     (("Australia", Some("QLD")), Tz::Australia__Brisbane),
+    (("Australia", Some("SA")), Tz::Australia__Adelaide),
     (("Australia", Some("TAS")), Tz::Australia__Hobart),
+    (("Australia", Some("VIC")), Tz::Australia__Melbourne),
     (("Australia", Some("WA")), Tz::Australia__Perth),
     (("Austria", None), Tz::Europe__Vienna),
     (("Belgium", None), Tz::Europe__Brussels),
