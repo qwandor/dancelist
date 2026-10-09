@@ -1291,6 +1291,12 @@ fn apply_fixes(event: &mut Event) {
                 .links
                 .insert(0, "https://www.cccds.org/schedule/".to_string());
         }
+        "San Rafael Contra Dance & Lesson" => {
+            event.name = "San Rafael Contra Dance".to_string();
+            event
+                .links
+                .insert(0, "https://nbcds.org/contra-dance/".to_string());
+        }
         "Santa Fe Contra Dance" => {
             event
                 .links
@@ -1310,6 +1316,11 @@ fn apply_fixes(event: &mut Event) {
             event
                 .links
                 .insert(0, "https://scissortail.org/calendar/".to_string());
+        }
+        "Oklahoma City Contra Dance" => {
+            event
+                .links
+                .insert(0, "https://scissortail.org/".to_string());
         }
         "Scissortail English Country Dance in Oklahoma City"
         | "Scissortail English Country Dance in Norman, OK" => {
