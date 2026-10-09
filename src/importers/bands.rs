@@ -168,6 +168,7 @@ pub const BANDS: &[&str] = &[
     "Definitely Contraband",
     "Deux Sans Frontières",
     "Devilish Mary",
+    "Diatonics",
     "Die Dudelsacksen",
     "Die Hayner",
     "Die ZWEI",
