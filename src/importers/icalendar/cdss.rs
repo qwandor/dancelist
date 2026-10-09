@@ -231,6 +231,10 @@ fn apply_fixes(event: &mut Event) {
         }
     }
 
+    if event.organisation.as_deref() == Some("NBCDS") {
+        event.organisation = Some("North Bay Country Dance Society".to_string());
+    }
+
     #[expect(clippy::single_match)]
     match (event.city.as_str(), event.state.as_deref()) {
         ("Henrico", Some("VA")) => {
