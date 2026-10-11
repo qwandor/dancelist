@@ -757,6 +757,14 @@ fn apply_fixes(event: &mut Event) {
             event.name = "English Country Dance".to_string();
             event.links.insert(0, "https://cdssp.org/".to_string());
         }
+        "English country dance (following international folk dance) in Glen Ellyn" => {
+            event.name = "English Country Dance".to_string();
+            event.links.insert(
+                0,
+                "https://www.chicagolandecd.org/local-dancing".to_string(),
+            );
+            event.styles.insert(0, DanceStyle::Balfolk);
+        }
         "English Country Dancing" if event.city == "Luray" || event.city == "Penn Laird" => {
             event.links.insert(
                 0,
