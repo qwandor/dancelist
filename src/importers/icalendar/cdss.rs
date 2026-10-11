@@ -131,7 +131,9 @@ impl IcalendarSource for Cdss {
             warn!("Event missing location.");
             return Ok(None);
         };
-        if location_parts.len() < 3 {
+        if location_parts.len() < 2 {
+            return Ok(Some(("USA".to_owned(), None, "".to_string())));
+        } else if location_parts.len() == 2 {
             return Ok(Some((
                 "USA".to_owned(),
                 location_parts.get(1).cloned(),
@@ -1610,11 +1612,11 @@ mod tests {
         );
         assert_eq!(
             Cdss::location(&EventParts {
-                location_parts: Some(vec!["City".to_string()]),
+                location_parts: Some(vec!["CA".to_string()]),
                 ..Default::default()
             })
             .unwrap(),
-            Some(("USA".to_string(), None, "City".to_string()))
+            Some(("USA".to_string(), None, "".to_string()))
         );
         assert_eq!(
             Cdss::location(&EventParts {
