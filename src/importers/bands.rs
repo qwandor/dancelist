@@ -495,6 +495,7 @@ pub const BANDS: &[&str] = &[
     "Ragged Robin",
     "Ratatouille",
     "Raven & Goose",
+    "Ravenswing",
     "Red Case Band",
     "Red Dog Riley",
     "Red River Band",
