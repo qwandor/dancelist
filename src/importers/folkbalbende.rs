@@ -107,10 +107,12 @@ fn convert(event: &Event) -> Vec<event::Event> {
             }
         })
         .collect();
+    links.sort_by_key(|link| link.contains("facebook.com") || link.contains("fb.me"));
     links.push(format!("https://folkbalbende.be/event/{}", event.id));
     if !event.facebook_event.is_empty() {
         links.push(event.facebook_event.trim().to_owned());
     }
+    links.dedup();
 
     let details = format!("{:?}", event.event_type);
 
