@@ -71,6 +71,7 @@ pub const BANDS: &[&str] = &[
     "Bamako Express",
     "Bandage a Trois",
     "Banna Damhsa",
+    "Bansk",
     "Bare Necessities",
     "Bargainatt",
     "Barock op de Deel",
