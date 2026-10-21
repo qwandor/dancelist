@@ -768,8 +768,7 @@ fn apply_fixes(event: &mut Event) {
         "English Country Dancing" if event.city == "Luray" || event.city == "Penn Laird" => {
             event.links.insert(
                 0,
-                "https://sites.google.com/corp/site/svcwed/home-1/2025-practice-schedule"
-                    .to_string(),
+                "https://sites.google.com/site/svcwed/home-1/practice-schedule-2026".to_string(),
             );
             event.price = Some("free".to_string());
         }
