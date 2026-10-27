@@ -562,6 +562,7 @@ pub const BANDS: &[&str] = &[
     "Stomp Rocket",
     "Stomping Ground",
     "Stove Dragon",
+    "Strath Hanna",
     "Stringrays",
     "Strings on Wings",
     "Stromlosplus",
