@@ -211,6 +211,7 @@ fn shorten_name(name: &str) -> String {
         .replace("Hayward CA", "Hayward")
         .replace("Hayward, CA", "Hayward")
         .replace("Lancaster, PA", "Lancaster")
+        .replace("Lewisburg, PA", "Lewisburg")
         .replace("Moab, UT", "Moab")
         .replace("Norwich, VT", "Norwich")
         .replace("Richmond VA", "Richmond")
@@ -542,6 +543,12 @@ fn apply_fixes(event: &mut Event) {
                 .insert(0, "https://www.pptdcontra.com/".to_string());
         }
         "Contra Dance" if event.city == "Lewisburg" && event.state.as_deref() == Some("TX") => {
+            event.links.insert(
+                0,
+                "https://lewisburgcontra.wixsite.com/lewisburgcontradance".to_string(),
+            );
+        }
+        "Contra Dance in Lewisburg" => {
             event.links.insert(
                 0,
                 "https://lewisburgcontra.wixsite.com/lewisburgcontradance".to_string(),
