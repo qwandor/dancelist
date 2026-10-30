@@ -319,6 +319,7 @@ pub const BANDS: &[&str] = &[
     "Hoggetowne Fancy",
     "Hoik",
     "Holiday Ball Orchestra",
+    "Homeward Bound",
     "Hoosier Recruits",
     "Hora Fani",
     "Hot Coffee Breakdown",
