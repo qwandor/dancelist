@@ -288,6 +288,13 @@ fn apply_fixes(event: &mut Event) {
                 "https://www.danceflurry.org/series/albany-contra/".to_string(),
             );
         }
+        "Alice Raibourn & The Mystic Gorillas" => {
+            event.name = "Gainesville Old Time Dance Society Contra Dance".to_string();
+            event.links.insert(0, "https://godsdance.org/".to_string());
+            event.country = "USA".to_string();
+            event.state = Some("FL".to_string());
+            event.city = "Gainesville".to_string();
+        }
         "All-Ages Community Barn Dance" => {
             event.links.insert(
                 0,
@@ -1110,6 +1117,14 @@ fn apply_fixes(event: &mut Event) {
             event
                 .links
                 .insert(0, "https://www.knoxvillecontra.org/schedule".to_string());
+        }
+        "Mountain City Contra Dance" => {
+            event
+                .links
+                .insert(0, "https://mountaincityplayhouse.com/events/".to_string());
+            if event.price.as_deref() == Some("$5") {
+                event.price = Some("$5-$15".to_string());
+            }
         }
         "Mystic Contra Dance" | "Mystic Pie Dance" | "Mystic Pie Dance!" => {
             event.links.insert(
