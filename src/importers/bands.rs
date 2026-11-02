@@ -382,6 +382,7 @@ pub const BANDS: &[&str] = &[
     "Les Quatre Patates",
     "Les QuetscheKaschde",
     "Les Soeurettes",
+    "Les Tontons Flingeurs",
     "Les Zéoles",
     "Leveret",
     "Lewis Wood & Paul Hutchinson",
