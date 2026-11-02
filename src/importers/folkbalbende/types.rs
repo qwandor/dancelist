@@ -12,10 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-mod int_as_string;
-
 use chrono::{NaiveDate, NaiveTime};
-use serde::{Deserialize, Serialize};
+use serde::{
+    Deserialize, Deserializer, Serialize, Serializer,
+    de::{Error as _, Unexpected},
+};
+use std::fmt::{self, Display, Formatter, Write};
 
 #[derive(Clone, Debug, Default, Deserialize, PartialEq, Serialize)]
 #[serde(deny_unknown_fields)]
@@ -86,9 +88,59 @@ pub struct Address {
 #[serde(deny_unknown_fields)]
 pub struct Price {
     pub name: String,
-    #[serde(with = "int_as_string")]
-    pub price: i32,
+    pub price: PriceFix,
     pub free_contribution: bool,
+}
+
+/// A price as a number of cents.
+#[derive(Clone, Copy, Debug, Eq, Ord, PartialEq, PartialOrd)]
+pub struct PriceFix(pub i32);
+
+impl Display for PriceFix {
+    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
+        let cents = self.0.abs() % 100;
+        let euros = self.0.abs() / 100;
+        if self.0 < 0 {
+            f.write_char('-')?;
+        }
+        if cents == 0 {
+            euros.fmt(f)
+        } else {
+            write!(f, "{euros}.{cents:02}")
+        }
+    }
+}
+
+impl Serialize for PriceFix {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        let cents = self.0.abs() % 100;
+        let euros = self.0.abs() / 100;
+        let sign = if self.0 < 0 { "-" } else { "" };
+        let string = format!("{sign}{euros}.{cents:02}");
+        serializer.serialize_str(&string)
+    }
+}
+
+impl<'de> Deserialize<'de> for PriceFix {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: Deserializer<'de>,
+    {
+        let string = String::deserialize(deserializer)?;
+        let (euros, cents) = string
+            .split_once('.')
+            .ok_or_else(|| D::Error::invalid_value(Unexpected::Str(&string), &"Price"))?;
+        let euros = euros.parse::<i32>().map_err(D::Error::custom)?;
+        let cents = cents.parse::<i32>().map_err(D::Error::custom)?;
+        if euros >= 0 {
+            Ok(Self(euros * 100 + cents))
+        } else {
+            Ok(Self(euros * 100 - cents))
+        }
+    }
 }
 
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
@@ -207,4 +259,19 @@ pub struct Organisation {
     pub thumbnail: Option<String>,
     pub image: Option<String>,
     pub address: Option<Address>,
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn format_price() {
+        assert_eq!(PriceFix(0).to_string(), "0");
+        assert_eq!(PriceFix(-100).to_string(), "-1");
+        assert_eq!(PriceFix(-5).to_string(), "-0.05");
+        assert_eq!(PriceFix(40).to_string(), "0.40");
+        assert_eq!(PriceFix(1234).to_string(), "12.34");
+        assert_eq!(PriceFix(1230).to_string(), "12.30");
+    }
 }
