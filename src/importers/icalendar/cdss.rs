@@ -345,6 +345,7 @@ fn apply_fixes(event: &mut Event) {
         }
         "Austin English Country Dance"
         | "Austin Third Saturday Contra Dance"
+        | "Austin 3rd Saturday Contra Dance"
         | "3rd Saturday Contra Dance in Austin" => {
             event
                 .links
