@@ -1339,6 +1339,11 @@ fn apply_fixes(event: &mut Event) {
                 .insert(0, "https://folkmads.org/events/".to_string());
             event.price = Some("$10".to_string());
         }
+        "Santa Rosa Contra" => {
+            event
+                .links
+                .insert(0, "https://nbcds.org/contra-dance/".to_string());
+        }
         "Saturday Contra in Cincinnati" => {
             event.links.insert(
                 0,
