@@ -80,6 +80,7 @@ pub const BANDS: &[&str] = &[
     "Bearded Dragons",
     "Beat Bouet Trio",
     "Bellamira",
+    "Bellowing Bellows",
     "Belver",
     "Ben Bolker & Susanne Maziarz",
     "Benjamin Rowe & Adam Rich-Griffin",
