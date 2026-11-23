@@ -242,6 +242,7 @@ fn convert(event: &Event) -> Vec<event::Event> {
         "Schoten" => "Antwerp",
         "Sint-Gillis" => "Brussels",
         "Sint-Katherina-Lombeek" => "Ternat",
+        "Vorst" => "Brussels",
         "Watermaal-Bosvoorde" => "Brussels",
         "Watermael-Boitsfort" => "Brussels",
         "Wijgmaal" => "Leuven",
