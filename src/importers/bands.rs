@@ -154,6 +154,7 @@ pub const BANDS: &[&str] = &[
     "Contratopia",
     "Contraverts",
     "Coral Riff",
+    "Coreopsis",
     "Cosmic Otters",
     "Countercurrent",
     "Crossover Duo",
