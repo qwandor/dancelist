@@ -149,10 +149,10 @@ fn convert<S: IcalendarSource>(parts: EventParts) -> Result<Option<event::Event>
 /// Figure out price from description.
 fn get_price(description: &str) -> Result<Option<String>, Report> {
     let price_regexes = [
-        ("$", Regex::new(r"\$([0-9]+)").unwrap()),
-        ("£", Regex::new(r"£([0-9]+)").unwrap()),
-        ("€", Regex::new(r"€([0-9]+)").unwrap()),
-        ("€", Regex::new(r"€ ([0-9]+)").unwrap()),
+        ("$", Regex::new(r"\$([0-9]+)(?:-([0-9]+))?").unwrap()),
+        ("£", Regex::new(r"£([0-9]+)(?:-([0-9]+))?").unwrap()),
+        ("€", Regex::new(r"€([0-9]+)(?:-([0-9]+))?").unwrap()),
+        ("€", Regex::new(r"€ ([0-9]+)(?:-([0-9]+))?").unwrap()),
         ("€", Regex::new(r"([0-9]+) €").unwrap()),
         ("€", Regex::new(r"([0-9]+) Euro").unwrap()),
     ];
@@ -168,6 +168,11 @@ fn get_price(description: &str) -> Result<Option<String>, Report> {
                 .wrap_err("Invalid price")?;
             min_price = min(price, min_price);
             max_price = max(price, max_price);
+            if let Some(price) = capture.get(2) {
+                let price = price.as_str().parse().wrap_err("Invalid price")?;
+                min_price = min(price, min_price);
+                max_price = max(price, max_price);
+            }
         }
         if min_price == u32::MAX {
             continue;
