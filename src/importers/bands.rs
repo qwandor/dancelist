@@ -225,6 +225,7 @@ pub const BANDS: &[&str] = &[
     "Eins68",
     "Elba Connection",
     "Elegant Echoes",
+    "Elijah Versteeg",
     "Elise, Mira & Pat",
     "Elixir",
     "Eloise & Co.",
