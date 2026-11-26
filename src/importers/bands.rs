@@ -275,7 +275,7 @@ pub const BANDS: &[&str] = &[
     "French Toast",
     "Friday Folk Band",
     "Friends of Virgil",
-    "Froghammer",
+    "Frog Hammer",
     "Frosty Frog",
     "Full Moon Country Dance Orchestra",
     "Full Tilt",
