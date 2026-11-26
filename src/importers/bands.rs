@@ -62,7 +62,7 @@ pub const BANDS: &[&str] = &[
     "Baftig Collectief",
     "Bal à Sept",
     "Bal Affaire",
-    "Bal de L'Aube",
+    "Bal de l'Aube",
     "BAL LAB",
     "Bal O'Gadjo",
     "Balbuzar",
