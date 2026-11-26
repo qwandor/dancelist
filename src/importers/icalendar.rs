@@ -15,6 +15,7 @@
 pub mod balfolkcambridge;
 pub mod balfolkcz;
 pub mod balfolknl;
+pub mod bls;
 pub mod boulder;
 pub mod bristolcontra;
 pub mod burghausen;
@@ -155,6 +156,7 @@ fn get_price(description: &str) -> Result<Option<String>, Report> {
         ("€", Regex::new(r"€ ([0-9]+)(?:-([0-9]+))?").unwrap()),
         ("€", Regex::new(r"([0-9]+) €").unwrap()),
         ("€", Regex::new(r"([0-9]+) Euro").unwrap()),
+        ("NOK", Regex::new(r"[kK]r.? ([0-9]+)").unwrap()),
     ];
     for (currency, regex) in price_regexes {
         let mut min_price = u32::MAX;
@@ -177,9 +179,17 @@ fn get_price(description: &str) -> Result<Option<String>, Report> {
         if min_price == u32::MAX {
             continue;
         } else if min_price == max_price {
-            return Ok(Some(format!("{currency}{min_price}")));
+            if currency == "NOK" {
+                return Ok(Some(format!("{min_price} {currency}")));
+            } else {
+                return Ok(Some(format!("{currency}{min_price}")));
+            }
         } else {
-            return Ok(Some(format!("{currency}{min_price}-{currency}{max_price}")));
+            if currency == "NOK" {
+                return Ok(Some(format!("{min_price}-{max_price} {currency}")));
+            } else {
+                return Ok(Some(format!("{currency}{min_price}-{currency}{max_price}")));
+            }
         }
     }
     Ok(None)

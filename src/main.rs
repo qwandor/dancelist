@@ -32,9 +32,9 @@ use crate::{
         folkbalbende,
         icalendar::{
             balfolkcambridge::BalfolkCambridge, balfolkcz::BalfolkCz, balfolknl::BalfolkNl,
-            boulder::Boulder, bristolcontra::BristolContra, burghausen::Burghausen, cdss::Cdss,
-            ceilidhclub::CeilidhClub, cologne::Cologne, contrabridge::Contrabridge, dresden,
-            freiburg::Freiburg, fridayfolk::FridayFolk, import_events, kalender::Kalender,
+            bls::Bls, boulder::Boulder, bristolcontra::BristolContra, burghausen::Burghausen,
+            cdss::Cdss, ceilidhclub::CeilidhClub, cologne::Cologne, contrabridge::Contrabridge,
+            dresden, freiburg::Freiburg, fridayfolk::FridayFolk, import_events, kalender::Kalender,
             lancastercontra::LancasterContra, marburg::Marburg, oxfolk::Oxfolk, skandia::Skandia,
             spreefolk::Spreefolk, stroud::Stroud,
         },
@@ -116,6 +116,8 @@ enum ImportSource {
     BalfolkCz,
     /// Imports events from balfolk.nl.
     Balfolknl,
+    /// Imports events from bls.no.
+    Bls,
     /// Imports events from boulderdance.org.
     Boulder,
     /// Imports events from bristolcontra.wordpress.com.
@@ -239,6 +241,7 @@ async fn import(source: ImportSource, filename: &Path) -> Result<(), Report> {
         ImportSource::BalfolkCambridge => import_events::<BalfolkCambridge>(old_events).await?,
         ImportSource::BalfolkCz => import_events::<BalfolkCz>(old_events).await?,
         ImportSource::Balfolknl => import_events::<BalfolkNl>(old_events).await?,
+        ImportSource::Bls => import_events::<Bls>(old_events).await?,
         ImportSource::Boulder => import_events::<Boulder>(old_events).await?,
         ImportSource::BristolContra => import_events::<BristolContra>(old_events).await?,
         ImportSource::Burghausen => import_events::<Burghausen>(old_events).await?,
