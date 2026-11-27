@@ -666,7 +666,7 @@ dependencies = [
  "fast_qr",
  "hex",
  "icalendar",
- "jsonwebtoken",
+ "jsonwebtoken 12.0.0",
  "log",
  "octocrab",
  "pretty_env_logger",
@@ -1609,10 +1609,27 @@ dependencies = [
  "base64 0.22.1",
  "getrandom 0.2.15",
  "js-sys",
- "pem",
+ "pem 3.0.4",
  "serde",
  "serde_json",
- "signature",
+ "signature 2.2.0",
+ "simple_asn1",
+ "zeroize",
+]
+
+[[package]]
+name = "jsonwebtoken"
+version = "12.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f347a975eb5fa8f5c4eadce6c1152c11c326cf32cf839fb64ff12d5cb8f4ce8b"
+dependencies = [
+ "base64 0.23.1",
+ "getrandom 0.4.3",
+ "js-sys",
+ "pem 4.0.0",
+ "serde",
+ "serde_json",
+ "signature 3.0.0",
  "simple_asn1",
  "zeroize",
 ]
@@ -1824,7 +1841,7 @@ dependencies = [
  "hyper-rustls",
  "hyper-timeout",
  "hyper-util",
- "jsonwebtoken",
+ "jsonwebtoken 10.4.0",
  "percent-encoding",
  "pin-project",
  "reqwest",
@@ -1864,6 +1881,16 @@ checksum = "8e459365e590736a54c3fa561947c84837534b8e9af6fc5bf781307e82658fae"
 dependencies = [
  "base64 0.22.1",
  "serde",
+]
+
+[[package]]
+name = "pem"
+version = "4.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d354a98a3d1251555de99e8fdd8afda05573c31b82f59063a7b0a29b5527f120"
+dependencies = [
+ "base64 0.23.1",
+ "serde_core",
 ]
 
 [[package]]
@@ -2597,6 +2624,15 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "77549399552de45a898a580c1b41d445bf730df867cc44e6c0233bbc4b8329de"
 dependencies = [
  "rand_core 0.6.4",
+]
+
+[[package]]
+name = "signature"
+version = "3.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "28d567dcbaf0049cb8ac2608a76cd95ff9e4412e1899d389ee400918ca7537f5"
+dependencies = [
+ "rand_core 0.10.1",
 ]
 
 [[package]]
